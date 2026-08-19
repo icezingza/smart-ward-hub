@@ -1,0 +1,55 @@
+version: "1.0"
+workflow_id: smart-ward-pilot-gates
+purpose: "Move the controlled production prototype toward pilot deployment through explicit evidence gates."
+timezone: "Asia/Bangkok"
+source_of_truth: "Fixed Edge Hub application and its approved database; control-plane artifacts are coordination metadata only."
+status_labels: [Implemented, Experimental, Planned, Not Found, Unverified]
+
+steps:
+  - id: inventory
+    owner_skill: agent-security-auditor
+    action: "Inventory assets, trust boundaries, routes, configuration and evidence."
+    gate: "No raw PII or secrets in the evidence set."
+  - id: route
+    owner_skill: agent-task-router
+    action: "Classify work by risk, dependency, capability and approval requirement."
+    gate: "Clinical actions and external side effects are never routed as ordinary automation."
+  - id: host
+    owner_skill: create-vps
+    action: "Review or prepare the Fixed Edge Hub host and network boundary."
+    gate: "Power, storage, network, patch, firewall and service-binding evidence recorded."
+  - id: deployment_dry_run
+    owner_skill: setup-control-room
+    action: "Run dry-run, migration review, backup plan, manifest and rollback preparation."
+    gate: "All required checks are Implemented or explicitly accepted as Unverified by an approver."
+  - id: backup
+    owner_skill: agent-backup-manager
+    action: "Create WAL-aware backup and verify checksum/manifest; perform isolated restore when required."
+    gate: "Restore remains Unverified until a real restore transcript exists."
+  - id: trust_registry
+    owner_skill: agent-registry-manager
+    action: "Review service/device credential lifecycle and capability registry."
+    gate: "No active credential without owner, scope, expiry/rotation plan and audit trail."
+  - id: recurring_checks
+    owner_skill: agent-team-cron-planner
+    action: "Define or dry-run health, backup, audit and evidence verification jobs."
+    gate: "Locks, idempotency, retry limits and no clinical automation."
+  - id: control_room_review
+    owner_skill: agent-control-room
+    action: "Publish redacted status, approvals, incidents, evidence and rollback state."
+    gate: "No component is marked healthy without recent evidence."
+  - id: approval
+    owner_skill: agent-control-room
+    action: "Obtain explicit approval for apply, restore, export, credential change or network exposure."
+    gate: "Approval records actor, reason, scope, timestamp and rollback path."
+  - id: clinical_shadow_mode
+    owner_skill: agent-security-auditor
+    action: "Prepare clinical/human-factors review and shadow-mode protocol."
+    gate: "Clinical validation remains pending; no autonomous clinical decision is enabled."
+
+prohibited_shortcuts:
+  - "Do not treat functional simulation as hardware validation."
+  - "Do not call local hash chaining tamper-proof or externally anchored without independent evidence."
+  - "Do not call static bearer-token mode production identity."
+  - "Do not introduce patient identity or raw HN into control-plane artifacts."
+  - "Do not allow the future BMAX client to become a source of truth."

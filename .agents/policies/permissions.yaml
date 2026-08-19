@@ -1,0 +1,67 @@
+version: "1.0"
+policy: smart-ward-control-plane
+principles:
+  - least_privilege
+  - zero_pii
+  - explicit_approval_for_side_effects
+  - evidence_before_claim
+  - fail_closed_on_missing_auth
+  - fixed_hub_remains_authority
+
+roles:
+  observer:
+    allow: ["read control-plane status", "read redacted evidence", "run non-destructive checks"]
+    deny: ["write application data", "export data", "rotate keys", "restore backups", "apply deployment"]
+  operator:
+    allow: ["observer", "run approved backup", "run approved health check", "prepare dry-run"]
+    deny: ["raw PII access", "private key read", "clinical decision", "unapproved external sync"]
+  security_reviewer:
+    allow: ["operator", "review auth/device-trust evidence", "record residual risk", "recommend remediation"]
+    deny: ["risk acceptance without owner", "clinical sign-off", "secret disclosure"]
+  deployment_approver:
+    allow: ["approve reviewed apply", "approve host/network change", "approve rollback"]
+    deny: ["bypass preflight", "bypass backup", "bypass evidence capture"]
+  clinical_reviewer:
+    allow: ["review workflow and human-factors evidence", "approve shadow-mode protocol"]
+    deny: ["change algorithm thresholds through control-plane automation", "resolve patient alert automatically"]
+
+operations:
+  read_redacted_status:
+    required_role: observer
+    approval: none
+  run_dry_run:
+    required_role: operator
+    approval: none
+  apply_host_or_release_change:
+    required_role: deployment_approver
+    approval: explicit
+    prerequisites: ["preflight_passed", "backup_manifest_present", "diff_reviewed", "rollback_path_present"]
+  backup:
+    required_role: operator
+    approval: explicit_if_external_destination
+    prerequisites: ["WAL-aware procedure", "manifest", "checksum", "retention policy"]
+  restore:
+    required_role: deployment_approver
+    approval: explicit
+    prerequisites: ["incident or recovery reason", "known-good backup", "restore target isolated", "verification plan"]
+  device_credential_change:
+    required_role: security_reviewer
+    approval: explicit
+    prerequisites: ["device identity evidence", "operator identity", "audit event", "rotation/revocation plan"]
+  export_or_external_sync:
+    required_role: deployment_approver
+    approval: explicit
+    prerequisites: ["destination allowlist", "payload minimization", "redaction check", "audit event"]
+  clinical_workflow_change:
+    required_role: clinical_reviewer
+    approval: explicit
+    prerequisites: ["shadow-mode plan", "stop conditions", "human review", "clinical validation pending label"]
+
+secrets:
+  prohibited_in_repo: [".env", "bearer tokens", "private keys", "TLS private keys", "patient identifiers", "raw audit payloads"]
+  prohibited_in_evidence: ["Authorization header", "JWT", "HN", "name", "free-text clinical note"]
+  allowed_reference: ["environment variable names", "secret type", "key id", "fingerprint", "rotation timestamp"]
+
+claim_controls:
+  never_claim: ["clinical-ready", "production-ready", "tamper-proof", "100% HIPAA compliant", "100% PDPA compliant"]
+  approved_terms: ["controlled production prototype", "functional verification passed", "pilot-ready foundation", "clinical validation pending", "P0-hardened software baseline", "pilot deployment configuration pending"]

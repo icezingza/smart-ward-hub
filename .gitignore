@@ -1,0 +1,40 @@
+# Runtime databases
+*.db
+*.db-wal
+*.db-shm
+
+# Runtime state and generated simulation output
+edge_telemetry_state.json
+reliability_validation_result.json
+pilot_simulation_result.json
+network_pressure_result.json
+serial_bench_evidence.json
+*.test.json
+
+# Audit and forensic runtime logs
+*.jsonl
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Secrets and private credentials
+.env
+*.key
+*.pem
+*.crt
+*.p12
+
+# Local control-plane evidence and backup payloads
+.agents/evidence/*.json
+.agents/evidence/*.jsonl
+.agents/backups/*
+!.agents/backups/.gitkeep
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

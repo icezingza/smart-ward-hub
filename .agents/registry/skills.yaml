@@ -1,0 +1,66 @@
+version: "1.0"
+project: smart-ward-hub
+purpose: "Operational control-plane registry for a controlled production prototype. This registry does not contain patient identity, raw HN, names, clinical notes, telemetry payloads, bearer tokens, or private keys."
+status_vocabulary:
+  - Implemented
+  - Experimental
+  - Planned
+  - Not Found
+  - Unverified
+skills:
+  - id: create-vps
+    source_skill: create-vps
+    role: "Prepare and harden a host for the Fixed Edge Hub deployment."
+    allowed_targets: ["host configuration", "OS hardening", "firewall", "operator account", "backup prerequisites"]
+    forbidden_targets: ["patient identity", "clinical decisions", "automatic production apply"]
+    approval_required_for: ["network exposure", "SSH policy changes", "firewall changes", "host provisioning"]
+  - id: setup-control-room
+    source_skill: setup-control-room
+    role: "Run gated installation, upgrade, preflight, manifest and verification workflows."
+    allowed_targets: ["project control-plane", "deployment prerequisites", "dry-run evidence", "release metadata"]
+    forbidden_targets: ["silent vendor installers", "unreviewed production migration", "raw runtime secrets"]
+    approval_required_for: ["--apply", "remote execution", "package installation", "release upgrade"]
+  - id: agent-task-router
+    source_skill: agent-task-router
+    role: "Classify and route operational work by risk, capability, dependency and evidence."
+    allowed_targets: ["engineering task routing", "risk classification", "approval gates"]
+    forbidden_targets: ["clinical triage", "alarm suppression", "admission authorization"]
+    approval_required_for: ["high-risk task routing", "external side effects", "destructive actions"]
+  - id: agent-registry-manager
+    source_skill: agent-registry-manager
+    role: "Maintain inventory and lifecycle state for agents, services, adapters and trust anchors."
+    allowed_targets: ["agent registry", "service health", "device credential metadata", "capability state"]
+    forbidden_targets: ["patient records", "raw telemetry", "private key material"]
+    approval_required_for: ["enable", "disable", "rotate", "revoke", "delete"]
+  - id: agent-backup-manager
+    source_skill: agent-backup-manager
+    role: "Create tested, encrypted and auditable backups for Edge Hub data and control-plane evidence."
+    allowed_targets: ["SQLite database", "WAL-aware backup", "config templates", "evidence manifests"]
+    forbidden_targets: ["plaintext secrets", "unverified restore claims", "unsafe live WAL copy"]
+    approval_required_for: ["restore", "retention deletion", "destination change", "key change"]
+  - id: agent-security-auditor
+    source_skill: agent-security-auditor
+    role: "Audit APIs, authentication, Zero-PII boundaries, Device Trust, dependencies and residual risk."
+    allowed_targets: ["source code", "configuration", "tests", "logs", "threat model", "evidence register"]
+    forbidden_targets: ["inventing compliance claims", "clinical validation claims", "exposing credentials"]
+    approval_required_for: ["risk acceptance", "exception closure", "production security claim"]
+  - id: agent-team-cron-planner
+    source_skill: agent-team-cron-planner
+    role: "Design safe recurring health, backup, audit and evidence-verification jobs."
+    allowed_targets: ["health checks", "backup schedules", "audit review", "anchor verification"]
+    forbidden_targets: ["automated clinical decisions", "automatic alert resolution", "unapproved external transmission"]
+    approval_required_for: ["scheduler installation", "external notification", "data export", "destructive retry"]
+  - id: agent-control-room
+    source_skill: agent-control-room
+    role: "Provide transparent status, approvals, incidents, evidence links and rollback state."
+    allowed_targets: ["control-plane state", "run history", "approval records", "incident timeline", "rollback metadata"]
+    forbidden_targets: ["patient identity display", "clinical command authority", "pretending unverified checks are healthy"]
+    approval_required_for: ["approve", "retry", "restore", "rotate", "disable", "network exposure"]
+
+non_negotiable_boundaries:
+  zero_pii: "Do not place raw HN, name, national ID, address, phone, free-text clinical notes or encounter identity in control-plane artifacts."
+  edge_authority: "SQLite Edge Hub remains source of truth for ward runtime state; skills may observe, verify and propose changes but must not create a second clinical source of truth."
+  device_trust: "Device credential enrollment, suspension, revocation and signed telemetry verification remain explicit security operations; NFC is only a lookup pointer."
+  clinical_safety: "Skills may document and verify clinical workflows but must not autonomously suppress, resolve or reinterpret patient-safety alerts."
+  evidence: "Claims require reproducible evidence and must be labelled by status vocabulary."
+  external_side_effects: "Posting, exporting, applying, restoring, revoking or exposing services requires an explicit approval gate."

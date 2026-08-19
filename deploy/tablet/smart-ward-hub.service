@@ -1,0 +1,23 @@
+[Unit]
+Description=Smart Ward Hub local Edge service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=smartward
+Group=smartward
+WorkingDirectory=/opt/smart-ward-hub
+EnvironmentFile=/etc/smart-ward-hub/smart-ward-hub.env
+ExecStart=/opt/smart-ward-hub/.venv/bin/uvicorn main:app --host 127.0.0.1 --port 8080
+Restart=always
+RestartSec=3
+TimeoutStopSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/smart-ward-hub /var/log/smart-ward-hub
+
+[Install]
+WantedBy=multi-user.target

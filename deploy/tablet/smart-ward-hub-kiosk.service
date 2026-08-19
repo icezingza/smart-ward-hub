@@ -1,0 +1,16 @@
+[Unit]
+Description=Smart Ward Hub Tablet kiosk UI
+After=smart-ward-hub.service graphical-session.target
+Requires=smart-ward-hub.service
+
+[Service]
+Type=simple
+User=smartward
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/chromium --kiosk --no-first-run --disable-session-crashed-bubble --noerrdialogs --disable-infobars http://127.0.0.1:8080/kiosk
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=graphical.target

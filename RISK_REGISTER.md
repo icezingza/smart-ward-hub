@@ -1,0 +1,88 @@
+# Smart Ward Hub — Risk Register
+
+สถานะของเอกสารนี้สะท้อน **P0-hardened software baseline** ของ controlled production prototype เท่านั้น ผลทดสอบซอฟต์แวร์ไม่ใช่ clinical validation และไม่ใช่ production-ready certification.
+
+| ID | Risk | Severity | สถานะ | Control/evidence | Residual risk และ next gate |
+|---|---|---:|---|---|---|
+| R-001 | PII ปรากฏใน Edge logs, cache, checkpoint หรือ export | Critical | Implemented baseline | `patient_token`-only schema, PII key guard, audit redaction, security tests | ต้องทำ host-level และ downstream scan รวมถึง backup/export review |
+| R-002 | Static bearer token ถูกขโมยหรือใช้ผิดวัตถุประสงค์ | High | Experimental baseline | fail-closed scopes และ protected configuration | ต้องใช้ OIDC จริง, rotation, revocation, key custody และ mTLS |
+| R-003 | Packet replay หรือ out-of-order arrival | High | Implemented software control | per-device monotonic sequence, HTTP 409, replay regression test | ต้องกำหนด device identity, counter reset และ clock policy กับ hardware จริง |
+| R-004 | Buffer overflow ทำให้ข้อมูลสูญหาย | High | Implemented/measured | bounded ring buffer, dropped-sample counter, checkpoint recovery | ต้องกำหนด threshold/alert และทดสอบ load profile ของ pilot จริง |
+| R-005 | Checkpoint corruption หรือ stale recovery | High | Implemented baseline | atomic checkpoint และ restart test | ต้องทดสอบ encrypted storage, corruption injection และ restore drill บน host จริง |
+| R-006 | SQLite lock หรือ power loss ระหว่างเขียน | High | Experimental | WAL, busy timeout, synchronous durability, concurrent harness | ต้องทำ hardware power-failure, disk-full และ filesystem recovery tests |
+| R-007 | Alert threshold ทำให้ false positive หรือ miss event | Critical | Unverified clinical performance | shadow mode, review categories, stop conditions และ simulation | ต้องมี clinical protocol, sensitivity/specificity, alarm-fatigue review และ clinical sign-off |
+| R-008 | FHIR response ทำให้ purge เร็วเกินไป | Critical | Implemented contract baseline | explicit acknowledgment gate, failure retention, FHIR regression | ต้องทดสอบ HIS จริง, timeout/retry, reconciliation และ operator recovery |
+| R-009 | Local hash chain ถูกนำเสนอว่า tamper-proof | High | Controlled by wording; local anchor experimental | SHA-256 chain, verification endpoint, local append-only anchor adapter, explicit terminology | ต้องมี external independent WORM anchor, timestamp, key custody และ verification drill; ห้ามใช้คำว่า tamper-proof |
+| R-010 | Concurrent workers มี process-local state ไม่สอดคล้องกัน | High | Known limitation | single Edge owner model, thread-safe telemetry store, handover lock | ต้องตัดสินใจ deployment topology หรือเพิ่ม coordinated/shared state ก่อน scale-out |
+| R-011 | Unauthorized Host/CORS exposure | Medium | Implemented baseline | TrustedHost, restrictive defaults, optional CORS, regression test | ต้องทำ firewall, reverse-proxy และ network segmentation review |
+| R-012 | Clinical operator ตีความ signal เป็น diagnosis | Critical | Process control required | shadow-mode labeling, decision-support wording, runbook | ต้องมี training, signed clinical SOP และ audit evidence |
+| R-013 | Backup ไม่สามารถ restore เมื่อจำเป็น | High | Planned | backup/restore runbook foundation | ต้องตั้ง schedule, retention, encrypted backup และ restore drill จริง |
+| R-014 | Schema change ทำให้ device fleet ใช้งานไม่ได้ | High | Controlled by versioning | TelemetryPacket v1 lock and change control | ต้องมี schema registry และ migration policy สำหรับ v2 |
+| R-015 | Request flood หรือ burst ทำให้ Edge service ถูกใช้ทรัพยากรเกิน | High | Implemented process-local control | sliding-window limiter, `429`, `Retry-After`, rate-limit regression | ต้อง calibrate per-device/endpoint quotas และใช้ gateway/coordinated limiter ใน multi-process deployment |
+| R-016 | Audit event ถูกแก้ไข สูญหาย หรือมี PII | High | Implemented local baseline | structured JSONL, request ID, fsync, recursive redaction, zero-PII regression | ต้องส่งเข้า centralized append-only/WORM audit pipeline, access control, retention และ monitoring |
+| R-017 | Handover sync ซ้ำทำให้ purge ซ้ำหรือทำลาย evidence | Critical | Implemented single-process control | persisted `HandoverRecord.synced`, `SyncAttempt`, `RLock`, idempotent replay test | ต้องทดสอบ multi-process/crash boundary และกำหนด retention ที่ไม่ทำให้ destructive gate หมดอายุ |
+| R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | Controlled by documentation | anchor type ถูกระบุเป็น `local_append_only_adapter`, report แยก local กับ external | ต้องเชื่อม external service ที่บริหารแยกกันและ verify chain ข้าม trust boundary |
+
+Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
+
+## Evidence pointers
+
+| Evidence | Purpose |
+|---|---|
+| `test_residual_controls.py` | Rate-limit, replay, audit redaction, anchor และ idempotency evidence |
+| `DEVICE_TRUST_BASELINE_REPORT.md` | Device Trust implementation, evidence and external validation gates |
+| `test_device_trust.py` | Enforce-mode signed telemetry and lifecycle evidence |
+| `test_device_trust_observe.py` | Observe-mode continuity evidence |
+| `test_p0_hardening.py` | OIDC fail-closed, migration-first และ Alembic evidence |
+| `reliability_validation_result.json` | Software-only concurrent reliability result |
+| `pilot_simulation_result.json` | Software-only 30-day simulation result |
+| `OPERATIONS_RUNBOOK.md` | Operational controls and pilot procedures |
+
+
+## Device Trust and provisioning roadmap risks
+
+| ID | Risk | Severity | สถานะ | Control/evidence | Residual risk และ next gate |
+|---|---|---:|---|---|---|
+| R-019 | Unauthorized or counterfeit device enters the ward telemetry path | Critical | Planned Device Trust layer | Current device registration and sequence controls; manufacturer-authenticated provisioning is not yet implemented | Add asymmetric manufacturer certificate verification, device enrollment, revocation and hardware-in-loop tests |
+| R-020 | Shared or hardcoded factory secret compromises the entire device fleet | Critical | Prevented by design decision; implementation pending | Do not adopt plaintext master secrets or device seed maps from prototype snippets; use public-key trust and protected provisioning | Validate secure-element/HSM key custody, rotation, revocation and operator separation |
+| R-021 | Signed telemetry fails to cover all fields or canonicalization differs across device and Hub | High | Implemented software baseline | `device_trust.py` canonicalization, Ed25519 verification, field-mutation regression and `TelemetryPacket v1` contract | Requires cross-language device implementation test, firmware interoperability and hardware key custody |
+| R-022 | Geofence or trust enforcement bricks a device and creates a patient-monitoring blind spot | Critical | Safety design principle; implementation pending | Fail-safe direction: alert, audit and degraded-trust/quarantine rather than automatic shutdown | Validate network-loss, location-error, offline-continuity and clinical escalation scenarios with governance approval |
+
+The Device Trust layer is a strategic differentiator with an implemented software baseline and an open manufacturer/hardware roadmap, not a completed production security certification. The product may claim the current Ed25519 signed-telemetry and lifecycle controls with evidence boundaries, but it must not claim anti-spoofing 100%, tamper-proof evidence, clinical-ready operation or production-ready hardware security before the stated gates are closed.
+
+
+## Ward workflow and integration risks
+
+| ID | Risk | Severity | สถานะ | Control/evidence | Residual risk และ next gate |
+|---|---|---:|---|---|---|
+| R-023 | Raw HN/AN enters Hub through barcode, QR or HIS sync | Critical | Controlled at Hub boundary; external gateway pending | Pairing schema rejects common raw HN/AN formats; Hub accepts opaque token only | Validate the hospital Admission Gateway, tokenization authority, TTL, revocation and downstream mapping controls |
+| R-024 | Accidental NFC tap resets an active device and creates a monitoring blind spot | Critical | Implemented software safety baseline | `RESET_PENDING`, visual confirmation, unresolved-incident freeze gate and workflow regression | Validate UI ergonomics, audio/visual confirmation, ward training and human-factors scenarios |
+| R-025 | BLE/Gateway proxy signs or routes telemetry incorrectly | Critical | Prototype proxy boundary; unverified hardware trust | NFC is pointer-only; signed canonical telemetry and key ID are still checked by Hub | Establish proxy identity, attestation, key custody, replay policy, gateway failure handling and hardware-in-loop tests |
+| R-026 | Hot-swap combines old and new device telemetry or sequence history | High | Implemented software session boundary | New `session_id`, opaque `handover_id`, routine close digest and per-device sequence guard | Validate real device reconnect, delayed packets, clock skew and operator recovery |
+| R-027 | Routine close digest is mistaken for full incident evidence | High | Controlled by contract wording | Separate `SessionCloseDigest` from incident-linked `ForensicPackage` and explicit 10-minute incident window | Train operators, define retention, external anchor and evidence review procedure |
+
+
+## Outside-in Ward Workflow risks
+
+| ID | Risk | Severity | สถานะ | Control/evidence | Residual risk และ next gate |
+|---|---|---:|---|---|---|
+| R-028 | Outside-facing admission console exposes raw HN/AN or patient identity to Hub, logs, screen or visitors | Critical | Controlled software baseline; external Admission Gateway pending | Opaque-token validators, zero-PII audit test, loopback-only console, `OUTSIDE_IN_WARD_WORKFLOW.md` zoning/privacy boundary | Validate real HIS/Admission Gateway, screen placement, privacy filter, clipboard/screenshot policy, TTL and downstream mapping |
+| R-029 | Outside console handoff is accepted visually but never committed by Fixed Hub | High | Implemented software baseline; HIS integration pending | Bed snapshot, `PREPARED`/`RESERVED`, idempotency key, pairing `COMMITTED`/`OCCUPIED`, cancellation and expiry regression | Validate real HIS/Admission Gateway, acknowledgement, retry/conflict behavior and network-failure test |
+| R-030 | Physical console placement allows visitors to read data or access service ports | High | Design control | Controlled entrance alcove, outward-facing privacy angle, protected ports and short session timeout | Conduct site survey, privacy observation, physical tamper review and ward governance approval |
+| R-031 | Roaming Tablet becomes an independent source of truth during Wi-Fi or Fixed Hub outage | Critical | Prevented by architecture; roaming implementation pending | Fixed Hub ownership, last-known-state banner, live-Hub requirement for destructive actions and revision/idempotency contract | Implement snapshot/command APIs, managed tablet identity, reconnect conflict tests and manual fallback |
+| R-032 | Admission console, Fixed Hub and Roaming Tablet expose inconsistent bed/session states | High | Known integration risk; bed snapshot baseline implemented | Fixed Hub authoritative snapshot, bed availability revision, command/idempotency design and session state linkage | Validate multi-client concurrency, stale snapshot, duplicate handoff and real ward Wi-Fi behavior |
+
+The Outside-in Ward Workflow is an operational differentiator with a software-verified bed availability and admission-preparation baseline, not evidence that a real HIS admission integration, physical privacy placement or clinical ward workflow has been validated. It must preserve the claims **Zero-PII by design**, **pilot-ready foundation** and **clinical validation pending**.
+
+
+## Roaming Tablet risks
+
+| ID | Risk | Severity | สถานะ | Control/evidence | Residual risk และ next gate |
+|---|---|---:|---|---|---|
+| R-033 | Roaming Tablet reads stale or inconsistent bed/session state | High | Implemented software baseline; network validation pending | Snapshot cursor/revision, freshness fields, `OFFLINE — LAST KNOWN STATE` policy and stale-revision `409` regression | Validate ward Wi-Fi roaming, clock drift, reconnect behavior and multi-client concurrency |
+| R-034 | Duplicate roaming command causes duplicate acknowledgement, reset or admission action | Critical | Implemented software baseline | Durable `RoamingCommand`, command ID, idempotency key and replay regression | Validate crash boundary, multi-process deployment and command retention/cleanup |
+| R-035 | Roaming Tablet performs destructive action without live Fixed Hub authority | Critical | Blocked by initial software policy | `RESET_CONFIRM` rejected from roaming path; destructive workflows remain Fixed Hub actions | Validate managed client enforcement, offline UI, operator training and clinical safety governance |
+| R-036 | Unmanaged or compromised Tablet reads ward state or impersonates an operator | Critical | Experimental software scope baseline | Scope-based auth, tablet ID field, audit and non-PII snapshot; managed device identity not yet proven | Integrate OIDC, device certificate/MDM attestation, revocation and lost-tablet drill |
+| R-037 | Tablet cache, screenshots or local logs retain patient identity or sensitive evidence | High | Controlled by contract; Android implementation pending | Snapshot excludes raw HN/AN/name and command audit redaction; mobile encrypted-cache implementation not complete | Validate BMAX kiosk/MDM policy, encrypted storage, screenshot/clipboard controls and wipe/revocation |
+
+The roaming capability is a **software-verified pilot-ready foundation** for large-ward operations. It is not yet evidence of a validated Android deployment, hospital Wi-Fi service level, managed-device identity or clinical usability.
