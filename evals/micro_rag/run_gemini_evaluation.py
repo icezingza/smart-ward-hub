@@ -107,6 +107,7 @@ def build_registry_index(documents: list[dict[str, Any]]) -> tuple[DocumentRegis
             state="APPROVED",
             lifecycle_reason="approved synthetic corpus-v2 fixture",
             lifecycle_actor_role="micro-rag-fixture-loader",
+            approved_at="2026-08-01T00:00:00Z",
         )
     index = RebuildableIndexAdapter(chunk_chars=800, min_score=2)
     index.rebuild(registry)

@@ -15,7 +15,10 @@ def run() -> None:
     assert snapshot["index_version"] == "rebuildable-index-v2"
     assert snapshot["registry_manifest_hash"] == registry.manifest_hash()
     assert snapshot["index_hash"]
-    print("[P2-004] Runner builds registry-backed deterministic index: PASSED")
+    second_registry, second_index = build_registry_index(load_documents())
+    assert second_registry.manifest_hash() == registry.manifest_hash()
+    assert second_index.snapshot_manifest()["index_hash"] == snapshot["index_hash"]
+    print("[P2-004] Runner builds registry-backed deterministic index across repeated samples: PASSED")
 
     cases = build_cases_from_index(registry, index)
     assert len(cases) == 8

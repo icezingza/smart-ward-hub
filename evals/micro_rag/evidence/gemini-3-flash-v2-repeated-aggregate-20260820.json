@@ -1,0 +1,26 @@
+{
+  "accepted_cases": 6,
+  "adapter_version": "response-adapter-v1",
+  "clinical_validity": "PENDING",
+  "corpus_revision": "micro-rag-fixture-v2",
+  "index_hash": "93128b91023889a10ea24020a3b603604fea32d3a277414f415425cd83e0893b",
+  "index_version": "rebuildable-index-v2",
+  "min_samples": 2,
+  "model_id": "gemini-3-flash-preview",
+  "model_revision": "3-flash-preview-12-2025",
+  "provider_limited_cases": 2,
+  "quality_denominator": 6,
+  "quality_pass_rate": 1.0,
+  "quality_rejections": 0,
+  "registry_manifest_hash": "7c06c50a8d21a48abe4646762d35f67376cc2c32655343aef1b477f5fa6a56df",
+  "retrieval_source": "document-registry-v2/rebuildable-index-v2",
+  "runtime_authority": "NONE",
+  "runtime_or_adapter_failures": 0,
+  "sample_count": 1,
+  "source_reports": [
+    "evals/micro_rag/evidence/gemini-3-flash-preview-v2-rerun-20260820-indexv2.json"
+  ],
+  "status": "INSUFFICIENT_SAMPLES",
+  "suite": "micro-rag-repeated-sample-aggregation-v1",
+  "total_case_results": 8
+}

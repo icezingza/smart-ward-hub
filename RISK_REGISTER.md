@@ -26,6 +26,8 @@
 | R-039 | การรับ evidence เข้าตรวจถูกตีความเป็น clinical หรือ production authorization | Critical | P1-008 no-authorization boundary | `clinical_validation_authorized`, `production_authorized` และ `real_world_authorization` ถูกตรึงเป็น false; authorization methods reject | ต้องมี clinical owner/committee decision, external gate evidence และ controlled pilot approval แยกจาก software |
 | R-040 | Provider rate limiting ทำให้ model score ถูกตีความเป็น quality failure หรือ pass | High | P2-004 runner classification control | รายงานแยก `PROVIDER_LIMIT_OR_TRANSIENT`, `RUNTIME_OR_ADAPTER_ERROR` และ `quality_or_contract_rejection`; ทุก result เก็บ bounded error type | ต้องรันซ้ำใน provider window ที่เหมาะสม, ทำ repeated samples และห้ามรวม provider failures ใน quality denominator |
 | R-041 | Registry/index snapshot ถูกใช้เป็น production source of truth โดยไม่มี owner/retention/access control | High | P2-004 software snapshot baseline | v2 snapshot มี schema/hash verification, atomic export/import และ stale/index integrity guard | ต้องกำหนด persistence owner, encryption/retention/access policy, backup/restore และ runtime semantic-index governance ก่อน deployment |
+| R-042 | จำนวน repeated model samples ไม่พอ แต่ผล sample เดียวถูกสื่อสารเป็น reliability score | High | P2-004 repeated-sample aggregator | aggregator บังคับ `min_samples>=2`, ตรวจ compatible model/corpus/index provenance และ status `INSUFFICIENT_SAMPLES` | ต้องทำ repeated samples ใน provider window ที่เหมาะสมและกำหนด sample-size/review protocol ก่อนสรุป quality |
+| R-043 | Readiness preflight ถูกตีความเป็น runtime/clinical approval | Critical | P2-004 readiness preflight | preflight เปิดสถานะสูงสุดเพียง `READY_FOR_EXTERNAL_GOVERNANCE_REVIEW`; `clinical_validation_authorized`, `production_authorized`, `runtime_authority` ถูกตรึง false/NONE | ต้องมี external persistence/access evidence, runtime backend verification, clinical governance และ controlled pilot authorization แยกต่างหาก |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -69,6 +71,11 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `evals/micro_rag/test_registry_backed_evaluation.py` | Runner retrieval ownership and scope-bound provenance regression |
 | `evals/micro_rag/test_response_adapter.py` | Hash, Thai support, citation scope and sensitive-output boundary regression |
 | `evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md` | Model-specific rerun evidence and provider-limited interpretation |
+| `P2_004_PERSISTENCE_OWNERSHIP_CONTRACT.md` | Persistence owner, custodian, retention, encryption and approval contract |
+| `persistence_contract.py` | Fail-closed persistence policy validator and deterministic policy hash |
+| `repeated_sample_evaluation.py` | Repeated-sample compatibility and provider-aware aggregation |
+| `runtime_semantic_retrieval_readiness.py` | Fail-closed runtime readiness and no-authorization preflight |
+| `P2_004_HARDENING_EVIDENCE.md` | P2-004 continuation evidence and readiness interpretation |
 
 
 ## Device Trust and provisioning roadmap risks

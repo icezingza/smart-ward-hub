@@ -166,10 +166,11 @@ class DocumentRegistry:
         expires_at: str | None = None,
         lifecycle_reason: str | None = None,
         lifecycle_actor_role: str | None = None,
+        approved_at: str | None = None,
     ) -> DocumentRecord:
         if state == "APPROVED" and _scan_text(text):
             raise RegistryValidationError("approved document failed sensitive-content scan")
-        timestamp = _now() if state == "APPROVED" else None
+        timestamp = (approved_at or _now()) if state == "APPROVED" else None
         record = DocumentRecord(
             doc_id=doc_id,
             title=title,

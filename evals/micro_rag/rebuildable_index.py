@@ -7,7 +7,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
 
-from document_registry import ALLOWED_SCOPES, DocumentRecord, DocumentRegistry
+try:
+    from evals.micro_rag.document_registry import ALLOWED_SCOPES, DocumentRecord, DocumentRegistry
+except ModuleNotFoundError:
+    from document_registry import ALLOWED_SCOPES, DocumentRecord, DocumentRegistry
 
 
 INDEX_SCHEMA_VERSION = "rebuildable-index-v2"
