@@ -40,7 +40,7 @@ The current corpus-v2 eight-case prompt passed `8/8` through `response-adapter-v
 
 ## GitHub publication
 
-Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `385be80` ซึ่งรวม operational deployment trunk, backup/restore contract, Acer auto-run template และ readiness evidence ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
+Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `68ba097` ซึ่งรวม Device Trust key-custody contract, provisioning lifecycle evidence และ P1 handoff ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
 
 ## Physical Acer Serial bench — เงื่อนไขก่อนเริ่ม
 
