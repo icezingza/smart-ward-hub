@@ -1,0 +1,194 @@
+{
+  "claim_boundary": "CONTROLLED_PROTOTYPE_SOFTWARE_EVIDENCE_ONLY",
+  "clinical_validation_authorized": false,
+  "external_validation_summary": {
+    "clinical_governance_required": true,
+    "evidence_class": "COORDINATION_ARTIFACT_UNVERIFIED",
+    "gate_count": 10,
+    "package_id": "smart-ward-pilot-validation-v1",
+    "ready_for_external_review": false,
+    "real_world_authorization": false,
+    "scope": "Controlled non-interventional external validation coordination for Smart Ward Hub",
+    "status_counts": {
+      "BLOCKED": 7,
+      "EVIDENCE_SUBMITTED": 0,
+      "OPEN": 3
+    }
+  },
+  "gate_statuses": {
+    "GV-01": "BLOCKED",
+    "GV-02": "OPEN",
+    "GV-03": "BLOCKED",
+    "GV-04": "BLOCKED",
+    "GV-05": "OPEN",
+    "GV-06": "BLOCKED",
+    "GV-07": "BLOCKED",
+    "GV-08": "BLOCKED",
+    "GV-09": "BLOCKED",
+    "GV-10": "OPEN"
+  },
+  "generated_at_utc": "2026-08-19T23:19:05Z",
+  "handoff": {
+    "blockers": [
+      "clinical governance protocol and signed scope are not externally verified",
+      "real HIS/Admission transcript and reconciliation are not externally verified",
+      "real OIDC/mTLS handshake and key-rotation transcript are not externally verified",
+      "Acer physical serial/power-loss/disk-full evidence is blocked; no COM port is enumerated",
+      "independent external WORM receipt and trusted timestamp are not verified",
+      "manufacturer provenance and hardware key-custody evidence are not verified",
+      "staff training, manual fallback SOP and alarm-fatigue review are not externally verified",
+      "at least two compatible samples are required",
+      "runtime semantic backend and access-control enforcement are not verified"
+    ],
+    "clinical_validation_authorized": false,
+    "evidence_refs": [
+      "evals/micro_rag/evidence/gemini-3-flash-v2-repeated-aggregate-20260820.json",
+      "evals/micro_rag/evidence/gemini-3-flash-v2-readiness-20260820.json",
+      "P2_004_REPEATED_SAMPLE_PROTOCOL.md",
+      "P2_004_HARDENING_EVIDENCE.md"
+    ],
+    "gate_statuses": {
+      "GV-01": "BLOCKED",
+      "GV-02": "OPEN",
+      "GV-03": "BLOCKED",
+      "GV-04": "BLOCKED",
+      "GV-05": "OPEN",
+      "GV-06": "BLOCKED",
+      "GV-07": "BLOCKED",
+      "GV-08": "BLOCKED",
+      "GV-09": "BLOCKED",
+      "GV-10": "OPEN"
+    },
+    "generated_at_utc": "2026-08-19T23:19:05Z",
+    "handoff_id": "p2004-external-review-handoff-20260820",
+    "handoff_version": "controlled-pilot-handoff-v1",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "product_status": "controlled production prototype",
+    "production_authorized": false,
+    "readiness_status": "NOT_READY",
+    "review_decision_status": "BLOCKED_INCOMPLETE_EVIDENCE",
+    "runtime_authority": "NONE"
+  },
+  "production_authorized": false,
+  "readiness_report": {
+    "clinical_validity": "PENDING",
+    "index_snapshot": {
+      "chunk_chars": 800,
+      "chunk_count": 4,
+      "index_hash": "72e54ab5d76a4dce94e8a2ac08ecb1b1fd6bbb869ecd609c4bef79fbec630778",
+      "index_version": "rebuildable-index-v2",
+      "min_score": 2,
+      "registry_manifest_hash": "09ad626ca76580e8220c242cba27d1d594c78c4fbd32efbadcda992ad4aa7500"
+    },
+    "readiness": {
+      "checks": [
+        {
+          "check_id": "persistence_policy_valid",
+          "evidence_class": "SOFTWARE_VERIFIED",
+          "passed": true,
+          "reason": "persistence policy validates as software-only metadata"
+        },
+        {
+          "check_id": "registry_index_manifest_match",
+          "evidence_class": "SOFTWARE_VERIFIED",
+          "passed": true,
+          "reason": "index is built from the current registry manifest"
+        },
+        {
+          "check_id": "eligible_corpus_zero_pii",
+          "evidence_class": "SOFTWARE_VERIFIED",
+          "passed": true,
+          "reason": "eligible registry records are non-empty and contain no PII/secret flags"
+        },
+        {
+          "check_id": "repeated_model_sample_gate",
+          "evidence_class": "SIMULATION_ONLY",
+          "passed": false,
+          "reason": "repeated model evidence status is INSUFFICIENT_SAMPLES"
+        },
+        {
+          "check_id": "runtime_semantic_backend_configured",
+          "evidence_class": "EXTERNAL_UNVERIFIED",
+          "passed": false,
+          "reason": "runtime semantic backend is not configured by this software baseline"
+        },
+        {
+          "check_id": "runtime_access_control_enforced",
+          "evidence_class": "EXTERNAL_UNVERIFIED",
+          "passed": false,
+          "reason": "runtime access-control enforcement is not evidenced"
+        },
+        {
+          "check_id": "external_persistence_approval",
+          "evidence_class": "EXTERNAL_UNVERIFIED",
+          "passed": false,
+          "reason": "external persistence owner/retention approval is not evidenced"
+        },
+        {
+          "check_id": "clinical_governance_boundary",
+          "evidence_class": "CLINICAL_GOVERNANCE_UNVERIFIED",
+          "passed": false,
+          "reason": "clinical retrieval governance review is pending"
+        }
+      ],
+      "clinical_validation_authorized": false,
+      "production_authorized": false,
+      "runtime_authority": "NONE",
+      "status": "NOT_READY"
+    },
+    "runtime_authority": "NONE",
+    "sample_summary": {
+      "accepted_cases": 6,
+      "adapter_version": "response-adapter-v1",
+      "clinical_validity": "PENDING",
+      "corpus_revision": "micro-rag-fixture-v2",
+      "index_hash": "93128b91023889a10ea24020a3b603604fea32d3a277414f415425cd83e0893b",
+      "index_version": "rebuildable-index-v2",
+      "min_samples": 2,
+      "model_id": "gemini-3-flash-preview",
+      "model_revision": "3-flash-preview-12-2025",
+      "provider_limited_cases": 2,
+      "quality_denominator": 6,
+      "quality_pass_rate": 1.0,
+      "quality_rejections": 0,
+      "registry_manifest_hash": "7c06c50a8d21a48abe4646762d35f67376cc2c32655343aef1b477f5fa6a56df",
+      "retrieval_source": "document-registry-v2/rebuildable-index-v2",
+      "runtime_authority": "NONE",
+      "runtime_or_adapter_failures": 0,
+      "sample_count": 1,
+      "source_reports": [
+        "evals/micro_rag/evidence/gemini-3-flash-preview-v2-rerun-20260820-indexv2.json"
+      ],
+      "status": "INSUFFICIENT_SAMPLES",
+      "suite": "micro-rag-repeated-sample-aggregation-v1",
+      "total_case_results": 8
+    },
+    "source_report": "evals/micro_rag/evidence/gemini-3-flash-preview-v2-rerun-20260820-indexv2.json",
+    "suite": "p2-004-runtime-semantic-retrieval-readiness-v1"
+  },
+  "review_decision": {
+    "adapter_version": "response-adapter-v1",
+    "clinical_validation_authorized": false,
+    "corpus_revision": "micro-rag-fixture-v2",
+    "expected_cases_per_sample": 8,
+    "index_hash": "93128b91023889a10ea24020a3b603604fea32d3a277414f415425cd83e0893b",
+    "minimum_samples": 2,
+    "model_id": "gemini-3-flash-preview",
+    "model_revision": "3-flash-preview-12-2025",
+    "production_authorized": false,
+    "protocol_version": "p2-004-repeated-sample-v1",
+    "provider_limited_cases": 2,
+    "quality_denominator": 6,
+    "quality_pass_rate": 1.0,
+    "quality_rejections": 0,
+    "reason": "minimum compatible sample count has not been met",
+    "registry_manifest_hash": "7c06c50a8d21a48abe4646762d35f67376cc2c32655343aef1b477f5fa6a56df",
+    "retrieval_source": "document-registry-v2/rebuildable-index-v2",
+    "runtime_authority": "NONE",
+    "runtime_or_adapter_failures": 0,
+    "sample_count": 1,
+    "status": "BLOCKED_INCOMPLETE_EVIDENCE"
+  },
+  "runtime_authority": "NONE",
+  "suite": "p2-004-external-review-handoff-v1"
+}

@@ -28,6 +28,8 @@
 | R-041 | Registry/index snapshot ถูกใช้เป็น production source of truth โดยไม่มี owner/retention/access control | High | P2-004 software snapshot baseline | v2 snapshot มี schema/hash verification, atomic export/import และ stale/index integrity guard | ต้องกำหนด persistence owner, encryption/retention/access policy, backup/restore และ runtime semantic-index governance ก่อน deployment |
 | R-042 | จำนวน repeated model samples ไม่พอ แต่ผล sample เดียวถูกสื่อสารเป็น reliability score | High | P2-004 repeated-sample aggregator | aggregator บังคับ `min_samples>=2`, ตรวจ compatible model/corpus/index provenance และ status `INSUFFICIENT_SAMPLES` | ต้องทำ repeated samples ใน provider window ที่เหมาะสมและกำหนด sample-size/review protocol ก่อนสรุป quality |
 | R-043 | Readiness preflight ถูกตีความเป็น runtime/clinical approval | Critical | P2-004 readiness preflight | preflight เปิดสถานะสูงสุดเพียง `READY_FOR_EXTERNAL_GOVERNANCE_REVIEW`; `clinical_validation_authorized`, `production_authorized`, `runtime_authority` ถูกตรึง false/NONE | ต้องมี external persistence/access evidence, runtime backend verification, clinical governance และ controlled pilot authorization แยกต่างหาก |
+| R-044 | Repeated-sample decision ถูกใช้เป็น reliability/clinical score ทั้งที่ protocol ยังไม่ผ่าน minimum samples | High | P2-004 repeated-sample protocol and decision validator | บังคับ `min_samples>=2`, fixed provenance, provider/quality denominator separation และ `BLOCKED_INCOMPLETE_EVIDENCE` | ต้องได้รับ compatible samples เพิ่มและให้ reviewer อนุมัติ analysis plan ก่อนสรุปผล |
+| R-045 | External-review coordination package ถูกตีความเป็น controlled-pilot authorization | Critical | P2-004 controlled pilot handoff | handoff ใช้ `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`, 7 blocked/3 open gates และตรึง authorization false | ต้องมี independent review, clinical governance, external gate evidence และ authorization decision แยกจาก software package |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -76,6 +78,10 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `repeated_sample_evaluation.py` | Repeated-sample compatibility and provider-aware aggregation |
 | `runtime_semantic_retrieval_readiness.py` | Fail-closed runtime readiness and no-authorization preflight |
 | `P2_004_HARDENING_EVIDENCE.md` | P2-004 continuation evidence and readiness interpretation |
+| `P2_004_REPEATED_SAMPLE_PROTOCOL.md` | Repeated-sample identity, minimum samples and decision matrix |
+| `p2_004_review_decision.py` | Fail-closed repeated-sample decision validator |
+| `controlled_pilot_handoff.py` | 10-gate handoff and no-authorization contract |
+| `P2_004_EXTERNAL_REVIEW_COORDINATION_PACKAGE.md` | External-review evidence map and blocker visibility |
 
 
 ## Device Trust and provisioning roadmap risks

@@ -36,6 +36,7 @@ TESTS = [
     "test_persistence_contract.py",
     "test_repeated_sample_evaluation.py",
     "test_runtime_semantic_retrieval_readiness.py",
+    "test_p2_004_review_and_handoff.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",
