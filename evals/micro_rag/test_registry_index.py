@@ -16,6 +16,8 @@ def make_registry() -> DocumentRegistry:
         languages=["en"],
         text="A roaming tablet may acknowledge an alert through the authenticated Fixed Hub command API. RESET_CONFIRM is not allowed from the initial pilot tablet.",
         state="APPROVED",
+        lifecycle_reason="initial approved fixture",
+        lifecycle_actor_role="fixture_registry_operator",
     )
     registry.register(
         doc_id="ops-bilingual-v1",
@@ -27,6 +29,8 @@ def make_registry() -> DocumentRegistry:
         languages=["en", "th"],
         text="A roaming tablet cannot confirm RESET_CONFIRM directly. แท็บเล็ต roaming ห้ามยืนยัน RESET_CONFIRM โดยตรง และต้องผ่าน authenticated Fixed Hub command API",
         state="APPROVED",
+        lifecycle_reason="initial approved fixture",
+        lifecycle_actor_role="fixture_registry_operator",
     )
     registry.register(
         doc_id="clinical-shadow-v1",
@@ -38,6 +42,8 @@ def make_registry() -> DocumentRegistry:
         languages=["en"],
         text="Triage signals are decision-support outputs. Clinical validation and human review remain pending.",
         state="APPROVED",
+        lifecycle_reason="initial approved fixture",
+        lifecycle_actor_role="fixture_registry_operator",
     )
     registry.register(
         doc_id="draft-ops-v1",
@@ -81,7 +87,7 @@ def run() -> None:
     else:
         raise AssertionError("PII document was admitted")
 
-    registry.approve("draft-ops-v1", "1.0", "reviewed for test")
+    registry.approve("draft-ops-v1", "1.0", "reviewed for test", "fixture_registry_operator")
     assert registry.get("draft-ops-v1", "1.0").eligible is True
     print("[Registry] Draft requires explicit approval before eligibility: PASSED")
 
@@ -103,7 +109,7 @@ def run() -> None:
     assert second_manifest == first_manifest
     print("[Index] Same registry/config produces deterministic manifest: PASSED")
 
-    registry.deprecate("ops-bilingual-v1", "1.0", "superseded in fixture")
+    registry.deprecate("ops-bilingual-v1", "1.0", "superseded in fixture", "fixture_registry_operator")
     try:
         index.query("RESET_CONFIRM roaming", registry, scope="operational")
     except IndexStaleError:
@@ -116,7 +122,7 @@ def run() -> None:
     assert all(hit.doc_id != "ops-bilingual-v1" for hit in post_deprecate_hits)
     print("[Index] Deprecated document disappears after rebuild: PASSED")
 
-    registry.revoke("ops-roaming-v1", "1.0", "fixture revocation")
+    registry.revoke("ops-roaming-v1", "1.0", "fixture revocation", "fixture_registry_operator")
     index.rebuild(registry)
     assert not index.query("roaming RESET_CONFIRM", registry, scope="operational")
     print("[Index] Revoked document disappears after rebuild: PASSED")
@@ -136,6 +142,40 @@ def run() -> None:
     else:
         raise AssertionError("injected rebuild failure did not fail")
     assert before["index_hash"] == baseline["index_hash"]
+
+    snapshot = registry.snapshot()
+    restored = DocumentRegistry.from_snapshot(snapshot)
+    assert restored.manifest_hash() == registry.manifest_hash()
+    assert [record.doc_id for record in restored.records()] == [record.doc_id for record in registry.records()]
+    print("[Registry] Deterministic snapshot export/import preserves manifest hash: PASSED")
+
+    tampered_snapshot = dict(snapshot)
+    tampered_snapshot["manifest_hash"] = "0" * 64
+    try:
+        DocumentRegistry.from_snapshot(tampered_snapshot)
+    except RegistryValidationError:
+        print("[Registry] Tampered snapshot is rejected before import: PASSED")
+    else:
+        raise AssertionError("tampered registry snapshot was imported")
+
+    transition_registry = DocumentRegistry()
+    transition_registry.register(
+        doc_id="transition-doc-v1",
+        title="Transition Fixture",
+        version="1.0",
+        owner="security",
+        source_ref="synthetic://transition-doc-v1",
+        scope="operational",
+        languages=["en"],
+        text="Lifecycle transition fixture.",
+        state="DRAFT",
+    )
+    try:
+        transition_registry.deprecate("transition-doc-v1", "1.0", "invalid", "fixture_registry_operator")
+    except RegistryValidationError:
+        print("[Registry] Invalid DRAFT to DEPRECATED transition is rejected: PASSED")
+    else:
+        raise AssertionError("invalid lifecycle transition accepted")
 
     print("APPROVED_REGISTRY_REBUILDABLE_INDEX_TESTS_PASSED")
 

@@ -13,8 +13,12 @@ from typing import Any
 import requests
 
 try:
+    from evals.micro_rag.document_registry import DocumentRegistry
+    from evals.micro_rag.rebuildable_index import RebuildableIndexAdapter
     from evals.micro_rag.response_adapter import RetrievedEvidence, adapt_model_output, build_evaluation_metadata
 except ModuleNotFoundError:
+    from document_registry import DocumentRegistry
+    from rebuildable_index import RebuildableIndexAdapter
     from response_adapter import RetrievedEvidence, adapt_model_output, build_evaluation_metadata
 
 
@@ -84,6 +88,58 @@ def approved_docs(documents: list[dict[str, Any]]) -> dict[str, RetrievedEvidenc
         for document in documents
         if document["approved"] and not document["deprecated"] and not document["contains_pii"]
     }
+
+
+def build_registry_index(documents: list[dict[str, Any]]) -> tuple[DocumentRegistry, RebuildableIndexAdapter]:
+    registry = DocumentRegistry()
+    for document in documents:
+        if not document["approved"] or document["deprecated"] or document["contains_pii"]:
+            continue
+        registry.register(
+            doc_id=document["doc_id"],
+            title=document["title"],
+            version=document["version"],
+            owner="micro-rag-fixture-owner",
+            source_ref=f"synthetic://{document['doc_id']}",
+            scope=document["allowed_scope"],
+            languages=["th"] if document["doc_id"] == "ops-ward-bilingual-v1" else ["en"],
+            text=document["text"],
+            state="APPROVED",
+            lifecycle_reason="approved synthetic corpus-v2 fixture",
+            lifecycle_actor_role="micro-rag-fixture-loader",
+        )
+    index = RebuildableIndexAdapter(chunk_chars=800, min_score=2)
+    index.rebuild(registry)
+    return registry, index
+
+
+def indexed_evidence(query: str, scope: str, registry: DocumentRegistry, index: RebuildableIndexAdapter) -> list[RetrievedEvidence]:
+    hits = index.query(query, registry, scope=scope, top_k=3)
+    return [
+        RetrievedEvidence(
+            doc_id=hit.doc_id,
+            version=hit.version,
+            chunk_hash=hit.chunk_hash,
+            title=hit.doc_id,
+            text=hit.text,
+            approved=True,
+            deprecated=False,
+            contains_pii=False,
+            allowed_scope=hit.scope,
+        )
+        for hit in hits
+    ]
+
+
+def build_cases_from_index(registry: DocumentRegistry, index: RebuildableIndexAdapter) -> list[dict[str, Any]]:
+    cases = build_cases(approved_docs(load_documents()))
+    return [
+        {
+            **case,
+            "retrieved": indexed_evidence(case["query"], case["scope"], registry, index),
+        }
+        for case in cases
+    ]
 
 
 def prompt_for(query: str, retrieved: list[RetrievedEvidence]) -> str:
@@ -197,8 +253,9 @@ def run() -> int:
         return 0
     model = os.getenv("SMART_WARD_EVAL_MODEL", DEFAULT_MODEL).strip()
     model_revision = live_model_revision(model, api_key)
-    documents = approved_docs(load_documents())
-    cases = build_cases(documents)
+    documents = load_documents()
+    registry, index = build_registry_index(documents)
+    cases = build_cases_from_index(registry, index)
     run_id = f"gemini-eval-{uuid.uuid4().hex[:12]}"
     report: dict[str, Any] = {
         "suite": "micro-rag-model-specific-v2",
@@ -208,6 +265,9 @@ def run() -> int:
         "model_catalog_verified": True,
         "corpus_revision": "micro-rag-fixture-v2",
         "adapter_version": "response-adapter-v1",
+        "retrieval_source": "document-registry-v2/rebuildable-index-v2",
+        "registry_manifest_hash": registry.manifest_hash(),
+        "index_snapshot": index.snapshot_manifest(),
         "results": [],
     }
 
@@ -221,7 +281,7 @@ def run() -> int:
             user_query=case["query"],
             retrieved=retrieved,
             corpus_revision="micro-rag-fixture-v2",
-            retrieval_config={"top_k": 3, "scope": case["scope"], "chunk_tokens": 120, "filter": "approved_current_non_pii"},
+            retrieval_config={"top_k": 3, "scope": case["scope"], "chunk_tokens": 120, "filter": "approved_current_non_pii", "source": "document-registry-v2/rebuildable-index-v2"},
         )
         try:
             raw_output, transport_meta = call_gemini(model, case["query"], retrieved, case["scope"], api_key)
@@ -242,13 +302,16 @@ def run() -> int:
                 "transport": transport_meta,
             }
         except Exception as exc:  # record bounded failure without exposing request contents
+            error_type = str(exc) if str(exc).startswith("model_http_") else type(exc).__name__
+            failure_class = "PROVIDER_LIMIT_OR_TRANSIENT" if error_type in {"model_http_429", "model_http_500", "model_http_502", "model_http_503", "model_http_504"} else "RUNTIME_OR_ADAPTER_ERROR"
             result = {
                 "case_id": case["case_id"],
                 "expected": case["expected"],
                 "accepted": False,
                 "case_passed": False,
                 "violations": ["model_call_failed"],
-                "error_type": str(exc) if str(exc).startswith("model_http_") else type(exc).__name__,
+                "error_type": error_type,
+                "failure_class": failure_class,
                 "metadata": metadata.model_dump(),
             }
         report["results"].append(result)
@@ -256,7 +319,18 @@ def run() -> int:
     passed = sum(1 for result in report["results"] if result.get("case_passed"))
     report["passed_cases"] = passed
     report["total_cases"] = len(report["results"])
-    report["model_specific_status"] = "EVALUATED_WITH_ADAPTER" if passed == len(cases) else "REQUIRES_REVIEW"
+    failure_classes = [result.get("failure_class") for result in report["results"] if result.get("failure_class")]
+    report["failure_summary"] = {
+        "provider_limit_or_transient": sum(1 for item in failure_classes if item == "PROVIDER_LIMIT_OR_TRANSIENT"),
+        "runtime_or_adapter_error": sum(1 for item in failure_classes if item == "RUNTIME_OR_ADAPTER_ERROR"),
+        "quality_or_contract_rejection": sum(1 for result in report["results"] if result.get("violations") and result.get("failure_class") is None),
+    }
+    if passed == len(cases):
+        report["model_specific_status"] = "EVALUATED_WITH_ADAPTER"
+    elif report["failure_summary"]["provider_limit_or_transient"] and report["failure_summary"]["quality_or_contract_rejection"] == 0:
+        report["model_specific_status"] = "PROVIDER_LIMITED_REQUIRES_REVIEW"
+    else:
+        report["model_specific_status"] = "REQUIRES_REVIEW"
     report["clinical_validity"] = "PENDING"
     report["runtime_authority"] = "NONE"
     output_path = Path(os.getenv("SMART_WARD_MODEL_EVAL_OUTPUT", f"/tmp/{run_id}.json"))

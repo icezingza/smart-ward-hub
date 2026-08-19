@@ -1,27 +1,46 @@
 # Micro-RAG v2 Model Rerun Evidence Register
 
 **Corpus:** `micro-rag-fixture-v2`
+
 **Adapter:** `response-adapter-v1`
+
+**Retrieval source:** `document-registry-v2/rebuildable-index-v2`
+
 **Case count:** 8
+
 **Scope:** synthetic operational and clinical-governance evidence only; no patient data; runtime authority `NONE`
 
 ## Evidence summary
 
-| Run | Model and revision | Catalog | Result | Gate interpretation |
-|---|---|---|---:|---|
-| Pinned target rerun | `gemini-2.5-flash`, revision `001` | Verified live before run | 2/8; six later provider calls returned HTTP 429 | Partial provider-limited evidence; not a six-case quality score; clean rerun remains open |
-| Alternate current run | `gemini-3-flash-preview`, revision `3-flash-preview-12-2025` | Verified live before run | 8/8 through adapter | Valid current v2 model-specific evidence for this model/revision only |
+| Run | Model and revision | Retrieval source | Result | Failure classification | Gate interpretation |
+|---|---|---|---:|---|---|
+| Pinned target, index-backed rerun | `gemini-2.5-flash`, revision `001` | registry/index v2; manifest and index hash recorded | 0/8 | 8 provider HTTP 429; 0 quality/adapter rejection | Provider-limited evidence; not a quality score; clean pinned rerun remains open |
+| Alternate, index-backed rerun | `gemini-3-flash-preview`, revision `3-flash-preview-12-2025` | registry/index v2; manifest and index hash recorded | 6/8 | 2 provider HTTP 429; 0 quality/adapter rejection | Partial provider-limited evidence; six accepted cases are bounded model evidence only |
+| Historical alternate baseline | `gemini-3-flash-preview`, revision `3-flash-preview-12-2025` | Earlier fixture-direct v2 run | 8/8 | No recorded provider failure | Valid only for that earlier retrieval path, prompt/hash set and model revision; not proof of runtime index deployment |
 
-The successful alternate-model report records `model_catalog_verified=true`, `redaction_status=PASS` on every case, no adapter violations and `runtime_authority=NONE`. It covers answerable operational retrieval, unknown clinical refusal, recovery policy, clinical overreach boundary, English prompt-injection resistance, bilingual Thai/English policy, bilingual adversarial injection and mixed-language destructive-claim rejection.
+## Registry/index hardening evidence
+
+The current runner now rebuilds a `DocumentRegistry` from the approved synthetic fixtures, derives a `RebuildableIndexAdapter`, and records `registry_manifest_hash`, `index_snapshot.index_hash`, `index_version`, retrieval configuration and adapter metadata in each model report. Current index-backed reports are:
+
+- [`gemini-2.5-flash-v2-rerun-20260820.json`](gemini-2.5-flash-v2-rerun-20260820.json)
+- [`gemini-3-flash-preview-v2-rerun-20260820-indexv2.json`](gemini-3-flash-preview-v2-rerun-20260820-indexv2.json)
+
+The deterministic software tests also cover snapshot export/import, manifest hash preservation, tampered snapshot rejection, invalid lifecycle transition rejection, stale-index rejection, failed rebuild atomicity, Thai support tokens, cross-scope citation rejection and corrupted chunk-hash rejection.
 
 ## Interpretation
 
-The `gemini-3-flash-preview` 8/8 result is bounded evidence that the current response adapter accepted all eight outputs for one pinned model/revision and corpus/prompt hash set. It does **not** establish a deployment hallucination rate, clinical safety, clinical accuracy, regulatory compliance, production readiness or runtime Micro-RAG readiness.
+The current pinned `gemini-2.5-flash` run is **not a failed six-case quality evaluation**. All eight calls were blocked by provider HTTP 429, so the result is classified as `PROVIDER_LIMITED_REQUIRES_REVIEW`.
 
-The historical `gemini-2.5-flash` five-case 5/5 result remains valid only for its original prompt and `micro-rag-fixture-v1`. The current pinned-target v2 run must not be marked as passed because six of eight calls were blocked by provider HTTP 429. The P2-004 gate remains open for a clean pinned-target run, repeated-sample evaluation, persistence/ownership review and runtime semantic-retrieval validation.
+The current `gemini-3-flash-preview` run produced six accepted cases and two provider-limited cases. The six accepted responses passed the adapter boundary for the current registry/index-backed retrieval path; this does not establish a deployment hallucination rate, clinical safety, clinical accuracy, regulatory compliance, production readiness or runtime semantic-index readiness.
+
+The earlier 8/8 alternate result remains bounded to its original fixture-direct retrieval path. It must not be conflated with the new registry/index-backed run.
+
+P2-004 remains open for a clean pinned-target rerun, repeated samples, operational persistence ownership/retention review, runtime semantic-retrieval deployment, human review and clinical retrieval governance.
 
 ## Files
 
+- [`gemini-2.5-flash-v2-rerun-20260820.json`](gemini-2.5-flash-v2-rerun-20260820.json)
+- [`gemini-3-flash-preview-v2-rerun-20260820-indexv2.json`](gemini-3-flash-preview-v2-rerun-20260820-indexv2.json)
 - [`gemini-2.5-flash-v2-rerun-20260819.json`](gemini-2.5-flash-v2-rerun-20260819.json)
 - [`gemini-3-flash-preview-v2-rerun-20260819.json`](gemini-3-flash-preview-v2-rerun-20260819.json)
 - [`MICRO_RAG_MODEL_EVALUATION_REPORT.md`](../../MICRO_RAG_MODEL_EVALUATION_REPORT.md)

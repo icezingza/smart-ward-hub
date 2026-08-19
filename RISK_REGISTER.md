@@ -24,6 +24,8 @@
 | R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | Local hardening + external adapter contract; provider unverified | local adapter now validates inputs, uses record hash/idempotency/readback; external receipt identity and mutation-fault tests pass | ต้องเชื่อม external service ที่บริหารแยกกัน, authenticated transport, trusted timestamp, retention และ verify chain ข้าม trust boundary |
 | R-038 | Review session ถูกปิดโดยไม่มี evidence traceability หรือ finding ที่ตรวจซ้ำได้ | High | P1-008 software baseline | `IndependentReviewSession` บังคับ accepted evidence, gate/evidence linkage, severity และ post-close mutation lock | ต้องแต่งตั้ง reviewer อิสระ, ใช้ signed export, รัน reproduce tests และบันทึก finding closure/reopen ในระบบ governance จริง |
 | R-039 | การรับ evidence เข้าตรวจถูกตีความเป็น clinical หรือ production authorization | Critical | P1-008 no-authorization boundary | `clinical_validation_authorized`, `production_authorized` และ `real_world_authorization` ถูกตรึงเป็น false; authorization methods reject | ต้องมี clinical owner/committee decision, external gate evidence และ controlled pilot approval แยกจาก software |
+| R-040 | Provider rate limiting ทำให้ model score ถูกตีความเป็น quality failure หรือ pass | High | P2-004 runner classification control | รายงานแยก `PROVIDER_LIMIT_OR_TRANSIENT`, `RUNTIME_OR_ADAPTER_ERROR` และ `quality_or_contract_rejection`; ทุก result เก็บ bounded error type | ต้องรันซ้ำใน provider window ที่เหมาะสม, ทำ repeated samples และห้ามรวม provider failures ใน quality denominator |
+| R-041 | Registry/index snapshot ถูกใช้เป็น production source of truth โดยไม่มี owner/retention/access control | High | P2-004 software snapshot baseline | v2 snapshot มี schema/hash verification, atomic export/import และ stale/index integrity guard | ต้องกำหนด persistence owner, encryption/retention/access policy, backup/restore และ runtime semantic-index governance ก่อน deployment |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -62,6 +64,11 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `test_gv10_evidence.py` | GV-10 evidence mutation and claim-boundary regression |
 | `P1_008_INDEPENDENT_REVIEW_OPERATIONS.md` | P1-008 lifecycle, finding and controlled-pilot boundary |
 | `test_independent_review_operations.py` | Software-only review lifecycle, severity, traceability and no-authorization regression |
+| `P2_004_REGISTRY_INDEX_HARDENING_PLAN.md` | P2-004 hardening findings and acceptance criteria |
+| `evals/micro_rag/test_registry_index.py` | Registry lifecycle, snapshot, stale-index and atomic rebuild regression |
+| `evals/micro_rag/test_registry_backed_evaluation.py` | Runner retrieval ownership and scope-bound provenance regression |
+| `evals/micro_rag/test_response_adapter.py` | Hash, Thai support, citation scope and sensitive-output boundary regression |
+| `evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md` | Model-specific rerun evidence and provider-limited interpretation |
 
 
 ## Device Trust and provisioning roadmap risks

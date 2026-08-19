@@ -36,6 +36,7 @@ TESTS = [
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",
+    "evals/micro_rag/test_registry_backed_evaluation.py",
     "test_p2_edge_iot_adapters.py",
     "test_serial_framing.py",
     "test_network_pressure_simulation.py",

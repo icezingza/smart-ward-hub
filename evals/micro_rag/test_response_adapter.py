@@ -17,11 +17,11 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parent
 
 
-def evidence(doc_id: str, title: str, text: str, scope: str = "operational") -> RetrievedEvidence:
+def evidence(doc_id: str, title: str, text: str, scope: str = "operational", chunk_hash_override: str | None = None) -> RetrievedEvidence:
     return RetrievedEvidence(
         doc_id=doc_id,
         version="1.0",
-        chunk_hash=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+        chunk_hash=chunk_hash_override or hashlib.sha256(text.encode("utf-8")).hexdigest(),
         title=title,
         text=text,
         approved=True,
@@ -166,6 +166,61 @@ def run() -> None:
     assert extra_field.accepted is False
     assert "response_schema_invalid" in extra_field.violations
     print("[Adapter] Unexpected tool/command field rejected by strict schema: PASSED")
+
+    bilingual = evidence(
+        "ops-bilingual-v1",
+        "Bilingual Ward Operations",
+        "แท็บเล็ต roaming ห้ามยืนยัน RESET_CONFIRM โดยตรง และต้องผ่าน Fixed Hub",
+    )
+    bilingual_answer = adapt_model_output(
+        {
+            "answer": "แท็บเล็ต roaming ห้ามยืนยัน RESET_CONFIRM โดยตรง และต้องผ่าน Fixed Hub",
+            "citations": ["ops-bilingual-v1"],
+            "retrieval_scope": "operational",
+            "evidence_status": "Implemented",
+            "refusal_reason": None,
+        },
+        retrieved=[bilingual],
+        expected_scope="operational",
+        metadata=metadata([bilingual]),
+    )
+    assert bilingual_answer.accepted is True, bilingual_answer.violations
+    print("[Adapter] Thai evidence support tokens are accepted: PASSED")
+
+    clinical_evidence = evidence(
+        "clinical-shadow-v1",
+        "Clinical Shadow Mode",
+        "Clinical validation remains pending and requires human review.",
+        scope="clinical-governance",
+    )
+    cross_scope = adapt_model_output(
+        {
+            "answer": "Clinical validation remains pending and requires human review.",
+            "citations": ["clinical-shadow-v1"],
+            "retrieval_scope": "operational",
+            "evidence_status": "Unverified",
+            "refusal_reason": None,
+        },
+        retrieved=[clinical_evidence],
+        expected_scope="operational",
+        metadata=metadata([clinical_evidence]),
+    )
+    assert cross_scope.accepted is False
+    assert "citation_scope_mismatch" in cross_scope.violations
+    print("[Adapter] Cross-scope citation is rejected: PASSED")
+
+    try:
+        evidence(
+            "corrupt-evidence",
+            "Corrupt Evidence",
+            "This hash is intentionally invalid.",
+            chunk_hash_override="0" * 64,
+        )
+    except Exception:
+        pass
+    else:
+        raise AssertionError("corrupted evidence construction did not fail")
+    print("[Adapter] Corrupted evidence hash is rejected: PASSED")
 
     print("MODEL_AGNOSTIC_RESPONSE_ADAPTER_TESTS_PASSED")
 

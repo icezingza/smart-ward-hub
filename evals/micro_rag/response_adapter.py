@@ -6,7 +6,7 @@ import re
 from datetime import datetime, timezone
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 
 
 STATUS_VALUES = {"Implemented", "Experimental", "Planned", "Not Found", "Unverified"}
@@ -25,6 +25,15 @@ class RetrievedEvidence(BaseModel):
     deprecated: bool
     contains_pii: bool
     allowed_scope: str = Field(min_length=1, max_length=64)
+
+    @model_validator(mode="after")
+    def validate_evidence_integrity(self) -> "RetrievedEvidence":
+        expected_hash = hashlib.sha256(self.text.encode("utf-8")).hexdigest()
+        if self.chunk_hash != expected_hash:
+            raise ValueError("chunk_hash_mismatch")
+        if self.approved is not True or self.deprecated is True or self.contains_pii is True:
+            raise ValueError("retrieved_evidence_not_eligible")
+        return self
 
 
 class ModelResponseEnvelope(BaseModel):
@@ -49,6 +58,17 @@ class EvaluationMetadata(BaseModel):
     timestamp_utc: str = Field(min_length=20, max_length=64)
     redaction_status: Literal["PASS", "FAIL"]
     adapter_version: str = Field(min_length=1, max_length=64)
+
+    @field_validator("timestamp_utc")
+    @classmethod
+    def timestamp_must_be_timezone_aware(cls, value: str) -> str:
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError("timestamp_utc_invalid") from exc
+        if parsed.tzinfo is None:
+            raise ValueError("timestamp_utc_must_be_timezone_aware")
+        return value
 
 
 class AdapterResult(BaseModel):
@@ -78,7 +98,13 @@ SENSITIVE_OUTPUT_PATTERNS = (
 
 def _tokens(value: str) -> set[str]:
     stop_words = {"a", "an", "and", "are", "can", "do", "does", "for", "from", "how", "is", "may", "of", "the", "to", "what", "when", "with"}
-    return {token for token in re.findall(r"[a-z0-9_]+", value.lower()) if token not in stop_words and len(token) > 2}
+    output: set[str] = set()
+    for segment in re.findall(r"[a-z0-9_]+|[\u0e00-\u0e7f]+", value.lower()):
+        if re.fullmatch(r"[\u0e00-\u0e7f]+", segment):
+            output.update(segment[index:index + 2] for index in range(max(0, len(segment) - 1)))
+        elif segment not in stop_words and len(segment) > 2:
+            output.add(segment)
+    return output
 
 
 def _redact(value: str) -> str:
@@ -164,6 +190,11 @@ def adapt_model_output(
             violations.append("retrieval_scope_mismatch")
         if any(citation not in evidence_by_id for citation in parsed.citations):
             violations.append("citation_not_in_retrieved_evidence")
+        if any(
+            item.allowed_scope != expected_scope
+            for item in cited_items
+        ):
+            violations.append("citation_scope_mismatch")
         if any(not item.approved or item.deprecated or item.contains_pii for item in cited_items):
             violations.append("citation_not_allowed_by_corpus_policy")
         if parsed.refusal_reason is None and not _citation_supports(parsed, cited_items):
