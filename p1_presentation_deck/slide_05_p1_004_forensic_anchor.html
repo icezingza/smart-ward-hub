@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+      }
+      .anchor-box {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-top: 10px;
+      }
+      .anchor-box:first-child {
+        margin-top: 0;
+      }
+      .box-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #7F1D1D;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .box-desc {
+        font-size: 12.5px;
+        color: #374151;
+        margin-top: 4px;
+        line-height: 1.45;
+      }
+      .image-panel {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+      }
+      .image-panel img {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+        display: block;
+      }
+      .image-caption {
+        font-size: 11px;
+        color: #6B7280;
+        margin-top: 4px;
+        font-style: italic;
+      }
+      .boundary-warning {
+        margin-top: 12px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 12px;
+        color: #991B1B;
+        line-height: 1.45;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>P1-004: Forensic Anchor & FileAnchorStore Hardening</h2>
+            <span class="slide-badge">IMMUTABILITY & EVIDENCE BASELINE</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="anchor-box">
+                    <div class="box-title"><i class="fas fa-file-shield"></i> FileAnchorStore Hardening (Local Anchor)</div>
+                    <div class="box-desc">
+                        • <strong>Input Validation:</strong> ตรวจสอบ <code>package_id</code>, <code>block_hash</code>, <code>chain_tip</code> แบบ Hex64 Canonical Form<br>
+                        • <strong>Source-Tree Separation:</strong> ปฏิเสธการบันทึกไฟล์ Anchor ไว้ภายในไดเรกทอรีซอร์สโค้ด<br>
+                        • <strong>Record Hash & Local Receipt:</strong> ออก Structured Receipt พร้อม Record Hash และ Idempotency Key<br>
+                        • <strong>Readback Integrity:</strong> อ่านย้อนหลังและคัดกรองข้อมูลที่ถูกแก้ไข (Tampered Lines) ออกจากผลตรวจ
+                    </div>
+                </div>
+
+                <div class="anchor-box">
+                    <div class="box-title"><i class="fas fa-vault"></i> External Forensic Anchor Adapter (P1-004 Contract)</div>
+                    <div class="box-desc">
+                        • <strong>Receipt Identity:</strong> ตรวจสอบ Provider ID, Package ID, Block Hash และ Chain Tip ก่อนตอบรับ<br>
+                        • <strong>Idempotent Replay:</strong> การส่งซ้ำจะไม่สร้าง Anchor ซ้ำในระบบภายนอก<br>
+                        • <strong>Append-Only Enforced:</strong> ปฏิเสธคำสั่งลบข้อมูล (Delete Forbidden)<br>
+                        • <strong>Fault Injection Suite:</strong> ปฏิเสธ Mutation Status, Provider Mismatch และ Evidence Mismatch ทั้งหมด
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="image-panel">
+                    <img src="/home/ubuntu/upload/search_images/YwNM9nQN7aYc.webp" alt="Forensic Evidence and Smart Ward Care">
+                    <div class="image-caption">การบันทึกหลักฐานนิติวิทยาศาสตร์ทางการแพทย์ที่โปร่งใสและตรวจสอบได้</div>
+                </div>
+
+                <div class="boundary-warning">
+                    <strong>Evidence Boundary:</strong> Local <code>FileAnchorStore</code> เป็นเพียง Tamper-Evident Adapter ภายใน Edge ไม่ใช่หลักฐานแบบ Tamper-Proof ส่วน External Anchor ยังใช้ Software Stub โดย <strong>Independent WORM Server, Trusted Timestamp และ Key Custody จริงยังเป็น External Gates ที่ต้องปิดร่วมกับ รพ.</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -29,6 +29,7 @@ TESTS = [
     "test_clinical_shadow_mode.py",
     "test_clinical_shadow_mode_negative.py",
     "test_clinical_validation_readiness.py",
+    "test_external_validation_package.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",

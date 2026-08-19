@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "title": "Smart Ward Hub: P1 Milestones Summary",
+    "created": 1787173668.822,
+    "last_updated": 1787173776.523,
+    "total_slides": 10
+  },
+  "slides": [
+    {
+      "id": "slide_01_cover",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_02_p1_overview",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_03_p1_001_002_backup_host",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_04_p1_003_key_custody",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_05_p1_004_forensic_anchor",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_06_p1_005_shadow_mode",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_07_p1_005_metrics",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_08_p1_006_readiness",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_09_p1_matrix",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10_clinical_gates_next",
+      "state": "edited",
+      "pageNum": 10
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_01_cover",
+      "title": "Smart Ward Hub: P1 Milestones Summary",
+      "summary": "หน้าปกสรุปภาพรวม Phase 1 Operational Trunk & Governance Baseline ของ Smart Ward Hub พร้อมสถานะทางการและหลักฐานอ้างอิง"
+    },
+    {
+      "id": "slide_02_p1_overview",
+      "title": "ภาพรวม P1 Roadmap: สร้างลำต้นของระบบ",
+      "summary": "สรุปภาพรวม 6 เสาหลักของ Phase 1 ตั้งแต่การสำรองข้อมูลจนถึงความพร้อมสู่การทดสอบทางคลินิก"
+    },
+    {
+      "id": "slide_03_p1_001_002_backup_host",
+      "title": "P1-001 & P1-002: การกู้คืนข้อมูลและความพร้อมของ Host",
+      "summary": "ผลการสร้างระบบ SQLite Backup API, Manifest Checksum, Isolated Restore และตัวตรวจความพร้อม Host Hardening บน Acer Spin N17H2",
+      "image_plan": "/home/ubuntu/upload/search_images/XBjn8KGDVAFA.jpg - Shows tablet and bedside monitoring cart/setup relevant to Fixed Hub and roaming tablet architecture"
+    },
+    {
+      "id": "slide_04_p1_003_key_custody",
+      "title": "P1-003: Device Trust & Key Custody Lifecycle",
+      "summary": "โครงสร้างการจัดการกุญแจ Ed25519, Dual-Control Activation, Key Rotation Linkage, Terminal Revocation และขอบเขตความปลอดภัยกุญแจส่วนตัว",
+      "image_plan": "/home/ubuntu/upload/search_images/jqM4rNBBvwWe.png - Diagram showing continuous ward monitoring and safety workflow compared to intermittent spot checks"
+    },
+    {
+      "id": "slide_05_p1_004_forensic_anchor",
+      "title": "P1-004: Forensic Anchor & FileAnchorStore Hardening",
+      "summary": "การยกระดับ FileAnchorStore ประจำเครื่อง และการสร้าง External Anchor Adapter Contract สำหรับ Append-Only WORM ภายนอก",
+      "image_plan": "/home/ubuntu/upload/search_images/YwNM9nQN7aYc.webp - Shows clinical staff using smart ward technology at bedside"
+    },
+    {
+      "id": "slide_06_p1_005_shadow_mode",
+      "title": "P1-005: Clinical Shadow-Mode & Zero-PII Boundary",
+      "summary": "กรอบการทำงาน Shadow-Mode การคัดกรอง Zero-PII Token การใช้ Safe Labels และระบบควบคุม Stop/Resume เมื่อเกิดเหตุฉุกเฉิน"
+    },
+    {
+      "id": "slide_07_p1_005_metrics",
+      "title": "P1-005: การรายงานผลด้วย Non-Accuracy Metrics",
+      "summary": "คำนิยามและการแปลผล Non-Accuracy Metrics ที่ถูกต้อง เพื่อป้องกันการเข้าใจผิดว่าเป็นค่าความแม่นยำทางคลินิก",
+      "image_plan": "/home/ubuntu/upload/search_images/QxOa9CtzOJNc.jpeg - NIST Cybersecurity Framework for Healthcare, highly relevant for security, device trust and compliance slide"
+    },
+    {
+      "id": "slide_08_p1_006_readiness",
+      "title": "P1-006: Clinical Validation Readiness Preflight",
+      "summary": "ระบบตรวจประเมินความพร้อม 17 ด่าน (Preflight Validator) ก่อนนำเสนอต่อคณะกรรมการธรรมาภิบาลทางคลินิก",
+      "image_plan": "/home/ubuntu/upload/search_images/yKyJckWvp4Za.png - IoT-based health monitoring system architecture diagram matching the technical system architecture description"
+    },
+    {
+      "id": "slide_09_p1_matrix",
+      "title": "สรุปตารางสถานะ P1-001 ถึง P1-006",
+      "summary": "ตารางสรุปสถานะการพัฒนา ผลการทดสอบระดับซอฟต์แวร์ และสิ่งที่ยังต้องดำเนินการจริงร่วมกับภายนอกสำหรับทุก Workstream ใน P1"
+    },
+    {
+      "id": "slide_10_clinical_gates_next",
+      "title": "ข้อกำหนดก่อนเริ่ม Clinical Validation และก้าวต่อไป",
+      "summary": "รายการ Hard Gates ที่ต้องผ่านก่อนเริ่มทดสอบกับผู้ป่วยจริง และแผนงานพัฒนา External Validation Coordination Package",
+      "image_plan": "/home/ubuntu/upload/search_images/woOSrYFvu5x8.jpg - Connected medical device architecture diagram showing hardware, hub, cloud and network boundaries for roadmap and claims"
+    }
+  ]
+}

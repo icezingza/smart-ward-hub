@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+      }
+      .detail-box {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-top: 10px;
+      }
+      .detail-box:first-child {
+        margin-top: 0;
+      }
+      .box-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #7F1D1D;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .box-desc {
+        font-size: 12.5px;
+        color: #374151;
+        margin-top: 4px;
+        line-height: 1.45;
+      }
+      .image-panel {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+      }
+      .image-panel img {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+        display: block;
+      }
+      .image-caption {
+        font-size: 11px;
+        color: #6B7280;
+        margin-top: 4px;
+        font-style: italic;
+      }
+      .boundary-warning {
+        margin-top: 12px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 12px;
+        color: #991B1B;
+        line-height: 1.45;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>P1-001 & P1-002: การกู้คืนข้อมูลและความพร้อมของ Host</h2>
+            <span class="slide-badge">RESILIENCE & DEPLOYMENT TRUNK</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="detail-box">
+                    <div class="box-title"><i class="fas fa-database"></i> P1-001: SQLite Backup & Restore Baseline</div>
+                    <div class="box-desc">
+                        • <strong>SQLite Backup API:</strong> สตรีมฐานข้อมูลจากเครื่องขณะรัน WAL Mode อย่างถูกต้อง ไม่ใช้วิธี Copy ไฟล์ดิบที่อาจทำให้ WAL ไม่สอดคล้องกัน<br>
+                        • <strong>Manifest & Checksum:</strong> บันทึก SHA-256 Checksum ตรวจจับการแก้ไขไฟล์สำรอง<br>
+                        • <strong>Isolated Restore:</strong> กู้คืนข้อมูลบนไดเรกทอรีแยกส่วน พร้อมบังคับคำยืนยันแบบ Fail-Closed<br>
+                        • <strong>Secret Hygiene:</strong> ปฏิเสธไฟล์ Credential, Key หรือ Token ไม่ให้หลุดเข้าไปใน Backup
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="box-title"><i class="fas fa-laptop-medical"></i> P1-002: Host Hardening & Acer Spin N17H2 Auto-Run</div>
+                    <div class="box-desc">
+                        • <strong>Readiness Validator:</strong> สคริปต์ <code>deployment_readiness.py</code> ตรวจค่าเริ่มต้น Pilot, Loopback Binding และ Path Separation<br>
+                        • <strong>Windows Auto-Run Template:</strong> เตรียม PowerShell/CMD Scripts สำหรับรัน Hub อัตโนมัติเมื่อเปิดเครื่อง Acer Spin N17H2 โดยไม่ Hardcode รหัสผ่าน
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="image-panel">
+                    <img src="/home/ubuntu/upload/search_images/XBjn8KGDVAFA.jpg" alt="Bedside Terminal Setup">
+                    <div class="image-caption">การตั้งค่า Fixed Hub ประจำวอร์ดบนเครื่อง Acer Spin N17H2</div>
+                </div>
+
+                <div class="boundary-warning">
+                    <strong>External Gates Open:</strong> ผลการทดสอบระดับซอฟต์แวร์ผ่านครบถ้วน แต่ยังต้องผ่านการทดสอบ <strong>Encrypted Backup Storage จริง, Windows Firewall/ACL Hardening จริง และ Power-Loss Drill จริงบนเครื่อง Acer</strong> ก่อนเริ่มใช้งานในวอร์ด
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

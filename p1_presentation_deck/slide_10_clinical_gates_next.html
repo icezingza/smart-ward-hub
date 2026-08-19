@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #7F1D1D;
+        background: #FEE2E2;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+      }
+      .section-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #111827;
+        border-bottom: 2px solid #7F1D1D;
+        padding-bottom: 4px;
+      }
+      .gates-list {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .gate-card {
+        border: 1px solid #E5E7EB;
+        background: #FAFAFA;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .gate-header {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #7F1D1D;
+      }
+      .gate-desc {
+        font-size: 11.5px;
+        color: #4B5563;
+        margin-top: 2px;
+        line-height: 1.35;
+      }
+      .next-step-box {
+        margin-top: 10px;
+        border: 1px solid #4338CA;
+        background: #EEF2FF;
+        padding-top: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 12px;
+        color: #1E1B4B;
+        line-height: 1.45;
+      }
+      .image-panel {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 6px;
+        padding-left: 6px;
+        padding-right: 6px;
+        text-align: center;
+      }
+      .image-panel img {
+        width: 100%;
+        height: 180px;
+        object-fit: contain;
+        display: block;
+      }
+      .image-caption {
+        font-size: 11px;
+        color: #6B7280;
+        margin-top: 4px;
+        font-style: italic;
+      }
+      .claim-boundary {
+        margin-top: 10px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 11px;
+        color: #991B1B;
+        line-height: 1.4;
+      }
+      .footer-note {
+        margin-top: 14px;
+        border-top: 1px solid #E5E7EB;
+        padding-top: 8px;
+        font-size: 11px;
+        color: #6B7280;
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>ข้อกำหนดก่อนเริ่ม Clinical Validation และก้าวต่อไป</h2>
+            <span class="slide-badge">GOVERNANCE & NEXT PHASES</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="section-title"><i class="fas fa-shield-heart"></i> 4 ข้อกำหนดที่ต้องผ่านก่อนเริ่มทดสอบระบบจริง (Hard Gates)</div>
+                <div class="gates-list">
+                    <div class="gate-card">
+                        <div class="gate-header">1. Clinical Governance & Protocol Sign-off</div>
+                        <div class="gate-desc">มี Clinical Owner แต่งตั้งชัดเจน, ผ่านการอนุมัติ Protocol, Consent/Waiver และเกณฑ์ Inclusion/Exclusion</div>
+                    </div>
+                    <div class="gate-card">
+                        <div class="gate-header">2. Real Infrastructure & WORM Anchoring</div>
+                        <div class="gate-desc">เชื่อมต่อระบบ HIS โรงพยาบาลจริง, ยืนยัน mTLS/IdP PKI และผูกโยง External Anchor ไปยัง WORM Server แยกส่วน</div>
+                    </div>
+                    <div class="gate-card">
+                        <div class="gate-header">3. Physical Hardware & Recovery Bench</div>
+                        <div class="gate-desc">ทดสอบ Loopback จริงบนเครื่อง Acer Spin N17H2 และผ่านการจำลองไฟดับกะทันหัน (Power-Loss Drill)</div>
+                    </div>
+                    <div class="gate-card">
+                        <div class="gate-header">4. Operational Training & Manual Fallback SOP</div>
+                        <div class="gate-desc">บุคลากรทางการแพทย์ผ่านการอบรม เข้าใจว่าไม่ใช่คำสั่งรักษา และมีขั้นตอนปฏิบัติสำรองกรณีระบบหยุดทำงาน</div>
+                    </div>
+                </div>
+
+                <div class="next-step-box">
+                    <strong><i class="fas fa-arrow-right"></i> ก้าวถัดไปของทีมวิศวกรรม:</strong> พัฒนา <strong>External Validation Coordination & Pilot Readiness Package</strong> เพื่อส่งมอบเอกสารและหลักฐานทางเทคนิคให้แก่คณะกรรมการโรงพยาบาลและทีมคลินิกอย่างเป็นทางการ
+                </div>
+            </div>
+
+            <div>
+                <div class="image-panel">
+                    <img src="/home/ubuntu/upload/search_images/woOSrYFvu5x8.jpg" alt="Connected Medical Device Topology">
+                    <div class="image-caption">สถาปัตยกรรมความปลอดภัยและขอบเขตความน่าเชื่อถือระดับฮาร์ดแวร์</div>
+                </div>
+
+                <div class="claim-boundary">
+                    <strong>คำเตือนการสื่อสาร:</strong> ห้ามสื่อสารว่าระบบเป็น <em>"Clinical-Ready", "Tamper-Proof", "HIPAA/PDPA Compliant 100%"</em> หรือ <em>"Production-Ready"</em> โดยอาศัยเพียงผลการรัน Software Tests สถานะที่ถูกต้องคือ <strong>"Controlled Production Prototype"</strong> และ <strong>"Pilot-Ready Foundation"</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span>Repository: icezingza/smart-ward-hub (Private) | Branch: main</span>
+            <span>จุดตัดสินใจ: พร้อมเริ่ม Controlled Pilot ทันทีเมื่อได้รับอนุมัติจากคณะกรรมการธรรมาภิบาลทางคลินิก</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

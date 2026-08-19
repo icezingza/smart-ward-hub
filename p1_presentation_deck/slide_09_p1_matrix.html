@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .matrix-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-top: 18px;
+      }
+      .matrix-table th {
+        background: #F8FAFC;
+        color: #1E293B;
+        font-weight: 700;
+        border: 1px solid #CBD5E1;
+        padding-top: 6px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: left;
+      }
+      .matrix-table td {
+        border: 1px solid #E2E8F0;
+        padding-top: 6px;
+        padding-left: 8px;
+        padding-right: 8px;
+        line-height: 1.4;
+      }
+      .matrix-table tr:nth-child(even) td {
+        background: #F8FAFC;
+      }
+      .status-pill {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        padding-top: 2px;
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+      .pill-pass { background: #DCFCE7; color: #15803D; }
+      .pill-prog { background: #DBEAFE; color: #1D4ED8; }
+      .bottom-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .summary-box {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .summary-box strong {
+        color: #7F1D1D;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>สรุปตารางสถานะ P1-001 ถึง P1-006</h2>
+            <span class="slide-badge">PHASE 1 WORKSTREAM AUDIT</span>
+        </div>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">ID</th>
+                    <th style="width: 22%;">ขอบเขตงาน (Workstream)</th>
+                    <th style="width: 32%;">ผลการทดสอบระดับซอฟต์แวร์ (Software Evidence)</th>
+                    <th style="width: 18%;">สถานะปัจจุบัน</th>
+                    <th style="width: 18%;">External Gates ที่ยังเปิด</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>P1-001</strong></td>
+                    <td>SQLite Backup & Restore</td>
+                    <td>Backup API snapshot, SHA-256 manifest, isolated restore, secret rejection</td>
+                    <td><span class="status-pill pill-pass">Dry-Run Complete</span></td>
+                    <td>Encrypted Destination จริง</td>
+                </tr>
+                <tr>
+                    <td><strong>P1-002</strong></td>
+                    <td>Host Hardening & Deployment</td>
+                    <td>Readiness validator, loopback enforce, Windows Acer auto-run templates</td>
+                    <td><span class="status-pill pill-prog">In Progress</span></td>
+                    <td>Acer Windows Hardening จริง</td>
+                </tr>
+                <tr>
+                    <td><strong>P1-003</strong></td>
+                    <td>Device Trust Key Custody</td>
+                    <td>Dual-control, rotation linkage, terminal revocation, lost-state, key exclusion</td>
+                    <td><span class="status-pill pill-prog">In Progress</span></td>
+                    <td>Manufacturer CA & Hardware HSM</td>
+                </tr>
+                <tr>
+                    <td><strong>P1-004</strong></td>
+                    <td>Forensic Anchor Adapters</td>
+                    <td>FileAnchorStore hardened (readback/hash) + external receipt fault matrix</td>
+                    <td><span class="status-pill pill-prog">In Progress</span></td>
+                    <td>Independent WORM Service</td>
+                </tr>
+                <tr>
+                    <td><strong>P1-005</strong></td>
+                    <td>Clinical Shadow-Mode</td>
+                    <td>Zero-PII marker rejection, safe labels, review timing, non-accuracy metrics</td>
+                    <td><span class="status-pill pill-prog">In Progress</span></td>
+                    <td>Clinical Owner & Fatigue Review</td>
+                </tr>
+                <tr>
+                    <td><strong>P1-006</strong></td>
+                    <td>Clinical Validation Readiness</td>
+                    <td>17-gate preflight validator, fail-closed preflight, no-authorization lock</td>
+                    <td><span class="status-pill pill-prog">In Progress</span></td>
+                    <td>Clinical Governance Sign-off</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="bottom-grid">
+            <div class="summary-box">
+                <strong><i class="fas fa-check-circle"></i> สิ่งที่ผ่านการพิสูจน์แล้ว (Software Verified):</strong><br>
+                สถาปัตยกรรมระดับซอฟต์แวร์ทั้ง 6 ส่วนใน P1 ผ่านการทดสอบระดับหน่วยและระบบแบบอัตโนมัติ 100% รวม master regression ทุก test scripts ผ่านด้วย exit code 0
+            </div>
+            <div class="summary-box">
+                <strong><i class="fas fa-triangle-exclamation"></i> ขอบเขตความปลอดภัย (Claim Boundary):</strong><br>
+                ยังไม่ถือว่า Clinical-Ready, ยังไม่ต่อระบบ HIS จริง, ยังไม่ตั้ง IdP จริง, ยังไม่เปิด WORM จริง และต้องผ่านการอนุมัติ Protocol จากคณะกรรมการก่อนเริ่มกับผู้ป่วยจริง
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

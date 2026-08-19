@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 28px;
+      }
+      .gates-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      .gates-table th {
+        background: #F8FAFC;
+        color: #1E293B;
+        font-weight: 700;
+        border: 1px solid #CBD5E1;
+        padding-top: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: left;
+      }
+      .gates-table td {
+        border: 1px solid #E2E8F0;
+        padding-top: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+        line-height: 1.4;
+      }
+      .gates-table tr:nth-child(even) td {
+        background: #F8FAFC;
+      }
+      .tag-pillar {
+        font-weight: 700;
+        color: #7F1D1D;
+      }
+      .image-box {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+      }
+      .image-box img {
+        width: 100%;
+        height: 190px;
+        object-fit: contain;
+        display: block;
+      }
+      .image-caption {
+        font-size: 11px;
+        color: #64748B;
+        margin-top: 4px;
+        font-style: italic;
+      }
+      .hard-stop-box {
+        margin-top: 12px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 11.5px;
+        color: #991B1B;
+        line-height: 1.45;
+      }
+      .hard-stop-box strong {
+        color: #7F1D1D;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>P1-006: Clinical Validation Readiness Preflight</h2>
+            <span class="slide-badge">17-GATE PREREQUISITE PROTOCOL</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <table class="gates-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 28%;">หมวดหมู่เกณฑ์ (Pillar)</th>
+                            <th>รายการด่านตรวจที่ต้องผ่าน (17 Prerequisite Gates)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag-pillar">1. Intended Scope</span></td>
+                            <td>• Protocol Version • Intended Use (Decision Support) • Excluded Uses (No Diagnosis/Orders)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-pillar">2. Governance & Safety</span></td>
+                            <td>• Clinical Owner • Technical Owner • Inclusion/Exclusion Criteria • Privacy Review • Security Review • Clinical Governance Approval</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-pillar">3. Operational Resilience</span></td>
+                            <td>• Consent / Waiver Decision • Data Retention Decision • Training Complete • Stop Conditions • Incident Response • Rollback Plan • Manual Fallback</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-pillar">4. Qualification</span></td>
+                            <td>• Backup/Restore Verified • Device Qualified • Auth/mTLS Validated • HIS Integration Verified • Independent Review Plan • Analysis Plan</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 10px; border: 1px solid #D1D5DB; background: #F9FAFB; padding-top: 6px; padding-left: 10px; padding-right: 10px; font-size: 12px;">
+                    <strong>สถานะ Preflight Result:</strong> คืนเฉพาะ <code>READY_FOR_EXTERNAL_GOVERNANCE_REVIEW</code> หรือ <code>NOT_READY_FOR_CLINICAL_VALIDATION</code> พร้อมล็อกค่า <code>real_world_authorization = False</code> เสมอ
+                </div>
+            </div>
+
+            <div>
+                <div class="image-box">
+                    <img src="/home/ubuntu/upload/search_images/yKyJckWvp4Za.png" alt="Clinical Validation Architecture Flow">
+                    <div class="image-caption">IoT Clinical Telemetry & Governance Validation Topology</div>
+                </div>
+
+                <div class="hard-stop-box">
+                    <strong>Hard Stop Policy:</strong> ห้ามเริ่มทดสอบกับผู้ป่วยจริงหากขาด Clinical Governance Sign-off, ขาด Consent/Waiver, มี Raw Identity Leakage, ไม่มี Manual Fallback หรือยังไม่ผ่าน Backup/Restore Drill จริง
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

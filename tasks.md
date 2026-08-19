@@ -35,6 +35,7 @@
 | P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | Independent append-only/WORM verification and retention transcript | In Progress |
 | P1-005 | Approve clinical shadow-mode protocol | Clinical reviewer | `CLINICAL_SAFETY_SHADOW_MODE.md` | Human-factors review, stop conditions, alarm-fatigue review and sign-off record | In Progress |
 | P1-006 | Prepare clinical validation readiness package | Clinical reviewer + security auditor | P1-005 shadow-mode review, protocol and safety gates | Intended/excluded use, consent/waiver, owners, fallback, rollback, independent review and preflight evidence | In Progress |
+| P1-007 | Coordinate external validation and pilot readiness | Integration owner + clinical governance coordinator | P1-001–P1-006 evidence register | Ten named gates, owner assignments, evidence refs, blocker reasons and no-authorization boundary | In Progress |
 
 ## P2 — Capability expansion
 
@@ -50,6 +51,10 @@
 ### P1-005 clinical shadow-mode status note
 
 `clinical_shadow_mode.py`, `test_clinical_shadow_mode.py` and `test_clinical_shadow_mode_negative.py` pass policy completeness, non-diagnostic labels, raw-identity marker rejection, bounded context, review timing, duplicate review rejection, denominator-labelled non-accuracy metrics and stop/resume controls. P1-005 remains pending clinical governance approval, named owners, staff walkthrough, human-factors review, alarm-fatigue review, retention decision and real-world shadow evidence.
+
+### P1-007 external validation coordination status note
+
+`external_validation_package.py` and `test_external_validation_package.py` provide a software coordination contract with 10 external gates: clinical governance, privacy/security, HIS/admission, identity/transport, Fixed Hub host, hardware/recovery, forensic anchor, Device Trust, clinical operations and independent review. Gate evidence is traceable and duplicate-protected; blockers remain visible; `real_world_authorization` is permanently false. P1-007 is a coordination artifact, not clinical authorization.
 
 ### P1-006 clinical validation readiness status note
 

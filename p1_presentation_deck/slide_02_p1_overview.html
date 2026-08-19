@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .intro-text {
+        font-size: 14px;
+        color: #374151;
+        margin-top: 14px;
+        line-height: 1.5;
+      }
+      .grid-p1 {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .p1-card {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 12px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #E5E7EB;
+        padding-bottom: 6px;
+      }
+      .card-id {
+        font-weight: 700;
+        font-size: 14px;
+        color: #7F1D1D;
+      }
+      .card-status {
+        font-size: 11px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 2px;
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+      .card-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #111827;
+        margin-top: 8px;
+      }
+      .card-body {
+        font-size: 12px;
+        color: #4B5563;
+        margin-top: 4px;
+        line-height: 1.4;
+      }
+      .bottom-note {
+        margin-top: 20px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 8px;
+        padding-left: 14px;
+        padding-right: 14px;
+        font-size: 12.5px;
+        color: #991B1B;
+        line-height: 1.45;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>ภาพรวม P1 Roadmap: สร้างลำต้นของระบบ</h2>
+            <span class="slide-badge">OPERATIONAL TRUNK ROADMAP</span>
+        </div>
+
+        <div class="intro-text">
+            Phase 1 (P1-001 ถึง P1-006) ถูกออกแบบขึ้นเพื่อเติมเต็มช่องว่างระหว่าง <strong>Software Core (Phase 1–6)</strong> กับ <strong>Clinical Pilot Deployment</strong> โดยเน้นความมั่นคงปลอดภัยของข้อมูล การควบคุมกุญแจ และกรอบธรรมาภิบาลทางคลินิก:
+        </div>
+
+        <div class="grid-p1">
+            <div class="p1-card">
+                <div class="card-header">
+                    <span class="card-id">P1-001</span>
+                    <span class="card-status">Dry-Run Complete</span>
+                </div>
+                <div class="card-title">Encrypted Backup & Restore</div>
+                <div class="card-body">SQLite Backup API, Manifest Checksum, Isolated Restore และการปฏิเสธไฟล์ Credential ไม่ให้หลุดรอด</div>
+            </div>
+
+            <div class="p1-card">
+                <div class="card-header">
+                    <span class="card-id">P1-002</span>
+                    <span class="card-status">In Progress</span>
+                </div>
+                <div class="card-title">Host Hardening & Deployment</div>
+                <div class="card-body">ตัวตรวจ Readiness ตรวจสอบ Loopback Binding, Pilot Defaults และ Windows Script สำหรับ Acer Fixed Hub</div>
+            </div>
+
+            <div class="p1-card">
+                <div class="card-header">
+                    <span class="card-id">P1-003</span>
+                    <span class="card-status">In Progress</span>
+                </div>
+                <div class="card-title">Device Trust Key Custody</div>
+                <div class="card-body">Dual-Control Activation, Key Rotation Linkage, Terminal Revocation, Lost Device State และ Private Key Exclusion</div>
+            </div>
+
+            <div class="p1-card">
+                <div class="card-header">
+                    <span class="card-id">P1-004</span>
+                    <span class="card-status">In Progress</span>
+                </div>
+                <div class="card-title">Forensic Anchor Adapters</div>
+                <div class="card-body">FileAnchorStore Hardened (Record Hash, Readback) + External WORM Adapter Contract พร้อม Receipt Verification</div>
+            </div>
+
+            <div class="p1-card">
+                <div class="card-header">
+                    <span class="card-id">P1-005</span>
+                    <span class="card-status">In Progress</span>
+                </div>
+                <div class="card-title">Clinical Shadow-Mode</div>
+                <div class="card-body">Zero-PII Token Boundary, Safe Non-Diagnostic Labels, Stop/Resume Controls และ Non-Accuracy Metrics</div>
+            </div>
+
+            <div class="p1-card">
+                <div class="card-header">
+                    <span class="card-id">P1-006</span>
+                    <span class="card-status">In Progress</span>
+                </div>
+                <div class="card-title">Clinical Validation Readiness</div>
+                <div class="card-body">17-Gate Preflight Validator ตรวจสอบความพร้อมของ Protocol, Owner, Safety และ Privacy ก่อนขออนุมัติคลินิกจริง</div>
+            </div>
+        </div>
+
+        <div class="bottom-note">
+            <strong>หลักการสำคัญ:</strong> ทุกงานใน P1 มีผลการทดสอบเชิงประจักษ์ (Deterministic Tests) รองรับในระดับซอฟต์แวร์ แต่การปิด Gate สู่ Production ยังต้องอาศัยการทดสอบร่วมกับระบบภายนอกและบุคลากรทางการแพทย์จริง
+        </div>
+    </div>
+</div>
+</body>
+</html>

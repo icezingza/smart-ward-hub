@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 48px;
+        padding-left: 64px;
+        padding-right: 64px;
+      }
+      .tagline {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 6px;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-radius: 4px;
+      }
+      h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 42px;
+        line-height: 1.2;
+        color: #7F1D1D;
+        margin-top: 18px;
+        font-weight: 700;
+      }
+      .subtitle {
+        font-size: 20px;
+        color: #374151;
+        margin-top: 10px;
+        font-weight: 400;
+      }
+      .status-pill-row {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .status-pill {
+        font-size: 13px;
+        font-weight: 600;
+        background: #F3F4F6;
+        color: #1F2937;
+        border: 1px solid #D1D5DB;
+        padding-top: 6px;
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 9999px;
+      }
+      .status-pill.highlight {
+        background: #FEF2F2;
+        color: #991B1B;
+        border-color: #F87171;
+      }
+      .quote-box {
+        margin-top: 28px;
+        border-left: 3px solid #7F1D1D;
+        padding-left: 18px;
+        padding-top: 6px;
+        color: #4B5563;
+        font-size: 14.5px;
+        line-height: 1.6;
+        background: #FAFAFA;
+      }
+      .grid-highlights {
+        margin-top: 28px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .highlight-card {
+        border: 1px solid #E5E7EB;
+        background: #FFFFFF;
+        padding-top: 14px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .highlight-card i {
+        color: #4338CA;
+        font-size: 18px;
+      }
+      .highlight-card .title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #111827;
+        margin-top: 6px;
+      }
+      .highlight-card .desc {
+        font-size: 12px;
+        color: #6B7280;
+        margin-top: 4px;
+        line-height: 1.4;
+      }
+      .footer-bar {
+        margin-top: 36px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #9CA3AF;
+        border-top: 1px solid #E5E7EB;
+        padding-top: 12px;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="tagline"><i class="fas fa-tree"></i> Sovereign Ward Operating Layer — Phase 1</div>
+        <h1>Smart Ward Hub: สรุปสถานะ P1-001 ถึง P1-006</h1>
+        <div class="subtitle">Operational Trunk, Host Hardening, Device Trust, Forensic Anchoring & Clinical Safety Governance</div>
+
+        <div class="status-pill-row">
+            <span class="status-pill highlight"><i class="fas fa-lock"></i> Controlled Production Prototype</span>
+            <span class="status-pill"><i class="fas fa-microchip"></i> P0-Hardened Software Baseline</span>
+            <span class="status-pill"><i class="fas fa-check-double"></i> Functional Verification Passed</span>
+            <span class="status-pill"><i class="fas fa-hospital"></i> Pilot-Ready Foundation</span>
+            <span class="status-pill"><i class="fas fa-user-clock"></i> Clinical Validation Pending</span>
+        </div>
+
+        <div class="quote-box">
+            "Phase 1 ทำหน้าที่เป็น 'ลำต้น' ของ Smart Ward Hub โดยยกระดับจาก Product Core สู่ความพร้อมในการติดตั้งใช้งานจริง: เสริมระบบสำรองฐานข้อมูล, ยกระดับความปลอดภัยโฮสต์, ออกแบบวงจรกุญแจอุปกรณ์, ประทับหลักฐานทางนิติวิทยาศาสตร์ และสร้างกรอบธรรมาภิบาลทางคลินิกแบบปลอด PII"
+        </div>
+
+        <div class="grid-highlights">
+            <div class="highlight-card">
+                <i class="fas fa-database"></i>
+                <div class="title">P1-001 & P1-002: Trunk & Host</div>
+                <div class="desc">SQLite Backup API, Isolated Restore และ Windows Acer Auto-Run Validator</div>
+            </div>
+            <div class="highlight-card">
+                <i class="fas fa-key"></i>
+                <div class="title">P1-003 & P1-004: Trust & Anchor</div>
+                <div class="desc">Dual-Control Key Custody และ External Forensic Anchor Adapter Contract</div>
+            </div>
+            <div class="highlight-card">
+                <i class="fas fa-heart-pulse"></i>
+                <div class="title">P1-005 & P1-006: Clinical Safety</div>
+                <div class="desc">Zero-PII Shadow-Mode, Non-Accuracy Metrics และ 17-Gate Validation Readiness</div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Repository: icezingza/smart-ward-hub | Branch: main</span>
+            <span>รายงานสถานะ ณ วันที่ 20 สิงหาคม 2026 (GMT+7)</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
