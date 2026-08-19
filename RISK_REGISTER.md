@@ -21,7 +21,7 @@
 | R-015 | Request flood หรือ burst ทำให้ Edge service ถูกใช้ทรัพยากรเกิน | High | Implemented process-local control | sliding-window limiter, `429`, `Retry-After`, rate-limit regression | ต้อง calibrate per-device/endpoint quotas และใช้ gateway/coordinated limiter ใน multi-process deployment |
 | R-016 | Audit event ถูกแก้ไข สูญหาย หรือมี PII | High | Implemented local baseline | structured JSONL, request ID, fsync, recursive redaction, zero-PII regression | ต้องส่งเข้า centralized append-only/WORM audit pipeline, access control, retention และ monitoring |
 | R-017 | Handover sync ซ้ำทำให้ purge ซ้ำหรือทำลาย evidence | Critical | Implemented single-process control | persisted `HandoverRecord.synced`, `SyncAttempt`, `RLock`, idempotent replay test | ต้องทดสอบ multi-process/crash boundary และกำหนด retention ที่ไม่ทำให้ destructive gate หมดอายุ |
-| R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | External adapter contract; provider unverified | local anchor type แยกจาก `EXTERNAL_PROVIDER_RECEIPT_UNVERIFIED`; receipt identity, idempotency and tamper-fault tests pass | ต้องเชื่อม external service ที่บริหารแยกกัน, authenticated transport, trusted timestamp, retention และ verify chain ข้าม trust boundary |
+| R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | Local hardening + external adapter contract; provider unverified | local adapter now validates inputs, uses record hash/idempotency/readback; external receipt identity and mutation-fault tests pass | ต้องเชื่อม external service ที่บริหารแยกกัน, authenticated transport, trusted timestamp, retention และ verify chain ข้าม trust boundary |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -44,6 +44,10 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `P1_004_EXTERNAL_ANCHOR_CONTRACT.md` | External anchor request/receipt contract and evidence boundary |
 | `test_external_anchor_contract.py` | Software-only receipt, idempotency, deletion and tamper evidence |
 | `test_external_anchor_fault_injection.py` | Software-only receipt mutation and provider-identity fault matrix |
+| `FILE_ANCHOR_STORE_PRODUCTION_GAP_REVIEW.md` | FileAnchorStore production-readiness gap and post-hardening status |
+| `test_file_anchor_store.py` | Local receipt, path, idempotency, readback and tamper evidence |
+| `P1_005_CLINICAL_SHADOW_MODE_CONTRACT.md` | Shadow-mode governance and safety contract |
+| `test_clinical_shadow_mode.py` | Software-only shadow activation, safe-label and stop/resume evidence |
 
 
 ## Device Trust and provisioning roadmap risks

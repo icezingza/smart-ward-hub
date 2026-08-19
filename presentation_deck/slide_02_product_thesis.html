@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 40px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 12px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 32px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111827;
+        margin-top: 0;
+        border-bottom: 2px solid #7F1D1D;
+        padding-bottom: 6px;
+      }
+      .points-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 14px;
+        font-size: 13px;
+      }
+      .points-table th {
+        background: #F9FAFB;
+        color: #374151;
+        font-weight: 700;
+        text-align: left;
+        border: 1px solid #E5E7EB;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .points-table td {
+        border: 1px solid #E5E7EB;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .points-table tr:nth-child(even) td {
+        background: #FAFAFA;
+      }
+      .tag-accent {
+        color: #4338CA;
+        font-weight: 700;
+      }
+      .contrast-box {
+        margin-top: 14px;
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 14px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .contrast-item {
+        margin-top: 10px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .contrast-item:first-child {
+        margin-top: 0;
+      }
+      .contrast-item strong {
+        color: #7F1D1D;
+      }
+      .quote-statement {
+        margin-top: 20px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 8px;
+        padding-left: 14px;
+        padding-right: 14px;
+        font-size: 13px;
+        color: #991B1B;
+        line-height: 1.5;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>Product Thesis: สร้างระบบ ไม่ใช่เพียง Dashboard</h2>
+            <span class="slide-badge">SOVEREIGN ARCHITECTURE</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="section-title"><i class="fas fa-gem"></i> 8 ขุมพลังจุดขายหลัก (Value Pillars)</div>
+                <table class="points-table">
+                    <thead>
+                        <tr>
+                            <th>จุดขายสำคัญ</th>
+                            <th>ประโยชน์ทางปฏิบัติจริง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag-accent">1. Sovereign Edge</span></td>
+                            <td>ระบบวอร์ดทำงานได้ 100% แม้โครงข่ายหลักของโรงพยาบาลตัดขาด</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">2. Zero-PII Boundary</span></td>
+                            <td>ไม่บันทึกชื่อ/HN บน Edge หมดกังวลข้อมูลรั่วไหลหากอุปกรณ์ถูกขโมย</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">3. Patient Safety AI</span></td>
+                            <td>Golden Ratio Triage + Silent Fall Detection ช่วยตรวจจับความเสี่ยงเร็ว</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">4. Tamper-Evident Chain</span></td>
+                            <td>กล่องดำ SHA-256 บันทึกแพ็กเกจย้อนหลัง 10 นาทีเมื่อเกิดเหตุวิกฤต</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">5. HIS Interoperability</span></td>
+                            <td>HL7 FHIR Bundle Export พร้อม Exact-Scope Purge หลังยืนยันการรับ</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">6. Device Trust & Ed25519</span></td>
+                            <td>ตรวจสอบลายเซ็นและป้องกันการสวมรอยแพ็กเกจสัญญาณชีพแบบฮาร์ดแวร์</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">7. Outside-in Admission</span></td>
+                            <td>ลงทะเบียนและเช็กเตียงว่างได้จากนอกวอร์ด ไม่ต้องเดินเข้าพื้นที่ติดเชื้อ</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag-accent">8. Roaming Sync Model</span></td>
+                            <td>แท็บเล็ตถือเดินตรวจได้ทั่ววอร์ดโดย Fixed Hub ยังคงเป็น Authority เดียว</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <div class="section-title"><i class="fas fa-arrows-split-up-and-left"></i> ความต่างระหว่าง Web UI กับ Operating Layer</div>
+
+                <div class="contrast-box">
+                    <div class="contrast-item">
+                        <strong>เดิม (Web Dashboard ทั่วไป):</strong> พึ่งพา Cloud Database เป็นหลัก หากเน็ตล่มข้อมูลสัญญาณชีพจะหยุดสตรีม ข้อมูล PII มักกระจายทั่ว และยากต่อการตรวจสอบย้อนหลังเมื่อเกิดคดีทางการแพทย์
+                    </div>
+                    <div class="contrast-item">
+                        <strong>ใหม่ (Smart Ward Hub):</strong> เป็น Local Operating Plane ประจำวอร์ด จัดเก็บ SQLite WAL ในเครื่อง มี Ring Buffer ทนทาน รองรับ 50+ เตียงพร้อมกัน และมี State Lifecycle ครบวงจร
+                    </div>
+                </div>
+
+                <div class="quote-statement">
+                    <strong>หลักการวิศวกรรมที่ไม่ประนีประนอม:</strong> "Smart Ward Hub ไม่ใช่ระบบสั่งการรักษา แต่เป็น Intelligence & Evidence Engine ประจำวอร์ด ที่ออกแบบมาเพื่อปกป้องชีวิตผู้ป่วยและคุ้มครองบุคลากรทางการแพทย์ด้วยหลักฐานที่ไม่สามารถแก้ไขย้อนหลังได้"
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

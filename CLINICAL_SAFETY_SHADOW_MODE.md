@@ -64,3 +64,10 @@ Telemetry → Edge validation → Local signal evaluation → Shadow record
 ก่อนเริ่ม Shadow Mode ต้องมี clinical owner, technical owner, privacy/security reviewer, ward manager, incident contact, backup/restore evidence, device inventory, training note, data-retention decision และ rollback plan โดยทุกฝ่ายต้องรับทราบว่าเป็น decision-support prototype
 
 การขยายไป Limited Pilot จะทำได้เมื่อมี daily review ที่สม่ำเสมอ, unresolved high-severity event ถูกจัดการ, data-quality metrics อยู่ในเกณฑ์, operator เข้าใจ alert lifecycle และ clinical governance ลงนามอนุมัติขอบเขตใหม่
+
+
+## 9. Software contract implementation status
+
+The planning protocol is now complemented by `clinical_shadow_mode.py`, `test_clinical_shadow_mode.py` and `P1_005_CLINICAL_SHADOW_MODE_CONTRACT.md`. These add deterministic software checks for governance-policy completeness, non-diagnostic signal labels, opaque-token boundaries, review categories, non-accuracy metrics and stop/resume controls.
+
+This does not convert the document into a clinical protocol or approval. P1-005 remains pending named clinical ownership, governance sign-off, staff walkthrough, human-factors review, alarm-fatigue review, data-retention decision and real-world shadow-mode evidence.

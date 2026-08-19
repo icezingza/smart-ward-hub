@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 28px;
+      }
+      .workflow-card {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-top: 10px;
+      }
+      .workflow-card:first-child {
+        margin-top: 0;
+      }
+      .card-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #7F1D1D;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card-desc {
+        font-size: 12.5px;
+        color: #374151;
+        margin-top: 4px;
+        line-height: 1.45;
+      }
+      .image-panel {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+      }
+      .image-panel img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        display: block;
+      }
+      .image-caption {
+        font-size: 11px;
+        color: #6B7280;
+        margin-top: 6px;
+        font-style: italic;
+      }
+      .hw-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        font-size: 12px;
+      }
+      .hw-table th {
+        background: #F3F4F6;
+        color: #111827;
+        font-weight: 700;
+        text-align: left;
+        border: 1px solid #D1D5DB;
+        padding-top: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .hw-table td {
+        border: 1px solid #E5E7EB;
+        padding-top: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .hw-table tr:nth-child(even) td {
+        background: #FAFAFA;
+      }
+      .status-tag {
+        font-weight: 700;
+        padding-top: 2px;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 11px;
+      }
+      .status-ready { color: #047857; background: #D1FAE5; }
+      .status-deferred { color: #B45309; background: #FEF3C7; }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>Ward Workflow & Hardware Strategy</h2>
+            <span class="slide-badge">CLINICAL MOBILITY & TOPOLOGY</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="workflow-card">
+                    <div class="card-title"><i class="fas fa-clipboard-check"></i> Outside-in Admission Workflow</div>
+                    <div class="card-desc">
+                        พยาบาลสามารถเปิดแท็บเล็ตเพื่อตรวจสอบสถานะเตียงว่าง (Bed Availability) และจองเตียงจากด้านนอกวอร์ดได้ทันที โดย Hub จะรับเฉพาะ Opaque Token จาก Gateway จึงไม่มีข้อมูลส่วนบุคคลหลุดรอดเข้าไปในระบบ Edge
+                    </div>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="card-title"><i class="fas fa-rotate"></i> Roaming Sync & Snapshot Protocol</div>
+                    <div class="card-desc">
+                        แท็บเล็ตที่ถือเดินตรวจ (Roaming Tablet) จะทำงานแบบ Snapshot Consumer พร้อม Freshness Banner และส่ง Command ผ่าน Idempotency Key โดย Fixed Hub จะเป็นผู้ชี้ขาดสถานะและประมวลผลการ Purge เสมอ
+                    </div>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="card-title"><i class="fas fa-hand-holding-medical"></i> Safety Fallback (Visual & Audio Feedback)</div>
+                    <div class="card-desc">
+                        กรณีสายรัดถูกแตะแท่นขณะยังมีสัญญาณชีพ ระบบจะเข้าสู่สถานะ <code>RESET_PENDING</code> พร้อมส่งเสียงเตือนสั้นเพื่อขอยืนยันบนหน้าจอ Hub ป้องกันการปลดสายรัดโดยไม่ได้ตั้งใจ
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="image-panel">
+                    <img src="/home/ubuntu/upload/search_images/YwNM9nQN7aYc.webp" alt="Smart Ward Care Delivery">
+                    <div class="image-caption">การปฏิบัติงานจริงของพยาบาลประจำวอร์ดด้วยอุปกรณ์ Mobile & Fixed Terminal</div>
+                </div>
+
+                <table class="hw-table">
+                    <thead>
+                        <tr>
+                            <th>อุปกรณ์เป้าหมาย</th>
+                            <th>บทบาทในระบบ</th>
+                            <th>สถานะการทดสอบ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Acer Spin N17H2</strong><br><span style="color:#6B7280;">(Win11 Pro / Py3.14)</span></td>
+                            <td>Fixed Ward Hub & Source of Truth</td>
+                            <td><span class="status-tag status-ready">Verified (Read-Only)</span><br><span style="font-size:10px; color:#4B5563;">รอ Physical Serial Bench</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>BMAX i11_s</strong><br><span style="color:#6B7280;">(Android Tablet)</span></td>
+                            <td>Roaming Ward Client</td>
+                            <td><span class="status-tag status-deferred">Deferred</span><br><span style="font-size:10px; color:#4B5563;">พัฒนาต่อหลัง P0/P1 ผ่านครบ</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

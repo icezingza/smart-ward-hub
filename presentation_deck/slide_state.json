@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "title": "Smart Ward Hub: Sovereign Ward Operating Layer",
+    "created": 1787172430.772,
+    "last_updated": 1787172574.673,
+    "total_slides": 10
+  },
+  "slides": [
+    {
+      "id": "slide_01_title",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_02_product_thesis",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_03_architecture",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_04_core_workflow",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_05_ward_workflow_hardware",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_06_functional_verification",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_07_security_device_trust",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_08_ai_native_micro_rag",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_09_status_matrix",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10_roadmap_decision",
+      "state": "edited",
+      "pageNum": 10
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_01_title",
+      "title": "Smart Ward Hub: Sovereign Ward Operating Layer",
+      "summary": "บทนำ วิสัยทัศน์ และสถานะปัจจุบันของ Smart Ward Hub ในฐานะ controlled production prototype และ P0-hardened software baseline"
+    },
+    {
+      "id": "slide_02_product_thesis",
+      "title": "Product Thesis: สร้างระบบ ไม่ใช่เพียง Dashboard",
+      "summary": "รวม Edge persistence, telemetry, AI triage, forensics, FHIR, Device Trust และ ward workflow ไว้ใน control plane เดียว"
+    },
+    {
+      "id": "slide_03_architecture",
+      "title": "Architecture & Control Plane: Fixed Hub เป็น Authority",
+      "summary": "โครงสร้าง Fixed Hub บน Acer Spin N17H2, operational clients, roaming tablet และ Zero-Trust trust boundaries",
+      "image_plan": "/home/ubuntu/upload/search_images/XBjn8KGDVAFA.jpg - Shows tablet and bedside monitoring cart/setup relevant to Fixed Hub and roaming tablet architecture"
+    },
+    {
+      "id": "slide_04_core_workflow",
+      "title": "Core Workflow: จาก Telemetry สู่ Forensic Evidence",
+      "summary": "โฟลว์ข้อมูลตั้งแต่ pairing, telemetry packet, AI triage, incident freeze, FHIR handover จนถึง structured acknowledgment purge",
+      "image_plan": "/home/ubuntu/upload/search_images/jqM4rNBBvwWe.png - Diagram showing continuous ward monitoring and safety workflow compared to intermittent spot checks"
+    },
+    {
+      "id": "slide_05_ward_workflow_hardware",
+      "title": "Ward Workflow & Hardware Strategy",
+      "summary": "Outside-in admission, fixed authority, roaming snapshot/commands, Acer inventory และสถานะ BMAX tablet candidate",
+      "image_plan": "/home/ubuntu/upload/search_images/YwNM9nQN7aYc.webp - Shows clinical staff using smart ward technology at bedside"
+    },
+    {
+      "id": "slide_06_functional_verification",
+      "title": "Functional Verification: Software Evidence ที่มีแล้ว",
+      "summary": "ผล master regression สำหรับ Phase 1-6, concurrency, 30-day simulation, serial framing, pressure simulation และ backup dry run"
+    },
+    {
+      "id": "slide_07_security_device_trust",
+      "title": "Security, Device Trust & Evidence Integrity",
+      "summary": "Zero-PII, OIDC/mTLS baseline, Ed25519 device trust, key custody contract, FileAnchorStore hardening และ external anchor contract",
+      "image_plan": "/home/ubuntu/upload/search_images/QxOa9CtzOJNc.jpeg - NIST Cybersecurity Framework for Healthcare, highly relevant for security, device trust and compliance slide"
+    },
+    {
+      "id": "slide_08_ai_native_micro_rag",
+      "title": "AI-Native System & Micro-RAG Evaluation",
+      "summary": "เอกสาร AI-native, skill overlays, bilingual/adversarial hallucination suite, response adapter และผล Gemini 3/2.5 reruns",
+      "image_plan": "/home/ubuntu/upload/search_images/yKyJckWvp4Za.png - IoT-based health monitoring system architecture diagram matching the technical system architecture description"
+    },
+    {
+      "id": "slide_09_status_matrix",
+      "title": "Comprehensive Status Matrix: Software vs External Gates",
+      "summary": "ตารางสรุปสถานะทุก workstream แยก software verification ออกจาก HIS, IdP, Acer hardware, clinical และ external anchor gates"
+    },
+    {
+      "id": "slide_10_roadmap_decision",
+      "title": "Roadmap, Claim Boundaries & Next Actions",
+      "summary": "แผนการปิด external gates, ข้อห้ามการอ้างสิทธิ์เกินหลักฐาน และจุดตัดสินใจก่อนก้าวสู่ controlled pilot deployment",
+      "image_plan": "/home/ubuntu/upload/search_images/woOSrYFvu5x8.jpg - Connected medical device architecture diagram showing hardware, hub, cloud and network boundaries for roadmap and claims"
+    }
+  ]
+}

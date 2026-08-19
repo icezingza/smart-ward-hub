@@ -5,6 +5,7 @@ from contextvars import ContextVar
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 import threading
 import time
 from typing import Any, Protocol
@@ -126,29 +127,108 @@ class AnchorStore(Protocol):
 
 
 class FileAnchorStore:
-    """Local append-only anchor adapter; an external WORM adapter can replace it."""
+    """Local append-only anchor adapter; an external WORM adapter can replace it.
 
-    def __init__(self, path: Path | None, fsync: bool = True) -> None:
-        self.path = path
+    This class improves local integrity and operational diagnostics only. It does
+    not create an independent trust boundary or external immutability guarantee.
+    """
+
+    HASH_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+
+    def __init__(self, path: Path | None, fsync: bool = True, source_root: Path | None = None) -> None:
+        self.path = path.resolve() if path is not None else None
         self.fsync = fsync
+        self.source_root = source_root.resolve() if source_root is not None else None
         self._lock = threading.RLock()
+        if self.path is not None and self.source_root is not None:
+            try:
+                self.path.relative_to(self.source_root)
+            except ValueError:
+                pass
+            else:
+                raise ValueError("anchor_path_must_be_outside_source_tree")
 
-    def anchor(self, *, block_hash: str, chain_tip: str, package_id: int) -> bool:
+    @classmethod
+    def _validate_request(cls, *, block_hash: str, chain_tip: str, package_id: int) -> None:
+        if not isinstance(package_id, int) or isinstance(package_id, bool) or package_id <= 0:
+            raise ValueError("invalid_anchor_package_id")
+        if not isinstance(block_hash, str) or not cls.HASH_PATTERN.fullmatch(block_hash):
+            raise ValueError("invalid_anchor_block_hash")
+        if not isinstance(chain_tip, str) or not cls.HASH_PATTERN.fullmatch(chain_tip):
+            raise ValueError("invalid_anchor_chain_tip")
+
+    @staticmethod
+    def _idempotency_key(*, block_hash: str, chain_tip: str, package_id: int) -> str:
+        material = f"{package_id}|{block_hash}|{chain_tip}".encode("utf-8")
+        return hashlib.sha256(material).hexdigest()
+
+    @staticmethod
+    def _record_hash(record: dict[str, Any]) -> str:
+        canonical = json.dumps(record, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(canonical).hexdigest()
+
+    def _read_records_locked(self) -> list[dict[str, Any]]:
+        if self.path is None or not self.path.exists():
+            return []
+        records: list[dict[str, Any]] = []
+        for line in self.path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(record, dict):
+                continue
+            record_hash = record.get("record_hash")
+            unsigned = dict(record)
+            unsigned.pop("record_hash", None)
+            if record_hash and record_hash == self._record_hash(unsigned):
+                records.append(record)
+            elif not record_hash and record.get("anchor_type") == "local_append_only_adapter":
+                # Preserve readback compatibility for pre-hardening local records.
+                records.append(record)
+        return records
+
+    def anchor_with_receipt(self, *, block_hash: str, chain_tip: str, package_id: int) -> dict[str, Any] | None:
         if self.path is None:
-            return False
-        record = {
-            "anchor_version": "1.0",
-            "package_id": package_id,
-            "block_hash": block_hash,
-            "chain_tip": chain_tip,
-            "anchored_at": datetime.now(timezone.utc).isoformat(),
-            "anchor_type": "local_append_only_adapter",
-        }
+            return None
+        self._validate_request(block_hash=block_hash, chain_tip=chain_tip, package_id=package_id)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        idempotency_key = self._idempotency_key(block_hash=block_hash, chain_tip=chain_tip, package_id=package_id)
         with self._lock:
+            for existing in self._read_records_locked():
+                if existing.get("idempotency_key") == idempotency_key:
+                    return existing
+            record = {
+                "anchor_version": "1.1",
+                "package_id": package_id,
+                "block_hash": block_hash,
+                "chain_tip": chain_tip,
+                "idempotency_key": idempotency_key,
+                "anchor_id": f"local-{idempotency_key[:16]}",
+                "anchored_at": datetime.now(timezone.utc).isoformat(),
+                "anchor_type": "local_append_only_adapter",
+                "evidence_class": "LOCAL_TAMPER_EVIDENT_UNVERIFIED",
+            }
+            record["record_hash"] = self._record_hash(record)
             with self.path.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n")
                 handle.flush()
                 if self.fsync:
                     import os
                     os.fsync(handle.fileno())
-        return True
+            return record
+
+    def anchor(self, *, block_hash: str, chain_tip: str, package_id: int) -> bool:
+        return self.anchor_with_receipt(block_hash=block_hash, chain_tip=chain_tip, package_id=package_id) is not None
+
+    def verify_receipt(self, receipt: dict[str, Any]) -> bool:
+        if not isinstance(receipt, dict) or receipt.get("anchor_type") != "local_append_only_adapter":
+            return False
+        with self._lock:
+            return any(record == receipt for record in self._read_records_locked())
+
+    def read_records(self) -> list[dict[str, Any]]:
+        with self._lock:
+            return list(self._read_records_locked())

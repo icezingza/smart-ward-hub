@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+        position: relative;
+      }
+      .content-wrap {
+        padding-top: 48px;
+        padding-left: 64px;
+        padding-right: 64px;
+      }
+      .tagline {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 6px;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-radius: 4px;
+        margin-top: 0;
+      }
+      h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 44px;
+        line-height: 1.15;
+        color: #7F1D1D;
+        margin-top: 18px;
+        font-weight: 700;
+      }
+      .subtitle {
+        font-size: 20px;
+        color: #374151;
+        margin-top: 10px;
+        font-weight: 400;
+      }
+      .status-pill-row {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .status-pill {
+        font-size: 13px;
+        font-weight: 600;
+        background: #F3F4F6;
+        color: #1F2937;
+        border: 1px solid #D1D5DB;
+        padding-top: 6px;
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 9999px;
+      }
+      .status-pill.highlight {
+        background: #FEF2F2;
+        color: #991B1B;
+        border-color: #F87171;
+      }
+      .quote-box {
+        margin-top: 32px;
+        border-left: 3px solid #7F1D1D;
+        padding-left: 18px;
+        padding-top: 4px;
+        color: #4B5563;
+        font-size: 15px;
+        line-height: 1.6;
+        background: #FAFAFA;
+      }
+      .grid-highlights {
+        margin-top: 32px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .highlight-card {
+        border: 1px solid #E5E7EB;
+        background: #FFFFFF;
+        padding-top: 14px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .highlight-card i {
+        color: #4338CA;
+        font-size: 18px;
+      }
+      .highlight-card .title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #111827;
+        margin-top: 6px;
+      }
+      .highlight-card .desc {
+        font-size: 12px;
+        color: #6B7280;
+        margin-top: 4px;
+      }
+      .footer-bar {
+        margin-top: 36px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #9CA3AF;
+        border-top: 1px solid #E5E7EB;
+        padding-top: 12px;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="tagline"><i class="fas fa-shield-halved"></i> Sovereign Ward Operating Layer</div>
+        <h1>Smart Ward Hub</h1>
+        <div class="subtitle">ระบบ Edge-First Patient Monitoring สำหรับโรงพยาบาล: ความจริงประจำวอร์ดที่ปลอดภัยและทำงานได้ต่อเนื่อง</div>
+
+        <div class="status-pill-row">
+            <span class="status-pill highlight"><i class="fas fa-lock"></i> Controlled Production Prototype</span>
+            <span class="status-pill"><i class="fas fa-microchip"></i> P0-Hardened Software Baseline</span>
+            <span class="status-pill"><i class="fas fa-check-double"></i> Functional Verification Passed</span>
+            <span class="status-pill"><i class="fas fa-hospital"></i> Pilot-Ready Foundation</span>
+            <span class="status-pill"><i class="fas fa-user-clock"></i> Clinical Validation Pending</span>
+        </div>
+
+        <div class="quote-box">
+            "สถาปัตยกรรม Edge Hub ประจำวอร์ดถูกออกแบบให้ Fixed Hub เป็น Single Source of Truth ภายในพื้นที่ โดยรักษา Zero-PII boundary, รองรับ offline-first operation, จัดเก็บ Forensic Hash Chain และเปิดรับสตรีมมิ่งเซนเซอร์ความหนาแน่นสูงโดยไม่พึ่งพาคลาวด์ภายนอกตลอดเวลา"
+        </div>
+
+        <div class="grid-highlights">
+            <div class="highlight-card">
+                <i class="fas fa-server"></i>
+                <div class="title">Sovereign Edge</div>
+                <div class="desc">SQLite WAL + RAM Ring Buffer ทำงานได้แม้ออฟไลน์</div>
+            </div>
+            <div class="highlight-card">
+                <i class="fas fa-user-shield"></i>
+                <div class="title">Zero-PII Separation</div>
+                <div class="desc">จัดเก็บเฉพาะ Opaque Patient Token ไร้ข้อมูลระบุตัวตน</div>
+            </div>
+            <div class="highlight-card">
+                <i class="fas fa-fingerprint"></i>
+                <div class="title">Tamper-Evident Chain</div>
+                <div class="desc">กล่องดำ SHA-256 บันทึกหลักฐานย้อนหลังเมื่อเกิดเหตุ</div>
+            </div>
+            <div class="highlight-card">
+                <i class="fas fa-key"></i>
+                <div class="title">Device Trust (Ed25519)</div>
+                <div class="desc">เซ็นกำกับทุก Telemetry Packet พร้อม Provisioning Lifecycle</div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Repository: icezingza/smart-ward-hub | Branch: main</span>
+            <span>รายงานสถานะ ณ วันที่ 20 สิงหาคม 2026 (GMT+7)</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

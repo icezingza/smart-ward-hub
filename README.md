@@ -13,11 +13,12 @@ Smart Ward Hub เป็น **controlled production prototype** สำหรั�
 | Edge persistence | SQLite WAL, migrations, safe sync/purge lifecycle |
 | Telemetry | bounded high-concurrency ingestion, `TelemetryPacket v1`, duplicate/out-of-order rejection |
 | Patient safety | AI triage baseline, silent-fall detection, alert persistence and acknowledgement gates |
-| Forensics | SHA-256 hash chain, tamper detection, incident-triggered freeze boundary |
+| Forensics | SHA-256 hash chain, tamper detection, incident-triggered freeze boundary, hardened local anchor receipt/readback baseline |
 | Interoperability | structured FHIR handover acknowledgement and identity-matching purge gate |
 | Trust and workflow | bearer/OIDC-ready auth boundary, Ed25519 device trust, outside-in admission, roaming snapshot/commands |
 | IoT baseline | transport-neutral adapters, bounded Serial framing, CRC32, partial-read and pressure simulations |
 | Micro-RAG | bilingual/adversarial hallucination suite, response adapter, approved registry and rebuildable index |
+| Safety governance | Clinical shadow-mode policy gate, safe signal labels, review classifications and stop/resume control contract |
 
 ## สิ่งที่ผลทดสอบยืนยัน และสิ่งที่ยังไม่ยืนยัน
 
@@ -32,7 +33,10 @@ Master regression suite ครอบคลุม Phase 1–6, P0 hardening, resi
 | HIS/Admission Gateway จริง | รอ integration |
 | OIDC/mTLS กับ IdP จริง | รอ external validation |
 | Clinical validation และ shadow-mode | รอ clinical governance |
-| External forensic anchoring, key custody, host hardening, power-loss testing | รอ external validation |
+| External forensic anchoring | Local FileAnchorStore hardening and software external-adapter contract passed; independent WORM service and cross-boundary verification pending |
+| Device Trust key custody | Software custody lifecycle passed; manufacturer CA/HSM/secure element and hardware custody pending |
+| Clinical shadow-mode | Software governance contract passed; clinical owner, governance approval, human-factors and real shadow review pending |
+| Host hardening, power-loss testing | รอ external validation |
 
 จึงห้ามตีความ repository นี้ว่าเป็น **clinical-ready**, **tamper-proof**, **HIPAA/PDPA compliant 100%** หรือ **production-ready** จาก functional tests เพียงอย่างเดียว
 

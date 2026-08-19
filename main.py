@@ -6,6 +6,7 @@ import math
 import os
 from statistics import pstdev
 from threading import RLock
+from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
@@ -34,7 +35,10 @@ import schemas
 
 RATE_LIMITER = SlidingWindowRateLimiter(limit=settings.rate_limit_per_minute, window_seconds=60)
 AUDIT_SINK = AuditSink(path=settings.audit_log_path)
-ANCHOR_STORE = FileAnchorStore(path=settings.forensic_anchor_path)
+ANCHOR_STORE = FileAnchorStore(
+    path=settings.forensic_anchor_path,
+    source_root=Path(__file__).resolve().parent,
+)
 HANDOVER_SYNC_LOCK = RLock()
 
 

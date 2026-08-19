@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 28px;
+      }
+      .workflow-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .step-item {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .step-num {
+        background: #7F1D1D;
+        color: #FFFFFF;
+        font-size: 11px;
+        font-weight: 700;
+        padding-top: 2px;
+        padding-left: 6px;
+        padding-right: 6px;
+        min-width: 24px;
+        text-align: center;
+      }
+      .step-content {
+        flex: 1;
+      }
+      .step-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #111827;
+      }
+      .step-desc {
+        font-size: 12px;
+        color: #4B5563;
+        margin-top: 2px;
+        line-height: 1.4;
+      }
+      .image-box {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+      }
+      .image-box img {
+        width: 100%;
+        height: 290px;
+        object-fit: contain;
+        display: block;
+      }
+      .caption {
+        font-size: 11px;
+        color: #6B7280;
+        margin-top: 6px;
+      }
+      .safety-box {
+        margin-top: 12px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 12px;
+        color: #991B1B;
+        line-height: 1.45;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>Core Workflow: จาก Telemetry สู่ Forensic Evidence</h2>
+            <span class="slide-badge">EVIDENCE-BOUNDED PIPELINE</span>
+        </div>
+
+        <div class="main-grid">
+            <div class="workflow-list">
+                <div class="step-item">
+                    <div class="step-num">01</div>
+                    <div class="step-content">
+                        <div class="step-title">Admission & Tokenization (Outside-in)</div>
+                        <div class="step-desc">แปลงรหัส HN ภายนอกให้เป็น <code>patient_token</code> จัดเก็บแยกใน SQLite WAL ไม่ปรากฏชื่อ/HN ใน Hub</div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-num">02</div>
+                    <div class="step-content">
+                        <div class="step-title">High-Concurrency Telemetry Stream (v1)</div>
+                        <div class="step-desc">รับข้อมูล PPG, Accelerometer, Battery ผ่าน Ring Buffer ป้องกัน Replay และ Packet ซ้ำด้วย Sequence Guard</div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-num">03</div>
+                    <div class="step-content">
+                        <div class="step-title">AI Triage & Silent Fall Detection</div>
+                        <div class="step-desc">คำนวณคะแนนความเสี่ยง Golden Ratio และสัญญานเตือนการล้มเงียบ พร้อมวงจรสถานะ OPEN ➡️ ACK ➡️ RESOLVED</div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <div class="step-title">Incident Freeze & SHA-256 Hash Chain</div>
+                        <div class="step-desc">ล็อกชุดข้อมูลดิบย้อนหลัง 10 นาทีเข้ากล่องดำเมื่อเกิดเหตุวิกฤต พร้อมผูกโยง Hash Chain ที่ตรวจจับการแก้ไขได้ทันที</div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-num">05</div>
+                    <div class="step-content">
+                        <div class="step-title">HL7 FHIR Bundle Export & Handover</div>
+                        <div class="step-desc">สรุปผลสัญญาณชีพส่งออกเป็น FHIR Transaction Bundle พร้อมรอการตอบรับ Structured Acknowledgment</div>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-num">06</div>
+                    <div class="step-content">
+                        <div class="step-title">Exact-Scope Safe Purge</div>
+                        <div class="step-desc">ลบข้อมูลสัญญาณชีพในเครื่อง Edge เฉพาะช่วงเวลาที่ Bundle ID ได้รับการยืนยันว่าเข้าสู่ HIS เรียบร้อยแล้วเท่านั้น</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="image-box">
+                    <img src="/home/ubuntu/upload/search_images/jqM4rNBBvwWe.png" alt="Continuous Monitoring Workflow">
+                    <div class="caption">การเฝ้าระวังต่อเนื่อง (Continuous Monitoring) ป้องกันการตรวจพบอาการวิกฤตล่าช้า</div>
+                </div>
+
+                <div class="safety-box">
+                    <strong>Clinical Safety Boundary:</strong> สัญญาณเตือนของระบบเป็น Decision Support Signal สำหรับเฝ้าระวัง ไม่ใช่ Clinical Diagnosis และไม่แทนที่การวัดสัญญาณชีพตามคำสั่งแพทย์
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

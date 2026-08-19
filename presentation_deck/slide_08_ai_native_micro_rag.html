@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4338CA;
+        background: #EEF2FF;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .main-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 28px;
+      }
+      .section-box {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 12px;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-top: 12px;
+      }
+      .section-box:first-child {
+        margin-top: 0;
+      }
+      .box-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #7F1D1D;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .box-desc {
+        font-size: 12px;
+        color: #374151;
+        margin-top: 5px;
+        line-height: 1.45;
+      }
+      .pill-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .file-pill {
+        font-family: monospace;
+        font-size: 11px;
+        background: #FFFFFF;
+        border: 1px solid #CBD5E1;
+        padding-top: 2px;
+        padding-left: 6px;
+        padding-right: 6px;
+        color: #1E293B;
+      }
+      .eval-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .eval-table th {
+        background: #F1F5F9;
+        color: #334155;
+        border: 1px solid #CBD5E1;
+        padding-top: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: left;
+      }
+      .eval-table td {
+        border: 1px solid #CBD5E1;
+        padding-top: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .eval-table tr:nth-child(even) td {
+        background: #FAFAFA;
+      }
+      .badge-pass {
+        color: #166534;
+        font-weight: 700;
+      }
+      .badge-limit {
+        color: #9A3412;
+        font-weight: 700;
+      }
+      .image-card {
+        border: 1px solid #D1D5DB;
+        background: #FFFFFF;
+        padding-top: 8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+      }
+      .image-card img {
+        width: 100%;
+        height: 190px;
+        object-fit: contain;
+        display: block;
+      }
+      .image-caption {
+        font-size: 11px;
+        color: #64748B;
+        margin-top: 4px;
+        font-style: italic;
+      }
+      .gate-warning {
+        margin-top: 12px;
+        border-left: 3px solid #7F1D1D;
+        background: #FEF2F2;
+        padding-top: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 11.5px;
+        color: #991B1B;
+        line-height: 1.45;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>AI-Native System & Micro-RAG Evaluation</h2>
+            <span class="slide-badge">KNOWLEDGE & SAFETY GOVERNANCE</span>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="section-box">
+                    <div class="box-title"><i class="fas fa-sitemap"></i> AI-Native Project Structure & Skill Overlays</div>
+                    <div class="box-desc">
+                        โครงการถูกควบคุมด้วย 8 เอกสารแกนหลัก เพื่อให้ AI และวิศวกรทำงานในกรอบความปลอดภัยเดียวกัน:
+                    </div>
+                    <div class="pill-container">
+                        <span class="file-pill">prd.md</span>
+                        <span class="file-pill">design.md</span>
+                        <span class="file-pill">architecture.md</span>
+                        <span class="file-pill">agents.md</span>
+                        <span class="file-pill">memory.md</span>
+                        <span class="file-pill">tasks.md</span>
+                        <span class="file-pill">rules.md</span>
+                        <span class="file-pill">skills.md</span>
+                    </div>
+                    <div class="box-desc" style="margin-top: 6px;">
+                        พร้อม 8-Skill Project Overlays ใน <code>.claude/skills/</code> และ Policy Gates ใน <code>.agents/</code>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <div class="box-title"><i class="fas fa-flask"></i> Micro-RAG Evaluation Framework (Corpus v2)</div>
+                    <div class="box-desc">
+                        ชุดทดสอบการตอบคำถามคู่มือปฏิบัติการวอร์ด (Thai/English Bilingual + Adversarial Injection) ตรวจสอบความถูกต้อง การอ้างอิง และการปฏิเสธคำถามที่ละเมิด Zero-PII:
+                    </div>
+                    <table class="eval-table">
+                        <thead>
+                            <tr>
+                                <th>ชุดทดสอบ</th>
+                                <th>ขอบเขตที่ตรวจ</th>
+                                <th>ผลการทดสอบ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Hallucination Suite</strong></td>
+                                <td>Stale policy, citation mismatch, PII refusal</td>
+                                <td><span class="badge-pass">PASSED (Deterministic)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Response Adapter</strong></td>
+                                <td>Model-agnostic schema, redaction filter</td>
+                                <td><span class="badge-pass">PASSED (Deterministic)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Registry & Index</strong></td>
+                                <td>Approved document store & rebuildable index</td>
+                                <td><span class="badge-pass">PASSED (Deterministic)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <div class="image-card">
+                    <img src="/home/ubuntu/upload/search_images/yKyJckWvp4Za.png" alt="IoT Health Monitoring System Architecture">
+                    <div class="image-caption">IoT-Based System Architecture & Ingestion Flow</div>
+                </div>
+
+                <div class="section-box" style="margin-top: 12px;">
+                    <div class="box-title" style="color: #4338CA;"><i class="fas fa-robot"></i> Live Model Evaluation Results</div>
+                    <table class="eval-table">
+                        <thead>
+                            <tr>
+                                <th>Model Target</th>
+                                <th>Score</th>
+                                <th>Status / Evidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>gemini-3-flash-preview</code></td>
+                                <td>8/8</td>
+                                <td><span class="badge-pass">Adapter & Redaction PASS</span></td>
+                            </tr>
+                            <tr>
+                                <td><code>gemini-2.5-flash</code> (Pinned)</td>
+                                <td>2/8</td>
+                                <td><span class="badge-limit">Provider HTTP 429 Limit</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="gate-warning">
+                    <strong>Evidence Boundary:</strong> ผล 8/8 ของ Gemini 3 ไม่ได้ปิด gate ของ Gemini 2.5 และยังต้องรอการ rerun ให้ครบหลังพ้นโควตา รวมถึง Semantic Retrieval และ Human Review ก่อนใช้งานจริง
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

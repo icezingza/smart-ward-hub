@@ -25,6 +25,8 @@ TESTS = [
     "test_key_custody_contract_negative.py",
     "test_external_anchor_contract.py",
     "test_external_anchor_fault_injection.py",
+    "test_file_anchor_store.py",
+    "test_clinical_shadow_mode.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",

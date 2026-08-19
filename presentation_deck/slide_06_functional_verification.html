@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #FFFFFF;
+        color: #111827;
+        font-family: 'Sarabun', sans-serif;
+        border: 6px solid #7F1D1D;
+      }
+      .content-wrap {
+        padding-top: 36px;
+        padding-left: 56px;
+        padding-right: 56px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 30px;
+        color: #7F1D1D;
+        font-weight: 700;
+      }
+      .slide-badge {
+        font-size: 13px;
+        font-weight: 700;
+        color: #047857;
+        background: #ECFDF5;
+        padding-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+      }
+      .stats-bar {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .stat-card {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 8px;
+        padding-left: 12px;
+        padding-right: 12px;
+        text-align: center;
+      }
+      .stat-val {
+        font-size: 22px;
+        font-weight: 700;
+        color: #7F1D1D;
+      }
+      .stat-lbl {
+        font-size: 11px;
+        color: #6B7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+      }
+      .main-grid {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+      }
+      .section-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #111827;
+        border-bottom: 2px solid #7F1D1D;
+        padding-bottom: 4px;
+      }
+      .test-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+        font-size: 12px;
+      }
+      .test-table th {
+        background: #F3F4F6;
+        color: #374151;
+        font-weight: 700;
+        text-align: left;
+        border: 1px solid #E5E7EB;
+        padding-top: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .test-table td {
+        border: 1px solid #E5E7EB;
+        padding-top: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .test-table tr:nth-child(even) td {
+        background: #FAFAFA;
+      }
+      .badge-pass {
+        color: #047857;
+        font-weight: 700;
+      }
+      .box-panel {
+        border: 1px solid #D1D5DB;
+        background: #F9FAFB;
+        padding-top: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        margin-top: 8px;
+      }
+      .box-item {
+        margin-top: 8px;
+        font-size: 12px;
+        line-height: 1.45;
+        color: #374151;
+      }
+      .box-item:first-child {
+        margin-top: 0;
+      }
+      .box-item strong {
+        color: #111827;
+      }
+      .quote-notice {
+        margin-top: 12px;
+        border-left: 3px solid #D97706;
+        background: #FFFBEB;
+        padding-top: 6px;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 11.5px;
+        color: #92400E;
+        line-height: 1.4;
+      }
+    </style>
+</head>
+<body>
+<div class="slide-container">
+    <div class="content-wrap">
+        <div class="header-row">
+            <h2>Functional Verification: Software Evidence ที่มีแล้ว</h2>
+            <span class="slide-badge"><i class="fas fa-circle-check"></i> MASTER REGRESSION: EXIT CODE 0</span>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-val">30 / 30</div>
+                <div class="stat-lbl">Test Scripts Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">600</div>
+                <div class="stat-lbl">Concurrent Telemetry Streams</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">30 Days</div>
+                <div class="stat-lbl">Simulated Pilot Period</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">0 Byte</div>
+                <div class="stat-lbl">PII in Edge Database</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div>
+                <div class="section-title"><i class="fas fa-list-check"></i> รายการผลการทดสอบเชิงประจักษ์ (Test Matrix)</div>
+                <table class="test-table">
+                    <thead>
+                        <tr>
+                            <th>ขอบเขตการทดสอบ (Scope)</th>
+                            <th>ชุดทดสอบสำคัญ</th>
+                            <th>ผลลัพธ์</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase 1–6 Core</strong></td>
+                            <td>Pairing, Ingestion, Triage, Forensics, FHIR, Pilot</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>P0 Hardening & Recovery</strong></td>
+                            <td>OIDC Config, mTLS Hygiene, Power-Loss Harness, HIS Stub</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>P1 Operational Trunk</strong></td>
+                            <td>SQLite Backup/Restore, Deployment Readiness Validator</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>P1 Trust & Anchoring</strong></td>
+                            <td>Key Custody (Pos/Neg), External Anchor, FileAnchorStore</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>P1 Safety Governance</strong></td>
+                            <td>Clinical Shadow-Mode Activation, Labels, Stop/Resume</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>P2-002 IoT & Bench</strong></td>
+                            <td>Serial Framing, Partial Reads, Pressure Sim, Dry-Run Runner</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Micro-RAG Suites</strong></td>
+                            <td>Bilingual Hallucination, Response Adapter, Index/Registry</td>
+                            <td><span class="badge-pass">ALL PASSED</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <div class="section-title"><i class="fas fa-chart-line"></i> ผลการจำลองความกดดันและเสถียรภาพ</div>
+
+                <div class="box-panel">
+                    <div class="box-item">
+                        <strong>High-Concurrency Ingestion:</strong> ทดสอบ 600 concurrent packets บน ThreadPoolExecutor บันทึก RAM Ring Buffer และ SQLite WAL ได้โดยไม่มี Database Disk Lock
+                    </div>
+                    <div class="box-item">
+                        <strong>Serial Framing & Partial Reads:</strong> Codec ตรวจจับ STX/ETX, Header Length, Flags และ CRC32 อย่างสมบูรณ์ รองรับการส่งข้อมูลขาดตอนและการกู้คืนเฟรม
+                    </div>
+                    <div class="box-item">
+                        <strong>Network Pressure (3 Scenarios):</strong> Burst Saturation, Sustained Partial Reads และ Fault Injection ผ่านครบถ้วน คิวถูกจำกัดขนาดไม่ให้ RAM ล้น
+                    </div>
+                </div>
+
+                <div class="quote-notice">
+                    <strong>ข้อจำกัดสำคัญ:</strong> ตัวเลขและผลลัพธ์ทั้งหมดเป็น <em>Software Simulation & Sandbox Verification</em> เท่านั้น ยังไม่ใช่ผลการทดสอบกับผู้ป่วยจริงบนเตียง หรือการรันบนเครือข่าย Production จริงของโรงพยาบาล
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
