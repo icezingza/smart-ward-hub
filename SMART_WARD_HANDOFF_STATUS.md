@@ -35,7 +35,7 @@ The current corpus-v2 eight-case prompt passed `8/8` through `response-adapter-v
 
 ## GitHub publication
 
-Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `a2d0aa0` ซึ่งรวมเอกสาร P2-002 readiness ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
+Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `cbb312c` ซึ่งรวม Micro-RAG v2 model-evaluation evidence และเอกสาร readiness ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
 
 ## Physical Acer Serial bench — เงื่อนไขก่อนเริ่ม
 
