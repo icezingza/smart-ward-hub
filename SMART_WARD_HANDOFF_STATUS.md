@@ -26,6 +26,7 @@ Smart Ward Hub อยู่ในสถานะ **controlled production prototy
 | P0-004 Recovery | Software fault harness ผ่าน checkpoint/WAL/malformed-state scenarios; physical power-loss/storage gate ยังเปิด |
 | P1-001 Backup/restore | SQLite backup API, manifest/checksum, isolated restore, tamper detection และ secret-boundary regression ผ่าน; real destination/retention ยังเปิด |
 | P1-002 Host/deployment | Readiness validator, Windows Acer auto-run template และ host-hardening checklist เตรียมแล้ว; Acer execution ยังไม่เริ่ม |
+| P1-003 Device Trust custody | Dual-control, rotation, terminal revocation, lost-device และ private-key exclusion software contract ผ่าน; manufacturer CA/HSM/secure element ยังเปิด |
 
 ## Verification evidence
 
@@ -88,4 +89,4 @@ python serial_bench_runner.py \
 
 ## เอกสารอ้างอิงภายใน repository
 
-เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md), [MICRO_RAG_V2_RERUN_EVIDENCE.md](evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md), [P0_PHASE_HANDOFF.md](P0_PHASE_HANDOFF.md), [BACKUP_RESTORE_CONTRACT.md](BACKUP_RESTORE_CONTRACT.md), [P1_HOST_HARDENING_CHECKLIST.md](P1_HOST_HARDENING_CHECKLIST.md), [OPERATIONAL_TRUNK_HANDOFF.md](OPERATIONAL_TRUNK_HANDOFF.md) และ [tasks.md](tasks.md)
+เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md), [MICRO_RAG_V2_RERUN_EVIDENCE.md](evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md), [P0_PHASE_HANDOFF.md](P0_PHASE_HANDOFF.md), [BACKUP_RESTORE_CONTRACT.md](BACKUP_RESTORE_CONTRACT.md), [P1_HOST_HARDENING_CHECKLIST.md](P1_HOST_HARDENING_CHECKLIST.md), [OPERATIONAL_TRUNK_HANDOFF.md](OPERATIONAL_TRUNK_HANDOFF.md), [KEY_CUSTODY_PROVISIONING_CONTRACT.md](KEY_CUSTODY_PROVISIONING_CONTRACT.md), [P1_DEVICE_TRUST_HANDOFF.md](P1_DEVICE_TRUST_HANDOFF.md) และ [tasks.md](tasks.md)

@@ -31,7 +31,7 @@
 |---|---|---|---|---|---|
 | P1-001 | Define encrypted backup/restore and retention | Reliability operator | Backup skill overlay | Manifest, checksum and isolated successful restore transcript | Dry-run complete |
 | P1-002 | Harden host and least-privilege deployment | Host operator + security auditor | P0 hardware/network observations | OS, firewall, account, patch, disk and service-binding checklist | In Progress |
-| P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | Manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | Planned |
+| P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | Manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | In Progress |
 | P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | Independent append-only/WORM verification and retention transcript | Planned |
 | P1-005 | Approve clinical shadow-mode protocol | Clinical reviewer | `CLINICAL_SAFETY_SHADOW_MODE.md` | Human-factors review, stop conditions, alarm-fatigue review and sign-off record | Pending |
 
@@ -45,6 +45,10 @@
 | P2-004 | Add narrow operational Micro-RAG | Knowledge engineer + security auditor | `MICRO_RAG_EVALUATION_CONTRACT.md`, approved corpus, memory rules | Retrieval evaluation, provenance, redaction and refusal tests; no raw identity corpus | In Progress |
 | P2-005 | Evaluate worker mesh | Reliability operator + control-room coordinator | Idempotency, locks, retries and approval model | Failure-injection, duplicate-run and rollback evidence | Proposed |
 | P2-006 | Evaluate multimodal analytics | Clinical reviewer + security auditor | Consent, privacy and validation plan | Separate research protocol and risk review; not a pilot default | Deferred |
+
+### P1 Device Trust status note
+
+`key_custody_contract.py` and `test_key_custody_contract.py` provide a software-only provisioning registry contract. Dual-control activation, explicit hardware-attestation flags, rotation linkage, terminal revocation, lost-device transition and private-key material exclusion pass. Hardware-backed custody, manufacturer CA, firmware interoperability, MDM integration and independent revocation distribution remain unverified.
 
 ### P1 operational trunk status note
 

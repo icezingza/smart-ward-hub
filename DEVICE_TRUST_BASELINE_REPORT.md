@@ -84,3 +84,10 @@ Device Trust must be **fail-safe for patient monitoring**. An authentication, lo
 [3]: ./test_device_trust_observe.py "Device Trust observe-mode regression"
 [4]: ./alembic/versions/2c3d7e4f9a10_device_trust_credentials.py "Device Trust credential migration"
 [5]: ./PRODUCT_DIFFERENTIATORS.md "Strategic product differentiators"
+
+
+## 8. P1 key-custody contract extension
+
+`key_custody_contract.py` and `test_key_custody_contract.py` add a software-only custody registry contract. It rejects private-key material, requires dual-control activation, records manufacturer/secure-element/non-exportability attestation flags, links rotations through `previous_key_id`, suspends the old key after a successful rotation, makes `REVOKED` terminal and turns a lost-device incident into a terminal `LOST`/revoked state. Registry snapshots contain public identity and lifecycle metadata only.
+
+The software fixture may activate without hardware attestation only when explicitly configured with `allow_software_fixture=True`; those records are labelled `UNVERIFIED`. This supports deterministic contract testing and does not establish manufacturer CA provenance, HSM/secure-element protection, extraction resistance, firmware interoperability, MDM integration or independent revocation distribution.

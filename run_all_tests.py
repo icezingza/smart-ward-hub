@@ -21,6 +21,7 @@ TESTS = [
     "test_power_loss_recovery_harness.py",
     "test_backup_restore.py",
     "test_deployment_readiness.py",
+    "test_key_custody_contract.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",

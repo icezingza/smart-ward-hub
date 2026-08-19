@@ -39,6 +39,8 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `reliability_validation_result.json` | Software-only concurrent reliability result |
 | `pilot_simulation_result.json` | Software-only 30-day simulation result |
 | `OPERATIONS_RUNBOOK.md` | Operational controls and pilot procedures |
+| `KEY_CUSTODY_PROVISIONING_CONTRACT.md` | Device Trust provisioning, custody, rotation, revocation and lost-device contract |
+| `test_key_custody_contract.py` | Software-only dual-control and lifecycle evidence |
 
 
 ## Device Trust and provisioning roadmap risks
@@ -46,8 +48,8 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | ID | Risk | Severity | สถานะ | Control/evidence | Residual risk และ next gate |
 |---|---|---:|---|---|---|
 | R-019 | Unauthorized or counterfeit device enters the ward telemetry path | Critical | Planned Device Trust layer | Current device registration and sequence controls; manufacturer-authenticated provisioning is not yet implemented | Add asymmetric manufacturer certificate verification, device enrollment, revocation and hardware-in-loop tests |
-| R-020 | Shared or hardcoded factory secret compromises the entire device fleet | Critical | Prevented by design decision; implementation pending | Do not adopt plaintext master secrets or device seed maps from prototype snippets; use public-key trust and protected provisioning | Validate secure-element/HSM key custody, rotation, revocation and operator separation |
-| R-021 | Signed telemetry fails to cover all fields or canonicalization differs across device and Hub | High | Implemented software baseline | `device_trust.py` canonicalization, Ed25519 verification, field-mutation regression and `TelemetryPacket v1` contract | Requires cross-language device implementation test, firmware interoperability and hardware key custody |
+| R-020 | Shared or hardcoded factory secret compromises the entire device fleet | Critical | Prevented by design decision; software custody contract in progress | `key_custody_contract.py` rejects private-key material, records public-key fingerprints only and requires explicit custody/attestation metadata | Validate secure-element/HSM key custody, manufacturer provisioning, rotation, revocation and lost-device drill |
+| R-021 | Signed telemetry fails to cover all fields or canonicalization differs across device and Hub | High | Implemented software baseline | `device_trust.py` canonicalization, Ed25519 verification, field-mutation regression and `TelemetryPacket v1` contract; custody lifecycle is separately exercised | Requires cross-language device implementation test, firmware interoperability and hardware key custody |
 | R-022 | Geofence or trust enforcement bricks a device and creates a patient-monitoring blind spot | Critical | Safety design principle; implementation pending | Fail-safe direction: alert, audit and degraded-trust/quarantine rather than automatic shutdown | Validate network-loss, location-error, offline-continuity and clinical escalation scenarios with governance approval |
 
 The Device Trust layer is a strategic differentiator with an implemented software baseline and an open manufacturer/hardware roadmap, not a completed production security certification. The product may claim the current Ed25519 signed-telemetry and lifecycle controls with evidence boundaries, but it must not claim anti-spoofing 100%, tamper-proof evidence, clinical-ready operation or production-ready hardware security before the stated gates are closed.
