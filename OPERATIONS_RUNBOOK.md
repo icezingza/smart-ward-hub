@@ -73,3 +73,30 @@ The Tablet may acknowledge an alert or acknowledge an admission task through the
 In the initial pilot, the Tablet must not confirm RESET, discharge, hot-swap, pairing changes, credential changes, incident freeze or purge while disconnected. `RESET_REQUEST` may enter `RESET_PENDING` when the Fixed Hub validates the state, but `RESET_CONFIRM` remains a live Fixed Hub action. If a command is rejected, display `REQUIRES RECONCILIATION` and use the documented manual fallback rather than silently retrying forever.
 
 The BMAX Tablet must remain managed, locked to the approved kiosk/application profile, protected against screenshots and clipboard leakage where feasible, and revoked when lost. The current software baseline verifies scope, revision and idempotency; it does not by itself prove managed-device attestation, Android encrypted cache or real ward Wi-Fi performance.
+
+
+## Operational trunk: backup and deployment readiness
+
+The software backup path uses `backup_restore.py` and SQLite's backup API. It must be run with an approved destination outside the source tree and without secret material:
+
+```bash
+python3 backup_restore.py backup \
+  --database /var/lib/smart-ward-hub/ward_hub.db \
+  --output-dir /var/backups/smart-ward-hub \
+  --checkpoint /var/lib/smart-ward-hub/edge_telemetry_state.json \
+  --source-revision CHANGE_ID_OR_COMMIT
+```
+
+A restore is only for a separate non-production target until the operator and hospital owner approve a production recovery procedure:
+
+```bash
+python3 backup_restore.py restore \
+  --bundle /var/backups/smart-ward-hub/BACKUP_ID \
+  --target-database /var/lib/smart-ward-hub-restore/ward_hub.db \
+  --target-checkpoint /var/lib/smart-ward-hub-restore/edge_telemetry_state.json \
+  --confirm I_UNDERSTAND_RESTORE_TO_NONPRODUCTION_TARGET
+```
+
+Before booting the Acer template, run the deployment validator and confirm that the database, checkpoint and audit paths are outside the source tree, API docs are disabled, the service binds to loopback and OIDC is configured for pilot. The validator is configuration evidence only; it does not prove Windows Firewall, disk encryption, task scheduling, service recovery or real IdP/mTLS behavior.
+
+The Windows template is under `deploy/windows/`. `start_smart_ward_hub.ps1 -ValidateOnly` is the safe first step. The operator may adapt the `.cmd` wrapper for Task Scheduler only after creating a least-privilege account, protected runtime directory, approved secret source, logging policy, restart policy and rollback path. Never put tokens, private keys or OIDC client secrets into the wrapper or an unprotected scheduler argument list.
