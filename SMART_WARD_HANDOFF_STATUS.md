@@ -1,0 +1,82 @@
+# Smart Ward Hub — Handoff Status
+
+**วันที่รายงาน:** 20 สิงหาคม 2026
+
+## สรุปผู้บริหาร
+
+Smart Ward Hub อยู่ในสถานะ **controlled production prototype** และมี **P0-hardened software baseline** ที่ผ่าน **functional verification** ใน sandbox แล้ว ระบบได้รับการเตรียมสำหรับ pilot ในเชิงสถาปัตยกรรมและ software contract แต่ยังมีสถานะ **pilot deployment configuration pending** และ **clinical validation pending**
+
+การดำเนินงานรอบนี้ได้เตรียม physical-bench handoff สำหรับ Acer Spin N17H2 ในรูปแบบที่ fail-closed โดยไม่เปิด COM port จริงและไม่ส่งข้อมูลใด ๆ ออกจากเครื่อง การตรวจ Acer ทำแบบ read-only พบ Windows 11 Pro build `26200`, Python `3.14.3`, ไม่พบ `Win32_SerialPort`/COM device ที่ enumerate อยู่ และยังไม่พบ workspace ของ Smart Ward Hub ที่ตำแหน่ง Windows ที่ตรวจสอบ ดังนั้น physical Serial bench ยังมีสถานะ **NOT_STARTED** อย่างถูกต้อง
+
+## งานที่ดำเนินการเสร็จในรอบนี้
+
+| รายการ | ผลลัพธ์ |
+|---|---|
+| Serial bench runner | เพิ่ม `serial_bench_runner.py` แบบ cross-platform, dry-run-first และ fail-closed |
+| Safety regression | เพิ่ม `test_serial_bench_runner.py`; dry-run, explicit confirmation gate และ phrase check ผ่านทั้งหมด |
+| Master regression integration | ลงทะเบียน Serial bench runner safety test ใน `run_all_tests.py` |
+| Runtime hygiene | เพิ่ม ignore สำหรับ `serial_bench_evidence.json` และลบ database, audit log, simulation output และ bytecode ออกจาก workspace ก่อน commit |
+| Acer inventory | บันทึกผล read-only ใน `ACER_BENCH_READONLY_INVENTORY.md` |
+| Bench procedure | อัปเดต `SERIAL_BENCH_VALIDATION_PLAN.md` ด้วยคำสั่ง safe runner และ physical gate |
+| P2 readiness | อัปเดต `P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md` ให้สะท้อน runner evidence และ no-COM-port gate |
+| Repository documentation | เพิ่ม `README.md` ที่กำหนด product boundary, differentiators และ evidence limits |
+| GitHub publication | สร้างและ push ไปยัง private repository `icezingza/smart-ward-hub` |
+
+## Verification evidence
+
+Final master regression รันจบด้วย exit code `0` และผ่าน test groups สำหรับ Phase 1–6, Device Trust, Ward Workflow, Outside-in Admission, Roaming synchronization, Micro-RAG baseline, P2-002 adapters, Serial framing, network-pressure simulation, Serial bench runner safety, residual controls, reliability และ 30-day pilot simulation
+
+ผลดังกล่าวเป็น **software test evidence และ deterministic simulation evidence** เท่านั้น ไม่ใช่หลักฐานจาก COM port จริง, sensor จริง, production network, HIS จริง หรือ clinical setting. ในผล master suite เองมีข้อความกำกับว่า Phase 6, Device Trust, ward workflow, outside-in admission และ roaming เป็น software tests ไม่ใช่ clinical, HIS หรือ hardware validation
+
+## GitHub publication
+
+Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `a2d0aa0` ซึ่งรวมเอกสาร P2-002 readiness ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
+
+## Physical Acer Serial bench — เงื่อนไขก่อนเริ่ม
+
+ยังห้ามเริ่ม physical test จนกว่าจะครบเงื่อนไขต่อไปนี้: ต้องมี USB-serial loopback fixture หรือ controlled gateway ที่ไม่ใช่ production; ต้องติดตั้ง project และ dependencies บน Acer; ต้องมี COM port ที่ตรวจสอบได้; ต้องแยก fixture ออกจาก patient device และ production network; และ operator ต้องยืนยันว่าไม่มี patient data ถูกใช้
+
+คำสั่งที่ปลอดภัยในขั้นปัจจุบันคือ:
+
+```bash
+python serial_bench_runner.py --list-ports
+python serial_bench_runner.py --dry-run --output serial_bench_evidence.json
+```
+
+เมื่อมี fixture และตรวจสอบพอร์ตแล้วเท่านั้น จึงพิจารณาคำสั่ง physical ต่อไปนี้:
+
+```bash
+python serial_bench_runner.py \
+  --port COMx \
+  --baudrate 115200 \
+  --confirm-physical I_HAVE_A_NONPRODUCTION_LOOPBACK \
+  --output serial_bench_evidence.json
+```
+
+การระบุ `--port` เพียงอย่างเดียวไม่เพียงพอ เพราะ runner จะ block หากไม่มีคำยืนยันตรงตัว `I_HAVE_A_NONPRODUCTION_LOOPBACK`. Runner ไม่บันทึก raw frames และ CRC32 ถูกใช้เพื่อ integrity detection เท่านั้น ไม่ใช่ trust root หรือการยืนยันตัวตนอุปกรณ์
+
+## Gates ที่ยังเปิดอยู่
+
+| Gate | สถานะที่ถูกต้อง | หลักฐานที่ต้องเพิ่ม |
+|---|---|---|
+| Physical Acer Serial loopback | NOT_STARTED | fixture, COM enumeration, framing, partial read, reconnect และ evidence จากอุปกรณ์จริง |
+| HIS/Admission Gateway | เปิด | integration กับระบบจริงและ structured acknowledgement/purge evidence |
+| OIDC/mTLS | เปิด | ทดสอบกับ IdP และ certificate lifecycle จริง |
+| Hardware/network | เปิด | driver, CPU/memory, cable, reconnect, segmentation และ pressure evidence จริง |
+| Clinical validation | เปิด | clinical shadow-mode, reviewer sign-off และ safety governance |
+| External forensic anchoring | เปิด | append-only external anchor และ operational recovery evidence |
+| Key custody | เปิด | ownership, rotation, revocation และ secure storage contract |
+| Rate limiting/host hardening | เปิด | enforcement บน deployment target และ operational monitoring |
+| Power-loss testing | เปิด | controlled interruption, WAL recovery, filesystem and backup/restore evidence |
+| BMAX roaming UI | Deferred | อยู่หลัง priority matrix; Fixed Hub ยังเป็น authority |
+| NEWS/MEWS clinical adapter | Proposed | ต้องมี clinical governance ก่อนเปิดใช้ |
+
+## Product claim boundary
+
+จุดขายที่ควรรักษาไว้คือ **Sovereign Edge / Offline-first**, **Zero-PII**, **Patient Safety Intelligence**, **Tamper-Evident Evidence**, **HIS/EMR Interoperability**, **Device Trust & Secure Provisioning**, **Outside-in Ward Workflow** และ **Sovereign Ward Operating Layer**
+
+ในเอกสารและการสื่อสารภายนอกควรใช้คำว่า **controlled production prototype**, **functional verification passed**, **pilot-ready foundation**, **clinical validation pending**, **P0-hardened software baseline** และ **pilot deployment configuration pending**. ห้ามใช้คำว่า **clinical-ready**, **tamper-proof**, **HIPAA/PDPA compliant 100%** หรือ **production-ready** โดยอาศัย functional tests เพียงอย่างเดียว
+
+## เอกสารอ้างอิงภายใน repository
+
+เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md) และ [tasks.md](tasks.md)
