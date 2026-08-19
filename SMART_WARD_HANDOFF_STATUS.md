@@ -44,7 +44,7 @@ The current corpus-v2 eight-case prompt passed `8/8` through `response-adapter-v
 
 ## GitHub publication
 
-Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `7cbe5c6` ซึ่งรวม P1-004 external forensic anchor contract, receipt fault matrix และ key-custody test review ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
+Repository ถูกสร้างเป็น **private repository** และ push สำเร็จไปที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` อยู่ที่ commit ล่าสุด `77c6da5` ซึ่งรวม P1-005 review/metrics hardening, P1-006 clinical-validation readiness preflight และ handoff ที่อัปเดตแล้ว ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
 
 ## Physical Acer Serial bench — เงื่อนไขก่อนเริ่ม
 
