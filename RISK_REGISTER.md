@@ -12,7 +12,7 @@
 | R-006 | SQLite lock หรือ power loss ระหว่างเขียน | High | Experimental software baseline | WAL, synchronous durability, atomic checkpoint, software fault-injection harness and concurrent harness | ต้องทำ hardware power-failure, disk-full และ filesystem recovery tests |
 | R-007 | Alert threshold ทำให้ false positive หรือ miss event | Critical | Unverified clinical performance | shadow mode, review categories, stop conditions และ simulation | ต้องมี clinical protocol, sensitivity/specificity, alarm-fatigue review และ clinical sign-off |
 | R-008 | FHIR response ทำให้ purge เร็วเกินไป | Critical | Implemented contract baseline | explicit acknowledgment gate, failure retention, FHIR regression | ต้องทดสอบ HIS จริง, timeout/retry, reconciliation และ operator recovery |
-| R-009 | Local hash chain ถูกนำเสนอว่า tamper-proof | High | Controlled by wording; local anchor experimental | SHA-256 chain, verification endpoint, local append-only anchor adapter, explicit terminology | ต้องมี external independent WORM anchor, timestamp, key custody และ verification drill; ห้ามใช้คำว่า tamper-proof |
+| R-009 | Local hash chain ถูกนำเสนอว่า tamper-proof | High | Controlled by wording; external adapter contract in progress | SHA-256 chain, verification endpoint, local append-only adapter, external receipt adapter contract and explicit terminology | ต้องมี external independent WORM anchor, trusted timestamp, key custody และ cross-boundary verification drill; ห้ามใช้คำว่า tamper-proof |
 | R-010 | Concurrent workers มี process-local state ไม่สอดคล้องกัน | High | Known limitation | single Edge owner model, thread-safe telemetry store, handover lock | ต้องตัดสินใจ deployment topology หรือเพิ่ม coordinated/shared state ก่อน scale-out |
 | R-011 | Unauthorized Host/CORS exposure | Medium | Implemented baseline | TrustedHost, restrictive defaults, optional CORS, regression test | ต้องทำ firewall, reverse-proxy และ network segmentation review |
 | R-012 | Clinical operator ตีความ signal เป็น diagnosis | Critical | Process control required | shadow-mode labeling, decision-support wording, runbook | ต้องมี training, signed clinical SOP และ audit evidence |
@@ -21,7 +21,7 @@
 | R-015 | Request flood หรือ burst ทำให้ Edge service ถูกใช้ทรัพยากรเกิน | High | Implemented process-local control | sliding-window limiter, `429`, `Retry-After`, rate-limit regression | ต้อง calibrate per-device/endpoint quotas และใช้ gateway/coordinated limiter ใน multi-process deployment |
 | R-016 | Audit event ถูกแก้ไข สูญหาย หรือมี PII | High | Implemented local baseline | structured JSONL, request ID, fsync, recursive redaction, zero-PII regression | ต้องส่งเข้า centralized append-only/WORM audit pipeline, access control, retention และ monitoring |
 | R-017 | Handover sync ซ้ำทำให้ purge ซ้ำหรือทำลาย evidence | Critical | Implemented single-process control | persisted `HandoverRecord.synced`, `SyncAttempt`, `RLock`, idempotent replay test | ต้องทดสอบ multi-process/crash boundary และกำหนด retention ที่ไม่ทำให้ destructive gate หมดอายุ |
-| R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | Controlled by documentation | anchor type ถูกระบุเป็น `local_append_only_adapter`, report แยก local กับ external | ต้องเชื่อม external service ที่บริหารแยกกันและ verify chain ข้าม trust boundary |
+| R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | External adapter contract; provider unverified | local anchor type แยกจาก `EXTERNAL_PROVIDER_RECEIPT_UNVERIFIED`; receipt identity, idempotency and tamper-fault tests pass | ต้องเชื่อม external service ที่บริหารแยกกัน, authenticated transport, trusted timestamp, retention และ verify chain ข้าม trust boundary |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -41,6 +41,9 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `OPERATIONS_RUNBOOK.md` | Operational controls and pilot procedures |
 | `KEY_CUSTODY_PROVISIONING_CONTRACT.md` | Device Trust provisioning, custody, rotation, revocation and lost-device contract |
 | `test_key_custody_contract.py` | Software-only dual-control and lifecycle evidence |
+| `P1_004_EXTERNAL_ANCHOR_CONTRACT.md` | External anchor request/receipt contract and evidence boundary |
+| `test_external_anchor_contract.py` | Software-only receipt, idempotency, deletion and tamper evidence |
+| `test_external_anchor_fault_injection.py` | Software-only receipt mutation and provider-identity fault matrix |
 
 
 ## Device Trust and provisioning roadmap risks

@@ -33,6 +33,7 @@ class ProvisioningRecord:
     manufacturer_ca_verified: bool
     secure_element_present: bool
     private_key_non_exportable: bool
+    attestation_evidence_id: str | None
     evidence_status: str
     created_at_utc: str
     activated_at_utc: str | None = None
@@ -73,7 +74,15 @@ class KeyCustodyRegistry:
     ) -> ProvisioningRecord:
         if private_key_material is not None:
             raise KeyCustodyError("private_key_material_must_never_enter_registry")
-        if not device_id or not key_id or algorithm != "Ed25519" or not HEX64.fullmatch(public_key_fingerprint):
+        if (
+            not isinstance(device_id, str)
+            or not device_id.strip()
+            or not isinstance(key_id, str)
+            or not key_id.strip()
+            or algorithm != "Ed25519"
+            or not isinstance(public_key_fingerprint, str)
+            or not HEX64.fullmatch(public_key_fingerprint)
+        ):
             raise KeyCustodyError("invalid_public_key_registration")
         if key_id in self._records:
             raise KeyCustodyError("duplicate_key_id")
@@ -88,6 +97,7 @@ class KeyCustodyRegistry:
             manufacturer_ca_verified=False,
             secure_element_present=False,
             private_key_non_exportable=False,
+            attestation_evidence_id=None,
             evidence_status="UNVERIFIED",
             created_at_utc=self._now(),
         )
@@ -98,7 +108,9 @@ class KeyCustodyRegistry:
         record = self._get(key_id)
         if record.status != "PROVISIONING":
             raise KeyCustodyError(f"activation_not_allowed_from_{record.status}")
-        distinct_approvers = {item for item in approver_ids if item}
+        if not isinstance(attestation, CustodyAttestation) or not isinstance(attestation.evidence_id, str) or not attestation.evidence_id.strip():
+            raise KeyCustodyError("attestation_evidence_id_required")
+        distinct_approvers = {item.strip() for item in approver_ids if isinstance(item, str) and item.strip()}
         if self.require_dual_control and len(distinct_approvers) < 2:
             raise KeyCustodyError("dual_control_approval_required")
         hardware_verified = (
@@ -113,6 +125,7 @@ class KeyCustodyRegistry:
         record.manufacturer_ca_verified = attestation.manufacturer_ca_verified
         record.secure_element_present = attestation.secure_element_present
         record.private_key_non_exportable = attestation.private_key_non_exportable
+        record.attestation_evidence_id = attestation.evidence_id.strip()
         record.evidence_status = "VERIFIED" if hardware_verified else "UNVERIFIED"
         return record
 
