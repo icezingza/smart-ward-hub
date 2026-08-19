@@ -1,0 +1,29 @@
+{
+  "suite": "smart-ward-power-loss-storage-recovery-harness",
+  "mode": "software_fault_injection",
+  "results": [
+    {
+      "scenario": "committed_restart",
+      "status": "PASS"
+    },
+    {
+      "scenario": "stale_temp_does_not_replace",
+      "status": "PASS"
+    },
+    {
+      "scenario": "corrupt_json_fails_closed",
+      "status": "PASS"
+    },
+    {
+      "scenario": "unsupported_and_malformed_payloads",
+      "status": "PASS",
+      "cases": 4
+    }
+  ],
+  "all_passed": true,
+  "physical_power_cut": "UNVERIFIED",
+  "disk_full_drill": "UNVERIFIED",
+  "filesystem_corruption_drill": "SOFTWARE_CORRUPTION_ONLY",
+  "patient_data_used": false,
+  "raw_frames_recorded": false
+}

@@ -22,10 +22,12 @@ Smart Ward Hub อยู่ในสถานะ **controlled production prototy
 | Repository documentation | เพิ่ม `README.md` ที่กำหนด product boundary, differentiators และ evidence limits |
 | GitHub publication | สร้างและ push ไปยัง private repository `icezingza/smart-ward-hub` |
 | P2-004 Micro-RAG | Deterministic baseline, registry/index baseline และ model-agnostic adapter ผ่าน; Gemini 3 Flash v2 ผ่าน 8/8; Gemini 2.5 pinned rerun ได้ 2/8 โดย 6 calls ติด HTTP 429 |
+| P0-001 HIS/Admission Gateway | Sandbox contract test ผ่าน tokenization, TTL, revocation, idempotency และ structured acknowledgment; hospital integration ยังเปิด |
+| P0-004 Recovery | Software fault harness ผ่าน checkpoint/WAL/malformed-state scenarios; physical power-loss/storage gate ยังเปิด |
 
 ## Verification evidence
 
-Final master regression รันจบด้วย exit code `0` และผ่าน test groups สำหรับ Phase 1–6, Device Trust, Ward Workflow, Outside-in Admission, Roaming synchronization, Micro-RAG baseline, P2-002 adapters, Serial framing, network-pressure simulation, Serial bench runner safety, residual controls, reliability และ 30-day pilot simulation
+Final master regression รอบ P0 รันจบด้วย exit code `0` และผ่าน test groups สำหรับ Phase 1–6, P0 HIS/Admission Gateway contract, P0 recovery fault harness, Device Trust, Ward Workflow, Outside-in Admission, Roaming synchronization, Micro-RAG baseline, P2-002 adapters, Serial framing, network-pressure simulation, Serial bench runner safety, residual controls, reliability และ 30-day pilot simulation
 
 ผลดังกล่าวเป็น **software test evidence และ deterministic simulation evidence** เท่านั้น ไม่ใช่หลักฐานจาก COM port จริง, sensor จริง, production network, HIS จริง หรือ clinical setting. ในผล master suite เองมีข้อความกำกับว่า Phase 6, Device Trust, ward workflow, outside-in admission และ roaming เป็น software tests ไม่ใช่ clinical, HIS หรือ hardware validation
 
@@ -84,4 +86,4 @@ python serial_bench_runner.py \
 
 ## เอกสารอ้างอิงภายใน repository
 
-เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md), [MICRO_RAG_V2_RERUN_EVIDENCE.md](evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md) และ [tasks.md](tasks.md)
+เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md), [MICRO_RAG_V2_RERUN_EVIDENCE.md](evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md), [P0_PHASE_HANDOFF.md](P0_PHASE_HANDOFF.md) และ [tasks.md](tasks.md)

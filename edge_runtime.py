@@ -197,13 +197,24 @@ class EdgeTelemetryStore:
                 payload = json.loads(self.state_path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
                 return
-            if payload.get("state_version") != self.STATE_VERSION:
+            if not isinstance(payload, dict) or payload.get("state_version") != self.STATE_VERSION:
                 return
-            for device_id, state in payload.get("buffers", {}).items():
+            buffers = payload.get("buffers")
+            if not isinstance(buffers, dict):
+                return
+            for device_id, state in buffers.items():
+                if not isinstance(device_id, str) or not isinstance(state, dict):
+                    continue
                 buffer = self._buffer(device_id)
-                for sample in state.get("samples", [])[-self.max_samples :]:
-                    buffer.append(self._deserialize_sample(sample))
+                samples = state.get("samples", [])
+                if not isinstance(samples, list):
+                    continue
+                for sample in samples[-self.max_samples :]:
+                    if isinstance(sample, dict):
+                        buffer.append(self._deserialize_sample(sample))
                 last_sequence = state.get("last_sequence")
-                if isinstance(last_sequence, int):
+                if isinstance(last_sequence, int) and not isinstance(last_sequence, bool):
                     self._last_sequence[device_id] = last_sequence
-                self._dropped_samples[device_id] = int(state.get("dropped_samples", 0))
+                dropped_samples = state.get("dropped_samples", 0)
+                if isinstance(dropped_samples, int) and not isinstance(dropped_samples, bool) and dropped_samples >= 0:
+                    self._dropped_samples[device_id] = dropped_samples

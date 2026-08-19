@@ -17,6 +17,8 @@ TESTS = [
     "test_p0_oidc_config.py",
     "test_p0_mtls_config.py",
     "test_p0_recovery.py",
+    "test_p0_his_admission_contract.py",
+    "test_power_loss_recovery_harness.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",

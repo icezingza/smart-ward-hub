@@ -7,16 +7,16 @@
 
 การตรวจสอบ P0 backlog เทียบกับ code, tests, contracts และ operations runbook พบว่าไม่มี P0 รายการใดที่ควรปิดเป็น `Verified` ในขณะนี้ แต่มี 4 รายการที่สามารถยกระดับจาก `Planned` เป็น `In Progress` ได้ด้วยงาน software/contract validation ใน sandbox ส่วน P0-005 ยังต้องใช้ Acer Spin N17H2 จริงและจึงคงสถานะ `Planned`
 
-งานที่ทำต่อแล้วในรอบนี้คือการเพิ่ม structured acknowledgment contract สำหรับ HIS/FHIR sync, เพิ่ม OIDC configuration validator, เพิ่ม mTLS file-hygiene validator, เพิ่ม software recovery harness และออกแบบ Zero-Trust trust boundaries ใน `architecture.md` พร้อมเอกสารรายละเอียดแยก
+งานที่ทำต่อแล้วในรอบนี้คือการเพิ่ม structured acknowledgment contract สำหรับ HIS/FHIR sync, เพิ่ม sandbox HIS/Admission Gateway contract test ที่ครอบคลุม opaque tokenization, TTL, revocation, idempotency และ acknowledgment gate, เพิ่ม OIDC configuration validator, เพิ่ม mTLS file-hygiene validator, เพิ่ม software recovery fault harness และออกแบบ Zero-Trust trust boundaries ใน `architecture.md` พร้อมเอกสารรายละเอียดแยก
 
 ## P0 status matrix
 
 | ID | สถานะปัจจุบัน | สิ่งที่ยืนยันได้ | Blocker หรือ residual risk | หลักฐานที่ต้องใช้เพื่อปิด |
 |---|---|---|---|---|
-| P0-001 | **In Progress** | Bare `200 OK` acknowledgment และ mismatched bundle acknowledgment ถูกปฏิเสธก่อน purge; structured acknowledgment fields ถูกตรวจและทดสอบ | HIS ยังไม่ยืนยัน FHIR version/profile, terminology, patient-reference policy, issuer, CA, error body, support และ idempotency behavior | Sandbox/Hospital HIS contract test พร้อม matching acknowledgment, mTLS/OIDC transport และ purge/retention transcript |
+| P0-001 | **In Progress** | `test_p0_his_admission_contract.py` ผ่าน opaque tokenization, token TTL/revocation, outside admission idempotency, failure retention, mismatched acknowledgment rejection และ exact-scope purge | Sandbox test double ไม่ใช่ HIS จริง; HIS ยังไม่ยืนยัน FHIR version/profile, terminology, patient-reference policy, issuer, CA, error body, support และ idempotency behavior | Hospital HIS contract test พร้อม real profile/version, real mTLS/OIDC transport และ purge/retention transcript |
 | P0-002 | **In Progress** | Local validator ตรวจ `SW_AUTH_MODE`, issuer, audience, HTTPS JWKS URL และ safe algorithms; missing config fail-closed | ยังไม่มี real IdP/test tenant; ไม่ได้พิสูจน์ JWKS discovery, key rotation, claim mapping, token expiry, revocation หรือ role/scopes จริง | Redacted transcript จาก real issuer/JWKS, rotation/revocation test, scope mapping และ failure cases |
 | P0-003 | **In Progress** | Local validator ตรวจ cert/key/CA file presence และ reject private key ที่ group/other-readable โดยไม่อ่าน key material; launcher fail-closed | ยังไม่มี CA chain จริง, mutual handshake, client cert identity, renewal/revocation, clock behavior หรือ network segmentation | Real test CA/PKI handshake, renewal, expired/revoked cert rejection, route/firewall evidence |
-| P0-004 | **In Progress** | Software harness ผ่าน atomic checkpoint restart, corrupt-checkpoint safe behavior และ SQLite WAL + synchronous FULL reopen check | ไม่ใช่หลักฐาน power cut จริง; ยังไม่ทดสอบ disk-full, filesystem corruption, storage controller, UPS/battery หรือ OS recovery บน Acer | Controlled hardware power cut, disk-full/corruption drill, reboot/service recovery transcript และ data-integrity comparison |
+| P0-004 | **In Progress** | `test_p0_recovery.py` และ `power_loss_recovery_harness.py` ผ่าน atomic restart, stale temp isolation, corrupt JSON fail-closed, unsupported/malformed payload handling และ SQLite WAL + synchronous FULL reopen check | เป็น software fault injection เท่านั้น; ยังไม่ทดสอบ power cut จริง, disk-full, filesystem corruption, storage controller, UPS/battery หรือ OS recovery บน Acer | Controlled hardware power cut, disk-full/corruption drill, reboot/service recovery transcript และ data-integrity comparison |
 | P0-005 | **Planned** | Hardware choice documented: Acer Spin N17H2 as Fixed Hub candidate | Physical Acer, charger/battery, thermal, touchscreen, network, USB/NFC/BLE gateway and service supervisor are not available to this sandbox | Bench protocol executed on Acer with serialised evidence, soak test, reboot, network interruption and service recovery |
 
 ## Technical blockers and risks
@@ -46,12 +46,13 @@ The architecture now defines per-zone identity, scope, freshness, segmentation, 
 | Change | Evidence |
 |---|---|
 | Structured HIS/FHIR acknowledgment fields | `schemas.py`, `main.py`, `test_fhir.py` |
+| Sandbox HIS/Admission Gateway contract | `his_admission_gateway_contract.py`, `test_p0_his_admission_contract.py` |
 | Bare acknowledgment rejection | `test_fhir.py` passes with HTTP 422 before purge |
 | Bundle identity mismatch rejection | `test_fhir.py` passes with HTTP 409 before purge |
 | OIDC local configuration validator | `validate_oidc_config.py`, `test_p0_oidc_config.py` pass |
 | mTLS local file-hygiene validator | `validate_mtls_config.py`, `test_p0_mtls_config.py` pass |
-| Recovery software harness | `test_p0_recovery.py` passes; physical failures remain unverified |
-| Master regression integration | `run_all_tests.py` now includes the three new P0 tests; complete suite passed |
+| Recovery software harness | `test_p0_recovery.py`, `power_loss_recovery_harness.py` and `test_power_loss_recovery_harness.py` pass; physical failures remain unverified |
+| Master regression integration | `run_all_tests.py` includes the HIS contract and recovery fault harness tests; complete suite passed |
 | Zero-Trust architecture design | `architecture.md` section 7 and `ZERO_TRUST_TRUST_BOUNDARIES.md` |
 | Hardware acceptance preparation | `P0_HARDWARE_BENCH_CHECKLIST.md` prepared; physical execution pending |
 | Backlog status/evidence notes | `tasks.md` P0 section updated |

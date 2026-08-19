@@ -8,8 +8,8 @@
 | R-002 | Static bearer token ถูกขโมยหรือใช้ผิดวัตถุประสงค์ | High | Experimental baseline | fail-closed scopes และ protected configuration | ต้องใช้ OIDC จริง, rotation, revocation, key custody และ mTLS |
 | R-003 | Packet replay หรือ out-of-order arrival | High | Implemented software control | per-device monotonic sequence, HTTP 409, replay regression test | ต้องกำหนด device identity, counter reset และ clock policy กับ hardware จริง |
 | R-004 | Buffer overflow ทำให้ข้อมูลสูญหาย | High | Implemented/measured | bounded ring buffer, dropped-sample counter, checkpoint recovery | ต้องกำหนด threshold/alert และทดสอบ load profile ของ pilot จริง |
-| R-005 | Checkpoint corruption หรือ stale recovery | High | Implemented baseline | atomic checkpoint และ restart test | ต้องทดสอบ encrypted storage, corruption injection และ restore drill บน host จริง |
-| R-006 | SQLite lock หรือ power loss ระหว่างเขียน | High | Experimental | WAL, busy timeout, synchronous durability, concurrent harness | ต้องทำ hardware power-failure, disk-full และ filesystem recovery tests |
+| R-005 | Checkpoint corruption หรือ stale recovery | High | Implemented software baseline | atomic checkpoint, stale-temp isolation, malformed-payload fail-closed and restart tests | ต้องทดสอบ encrypted storage, corruption injection และ restore drill บน host จริง |
+| R-006 | SQLite lock หรือ power loss ระหว่างเขียน | High | Experimental software baseline | WAL, synchronous durability, atomic checkpoint, software fault-injection harness and concurrent harness | ต้องทำ hardware power-failure, disk-full และ filesystem recovery tests |
 | R-007 | Alert threshold ทำให้ false positive หรือ miss event | Critical | Unverified clinical performance | shadow mode, review categories, stop conditions และ simulation | ต้องมี clinical protocol, sensitivity/specificity, alarm-fatigue review และ clinical sign-off |
 | R-008 | FHIR response ทำให้ purge เร็วเกินไป | Critical | Implemented contract baseline | explicit acknowledgment gate, failure retention, FHIR regression | ต้องทดสอบ HIS จริง, timeout/retry, reconciliation และ operator recovery |
 | R-009 | Local hash chain ถูกนำเสนอว่า tamper-proof | High | Controlled by wording; local anchor experimental | SHA-256 chain, verification endpoint, local append-only anchor adapter, explicit terminology | ต้องมี external independent WORM anchor, timestamp, key custody และ verification drill; ห้ามใช้คำว่า tamper-proof |
@@ -34,6 +34,8 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `test_device_trust.py` | Enforce-mode signed telemetry and lifecycle evidence |
 | `test_device_trust_observe.py` | Observe-mode continuity evidence |
 | `test_p0_hardening.py` | OIDC fail-closed, migration-first และ Alembic evidence |
+| `test_p0_his_admission_contract.py` | Sandbox tokenization, TTL, revocation, idempotency and structured acknowledgment evidence |
+| `power_loss_recovery_harness.py` | Software-only checkpoint/storage fault-injection evidence; physical gates remain unverified |
 | `reliability_validation_result.json` | Software-only concurrent reliability result |
 | `pilot_simulation_result.json` | Software-only 30-day simulation result |
 | `OPERATIONS_RUNBOOK.md` | Operational controls and pilot procedures |

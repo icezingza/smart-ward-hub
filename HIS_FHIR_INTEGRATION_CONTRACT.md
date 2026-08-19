@@ -39,3 +39,10 @@ Timeouts, connection failures, certificate errors, malformed responses and retry
 ## Required hospital decisions
 
 The HIS team must confirm FHIR version, accepted profiles, terminology service, patient reference strategy, observation status policy, time zone, consent/retention policy, acknowledgment body, error contract, idempotency behavior, certificate authority, token issuer, monitoring endpoint and support contact before integration testing begins.
+
+
+## Sandbox contract evidence
+
+`test_p0_his_admission_contract.py` and `his_admission_gateway_contract.py` provide a synthetic contract boundary for pre-integration verification. They verify that a raw HIS-looking reference is converted outside the Hub into an opaque token, stale and revoked gateway tokens are rejected, outside admission preparation is idempotent, transport failure retains local aggregates, mismatched Bundle acknowledgments block purge and a fully structured matching acknowledgment permits only the exact aggregate scope to be purged.
+
+This evidence is **sandbox contract verification only**. The gateway class is a test double, not a hospital token issuer, OIDC provider, mTLS client or production identity authority. P0-001 remains `In Progress` until the hospital confirms the FHIR version/profile, terminology, patient-reference policy, token issuer and TTL/revocation semantics, acknowledgment/error contract, idempotency behavior, certificate authority, transport identity and operator support path.
