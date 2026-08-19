@@ -22,6 +22,8 @@
 | R-016 | Audit event ถูกแก้ไข สูญหาย หรือมี PII | High | Implemented local baseline | structured JSONL, request ID, fsync, recursive redaction, zero-PII regression | ต้องส่งเข้า centralized append-only/WORM audit pipeline, access control, retention และ monitoring |
 | R-017 | Handover sync ซ้ำทำให้ purge ซ้ำหรือทำลาย evidence | Critical | Implemented single-process control | persisted `HandoverRecord.synced`, `SyncAttempt`, `RLock`, idempotent replay test | ต้องทดสอบ multi-process/crash boundary และกำหนด retention ที่ไม่ทำให้ destructive gate หมดอายุ |
 | R-018 | Local forensic anchor ทำให้เกิด false assurance ว่ามี external immutability | High | Local hardening + external adapter contract; provider unverified | local adapter now validates inputs, uses record hash/idempotency/readback; external receipt identity and mutation-fault tests pass | ต้องเชื่อม external service ที่บริหารแยกกัน, authenticated transport, trusted timestamp, retention และ verify chain ข้าม trust boundary |
+| R-038 | Review session ถูกปิดโดยไม่มี evidence traceability หรือ finding ที่ตรวจซ้ำได้ | High | P1-008 software baseline | `IndependentReviewSession` บังคับ accepted evidence, gate/evidence linkage, severity และ post-close mutation lock | ต้องแต่งตั้ง reviewer อิสระ, ใช้ signed export, รัน reproduce tests และบันทึก finding closure/reopen ในระบบ governance จริง |
+| R-039 | การรับ evidence เข้าตรวจถูกตีความเป็น clinical หรือ production authorization | Critical | P1-008 no-authorization boundary | `clinical_validation_authorized`, `production_authorized` และ `real_world_authorization` ถูกตรึงเป็น false; authorization methods reject | ต้องมี clinical owner/committee decision, external gate evidence และ controlled pilot approval แยกจาก software |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -58,6 +60,8 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `GV10_SUBMISSION_CHECKLIST.md` | GV-10 redaction, hash, chain-of-custody and independent-review checklist |
 | `gv10_evidence.py` | SHA-256, provenance, redaction and no-authorization evidence validator |
 | `test_gv10_evidence.py` | GV-10 evidence mutation and claim-boundary regression |
+| `P1_008_INDEPENDENT_REVIEW_OPERATIONS.md` | P1-008 lifecycle, finding and controlled-pilot boundary |
+| `test_independent_review_operations.py` | Software-only review lifecycle, severity, traceability and no-authorization regression |
 
 
 ## Device Trust and provisioning roadmap risks

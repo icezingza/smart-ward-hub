@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .slide-header {
+        padding-top: 40px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .section-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #00e5ff;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .slide-desc {
+        font-size: 15px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      .comparison-grid {
+        padding-top: 30px;
+        padding-left: 70px;
+        padding-right: 70px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .panel {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        padding-top: 20px;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .panel-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-top: 0px;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      .panel-title {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .check-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      .check-item i {
+        margin-top: 3px;
+        font-size: 15px;
+      }
+      .check-item strong {
+        color: #ffffff;
+      }
+      .check-item span {
+        color: #cbd5e1;
+      }
+      .bottom-note {
+        margin-top: 25px;
+        margin-left: 70px;
+        margin-right: 70px;
+        background: rgba(15, 23, 42, 0.9);
+        border-left: 4px solid #00e5ff;
+        padding-top: 14px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 13px;
+        color: #94a3b8;
+        line-height: 1.4;
+      }
+      .bottom-note strong {
+        color: #00e5ff;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding-top: 14px;
+        padding-left: 70px;
+        padding-right: 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="slide-header">
+            <div class="section-tag">Governance & Scope Boundary // GV-10 Contract</div>
+            <h2 class="slide-title">GV-10 ตรวจอะไร และไม่ตรวจอะไร</h2>
+            <p class="slide-desc">การกำหนดเส้นแบ่งความรับผิดชอบอย่างชัดเจนระหว่างตัวตรวจหลักฐานซอฟต์แวร์และการตัดสินใจของมนุษย์</p>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="panel" style="border-top: 3px solid #10b981;">
+                <div class="panel-header">
+                    <i class="fas fa-check-shield" style="color: #10b981; font-size: 20px;"></i>
+                    <div class="panel-title" style="color: #10b981;">สิ่งที่ GV-10 Validator ตรวจสอบ (Software Scope)</div>
+                </div>
+                <div class="check-list">
+                    <div class="check-item">
+                        <i class="fas fa-check" style="color: #10b981;"></i>
+                        <div><strong>ความถูกต้องของ Hash:</strong> ไฟล์หลักฐานมี SHA-256 ความยาว 64 หลักตรงกับไฟล์จริง</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-check" style="color: #10b981;"></i>
+                        <div><strong>ความสมบูรณ์ของเวลา:</strong> มี Timestamp กำกับ Timezone ชัดเจน (ISO-8601 UTC)</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-check" style="color: #10b981;"></i>
+                        <div><strong>การคัดกรองข้อมูลส่วนบุคคล:</strong> ผ่านสถานะ <code>redaction_status = PASS</code> เท่านั้น</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-check" style="color: #10b981;"></i>
+                        <div><strong>การป้องกันคำเคลมเกินจริง:</strong> ปฏิเสธคำว่า <code>CLINICAL_VALIDATED</code> หรือ <code>PRODUCTION_READY</code></div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-check" style="color: #10b981;"></i>
+                        <div><strong>สายการครอบครอง (Chain of Custody):</strong> ระบุบทบาทผู้เตรียมและเอกสารอ้างอิงชัดเจน</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" style="border-top: 3px solid #ef4444;">
+                <div class="panel-header">
+                    <i class="fas fa-times-circle" style="color: #ef4444; font-size: 20px;"></i>
+                    <div class="panel-title" style="color: #f87171;">สิ่งที่ไม่สามารถสรุปได้จาก GV-10 (Out of Scope)</div>
+                </div>
+                <div class="check-list">
+                    <div class="check-item">
+                        <i class="fas fa-times" style="color: #ef4444;"></i>
+                        <div><strong>ความแม่นยำทางคลินิก:</strong> ไม่ยืนยันประสิทธิภาพในการรักษา พยากรณ์โรค หรือช่วยชีวิต</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-times" style="color: #ef4444;"></i>
+                        <div><strong>การเชื่อมต่อฮาร์ดแวร์จริง:</strong> ไม่ทดแทนการต่อสาย Physical Serial Loopback หรือไฟดับจริง</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-times" style="color: #ef4444;"></i>
+                        <div><strong>ระบบเครือข่ายโรงพยาบาล:</strong> ไม่ทดแทน Transcript การจับมือ mTLS / OIDC กับ IdP จริง</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-times" style="color: #ef4444;"></i>
+                        <div><strong>ความปลอดภัย WORM ภายนอก:</strong> ไม่ทดแทนการยืนยันใบเสร็จรับเงินหรือการเก็บหลักฐานภายนอก</div>
+                    </div>
+                    <div class="check-item">
+                        <i class="fas fa-times" style="color: #ef4444;"></i>
+                        <div><strong>การอนุมัติใช้งานจริง:</strong> ไม่สามารถสั่ง Deploy เข้าห้องผู้ป่วยจริงโดยไม่มีคณะกรรมการ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-note">
+            <strong>สรุปบทบาท:</strong> <code>gv10_evidence.py</code> ทำหน้าที่เป็น "ด่านคัดกรองความสมบูรณ์ของแฟ้มหลักฐาน (Dossier Gatekeeper)" เพื่อให้มั่นใจว่าข้อมูลที่ส่งมอบให้ผู้ตรวจสอบอิสระไม่มีข้อมูลเท็จ ไร้รหัสคนไข้ และมีที่มาชัดเจนเท่านั้น
+        </div>
+
+        <div class="footer-strip">
+            <div>Verification Framework: GV-10 Dossier Ingest Contract</div>
+            <div>Evidence Class: INDEPENDENT_REVIEW_INPUT_UNVERIFIED</div>
+            <div>Page 3 / 10</div>
+        </div>
+    </div>
+</body>
+</html>

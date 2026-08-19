@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .slide-header {
+        padding-top: 36px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .section-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #00e5ff;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .slide-desc {
+        font-size: 14px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      .roadmap-grid {
+        padding-top: 24px;
+        padding-left: 70px;
+        padding-right: 70px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      .roadmap-step {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        padding-top: 18px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .step-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #00e5ff;
+        background: rgba(0, 229, 255, 0.1);
+        display: inline-block;
+        padding-top: 2px;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(0, 229, 255, 0.3);
+      }
+      .step-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+      .step-owner {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #38bdf8;
+        margin-bottom: 10px;
+      }
+      .step-desc {
+        font-size: 12px;
+        color: #cbd5e1;
+        line-height: 1.45;
+      }
+      .step-desc strong {
+        color: #f1f5f9;
+      }
+      .governance-banner {
+        margin-top: 20px;
+        margin-left: 70px;
+        margin-right: 70px;
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        padding-top: 14px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .banner-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #6ee7b7;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .banner-text {
+        font-size: 13px;
+        color: #e2e8f0;
+        line-height: 1.45;
+      }
+      .banner-text strong {
+        color: #10b981;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding-top: 12px;
+        padding-left: 70px;
+        padding-right: 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="slide-header">
+            <div class="section-tag">Next Phase Roadmap // P1-008 Review &amp; Pilot Readiness</div>
+            <h2 class="slide-title">ลำดับงานปิดช่องว่างและ P1-008 Next Steps</h2>
+            <p class="slide-desc">กรอบการปฏิบัติการตรวจสอบอิสระและการทยอยปลดล็อค External Gates ตามหลักฐานเชิงประจักษ์</p>
+        </div>
+
+        <div class="roadmap-grid">
+            <div class="roadmap-step" style="border-top: 3px solid #00e5ff;">
+                <div class="step-num">PHASE 1</div>
+                <div class="step-title">Appoint Reviewer &amp; Formalize Scope</div>
+                <div class="step-owner"><i class="fas fa-user-check"></i> independent_reviewer</div>
+                <div class="step-desc">
+                    แต่งตั้งผู้ตรวจสอบอิสระภายนอกทีมพัฒนา เพื่อรับมอบ <strong>GV10 Dossier v1</strong> และลงนามกำหนดขอบเขตการตรวจสอบแบบ Non-Interventional
+                </div>
+            </div>
+
+            <div class="roadmap-step" style="border-top: 3px solid #3b82f6;">
+                <div class="step-num">PHASE 2</div>
+                <div class="step-title">Signed Immutable Export Package</div>
+                <div class="step-owner"><i class="fas fa-file-export"></i> evidence_coordinator</div>
+                <div class="step-desc">
+                    ออกชุดข้อมูลแบบ Read-Only / Signed Export พร้อม Manifest SHA-256 ของโค้ดและชุดทดสอบทั้งหมดที่ถูกสแกนตัด PII แล้ว 100%
+                </div>
+            </div>
+
+            <div class="roadmap-step" style="border-top: 3px solid #f59e0b;">
+                <div class="step-num">PHASE 3</div>
+                <div class="step-title">Reproduce Tests &amp; Issue Findings</div>
+                <div class="step-owner"><i class="fas fa-search"></i> independent_reviewer</div>
+                <div class="step-desc">
+                    รัน Master Regression ซ้ำในสภาพแวดล้อมปิด ตรวจสอบ Claim Boundaries และบันทึก Findings พร้อมระดับความรุนแรง (Critical/High/Medium/Low)
+                </div>
+            </div>
+
+            <div class="roadmap-step" style="border-top: 3px solid #10b981;">
+                <div class="step-num">PHASE 4</div>
+                <div class="step-title">Controlled Pilot Gate Authorization</div>
+                <div class="step-owner"><i class="fas fa-hospital-user"></i> clinical_governance</div>
+                <div class="step-desc">
+                    ทยอย Reopen และปิด External Gates (GV-01 ถึง GV-09) เมื่อได้รับหลักฐานจากระบบจริง ก่อนพิจารณาอนุมัติเริ่ม Controlled Pilot ทางคลินิก
+                </div>
+            </div>
+        </div>
+
+        <div class="governance-banner">
+            <div class="banner-header">
+                <i class="fas fa-balance-scale"></i>
+                <span>Sovereign Evidence Governance Mandate</span>
+            </div>
+            <div class="banner-text">
+                <strong>"No External Evidence, No Gate Closure; No Governance Approval, No Clinical Validation"</strong> — การก้าวสู่การใช้งานในโรงพยาบาลจริงจะเกิดขึ้นได้ก็ต่อเมื่อมีผลการจับมือ mTLS จริง, ลายเซ็นรับรองทางคลินิก และการทดสอบ Serial Hardware จริงบน Acer Spin N17H2 ครบถ้วนเท่านั้น
+            </div>
+        </div>
+
+        <div class="footer-strip">
+            <div>Strategic Milestone: P1-008 Independent Review Operations</div>
+            <div>Deployment Readiness: Controlled Pilot Foundation</div>
+            <div>Page 10 / 10</div>
+        </div>
+    </div>
+</body>
+</html>

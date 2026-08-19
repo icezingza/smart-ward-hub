@@ -36,6 +36,7 @@
 | P1-005 | Approve clinical shadow-mode protocol | Clinical reviewer | `CLINICAL_SAFETY_SHADOW_MODE.md` | Human-factors review, stop conditions, alarm-fatigue review and sign-off record | In Progress |
 | P1-006 | Prepare clinical validation readiness package | Clinical reviewer + security auditor | P1-005 shadow-mode review, protocol and safety gates | Intended/excluded use, consent/waiver, owners, fallback, rollback, independent review and preflight evidence | In Progress |
 | P1-007 | Coordinate external validation and pilot readiness | Integration owner + clinical governance coordinator | P1-001–P1-006 evidence register | Ten named gates, owner assignments, evidence refs, blocker reasons and no-authorization boundary | In Progress |
+| P1-008 | Operate independent review session and controlled pilot gate | Independent reviewer + governance coordinator | GV-10 dossier, P1-007 gate registry, signed evidence export | Review lifecycle, severity-coded findings, finding-to-gate traceability, close/reopen control and no-authorization boundary | Dry-run complete |
 
 ## P2 — Capability expansion
 
@@ -51,6 +52,10 @@
 ### P1-005 clinical shadow-mode status note
 
 `clinical_shadow_mode.py`, `test_clinical_shadow_mode.py` and `test_clinical_shadow_mode_negative.py` pass policy completeness, non-diagnostic labels, raw-identity marker rejection, bounded context, review timing, duplicate review rejection, denominator-labelled non-accuracy metrics and stop/resume controls. P1-005 remains pending clinical governance approval, named owners, staff walkthrough, human-factors review, alarm-fatigue review, retention decision and real-world shadow evidence.
+
+### P1-008 independent review operations status note
+
+`independent_review_operations.py` and `test_independent_review_operations.py` provide a software-only review session contract with `OPEN`/`CLOSED` lifecycle, duplicate-protected evidence acceptance, severity-coded findings, finding-to-gate/evidence traceability, post-close mutation lock, raw-identity rejection and an explicit no-authorization boundary. P1-008 dry-run regression passed; appointment of an independent reviewer, signed evidence export, real external-gate evidence and governance decision remain unverified.
 
 ### P1-007 external validation coordination status note
 

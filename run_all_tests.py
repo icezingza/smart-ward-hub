@@ -32,6 +32,7 @@ TESTS = [
     "test_external_validation_package.py",
     "test_external_validation_gate_matrix.py",
     "test_gv10_evidence.py",
+    "test_independent_review_operations.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .slide-header {
+        padding-top: 36px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .section-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #00e5ff;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .slide-desc {
+        font-size: 14px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      .table-wrap {
+        padding-top: 22px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .status-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .status-table th {
+        background: rgba(30, 41, 59, 0.85);
+        color: #00e5ff;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        text-align: left;
+        padding-top: 12px;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .status-table td {
+        padding-top: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+        color: #cbd5e1;
+        line-height: 1.4;
+      }
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .pill-blocked {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: #fca5a5;
+      }
+      .pill-open {
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        color: #38bdf8;
+      }
+      .gate-id {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .owner-tag {
+        font-family: 'JetBrains Mono', monospace;
+        color: #94a3b8;
+        font-size: 12px;
+      }
+      .bottom-note {
+        margin-top: 16px;
+        margin-left: 70px;
+        margin-right: 70px;
+        background: rgba(15, 23, 42, 0.9);
+        border-left: 4px solid #f59e0b;
+        padding-top: 10px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 12px;
+        color: #fde68a;
+        line-height: 1.4;
+      }
+      .bottom-note strong {
+        color: #f59e0b;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding-top: 12px;
+        padding-left: 70px;
+        padding-right: 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="slide-header">
+            <div class="section-tag">External Validation Matrix // Part 1 (GV-01 to GV-05)</div>
+            <h2 class="slide-title">สถานะ 10 External Gates: ธรรมาภิบาลและความปลอดภัย</h2>
+            <p class="slide-desc">รายงานความคืบหน้าระดับ Governance, Privacy, HIS Interoperability, Identity และ Host Hardening</p>
+        </div>
+
+        <div class="table-wrap">
+            <table class="status-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Gate ID</th>
+                        <th style="width: 170px;">Domain</th>
+                        <th style="width: 110px;">Status</th>
+                        <th style="width: 170px;">Responsible Owner</th>
+                        <th style="width: 250px;">Required Evidence</th>
+                        <th>Current Blocker &amp; Next Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="gate-id">GV-01</td>
+                        <td>Clinical Governance</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">clinical_owner</td>
+                        <td>approved_protocol, consent_waiver, signed_scope</td>
+                        <td>ยังไม่มี Clinical Owner แต่งตั้งเป็นทางการ, ขาด Institutional Protocol และหนังสืออนุมัติจริยธรรม</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-02</td>
+                        <td>Privacy &amp; Security</td>
+                        <td><span class="status-pill pill-open"><i class="fas fa-hourglass-half"></i> OPEN</span></td>
+                        <td class="owner-tag">privacy_reviewer</td>
+                        <td>zero_pii_review, retention_decision, access_review</td>
+                        <td>ซอฟต์แวร์ Zero-PII ผ่านการทดสอบแล้ว; รอผลการตรวจรับรองนโยบาย Retention จาก DPO โรงพยาบาล</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-03</td>
+                        <td>HIS &amp; Admission</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">integration_owner</td>
+                        <td>real_his_transcript, fhir_ack, failure_recovery</td>
+                        <td>ยังไม่มีการเชื่อมต่อเครือข่ายทดสอบกับระบบ HIS จริง; Sandbox ผ่านเฉพาะ Contract Simulation</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-04</td>
+                        <td>Identity &amp; Transport</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">security_owner</td>
+                        <td>real_oidc_validation, real_mtls, key_rotation</td>
+                        <td>รอการติดตั้ง IdP จริงและใบรับรอง Mutual TLS ระหว่างเครื่อง Fixed Hub กับ Server ปลายทาง</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-05</td>
+                        <td>Fixed Hub Host</td>
+                        <td><span class="status-pill pill-open"><i class="fas fa-hourglass-half"></i> OPEN</span></td>
+                        <td class="owner-tag">host_operator</td>
+                        <td>acer_hardening_checklist, firewall_acl, recovery</td>
+                        <td>เครื่อง Acer Spin N17H2 มี Checklist พร้อมรัน; รอการคอนฟิก Windows Firewall และ ACL หน้างาน</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bottom-note">
+            <strong>เกณฑ์ความปลอดภัย:</strong> ประตูที่อยู่ในสถานะ <code>BLOCKED</code> จะไม่สามารถส่ง Evidence ใหม่เข้าไปได้จนกว่าจะผ่านการเรียก <code>reopen(reason)</code> อย่างเป็นทางการ เพื่อป้องกันการเคลมผลผ่านซอฟต์แวร์โดยไร้ระบบจริง
+        </div>
+
+        <div class="footer-strip">
+            <div>Validation Framework: P1-007 Coordination Package</div>
+            <div>Registry Summary: 3 Blocked / 2 Open (GV-01..05)</div>
+            <div>Page 8 / 10</div>
+        </div>
+    </div>
+</body>
+</html>

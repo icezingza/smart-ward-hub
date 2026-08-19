@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .slide-header {
+        padding-top: 40px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .section-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #00e5ff;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .slide-desc {
+        font-size: 15px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      .table-wrap {
+        padding-top: 25px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .matrix-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .matrix-table th {
+        background: rgba(30, 41, 59, 0.9);
+        color: #00e5ff;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: left;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border-bottom: 2px solid rgba(0, 229, 255, 0.3);
+        font-family: 'JetBrains Mono', monospace;
+        text-transform: uppercase;
+      }
+      .matrix-table td {
+        font-size: 13px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+        color: #cbd5e1;
+        line-height: 1.4;
+      }
+      .matrix-table tr:last-child td {
+        border-bottom: none;
+      }
+      .class-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 600;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 6px;
+        padding-right: 6px;
+        display: inline-block;
+      }
+      .outcome-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .tag-green { color: #10b981; }
+      .tag-cyan { color: #38bdf8; }
+      .tag-amber { color: #f59e0b; }
+      .tag-red { color: #ef4444; }
+      .bottom-note {
+        margin-top: 20px;
+        margin-left: 70px;
+        margin-right: 70px;
+        background: rgba(15, 23, 42, 0.9);
+        border-left: 4px solid #00e5ff;
+        padding-top: 12px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 12px;
+        color: #94a3b8;
+        line-height: 1.4;
+      }
+      .bottom-note strong {
+        color: #00e5ff;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding-top: 14px;
+        padding-left: 70px;
+        padding-right: 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="slide-header">
+            <div class="section-tag">Evaluation Criteria // Independent Review Decision Rules</div>
+            <h2 class="slide-title">Evidence Decision Matrix ของคณะกรรมการอิสระ</h2>
+            <p class="slide-desc">เกณฑ์การตัดสิน Review Outcome สำหรับหลักฐานแต่ละประเภทและผลกระทบต่อสถานะของ External Gates</p>
+        </div>
+
+        <div class="table-wrap">
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th style="width: 26%;">Evidence Class / Condition</th>
+                        <th style="width: 32%;">Expected Review Outcome</th>
+                        <th style="width: 42%;">Gate Status Implication</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="class-badge tag-green">SOFTWARE_VERIFIED</span></td>
+                        <td><span class="outcome-badge tag-green">ACCEPTED_FOR_REVIEW</span><br><span style="font-size:11px; color:#94a3b8;">หาก Hash, Provenance และ Redaction ผ่าน</span></td>
+                        <td>รับเข้าสู่การตรวจซ้ำระดับโค้ด; <strong>ไม่ปิด External Gate โดยอัตโนมัติ</strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-badge tag-cyan">SIMULATION_ONLY</span></td>
+                        <td><span class="outcome-badge tag-cyan">ACCEPTED_FOR_REVIEW</span><br><span style="font-size:11px; color:#94a3b8;">ติดป้ายกำกับ Simulation ชัดเจน</span></td>
+                        <td>บันทึกพฤติกรรมภายใต้แรงกดดันจำลอง; <strong>ไม่เทียบเท่า Hardware/Field Evidence</strong></td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-badge tag-amber">EXTERNAL_UNVERIFIED</span></td>
+                        <td><span class="outcome-badge tag-amber">REQUIRES_CLARIFICATION</span> / <span class="outcome-badge tag-amber">BLOCKED</span></td>
+                        <td>Gate ยังคงสถานะ <strong>OPEN หรือ BLOCKED</strong> จนกว่าจะได้รับ Transcript จากระบบภายนอกจริง</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-badge tag-amber">CLINICAL_GOVERNANCE_UNVERIFIED</span></td>
+                        <td><span class="outcome-badge tag-amber">BLOCKED_EXTERNAL_EVIDENCE</span></td>
+                        <td>Gate ด้าน Clinical <strong>BLOCKED ทันที</strong> จนกว่าจะมีลายเซ็นรับรองจาก Clinical Owner</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-badge" style="color:#a855f7;">BLOCKER_RECORD</span></td>
+                        <td><span class="outcome-badge tag-cyan">ACCEPTED_FOR_REVIEW</span><br><span style="font-size:11px; color:#94a3b8;">รับเพื่อเป็นหลักฐานอธิบายข้อจำกัด</span></td>
+                        <td>Gate คงสถานะ <strong>BLOCKED</strong> ไว้อย่างเปิดเผย พร้อมระบุ Prerequisite ที่ต้องแก้ไข</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-badge tag-red">Raw ID / Bad Hash / Forbidden Claim</span></td>
+                        <td><span class="outcome-badge tag-red">REJECTED_FAIL_CLOSED</span></td>
+                        <td><strong>สกัดกั้นทันที</strong>; ห้ามบันทึกเข้า Dossier Bundle เพื่อป้องกันข้อมูลเท็จและข้อมูลหลุด</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bottom-note">
+            <strong>หัวใจของ Decision Matrix:</strong> การประเมินแบ่งแยกชัดเจนระหว่าง "หลักฐานยืนยันความสมบูรณ์ของซอฟต์แวร์ (Software Verified)" กับ "การปิดเกตสภาพแวดล้อมจริง (Gate Passed)" ป้องกันข้ออ้าง Clinical Validation ก่อนได้รับความเห็นชอบจากคณะกรรมการ
+        </div>
+
+        <div class="footer-strip">
+            <div>Governance Standard: GV-10 Submission & Review Checklist</div>
+            <div>Review Mode: Independent Non-Interventional Review</div>
+            <div>Page 7 / 10</div>
+        </div>
+    </div>
+</body>
+</html>

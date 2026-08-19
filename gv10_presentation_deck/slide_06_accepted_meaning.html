@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .slide-header {
+        padding-top: 40px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .section-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #00e5ff;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .slide-desc {
+        font-size: 15px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      .stages-grid {
+        padding-top: 25px;
+        padding-left: 70px;
+        padding-right: 70px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+      }
+      .stage-card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .stage-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .stage-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .stage-status {
+        display: inline-block;
+        padding-top: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 14px;
+      }
+      .stage-body {
+        font-size: 13px;
+        color: #cbd5e1;
+        line-height: 1.45;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .stage-body p strong {
+        color: #f1f5f9;
+      }
+      .boundary-box {
+        margin-top: 24px;
+        margin-left: 70px;
+        margin-right: 70px;
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        padding-top: 14px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .boundary-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fca5a5;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .boundary-text {
+        font-size: 13px;
+        color: #e2e8f0;
+        line-height: 1.45;
+      }
+      .code-inline {
+        font-family: 'JetBrains Mono', monospace;
+        background: rgba(0, 0, 0, 0.4);
+        padding-left: 6px;
+        padding-right: 6px;
+        color: #38bdf8;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding-top: 14px;
+        padding-left: 70px;
+        padding-right: 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="slide-header">
+            <div class="section-tag">Governance Semantics // Claim Boundary Discipline</div>
+            <h2 class="slide-title">ความหมายของ "Accepted for Review"</h2>
+            <p class="slide-desc">การแยกความแตกต่างระหว่างการรับเอกสารเข้าตรวจ, การปิดเกตความเสี่ยง และการอนุมัติใช้งานจริง</p>
+        </div>
+
+        <div class="stages-grid">
+            <div class="stage-card" style="border-top: 3px solid #38bdf8;">
+                <div class="stage-tag">Stage 1: Evidence Intake</div>
+                <div class="stage-title"><i class="fas fa-inbox" style="color:#38bdf8;"></i> Ingestion Acceptance</div>
+                <div class="stage-status" style="background:rgba(56,189,248,0.15); color:#38bdf8;">ACCEPTED_FOR_REVIEW</div>
+                <div class="stage-body">
+                    <p><strong>ความหมาย:</strong> แฟ้มหลักฐานมี SHA-256 ตรงกับไฟล์ต้นทาง, ไร้ข้อมูลส่วนบุคคล, มี Timestamp ระบุโซนเวลา และระบุบทบาทผู้เตรียมอย่างโปร่งใส</p>
+                    <p><strong>สิทธิ์ที่เกิดขึ้น:</strong> ได้รับสิทธิ์ส่งเข้าคิวรอผู้ตรวจสอบอิสระเปิดอ่านและตรวจซ้ำ</p>
+                </div>
+            </div>
+
+            <div class="stage-card" style="border-top: 3px solid #f59e0b;">
+                <div class="stage-tag">Stage 2: Independent Review</div>
+                <div class="stage-title"><i class="fas fa-tasks" style="color:#f59e0b;"></i> Gate Evaluation</div>
+                <div class="stage-status" style="background:rgba(245,158,11,0.15); color:#f59e0b;">GATE_UNDER_EVALUATION</div>
+                <div class="stage-body">
+                    <p><strong>ความหมาย:</strong> ผู้ตรวจสอบอิสระรันโค้ดซ้ำ (Reproduce), ทบทวนบันทึกความเสี่ยง (Risk Register) และตรวจสอบว่ามีผลทดสอบภายนอกครบถ้วนหรือไม่</p>
+                    <p><strong>ผลลัพธ์ที่เป็นไปได้:</strong> ออกรายงาน Finding, ร้องขอเอกสารเพิ่ม หรือคงสถานะ BLOCKED</p>
+                </div>
+            </div>
+
+            <div class="stage-card" style="border-top: 3px solid #ef4444;">
+                <div class="stage-tag">Stage 3: Deployment Authorization</div>
+                <div class="stage-title"><i class="fas fa-hospital" style="color:#ef4444;"></i> Clinical Authorization</div>
+                <div class="stage-status" style="background:rgba(239,68,68,0.15); color:#f87171;">STRICTLY_LOCKED_FALSE</div>
+                <div class="stage-body">
+                    <p><strong>ความหมาย:</strong> การตัดสินใจของคณะกรรมการจริยธรรมและผู้อำนวยการแพทย์โรงพยาบาลในการเริ่มทดลองใช้งานจริงแบบ Controlled Pilot</p>
+                    <p><strong>สถานะปัจจุบัน:</strong> ยังไม่ได้รับอนุญาต และระบบซอฟต์แวร์ล็อกค่าความปลอดภัยไม่ให้เปิดสิทธิ์นี้เอง</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="boundary-box">
+            <div class="boundary-header">
+                <i class="fas fa-lock"></i>
+                <span>Fail-Safe Policy: No Software Can Authorize Its Own Clinical Deployment</span>
+            </div>
+            <div class="boundary-text">
+                ในระบบ <span class="code-inline">gv10_evidence.py</span> และ <span class="code-inline">external_validation_package.py</span> มีการเขียน Assert ล็อกค่า <span class="code-inline">clinical_validation_authorized = False</span> และ <span class="code-inline">real_world_authorization = False</span> ไว้อย่างถาวร เพื่อป้องกันไม่ให้มีนักพัฒนาหรือระบบอัตโนมัติใดแอบอ้างว่าการรัน Simulation ผ่านคือการผ่านการอนุมัติทางคลินิก
+            </div>
+        </div>
+
+        <div class="footer-strip">
+            <div>Governance Discipline: Sovereign Evidence Protocol</div>
+            <div>Status: Controlled Production Prototype (Clinical Validation Pending)</div>
+            <div>Page 6 / 10</div>
+        </div>
+    </div>
+</body>
+</html>

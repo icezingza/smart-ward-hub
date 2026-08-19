@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .slide-header {
+        padding-top: 36px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .section-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #00e5ff;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .slide-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .slide-desc {
+        font-size: 14px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+      .table-wrap {
+        padding-top: 22px;
+        padding-left: 70px;
+        padding-right: 70px;
+      }
+      .status-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .status-table th {
+        background: rgba(30, 41, 59, 0.85);
+        color: #00e5ff;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        text-align: left;
+        padding-top: 12px;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .status-table td {
+        padding-top: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+        color: #cbd5e1;
+        line-height: 1.4;
+      }
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .pill-blocked {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: #fca5a5;
+      }
+      .pill-open {
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        color: #38bdf8;
+      }
+      .gate-id {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .owner-tag {
+        font-family: 'JetBrains Mono', monospace;
+        color: #94a3b8;
+        font-size: 12px;
+      }
+      .bottom-note {
+        margin-top: 16px;
+        margin-left: 70px;
+        margin-right: 70px;
+        background: rgba(15, 23, 42, 0.9);
+        border-left: 4px solid #ef4444;
+        padding-top: 10px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 12px;
+        color: #fca5a5;
+        line-height: 1.4;
+      }
+      .bottom-note strong {
+        color: #ef4444;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding-top: 12px;
+        padding-left: 70px;
+        padding-right: 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="slide-header">
+            <div class="section-tag">External Validation Matrix // Part 2 (GV-06 to GV-10)</div>
+            <h2 class="slide-title">สถานะ 10 External Gates: ฮาร์ดแวร์และการตรวจสอบอิสระ</h2>
+            <p class="slide-desc">รายงานสถานะด้าน Hardware Recovery, Forensic WORM, Device Trust, การปฏิบัติการหน้างาน และ GV-10</p>
+        </div>
+
+        <div class="table-wrap">
+            <table class="status-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Gate ID</th>
+                        <th style="width: 170px;">Domain</th>
+                        <th style="width: 110px;">Status</th>
+                        <th style="width: 170px;">Responsible Owner</th>
+                        <th style="width: 250px;">Required Evidence</th>
+                        <th>Current Blocker &amp; Next Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="gate-id">GV-06</td>
+                        <td>Hardware Recovery</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">reliability_owner</td>
+                        <td>serial_loopback_s015, power_loss, disk_full</td>
+                        <td>Acer Spin N17H2 ยังไม่มี COM port ที่ enumerate; ต้องต่อสาย USB-Serial Loopback กายภาพจริง</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-07</td>
+                        <td>Forensic Anchor</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">forensic_owner</td>
+                        <td>external_worm_receipt, timestamp, verify</td>
+                        <td>FileAnchorStore ระดับเครื่องพร้อมแล้ว; รอการเชื่อมต่อ Append-Only WORM หรือ Blockchain ภายนอก</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-08</td>
+                        <td>Device Trust</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">security_owner</td>
+                        <td>manufacturer_provenance, hardware_custody</td>
+                        <td>สัญญา Ed25519 พร้อม; รอหลักฐานการฝังกุญแจจากโรงงานผู้ผลิตสายรัดข้อมือหรือ Secure Element</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-09</td>
+                        <td>Clinical Operations</td>
+                        <td><span class="status-pill pill-blocked"><i class="fas fa-ban"></i> BLOCKED</span></td>
+                        <td class="owner-tag">ward_manager</td>
+                        <td>staff_training, manual_fallback_sop, fatigue</td>
+                        <td>มีระบบ Clinical Shadow-Mode รองรับ; รอการอบรมพยาบาลหน้างานและอนุมัติขั้นตอน Manual Fallback</td>
+                    </tr>
+                    <tr>
+                        <td class="gate-id">GV-10</td>
+                        <td>Independent Review</td>
+                        <td><span class="status-pill pill-open"><i class="fas fa-hourglass-half"></i> OPEN</span></td>
+                        <td class="owner-tag">independent_reviewer</td>
+                        <td>analysis_plan, adjudication_plan, audit_export</td>
+                        <td>Dossier Ingest พร้อมแล้ว; รอแต่งตั้งคณะกรรมการอิสระและเปิด Review Session ในเฟส P1-008</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bottom-note">
+            <strong>Blocker กายภาพสำคัญ (GV-06):</strong> การทดสอบ Serial Framing และ Power-loss บน Acer Spin N17H2 ยังอยู่ในระดับ Software Simulation จนกว่าจะมีสาย Serial จริงและผ่านคำสั่งยืนยัน <code>--confirm-physical I_HAVE_A_NONPRODUCTION_LOOPBACK</code>
+        </div>
+
+        <div class="footer-strip">
+            <div>Total Matrix Summary: 7 BLOCKED / 3 OPEN / 0 PASSED</div>
+            <div>Readiness Status: ready_for_external_review = FALSE</div>
+            <div>Page 9 / 10</div>
+        </div>
+    </div>
+</body>
+</html>

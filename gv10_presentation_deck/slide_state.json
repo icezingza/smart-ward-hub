@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "title": "Smart Ward Hub: GV-10 Evidence Simulation & External Gates",
+    "created": 1787177033.615,
+    "last_updated": 1787177171.896,
+    "total_slides": 10
+  },
+  "slides": [
+    {
+      "id": "slide_01_cover",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_02_executive_summary",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_03_gv10_boundary",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_04_fail_closed_pipeline",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_05_simulation_results",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_06_accepted_meaning",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_07_decision_matrix",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_08_external_gates_part1",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_09_external_gates_part2",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10_p1008_next_steps",
+      "state": "edited",
+      "pageNum": 10
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_01_cover",
+      "title": "Smart Ward Hub: GV-10 Evidence Simulation & External Gates",
+      "summary": "หน้าปกสรุปสถานะการเตรียมเอกสารสำหรับ Independent Review, ผล fail-closed simulation และก้าวถัดไปสู่ Controlled Pilot Gate",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_02_executive_summary",
+      "title": "สรุปสถานะ: ซอฟต์แวร์พร้อมตรวจ แต่ยังรอผลจากภายนอก",
+      "summary": "สรุปสถานะผลิตภัณฑ์ controlled production prototype, ผล simulation 5 รับเข้า 10 ปฏิเสธ และการไม่อนุมัติ clinical หรือ production จาก simulation",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_03_gv10_boundary",
+      "title": "GV-10 ตรวจอะไร และไม่ตรวจอะไร",
+      "summary": "ขอบเขตการทำงานของ GV-10 validator ในการตรวจ integrity, provenance, redaction และ claim boundary โดยไม่แทนการทดสอบระบบจริง",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_04_fail_closed_pipeline",
+      "title": "Evidence Pipeline แบบ Fail-Closed",
+      "summary": "โครงสร้างการตรวจสอบหลักฐาน 8 ขั้นตอน ตั้งแต่ SHA-256 จนถึง chain-of-custody และการตัด raw identity ก่อนเข้าสู่ review bundle",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_05_simulation_results",
+      "title": "ผลจำลอง: 5 รายการรับเข้า และ 10 กรณีถูกปฏิเสธ",
+      "summary": "แจกแจงผลทดสอบ positive cases ที่ผ่านเกณฑ์ และ fail-closed mutations ทั้ง 10 กรณีที่ถูกปฏิเสธอย่างแม่นยำ",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_06_accepted_meaning",
+      "title": "ความหมายของ Accepted for Review",
+      "summary": "ความชัดเจนว่า accepted หมายถึงรับ artifact เข้าตรวจซ้ำ ไม่ใช่ gate ผ่าน และระบบยังคงล็อก real-world authorization เป็น false",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_07_decision_matrix",
+      "title": "Evidence Decision Matrix ของคณะกรรมการอิสระ",
+      "summary": "เกณฑ์การตัดสิน review outcome สำหรับหลักฐานแต่ละ class และผลกระทบต่อสถานะของ External Gates",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_08_external_gates_part1",
+      "title": "สถานะ 10 External Gates (GV-01 ถึง GV-05)",
+      "summary": "รายงานสถานะและ blocker ของด้าน Clinical Governance, Privacy/Security, HIS, Identity/mTLS และ Acer Host Hardening",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_09_external_gates_part2",
+      "title": "สถานะ 10 External Gates (GV-06 ถึง GV-10)",
+      "summary": "รายงานสถานะและ blocker ของด้าน Hardware Recovery, Forensic Anchor, Device Trust, Ward Operations และ Independent Review",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_10_p1008_next_steps",
+      "title": "ลำดับงานปิดช่องว่างและ P1-008 Next Steps",
+      "summary": "แผนงาน P1-008 Independent Review Operations และกระบวนการปิด gate ที่ต้องใช้หลักฐานจริงเท่านั้น",
+      "image_plan": "Use a suitable image if needed"
+    }
+  ]
+}

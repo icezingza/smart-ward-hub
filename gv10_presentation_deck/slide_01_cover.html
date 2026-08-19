@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #060913; font-family: 'Prompt', sans-serif; color: #e2e8f0; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #0f2744 0%, #081120 50%, #050a14 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .header-bar {
+        height: 6px;
+        background: linear-gradient(90deg, #00e5ff 0%, #3b82f6 50%, #10b981 100%);
+      }
+      .content-wrap {
+        padding-top: 50px;
+        padding-left: 70px;
+        padding-right: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .left-col {
+        width: 680px;
+      }
+      .badge-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        background: rgba(0, 229, 255, 0.12);
+        border: 1px solid rgba(0, 229, 255, 0.4);
+        color: #00e5ff;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 24px;
+      }
+      .main-title {
+        font-size: 44px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #ffffff;
+        margin-bottom: 16px;
+      }
+      .main-title span {
+        color: #00e5ff;
+      }
+      .sub-title {
+        font-size: 19px;
+        color: #94a3b8;
+        line-height: 1.5;
+        margin-bottom: 36px;
+      }
+      .meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .meta-item {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        padding: 14px 18px;
+        border-radius: 8px;
+      }
+      .meta-label {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .meta-value {
+        font-size: 15px;
+        font-weight: 600;
+        color: #f1f5f9;
+      }
+      .right-col {
+        width: 420px;
+      }
+      .dossier-card {
+        background: rgba(13, 22, 40, 0.85);
+        border: 1px solid rgba(0, 229, 255, 0.25);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        margin-bottom: 18px;
+      }
+      .card-header i {
+        font-size: 24px;
+        color: #00e5ff;
+      }
+      .card-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .card-id {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #38bdf8;
+      }
+      .status-pill {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        padding: 10px 14px;
+        border-radius: 8px;
+        color: #fca5a5;
+        font-size: 13px;
+        margin-bottom: 16px;
+        line-height: 1.4;
+      }
+      .bullet-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .bullet-list li {
+        font-size: 13px;
+        color: #cbd5e1;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.4;
+      }
+      .bullet-list li i {
+        color: #10b981;
+        margin-top: 3px;
+        font-size: 12px;
+      }
+      .footer-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        padding: 14px 70px;
+        background: rgba(6, 11, 22, 0.95);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+      }
+      .footer-strip span.strong {
+        color: #94a3b8;
+        font-weight: 600;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrap">
+            <div class="left-col">
+                <div class="badge-tag">
+                    <i class="fas fa-shield-alt"></i> P1-007 & GV-10 Governance Pipeline
+                </div>
+                <h1 class="main-title">
+                    Smart Ward Hub<br>
+                    <span>GV-10 Evidence Simulation</span><br>
+                    & 10 External Gates
+                </h1>
+                <p class="sub-title">
+                    รายงานสถานะการเตรียมเอกสารสำหรับคณะกรรมการตรวจสอบอิสระ (Independent Review), ผลการจำลองแบบ Fail-Closed และลำดับการปิด External Gates ก่อนเข้าสู่ Controlled Pilot
+                </p>
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <div class="meta-label">Product Status Baseline</div>
+                        <div class="meta-value">Controlled Production Prototype</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Software Verification</div>
+                        <div class="meta-value" style="color:#10b981;">Functional Baseline PASSED</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Clinical Approval</div>
+                        <div class="meta-value" style="color:#f59e0b;">Validation PENDING</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Independent Review</div>
+                        <div class="meta-value" style="color:#38bdf8;">Dossier v1 Input Ready</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="dossier-card">
+                    <div class="card-header">
+                        <i class="fas fa-file-contract"></i>
+                        <div>
+                            <div class="card-title">Evidence Dossier Registry</div>
+                            <div class="card-id">smart-ward-gv10-review-v1</div>
+                        </div>
+                    </div>
+                    <div class="status-pill">
+                        <i class="fas fa-lock"></i>
+                        <div><strong>No-Authorization Lock:</strong> Simulation ไม่ใช่การอนุมัติทางคลินิกหรือการใช้งานจริง</div>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><i class="fas fa-check-circle"></i> <span>5 รายการ Positive Evidence ผ่านเข้าสู่กระบวนการตรวจซ้ำ</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>10 กรณี Fail-Closed Mutations ถูกปฏิเสธตามเกณฑ์ความปลอดภัย</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>7 ใน 10 External Gates ติดป้าย BLOCKED อย่างโปร่งใส</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>พร้อมเริ่มต้น P1-008 Review Operations ต่อเนื่อง</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-strip">
+            <div><span class="strong">Organization:</span> Sovereign Healthcare AI Systems</div>
+            <div><span class="strong">Scope:</span> Evidence Dossier Verification & Governance Matrix</div>
+            <div><span class="strong">Date:</span> August 20, 2026</div>
+        </div>
+    </div>
+</body>
+</html>
