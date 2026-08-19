@@ -30,6 +30,8 @@ TESTS = [
     "test_clinical_shadow_mode_negative.py",
     "test_clinical_validation_readiness.py",
     "test_external_validation_package.py",
+    "test_external_validation_gate_matrix.py",
+    "test_gv10_evidence.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",

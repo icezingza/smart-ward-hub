@@ -54,6 +54,10 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `P1_006_CLINICAL_VALIDATION_READINESS_PLAN.md` | Clinical validation prerequisites and external approval gates |
 | `clinical_validation_readiness.py` | Software-only clinical validation preflight boundary |
 | `test_clinical_validation_readiness.py` | Fail-closed P1-006 preflight regression |
+| `GV10_INDEPENDENT_REVIEW_DOSSIER.md` | Independent-review evidence map and current external blockers |
+| `GV10_SUBMISSION_CHECKLIST.md` | GV-10 redaction, hash, chain-of-custody and independent-review checklist |
+| `gv10_evidence.py` | SHA-256, provenance, redaction and no-authorization evidence validator |
+| `test_gv10_evidence.py` | GV-10 evidence mutation and claim-boundary regression |
 
 
 ## Device Trust and provisioning roadmap risks

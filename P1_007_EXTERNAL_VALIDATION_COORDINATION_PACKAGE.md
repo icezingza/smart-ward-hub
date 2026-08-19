@@ -34,3 +34,8 @@ The Acer Spin N17H2 has no enumerated serial port and no deployed project/loopba
 ## Decision boundary
 
 The package can be used to prepare a controlled pilot review meeting and collect evidence. It cannot authorize real patient testing, treatment decisions, diagnostic claims, production deployment, regulatory compliance claims or closure of any external gate without the responsible external owner and auditable evidence.
+
+
+## GV-10 independent-review handoff
+
+The detailed independent-review input is defined in `GV10_INDEPENDENT_REVIEW_DOSSIER.md` and checked by `GV10_SUBMISSION_CHECKLIST.md`. The software validator in `gv10_evidence.py` requires a bounded evidence reference, gate ID, SHA-256, timezone-aware collection timestamp, prepared-by role, redaction pass and chain-of-custody reference. Its output is always `INDEPENDENT_REVIEW_INPUT_UNVERIFIED`; it cannot authorize clinical validation or production use.

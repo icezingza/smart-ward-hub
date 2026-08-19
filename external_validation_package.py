@@ -25,12 +25,14 @@ class GateEvidence:
     def validate(self) -> None:
         if not SAFE_REF.fullmatch(self.evidence_ref) or RAW_ID.search(self.evidence_ref):
             raise ExternalValidationPackageError("unsafe_evidence_reference")
-        if self.evidence_class in {"CLINICAL_VALIDATED", "PRODUCTION_READY", "TAMPER_PROOF"}:
+        if self.evidence_class.strip().upper() in {"CLINICAL_VALIDATED", "PRODUCTION_READY", "TAMPER_PROOF"}:
             raise ExternalValidationPackageError("unsupported_evidence_claim")
         try:
-            datetime.fromisoformat(self.submitted_at_utc.replace("Z", "+00:00"))
+            parsed = datetime.fromisoformat(self.submitted_at_utc.replace("Z", "+00:00"))
         except ValueError as exc:
             raise ExternalValidationPackageError("invalid_evidence_timestamp") from exc
+        if parsed.tzinfo is None:
+            raise ExternalValidationPackageError("evidence_timestamp_must_be_timezone_aware")
 
 
 @dataclass
@@ -55,6 +57,8 @@ class ValidationGate:
 
     def submit_evidence(self, item: GateEvidence) -> None:
         self.validate()
+        if self.status == "BLOCKED":
+            raise ExternalValidationPackageError("blocked_gate_requires_reopen")
         item.validate()
         if item.evidence_ref in {existing.evidence_ref for existing in self.evidence}:
             raise ExternalValidationPackageError("duplicate_gate_evidence")
@@ -67,6 +71,14 @@ class ValidationGate:
             raise ExternalValidationPackageError("blocker_reason_required")
         self.status = "BLOCKED"
         self.blocker = reason.strip()[:240]
+
+    def reopen(self, reason: str) -> None:
+        if self.status != "BLOCKED":
+            raise ExternalValidationPackageError("gate_not_blocked")
+        if not reason.strip():
+            raise ExternalValidationPackageError("reopen_reason_required")
+        self.status = "OPEN"
+        self.blocker = None
 
 
 @dataclass

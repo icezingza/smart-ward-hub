@@ -54,7 +54,7 @@
 
 ### P1-007 external validation coordination status note
 
-`external_validation_package.py` and `test_external_validation_package.py` provide a software coordination contract with 10 external gates: clinical governance, privacy/security, HIS/admission, identity/transport, Fixed Hub host, hardware/recovery, forensic anchor, Device Trust, clinical operations and independent review. Gate evidence is traceable and duplicate-protected; blockers remain visible; `real_world_authorization` is permanently false. P1-007 is a coordination artifact, not clinical authorization.
+`external_validation_package.py`, `test_external_validation_package.py` and `test_external_validation_gate_matrix.py` provide a software coordination contract with 10 external gates: clinical governance, privacy/security, HIS/admission, identity/transport, Fixed Hub host, hardware/recovery, forensic anchor, Device Trust, clinical operations and independent review. Gate evidence is traceable and duplicate-protected; blocked gates require explicit reopen; blockers remain visible; `real_world_authorization` is permanently false. `gv10_evidence.py` and `test_gv10_evidence.py` add SHA-256, timezone-aware timestamp, redaction, provenance and chain-of-custody validation for GV-10. P1-007/GV-10 are coordination artifacts, not clinical authorization.
 
 ### P1-006 clinical validation readiness status note
 
