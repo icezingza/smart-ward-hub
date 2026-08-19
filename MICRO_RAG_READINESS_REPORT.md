@@ -23,7 +23,7 @@ The current Micro-RAG design is appropriately narrow for Smart Ward Hub: it retr
 | Model-agnostic response adapter | Passed | Strict envelope, citation/provenance, refusal, safety and redaction tests pass |
 | Thai/English and adversarial deterministic coverage | Passed | Corpus-v2 bilingual provenance and mixed-language injection cases pass |
 | Approved registry/rebuildable index baseline | Passed | Approval, PII rejection, scope, stale, deprecation, revocation and atomic rebuild tests pass |
-| Gemini model-specific baseline | Historical 5/5; v2 rerun pending | Revision `001` historical five-case run captured/replayed 5/5; current eight-case v2 run blocked by HTTP 429 |
+| Gemini model-specific baseline | Historical 5/5; current v2 alternate-model pass 8/8; pinned 2.5 rerun partial | `gemini-3-flash-preview` revision `3-flash-preview-12-2025` passed 8/8 through adapter; `gemini-2.5-flash` revision `001` current rerun passed 2/8 and six later calls returned HTTP 429 |
 
 ## Architecture decision
 
@@ -39,7 +39,7 @@ The first safe production-like use case should be operational assistance: recove
 | Deterministic rebuildable index adapter | Implemented baseline | Manifest hash, scope/language provenance, stale blocking, deletion and atomic rebuild tests |
 | Semantic embedding/index adapter | Planned | Pinned model/index version, recall/precision evaluation, rebuild and deletion test |
 | Model response adapter | Implemented baseline | Pinned model/version, prompt hash, response schema and redacted transcript contract |
-| Model-specific hallucination evaluation | Baseline captured; rerun pending | Gemini revision 001 captured 5/5; current prompt revision needs a fresh run after provider rate-limit window |
+| Model-specific hallucination evaluation | Alternate-model v2 pass captured; pinned target rerun pending | Gemini 3 Flash v2 passed 8/8 with redacted evidence; Gemini 2.5 v2 rerun is 2/8 due six HTTP 429 responses and needs a clean provider-window rerun |
 | Human review and operational ownership | Planned | Reviewer, escalation, refusal handling and incident process |
 | Clinical retrieval | Deferred | Separate clinical governance, validation and patient-data policy |
 | Patient-specific retrieval | Not permitted in initial scope | Requires separate identity, consent, access and clinical governance design |
@@ -50,4 +50,4 @@ A future model adapter must submit a response containing `answer`, `citations`, 
 
 ## Claim boundary
 
-The correct status is **Micro-RAG deterministic and registry/index baselines implemented; model-agnostic adapter implemented; historical Gemini revision 001 baseline captured; current corpus-v2 eight-case prompt rerun pending; runtime semantic retrieval not implemented**. Passing these suites is evidence of contract behavior over synthetic fixtures only. It is not evidence of clinical accuracy, hallucination rate in a deployed model, regulatory compliance, production readiness or clinical readiness.
+The correct status is **Micro-RAG deterministic and registry/index baselines implemented; model-agnostic adapter implemented; historical Gemini 2.5 revision 001 baseline captured; current corpus-v2 eight-case evaluation passed for Gemini 3 Flash Preview; pinned Gemini 2.5 current-prompt rerun remains provider-limited; runtime semantic retrieval not implemented**. Passing these suites is evidence of contract behavior over synthetic fixtures only. It is not evidence of clinical accuracy, hallucination rate in a deployed model, regulatory compliance, production readiness or clinical readiness.

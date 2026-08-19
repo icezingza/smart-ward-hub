@@ -21,12 +21,17 @@ Smart Ward Hub อยู่ในสถานะ **controlled production prototy
 | P2 readiness | อัปเดต `P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md` ให้สะท้อน runner evidence และ no-COM-port gate |
 | Repository documentation | เพิ่ม `README.md` ที่กำหนด product boundary, differentiators และ evidence limits |
 | GitHub publication | สร้างและ push ไปยัง private repository `icezingza/smart-ward-hub` |
+| P2-004 Micro-RAG | Deterministic baseline, registry/index baseline และ model-agnostic adapter ผ่าน; Gemini 3 Flash v2 ผ่าน 8/8; Gemini 2.5 pinned rerun ได้ 2/8 โดย 6 calls ติด HTTP 429 |
 
 ## Verification evidence
 
 Final master regression รันจบด้วย exit code `0` และผ่าน test groups สำหรับ Phase 1–6, Device Trust, Ward Workflow, Outside-in Admission, Roaming synchronization, Micro-RAG baseline, P2-002 adapters, Serial framing, network-pressure simulation, Serial bench runner safety, residual controls, reliability และ 30-day pilot simulation
 
 ผลดังกล่าวเป็น **software test evidence และ deterministic simulation evidence** เท่านั้น ไม่ใช่หลักฐานจาก COM port จริง, sensor จริง, production network, HIS จริง หรือ clinical setting. ในผล master suite เองมีข้อความกำกับว่า Phase 6, Device Trust, ward workflow, outside-in admission และ roaming เป็น software tests ไม่ใช่ clinical, HIS หรือ hardware validation
+
+### Micro-RAG v2 model evidence
+
+The current corpus-v2 eight-case prompt passed `8/8` through `response-adapter-v1` for live-catalog-verified `gemini-3-flash-preview` revision `3-flash-preview-12-2025`, with redaction passing and runtime authority `NONE`. A separate current-prompt run against the pinned `gemini-2.5-flash` revision `001` passed `2/8`; six later provider calls returned HTTP `429`. The Gemini 3 result is valid only for that model/revision and does not close the pinned Gemini 2.5 rerun gate. Runtime semantic retrieval, human review and clinical retrieval remain pending.
 
 ## GitHub publication
 
@@ -79,4 +84,4 @@ python serial_bench_runner.py \
 
 ## เอกสารอ้างอิงภายใน repository
 
-เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md) และ [tasks.md](tasks.md)
+เอกสารสำคัญสำหรับ handoff ได้แก่ [README.md](README.md), [P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md](P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md), [SERIAL_BENCH_VALIDATION_PLAN.md](SERIAL_BENCH_VALIDATION_PLAN.md), [ACER_BENCH_READONLY_INVENTORY.md](ACER_BENCH_READONLY_INVENTORY.md), [NETWORK_PRESSURE_SIMULATION_REPORT.md](NETWORK_PRESSURE_SIMULATION_REPORT.md), [P0_STATUS_REPORT.md](P0_STATUS_REPORT.md), [ZERO_TRUST_TRUST_BOUNDARIES.md](ZERO_TRUST_TRUST_BOUNDARIES.md), [MICRO_RAG_V2_RERUN_EVIDENCE.md](evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md) และ [tasks.md](tasks.md)

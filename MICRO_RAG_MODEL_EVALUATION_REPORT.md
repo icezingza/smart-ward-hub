@@ -45,3 +45,18 @@ The Flash-Lite cross-check was not accepted as an evaluation result because the 
 ## Acceptance conclusion
 
 The response adapter is suitable as a **model-specific evaluation boundary** for the current synthetic scope. The safe next step is to rerun the exact current prompt revision, then add controlled perturbation cases for citation conflict, stale version, unsupported numeric claim, answer truncation, malformed JSON, refusal quality and multilingual Thai operational questions.
+
+
+## Current corpus-v2 reruns — 20 August 2026
+
+The current eight-case bilingual/adversarial prompt was rerun against the live catalog-verified `gemini-2.5-flash` target at revision `001`. The run completed with **2/8 cases passed** through the adapter; the first two cases passed and the remaining six provider calls returned HTTP `429`. This is recorded as a provider rate-limit/window result, not as a six-case model-quality failure. The redacted report is preserved at `evals/micro_rag/evidence/gemini-2.5-flash-v2-rerun-20260819.json`.
+
+A separate live-catalog-verified candidate, `gemini-3-flash-preview` at revision `3-flash-preview-12-2025`, was then evaluated against the exact same corpus-v2 and eight-case prompt. All **8/8 cases passed** through `response-adapter-v1`, with `model_catalog_verified=true`, `redaction_status=PASS` for every case, no adapter violations and `runtime_authority=NONE`. The redacted report is preserved at `evals/micro_rag/evidence/gemini-3-flash-preview-v2-rerun-20260819.json`.
+
+| Run | Model/revision | Corpus/prompt | Result | Interpretation |
+|---|---|---|---:|---|
+| Historical baseline | `gemini-2.5-flash` / `001` | fixture-v1, historical five-case prompt | 5/5 | Valid only for its pinned historical hashes |
+| Current pinned-target rerun | `gemini-2.5-flash` / `001` | fixture-v2, current eight-case prompt | 2/8; six HTTP 429 | Provider-limited partial evidence; not a quality score |
+| Current alternate-model rerun | `gemini-3-flash-preview` / `3-flash-preview-12-2025` | fixture-v2, current eight-case prompt | 8/8 | Current model-specific adapter evidence for this exact model/revision |
+
+The successful `gemini-3-flash-preview` run is **not** a replacement for the pinned `gemini-2.5-flash` evidence. It establishes a model-specific v2 pass for the alternate model only. The P2-004 gate remains open for runtime retrieval, human review, clinical governance and a clean fresh `gemini-2.5-flash` run when the provider rate-limit window permits.
