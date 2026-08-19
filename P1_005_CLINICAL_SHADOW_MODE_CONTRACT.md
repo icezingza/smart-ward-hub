@@ -27,3 +27,10 @@ A stop event requires an incident ID and reason and changes the controller to `S
 ## Gate status
 
 P1-005 remains **Pending clinical governance approval**. Before any limited pilot, the project needs an approved clinical protocol, named accountable owners, staff walkthrough/training, data-retention decision, incident/escalation path, manual fallback, independent review of false positives and missed events, and signed change/rollback controls.
+
+
+## Additional software review controls
+
+The implementation now rejects common raw identity markers (`HN`, `AN`, `MRN`, `NATIONAL_ID`) in the opaque token and operational text fields, limits free-text context to 512 characters, rejects signal/review time-order violations and rejects duplicate signal or review IDs. Metrics use explicit `*_over_reviewed` names and expose `unreviewed_signal_count` so incomplete review cannot be mistaken for a complete evaluation.
+
+These controls strengthen the software entry boundary and evidence semantics. They do not prove end-to-end Zero-PII operation across upstream tokenization, backups, logs, exports, crash dumps, network traces or clinical systems.

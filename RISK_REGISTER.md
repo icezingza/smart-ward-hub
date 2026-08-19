@@ -15,7 +15,7 @@
 | R-009 | Local hash chain ถูกนำเสนอว่า tamper-proof | High | Controlled by wording; external adapter contract in progress | SHA-256 chain, verification endpoint, local append-only adapter, external receipt adapter contract and explicit terminology | ต้องมี external independent WORM anchor, trusted timestamp, key custody และ cross-boundary verification drill; ห้ามใช้คำว่า tamper-proof |
 | R-010 | Concurrent workers มี process-local state ไม่สอดคล้องกัน | High | Known limitation | single Edge owner model, thread-safe telemetry store, handover lock | ต้องตัดสินใจ deployment topology หรือเพิ่ม coordinated/shared state ก่อน scale-out |
 | R-011 | Unauthorized Host/CORS exposure | Medium | Implemented baseline | TrustedHost, restrictive defaults, optional CORS, regression test | ต้องทำ firewall, reverse-proxy และ network segmentation review |
-| R-012 | Clinical operator ตีความ signal เป็น diagnosis | Critical | Process control required | shadow-mode labeling, decision-support wording, runbook | ต้องมี training, signed clinical SOP และ audit evidence |
+| R-012 | Clinical operator ตีความ signal เป็น diagnosis | Critical | Process control required; P1-005/P1-006 software gates added | shadow-mode labeling, safe-label validator, stop/resume contract, preflight requires excluded uses and training gate | ต้องมี training, signed clinical SOP, clinical governance approval, human-factors review and audit evidence |
 | R-013 | Backup ไม่สามารถ restore เมื่อจำเป็น | High | Planned | backup/restore runbook foundation | ต้องตั้ง schedule, retention, encrypted backup และ restore drill จริง |
 | R-014 | Schema change ทำให้ device fleet ใช้งานไม่ได้ | High | Controlled by versioning | TelemetryPacket v1 lock and change control | ต้องมี schema registry และ migration policy สำหรับ v2 |
 | R-015 | Request flood หรือ burst ทำให้ Edge service ถูกใช้ทรัพยากรเกิน | High | Implemented process-local control | sliding-window limiter, `429`, `Retry-After`, rate-limit regression | ต้อง calibrate per-device/endpoint quotas และใช้ gateway/coordinated limiter ใน multi-process deployment |
@@ -48,6 +48,12 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `test_file_anchor_store.py` | Local receipt, path, idempotency, readback and tamper evidence |
 | `P1_005_CLINICAL_SHADOW_MODE_CONTRACT.md` | Shadow-mode governance and safety contract |
 | `test_clinical_shadow_mode.py` | Software-only shadow activation, safe-label and stop/resume evidence |
+| `test_clinical_shadow_mode_negative.py` | P1-005 raw-identity, context, timing, duplicate and metric-boundary negative matrix |
+| `P1_005_CLINICAL_SHADOW_REVIEW.md` | Detailed P1-005 code/test review and clinical residual-risk statement |
+| `P1_005_ZERO_PII_AND_NON_ACCURACY_METRICS.md` | Zero-PII field boundary and non-accuracy metric definitions |
+| `P1_006_CLINICAL_VALIDATION_READINESS_PLAN.md` | Clinical validation prerequisites and external approval gates |
+| `clinical_validation_readiness.py` | Software-only clinical validation preflight boundary |
+| `test_clinical_validation_readiness.py` | Fail-closed P1-006 preflight regression |
 
 
 ## Device Trust and provisioning roadmap risks

@@ -7,7 +7,8 @@ from typing import Any
 
 
 OPAQUE_TOKEN = re.compile(r"[A-Za-z0-9._~-]{16,128}")
-RAW_ID = re.compile(r"^(HN|AN)([-_:]|$)", re.IGNORECASE)
+RAW_ID = re.compile(r"\b(?:HN|AN|MRN|NATIONAL_ID)\s*[-_:]?\s*[A-Z0-9-]+\b", re.IGNORECASE)
+MAX_CONTEXT_LENGTH = 512
 SAFE_SIGNAL_TYPES = {"suspected fall", "vital anomaly signal", "device/perimeter warning"}
 DISALLOWED_DIAGNOSTIC_TERMS = {"diagnosis", "heart attack", "stroke", "sepsis", "treatment order", "medication order"}
 CLASSIFICATIONS = {"TRUE_POSITIVE", "FALSE_POSITIVE", "MISSED_EVENT", "INDETERMINATE", "DEVICE_DATA_FAULT"}
@@ -64,6 +65,11 @@ class ShadowSignal:
             raise ShadowModeError("signal_identity_fields_required")
         if not OPAQUE_TOKEN.fullmatch(self.patient_token) or RAW_ID.match(self.patient_token):
             raise ShadowModeError("opaque_patient_token_required")
+        if len(self.context) > MAX_CONTEXT_LENGTH:
+            raise ShadowModeError("shadow_context_too_large")
+        for value in (self.alert_id, self.device_id, self.bed_no, self.context):
+            if RAW_ID.search(value):
+                raise ShadowModeError("raw_identity_marker_forbidden")
         normalized = self.signal_type.strip().lower()
         if normalized not in SAFE_SIGNAL_TYPES:
             if any(term in normalized for term in DISALLOWED_DIAGNOSTIC_TERMS):
@@ -147,8 +153,17 @@ class ShadowModeController:
         if self.state not in {"ACTIVE", "STOPPED"}:
             raise ShadowModeError("shadow_mode_not_started")
         review.validate()
-        if review.alert_id not in self.signals:
+        signal = self.signals.get(review.alert_id)
+        if signal is None:
             raise ShadowModeError("review_signal_not_found")
+        if review.reviewed_at < signal.received_at:
+            raise ShadowModeError("reviewed_time_before_received")
+        if review.acknowledged_at and review.acknowledged_at < signal.received_at:
+            raise ShadowModeError("acknowledged_time_before_received")
+        if review.resolved_at and review.resolved_at < signal.received_at:
+            raise ShadowModeError("resolved_time_before_received")
+        if review.alert_id in self.reviews:
+            raise ShadowModeError("duplicate_shadow_review")
         self.reviews[review.alert_id] = review
 
     def metrics(self, *, now: datetime | None = None) -> dict[str, Any]:
@@ -182,8 +197,9 @@ class ShadowModeController:
             "indeterminate_count": sum(review.classification == "INDETERMINATE" for review in reviewed),
             "device_data_fault_count": sum(review.classification == "DEVICE_DATA_FAULT" for review in reviewed),
             "review_coverage": (len(reviewed) / signal_count) if signal_count else 0.0,
-            "confirmed_event_rate": (true_positive / len(reviewed)) if reviewed else None,
-            "false_positive_review_rate": (false_positive / len(reviewed)) if reviewed else None,
+            "unreviewed_signal_count": max(0, signal_count - len(reviewed)),
+            "confirmed_event_rate_over_reviewed": (true_positive / len(reviewed)) if reviewed else None,
+            "false_positive_review_rate_over_reviewed": (false_positive / len(reviewed)) if reviewed else None,
             "mean_data_freshness_seconds": (sum(freshness_seconds) / len(freshness_seconds)) if freshness_seconds else None,
             "mean_acknowledge_seconds": (sum(ack_seconds) / len(ack_seconds)) if ack_seconds else None,
             "mean_resolve_seconds": (sum(resolve_seconds) / len(resolve_seconds)) if resolve_seconds else None,

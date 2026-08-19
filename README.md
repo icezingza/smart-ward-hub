@@ -35,7 +35,8 @@ Master regression suite ครอบคลุม Phase 1–6, P0 hardening, resi
 | Clinical validation และ shadow-mode | รอ clinical governance |
 | External forensic anchoring | Local FileAnchorStore hardening and software external-adapter contract passed; independent WORM service and cross-boundary verification pending |
 | Device Trust key custody | Software custody lifecycle passed; manufacturer CA/HSM/secure element and hardware custody pending |
-| Clinical shadow-mode | Software governance contract passed; clinical owner, governance approval, human-factors and real shadow review pending |
+| Clinical shadow-mode | Software governance contract and expanded Zero-PII/metrics tests passed; clinical owner, governance approval, human-factors and real shadow review pending |
+| Clinical validation readiness | Software preflight contract passed; real-world authorization remains false and external governance gates are open |
 | Host hardening, power-loss testing | รอ external validation |
 
 จึงห้ามตีความ repository นี้ว่าเป็น **clinical-ready**, **tamper-proof**, **HIPAA/PDPA compliant 100%** หรือ **production-ready** จาก functional tests เพียงอย่างเดียว
