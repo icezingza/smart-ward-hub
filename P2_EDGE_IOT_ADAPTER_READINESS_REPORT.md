@@ -20,6 +20,8 @@
 | Serial first-transport gate | Software gate passed | Acer/sensor/driver bench pending |
 | Serial framing/partial-read codec | Passed | Full physical loopback, driver and reconnect evidence pending |
 | Network pressure/backpressure simulation | Passed | Acer CPU/memory, driver buffering, physical cable and production network pressure pending |
+| Serial bench runner safety | Passed: dry-run codec self-check and fail-closed confirmation regression | Physical port opening not started |
+| Acer Spin N17H2 read-only inventory | Host inventory recorded; Windows 11 Pro build 26200 and Python 3.14.3 observed | No `Win32_SerialPort`/COM device enumerated; Smart Ward Hub deployment pending |
 | MQTT broker/ACL/TLS | Designed only | Unverified |
 | BLE pairing/RF/MTU/reconnect | Designed only | Unverified |
 | WebSocket long-lived session security | Designed only | Unverified |
@@ -36,4 +38,6 @@ The adapter rejects workflow commands and sensitive identity fields before norma
 
 P2-002 is not closed. The software baseline is suitable for the next bench step, including a deterministic pressure simulation that exposes queue saturation and preserves memory/replay bounds. The system must still select one actual transport and produce evidence for driver/broker/RF behavior, disconnect/reconnect, power interruptions, queue pressure, device identity, key custody and packet mapping. Only after one transport passes can a second profile be considered.
 
-The recommended next gate is Serial bench validation on the Acer Spin N17H2 using a controlled gateway or sensor fixture. BLE should remain deferred until the actual BMAX/C60 capability and signing/attestation model are documented.
+The recommended next gate is Serial bench validation on the Acer Spin N17H2 using a controlled gateway or sensor fixture. The dry-run-safe runner is ready, but the current Acer read-only inventory found no enumerated COM device, so the physical gate is **NOT_STARTED**. BLE should remain deferred until the actual BMAX/C60 capability and signing/attestation model are documented.
+
+The physical command remains fail-closed and requires an explicit port plus `--confirm-physical I_HAVE_A_NONPRODUCTION_LOOPBACK`. The fixture must be non-production, contain no patient data and be isolated from real patient devices and production networks. The runner records only redacted bench metadata; it does not record raw frames.
