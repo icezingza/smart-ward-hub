@@ -6,6 +6,7 @@ from pathlib import Path
 from external_authorization_api_wave_e_evidence import (
     DOSSIER_TRANSITIONS,
     DossierState,
+    WaveEEvidenceBundle,
     WaveEEvidenceRecord,
 )
 
@@ -21,6 +22,8 @@ def build_schema() -> dict:
     }
     return {
         "schema_id": "wave-e-evidence-v1",
+        "bundle_schema_id": "wave-e-evidence-bundle-v1",
+        "contract_version": "external-auth-sim-v2",
         "evidence_class": "EXTERNAL_UNVERIFIED",
         "authorization_boundary": {
             "external_authority": "NONE",
@@ -35,6 +38,7 @@ def build_schema() -> dict:
             "terminal_states": [DossierState.CLOSED_NO_AUTHORIZATION.value],
         },
         "record_schema": WaveEEvidenceRecord.model_json_schema(),
+        "bundle_schema": WaveEEvidenceBundle.model_json_schema(),
     }
 
 

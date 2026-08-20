@@ -99,6 +99,7 @@ Every external test artifact must include the following fields before independen
 
 ```text
 schema_version=wave-e-evidence-v1
+contract_version=external-auth-sim-v2
 test_run_id
 test_case_id=T-01..T-12
 status=NOT_EXECUTED|EXECUTED_FAIL_CLOSED|EXECUTED_BLOCKED|EXECUTED_REQUIRES_CLARIFICATION|READY_FOR_INDEPENDENT_REVIEW
@@ -163,11 +164,13 @@ claim_boundary=EXTERNAL_UNVERIFIED_PENDING_REVIEW
 
 Validation rules include: timestamps must be timezone-aware and ordered; review-ready evidence requires response hash, remote receipt, independent read-back and verified signature; `COMMIT_UNKNOWN` requires reconciliation; blocked/fail-closed results require a failure class; single-process topology cannot declare multiple workers; extra unknown fields and authorization mutations are rejected.
 
+A complete review package must also validate `wave-e-evidence-bundle-v1`: exactly one record for each `T-01` through `T-12`, one shared `test_run_id`, `scope_id`, `window_id` and `contract_version`, every record `READY_FOR_INDEPENDENT_REVIEW`, and a consistent no-authorization boundary. The package must identify distinct `external_owner_role`, `independent_verifier_role`, `stop_authority_role` and `recovery_approver_role`; `prepared_by_role` must equal `evidence_custodian_role`, while those authority roles remain separate. A bundle with missing/duplicate test cases, cross-record hash/scope/version drift or role collision is blocked.
+
 ## Decision rules
 
 A test may be recorded as `READY_FOR_INDEPENDENT_REVIEW` only when the `wave-e-evidence-v1` artifact is complete, redacted, hash-bound, time-bound, independently readable and linked to the signed scope. This is a dossier/evidence state, not an API simulator status and not `PASSED`; it is not clinical authorization and not production authorization. Any mismatch, missing receipt, invalid signature, expired scope, stale response, unknown clock state or custody gap returns the test to `BLOCKED` or `REQUIRES_CLARIFICATION`.
 
-The local implementation for this schema is `external_authorization_api_wave_e_evidence.py`. Its regression is `test_wave_e_evidence.py`; `export_wave_e_evidence_schema.py` generates the JSON Schema/state manifest; and `wave_e_evidence_validation_runner.py` generates the local software-validation evidence JSON. These controls enforce the no-authorization fields and reject malformed, stale, untrusted or incomplete records. The generated local validation report is `evals/micro_rag/evidence/wave-e-evidence-schema-validation-20260820.json`; it is `SOFTWARE_VERIFIED/SIMULATION_ONLY`, not external evidence.
+The local implementation for this schema is `external_authorization_api_wave_e_evidence.py`. `WaveEEvidenceRecord` validates one test result and `WaveEEvidenceBundle` validates the complete T-01–T-12 package; `test_wave_e_evidence.py` covers both. `export_wave_e_evidence_schema.py` generates the record/bundle JSON Schema and state manifest; `wave_e_evidence_validation_runner.py` generates the local software-validation evidence JSON. These controls enforce no-authorization fields and reject malformed, stale, untrusted, incomplete, cross-record-inconsistent or role-colliding records. The generated local validation report is `evals/micro_rag/evidence/wave-e-evidence-schema-validation-20260820.json`; it is `SOFTWARE_VERIFIED/SIMULATION_ONLY`, not external evidence.
 
 The 10 External Gates remain governed by `external_validation_package.py`. A local `reopen()` is required before resubmitting evidence to a previously blocked gate. Local acceptance of an evidence file cannot convert a gate to `PASSED` without the external owner and independent reviewer decision.
 

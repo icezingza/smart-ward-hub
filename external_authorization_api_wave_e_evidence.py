@@ -14,6 +14,8 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+SIMULATION_CONTRACT_VERSION = "external-auth-sim-v2"
+WAVE_E_TEST_CASE_IDS = tuple(f"T-{index:02d}" for index in range(1, 13))
 
 
 class DossierState(str, Enum):
@@ -97,6 +99,7 @@ class WaveEEvidenceRecord(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, str_strip_whitespace=True)
 
     schema_version: Literal["wave-e-evidence-v1"] = "wave-e-evidence-v1"
+    contract_version: Literal["external-auth-sim-v2"] = SIMULATION_CONTRACT_VERSION
     test_run_id: str = Field(min_length=1, max_length=256)
     test_case_id: str = Field(pattern=r"^T-(0[1-9]|1[0-2])$")
     status: EvidenceStatus
@@ -225,9 +228,86 @@ class WaveEEvidenceRecord(BaseModel):
         if self.recovery_at_utc is not None:
             if not self.recovery_approved_by_role or not self.recovery_evidence_ref:
                 raise ValueError("recovery requires approver role and evidence reference")
+        if self.stopped_by_role and self.recovery_approved_by_role and self.stopped_by_role == self.recovery_approved_by_role:
+            raise ValueError("stop authority and recovery approver must be distinct")
         if self.topology == "SINGLE_PROCESS" and self.worker_count not in {0, 1}:
             raise ValueError("single-process topology requires worker_count 0 or 1")
         return self
+
+
+class WaveEEvidenceBundle(BaseModel):
+    """Complete T-01..T-12 evidence set; review readiness only, never authority."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True, str_strip_whitespace=True)
+
+    schema_version: Literal["wave-e-evidence-bundle-v1"] = "wave-e-evidence-bundle-v1"
+    contract_version: Literal["external-auth-sim-v2"] = SIMULATION_CONTRACT_VERSION
+    test_run_id: str = Field(min_length=1, max_length=256)
+    scope_id: str = Field(min_length=1, max_length=256)
+    window_id: str = Field(min_length=1, max_length=256)
+    dossier_state: Literal["READY_FOR_INDEPENDENT_REVIEW"] = "READY_FOR_INDEPENDENT_REVIEW"
+    records: tuple[WaveEEvidenceRecord, ...] = Field(min_length=12, max_length=12)
+    prepared_by_role: str = Field(min_length=1, max_length=256)
+    evidence_custodian_role: str = Field(min_length=1, max_length=256)
+    external_owner_role: str = Field(min_length=1, max_length=256)
+    independent_verifier_role: str = Field(min_length=1, max_length=256)
+    stop_authority_role: str = Field(min_length=1, max_length=256)
+    recovery_approver_role: str = Field(min_length=1, max_length=256)
+    independent_verification_required: Literal[True] = True
+    redaction: Literal["PASS"] = "PASS"
+    raw_identity_present: Literal[False] = False
+    external_authority: Literal["NONE"] = "NONE"
+    clinical_validation_authorized: Literal[False] = False
+    production_authorized: Literal[False] = False
+    runtime_authority: Literal["NONE"] = "NONE"
+    pilot_gate_status: Literal["BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"] = "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+    claim_boundary: Literal["EXTERNAL_UNVERIFIED_PENDING_REVIEW"] = "EXTERNAL_UNVERIFIED_PENDING_REVIEW"
+
+    @model_validator(mode="after")
+    def validate_bundle(self) -> "WaveEEvidenceBundle":
+        case_ids = [record.test_case_id for record in self.records]
+        if set(case_ids) != set(WAVE_E_TEST_CASE_IDS) or len(case_ids) != len(set(case_ids)):
+            raise ValueError("bundle must contain exactly one record for each T-01 through T-12")
+        if any(record.test_run_id != self.test_run_id for record in self.records):
+            raise ValueError("all records must share test_run_id")
+        if any(record.scope_id != self.scope_id or record.window_id != self.window_id for record in self.records):
+            raise ValueError("all records must share scope_id and window_id")
+        if any(record.contract_version != self.contract_version for record in self.records):
+            raise ValueError("all records must share contract_version")
+        if any(record.status is not EvidenceStatus.READY_FOR_INDEPENDENT_REVIEW for record in self.records):
+            raise ValueError("review-ready bundle requires every record to be READY_FOR_INDEPENDENT_REVIEW")
+        roles = {
+            self.prepared_by_role,
+            self.evidence_custodian_role,
+            self.external_owner_role,
+            self.independent_verifier_role,
+            self.stop_authority_role,
+            self.recovery_approver_role,
+        }
+        if len(roles) != 5:
+            raise ValueError("custodian/preparer must be one role; owner, verifier, stop and recovery roles must be distinct")
+        if self.prepared_by_role != self.evidence_custodian_role:
+            raise ValueError("prepared_by_role must match evidence_custodian_role")
+        for record in self.records:
+            if record.stopped_by_role and record.stopped_by_role != self.stop_authority_role:
+                raise ValueError("stopped_by_role must match stop_authority_role")
+            if record.recovery_approved_by_role and record.recovery_approved_by_role != self.recovery_approver_role:
+                raise ValueError("recovery_approved_by_role must match recovery_approver_role")
+        return self
+
+    def assert_no_authorization(self) -> None:
+        if (
+            self.external_authority != "NONE"
+            or self.clinical_validation_authorized is not False
+            or self.production_authorized is not False
+            or self.runtime_authority != "NONE"
+            or self.pilot_gate_status != "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+        ):
+            raise ValueError("Wave E evidence bundle cannot carry authorization state")
+
+    def model_dump_for_evidence(self) -> dict[str, Any]:
+        self.assert_no_authorization()
+        return self.model_dump(mode="json")
 
 
 class DossierStateMachine(BaseModel):

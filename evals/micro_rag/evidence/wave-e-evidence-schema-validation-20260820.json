@@ -7,20 +7,20 @@
   "external_authority": "NONE",
   "external_endpoint_contacted": false,
   "external_execution": "NOT_STARTED",
-  "git_commit": "c0869a992491a1dd6e598bc65092ddeb700ed98d",
+  "git_commit": "6d5343bc2cbda14b9a3f71294ab0607e2acb1aab",
   "hashed_files": {
-    "EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md": "0a0e88be0ca0be349c79af99787f045d436207e2ac9b65f5f17c5c6a62509bd5",
-    "EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md": "1aacd4d503e9e15a2aff0c13b92a5391b5e0c9aed8bf8efa632f2f55ce887ec7",
-    "EXTERNAL_AUTHORIZATION_API_WAVE_E_EXTERNAL_VALIDATION_DOSSIER.md": "a9c9614ef5446876062b5af941a9aee3f306192f65d2de579c1095936336f564",
-    "evals/micro_rag/evidence/wave-e-evidence-schema-v1.json": "afb93db474e1a97b7b7122a3a72ecfcd30d231f21bf3b18c63f44ea852e0f582",
-    "external_authorization_api_wave_e_evidence.py": "fd6c85a142fabf1a037359cf2521e7cd7b190813ecf023996234baad16e14cef",
-    "test_wave_e_evidence.py": "c06483f01ed5d52648251739b11b1c60805e5fe8f93111b8fa0b6be3558ac309"
+    "EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md": "9a27cb723205a0667ba75c53c7e7ffedaa4d7ae4635d253f28aa3d6721abecb4",
+    "EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md": "6d11cb9463861922b5fef0664bf5fda3d72ca2fde07273f317579b68c1908645",
+    "EXTERNAL_AUTHORIZATION_API_WAVE_E_EXTERNAL_VALIDATION_DOSSIER.md": "288be628a0a82a782d9efafe696a42dda00f11cd359694ca96ff92fcbd1c0cab",
+    "evals/micro_rag/evidence/wave-e-evidence-schema-v1.json": "5e7a9db3f6b4aaaaa7ff79b0e905a1a572d6da7f3d91c99a367d7d75e22b162c",
+    "external_authorization_api_wave_e_evidence.py": "2f94ae76a37bb959c03a598b7c12d854cd7078ae35c7539c283a862f3bc1f163",
+    "test_wave_e_evidence.py": "438b72ea7b748a5fac4d8d26b0efb1f447f35925df53f32646c16d2fc76a7a08"
   },
   "independent_verification_required": true,
   "overall_status": "PASS",
   "patient_data_used": false,
   "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
-  "prepared_at_utc": "2026-08-20T09:21:44.390621+00:00",
+  "prepared_at_utc": "2026-08-20T09:54:35.249155+00:00",
   "prepared_by_role": "integration_owner",
   "production_authorized": false,
   "production_traffic_used": false,
@@ -86,5 +86,5 @@
     }
   ],
   "working_tree_clean": false,
-  "working_tree_status_sha256": "f603363bd34ea003f1b23712ea05e5a197e80422a1284c19c94097aa0ab5d5ca"
+  "working_tree_status_sha256": "4dcf68dda4e604bcf179c2dc474222a499bc704e758e0e16ed68ffd5dbbb17c8"
 }
