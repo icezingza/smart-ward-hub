@@ -44,6 +44,7 @@ TESTS = [
     "test_p1_008_phase_end_hardening_gate.py",
     "test_wave0_owner_appointment_phase_end_hardening.py",
     "test_wave4_independent_review_package_phase_end_hardening.py",
+    "test_independent_reviewer_readiness_preflight_phase_end_hardening.py",
     "test_persistence_contract.py",
     "test_repeated_sample_evaluation.py",
     "test_runtime_semantic_retrieval_readiness.py",

@@ -1,0 +1,140 @@
+{
+  "schema_version": "independent-reviewer-readiness-preflight-v1",
+  "project": "smart-ward-hub",
+  "preflight_id": "reviewer-preflight-0d895906f1a3",
+  "source_revision": "0d895906f1a3eb22726a9df9988128821323c683",
+  "freeze_manifest_sha256": "a07b9c4f55fb6e17852a8158958df0913f887c075ad9684febc9f1a46900fe70",
+  "local_index_sha256": "6feb7930d5036e57a0d15eb080847015706738851dcf29695f1f563dd5a58641",
+  "status": "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT",
+  "submission_status": "NOT_SUBMITTED",
+  "reviewer_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "external_decision": "NOT_ISSUED",
+  "package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+  "wave_e_bundle_state": "NOT_EXECUTED",
+  "independent_review_status": "NOT_STARTED",
+  "mapping_count": 12,
+  "artifact_count": 22,
+  "reviewer_checklist": [
+    {
+      "check_id": "IRP-01",
+      "title": "Reviewer appointment and conflict declaration",
+      "owner_role": "independent_reviewer",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-02",
+      "title": "Signed scope, intended use and expiry",
+      "owner_role": "external_authority",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-03",
+      "title": "Role separation and stop/recovery authority",
+      "owner_role": "external_authority",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-04",
+      "title": "Release-freeze source and package hash read-back",
+      "owner_role": "independent_reviewer",
+      "required_status": "SOFTWARE_VERIFIED_PENDING_READBACK",
+      "status": "SOFTWARE_VERIFIED_PENDING_READBACK",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-05",
+      "title": "Local artifact SHA-256 read-back",
+      "owner_role": "independent_reviewer",
+      "required_status": "SOFTWARE_VERIFIED_PENDING_READBACK",
+      "status": "SOFTWARE_VERIFIED_PENDING_READBACK",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-06",
+      "title": "Redaction and zero-PII review",
+      "owner_role": "privacy_security_reviewer",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-07",
+      "title": "Reproducibility commands and negative tests",
+      "owner_role": "independent_reviewer",
+      "required_status": "SOFTWARE_VERIFIED_PENDING_READBACK",
+      "status": "SOFTWARE_VERIFIED_PENDING_READBACK",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-08",
+      "title": "GV-10/T-01..T-12 traceability review",
+      "owner_role": "independent_reviewer",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-09",
+      "title": "External evidence, custody and trusted time",
+      "owner_role": "evidence_custodian",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-10",
+      "title": "Findings, residual risks and remediation owners",
+      "owner_role": "independent_reviewer",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-11",
+      "title": "Decision record completeness and independent read-back",
+      "owner_role": "external_authority",
+      "required_status": "PENDING_EXTERNAL",
+      "status": "PENDING_EXTERNAL",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    },
+    {
+      "check_id": "IRP-12",
+      "title": "Authorization boundary review",
+      "owner_role": "independent_reviewer",
+      "required_status": "SOFTWARE_LOCKED_EXTERNAL_REVIEW_PENDING",
+      "status": "SOFTWARE_LOCKED_EXTERNAL_REVIEW_PENDING",
+      "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."
+    }
+  ],
+  "external_inputs_pending": [
+    "independent reviewer appointment and conflict declaration",
+    "external authority appointment with decision scope",
+    "signed scope/intended-use/expiry/rollback/stop record",
+    "independent read-back channel and evidence custody path",
+    "real endpoint/IdP/mTLS/ACL evidence where T-01..T-04 apply",
+    "external API version and uncertain-commit transcript for T-05/T-07/T-11",
+    "external revocation/response-authenticity evidence for T-08/T-09",
+    "independent WORM/trusted-timestamp/custody evidence for T-10",
+    "named stop authority and recovery approver with incident channel",
+    "clinical governance/protocol/consent and human-factors decisions",
+    "review findings, residual-risk acceptance or rejection record",
+    "signed external decision or explicit closed-no-authorization record"
+  ],
+  "authorization_boundary": {
+    "external_authority": "NONE",
+    "clinical_validation_authorized": false,
+    "production_authorized": false,
+    "runtime_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+  },
+  "software_evidence_only": true,
+  "independent_verification_required": true,
+  "redaction": "PASS",
+  "raw_identity_present": false
+}

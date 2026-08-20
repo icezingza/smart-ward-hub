@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smart-ward-hub.invalid/schemas/independent-reviewer-readiness-preflight-v1",
+  "title": "Smart Ward Hub Independent Reviewer Readiness Preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project",
+    "preflight_id",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "local_index_sha256",
+    "status",
+    "submission_status",
+    "reviewer_appointment",
+    "external_decision",
+    "package_state",
+    "wave_e_bundle_state",
+    "independent_review_status",
+    "mapping_count",
+    "artifact_count",
+    "reviewer_checklist",
+    "external_inputs_pending",
+    "authorization_boundary",
+    "software_evidence_only",
+    "independent_verification_required",
+    "redaction",
+    "raw_identity_present"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "independent-reviewer-readiness-preflight-v1"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "preflight_id": {
+      "type": "string"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "freeze_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "local_index_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "status": {
+      "const": "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT"
+    },
+    "submission_status": {
+      "const": "NOT_SUBMITTED"
+    },
+    "reviewer_appointment": {
+      "const": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "external_decision": {
+      "const": "NOT_ISSUED"
+    },
+    "package_state": {
+      "const": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT"
+    },
+    "wave_e_bundle_state": {
+      "const": "NOT_EXECUTED"
+    },
+    "independent_review_status": {
+      "const": "NOT_STARTED"
+    },
+    "mapping_count": {
+      "const": 12
+    },
+    "artifact_count": {
+      "const": 22
+    },
+    "reviewer_checklist": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_id",
+          "title",
+          "owner_role",
+          "required_status",
+          "status",
+          "external_action"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "pattern": "^IRP-(0[1-9]|1[0-2])$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "owner_role": {
+            "type": "string"
+          },
+          "required_status": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "external_action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "external_inputs_pending": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "authorization_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "external_authority",
+        "clinical_validation_authorized",
+        "production_authorized",
+        "runtime_authority",
+        "pilot_gate_status"
+      ],
+      "properties": {
+        "external_authority": {
+          "const": "NONE"
+        },
+        "clinical_validation_authorized": {
+          "const": false
+        },
+        "production_authorized": {
+          "const": false
+        },
+        "runtime_authority": {
+          "const": "NONE"
+        },
+        "pilot_gate_status": {
+          "const": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+        }
+      }
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "redaction": {
+      "const": "PASS"
+    },
+    "raw_identity_present": {
+      "const": false
+    }
+  }
+}
