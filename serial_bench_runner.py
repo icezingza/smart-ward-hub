@@ -10,6 +10,7 @@ import platform
 import sys
 from typing import Any
 
+from serial_bench_evidence_contract import TEST_IDS, finalize_bench_evidence
 from serial_framing import ETX, SerialFrameCodec
 
 
@@ -70,6 +71,9 @@ def _base_evidence(config: BenchConfig, inventory_status: str, ports: list[PortI
         "patient_data_used": False,
         "private_key_used": False,
         "raw_frames_recorded": False,
+        "physical_confirmation_verified": False,
+        "tests": {test_id: "NOT_RUN" for test_id in TEST_IDS},
+        "test_scope": [],
     }
 
 
@@ -108,6 +112,8 @@ def _dry_run(config: BenchConfig, evidence: dict[str, Any]) -> dict[str, Any]:
         "result": "PASS" if [event.kind for event in events] == ["frame"] else "FAIL",
     }
     evidence["status"] = "DRY_RUN_ONLY"
+    evidence["tests"]["S-004"] = "PASS"
+    evidence["test_scope"] = ["S-004"]
     evidence["next_action"] = "Connect a non-production loopback fixture, then rerun with --port and --confirm-physical I_HAVE_A_NONPRODUCTION_LOOPBACK."
     return evidence
 
@@ -148,6 +154,10 @@ def _physical_loopback(config: BenchConfig, evidence: dict[str, Any]) -> dict[st
         "frame_round_trip": any(event.kind == "frame" for event in events),
         "raw_bytes_recorded": False,
     }
+    evidence["tests"]["S-003"] = "PASS" if evidence["physical_result"]["frame_round_trip"] else "FAIL"
+    evidence["test_scope"] = ["S-003"]
+    evidence["physical_confirmation_verified"] = True
+    evidence["physical_hardware_validation"] = "VERIFIED" if evidence["physical_result"]["frame_round_trip"] else "PENDING"
     evidence["status"] = "PASSED" if evidence["physical_result"]["frame_round_trip"] else "FAILED"
     return evidence
 
@@ -156,8 +166,8 @@ def run(config: BenchConfig) -> dict[str, Any]:
     inventory_status, ports = _port_inventory()
     evidence = _base_evidence(config, inventory_status, ports)
     if config.dry_run:
-        return _dry_run(config, evidence)
-    return _physical_loopback(config, evidence)
+        return finalize_bench_evidence(_dry_run(config, evidence))
+    return finalize_bench_evidence(_physical_loopback(config, evidence))
 
 
 def main() -> int:

@@ -71,6 +71,8 @@ TESTS = [
     "test_serial_framing.py",
     "test_network_pressure_simulation.py",
     "test_serial_bench_runner.py",
+    "test_serial_bench_evidence_contract.py",
+    "test_p2_002_serial_evidence_phase_end_hardening.py",
     "test_residual_controls.py",
     "test_device_trust.py",
     "test_device_trust_observe.py",
