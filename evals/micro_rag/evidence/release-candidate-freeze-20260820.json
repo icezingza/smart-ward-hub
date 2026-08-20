@@ -385,6 +385,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "P1_003_KEY_CUSTODY_READINESS_REPORT.md",
+      "sha256": "6511be4a1bb905c39e02b58a5a6b4cde101e624b56ea7b5577a81071a9c0221f",
+      "size_bytes": 2970
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "P1_003_KEY_CUSTODY_TEST_REVIEW.md",
       "sha256": "aa4c608ad69cfdfce7ac0517c806aac1d45377745e8a3ac9a0527183c20f23d4",
       "size_bytes": 3460
@@ -584,8 +590,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "dfb64b67b026ea9d233a0484119e15ccf51858dfa02d6ff3a41e41cdb1fb6ed0",
-      "size_bytes": 26695
+      "sha256": "6bc8b4ab944051ecdc0282f3552896518a26c278ece4f338824dfcb349a22bea",
+      "size_bytes": 26976
     },
     {
       "classification": "contract_or_governance_document",
@@ -1021,6 +1027,18 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p1-003-key-custody-readiness-schema-v1.json",
+      "sha256": "062901b46b8ec57ee734a94abaca718bb4b58d442eddb633aabe91679971ae06",
+      "size_bytes": 2721
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p1-003-key-custody-readiness-template-20260820.json",
+      "sha256": "df72b75c778c905adc166a9406b6ea0f547d0e5c55457ed6328c591c79a74e3c",
+      "size_bytes": 5019
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/p2-004-external-review-handoff-20260820.json",
       "sha256": "7429b689d26eae08858fc216d70ce141e63dbec481b33a35e662b8f069bf7d82",
       "size_bytes": 7617
@@ -1138,6 +1156,12 @@
       "path": "export_p1_002_host_hardening_readiness.py",
       "sha256": "d31bbace9a19b3f832c0de20a1a3d9613a0f2ef9451de5d7303be01ba38a64de",
       "size_bytes": 3194
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_p1_003_key_custody_readiness.py",
+      "sha256": "6087334ad7f7380a9b565a815072dd3ebf9c6672fdae5285ded1010f46afbe4f",
+      "size_bytes": 3248
     },
     {
       "classification": "source_or_runtime_config",
@@ -1304,8 +1328,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "key_custody_contract.py",
-      "sha256": "ba87c1b3dcd575a3cad3a26a2c45a93f5110c64130594aadb2833be30bae6944",
-      "size_bytes": 6935
+      "sha256": "bdf8407b5a7502c166ece7fc928299faadd1028600295a3b7d66fb3639641897",
+      "size_bytes": 7327
     },
     {
       "classification": "source_or_runtime_config",
@@ -1342,6 +1366,12 @@
       "path": "p1_002_host_hardening_readiness.py",
       "sha256": "eb06ab3ee46088360fe8dc681322066fcf3f7de9ce5a561c6e84da3fc64adc71",
       "size_bytes": 13669
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "p1_003_key_custody_readiness.py",
+      "sha256": "e96223e29dfc3f9f3738f3760988adc601bd59d78f4df693d023185aefb55765",
+      "size_bytes": 11887
     },
     {
       "classification": "repository_asset",
@@ -1556,8 +1586,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "43fddd3ab2e4453b61d75762f14da77a527182adf1b6efc293dd6cc0adf9e91e",
-      "size_bytes": 3037
+      "sha256": "d63f48625d8561fb2c9278c00617182b0501318c376df039eda43238cd2270f1",
+      "size_bytes": 3084
     },
     {
       "classification": "source_or_runtime_config",
@@ -1616,8 +1646,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "b80828c867ba2609b72a52e6e212cf00f057a0568b80100d76aed7b7181c680e",
-      "size_bytes": 26683
+      "sha256": "7415fe1c5f2dd2a75ee4f7dabb757a957d77e2a93914102ff4eef88159575a4f",
+      "size_bytes": 26987
     },
     {
       "classification": "source_or_runtime_config",
@@ -1807,6 +1837,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_p1_003_key_custody_hardening.py",
+      "sha256": "6d7c325c31cb3fc6f3f5ce4ff97947090d03dee87cccc681c83d6e1a5b3db39c",
+      "size_bytes": 5353
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p1_003_phase_end_hardening_gate.py",
+      "sha256": "8470c5954f10d8ba95efafe72b07212c0a53812d4c5241a0a298514dda9f6acd",
+      "size_bytes": 2609
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_p2_004_review_and_handoff.py",
       "sha256": "a683d146817acb2208e26bcf54f1301b2c0fe095a9b72667e8bace502aae30d1",
       "size_bytes": 3472
@@ -1986,14 +2028,14 @@
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T13:49:08.285399+00:00",
+  "freeze_created_at_utc": "2026-08-20T14:02:42.930617+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "56fb233ccc1bcb4c65cd83d8e53796ba339667fb",
+  "origin_main_revision": "09041c454273f10321c791a718fa51144bf799d4",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "56fb233ccc1bcb4c65cd83d8e53796ba339667fb"
+  "source_revision": "09041c454273f10321c791a718fa51144bf799d4"
 }
