@@ -1,0 +1,113 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/p1-005-clinical-shadow-readiness-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "clinical_governance": {
+      "const": "PENDING"
+    },
+    "clinical_validation": {
+      "const": "PENDING"
+    },
+    "common_controls": {
+      "additionalProperties": false,
+      "required": [
+        "max_context_length",
+        "approved_signal_types",
+        "review_classifications",
+        "review_coverage_required",
+        "denominator_explicit",
+        "accuracy_claim_forbidden",
+        "manual_fallback",
+        "retention_decision",
+        "protocol_ref",
+        "scope_ref",
+        "window_ref",
+        "rollback_ref",
+        "training_ref",
+        "review_plan_ref",
+        "stop_rule"
+      ],
+      "type": "object"
+    },
+    "evidence_class": {
+      "const": "SOFTWARE_SHADOW_MODE_NOT_CLINICAL_ACCURACY"
+    },
+    "external_owner_appointment": {
+      "type": "string"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "metrics_claim": {
+      "const": "NON_ACCURACY_WORKFLOW_DATA_QUALITY_ONLY"
+    },
+    "notification_mode": {
+      "const": "DISABLED"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "real_world_authorization": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "p1-005-clinical-shadow-readiness-v1"
+    },
+    "shadow_execution": {
+      "const": "NOT_STARTED"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "status": {
+      "const": "SHADOW_MODE_SOFTWARE_PREPARATION_READY"
+    },
+    "tracks": {
+      "additionalProperties": false,
+      "required": [
+        "SM-001",
+        "SM-002",
+        "SM-003",
+        "SM-004",
+        "SM-005",
+        "SM-006",
+        "SM-007"
+      ],
+      "type": "object"
+    },
+    "zero_pii_claim": {
+      "const": "TESTED_INPUT_MARKER_BOUNDARY_NOT_SYSTEMWIDE_PRIVACY_PROOF"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "status",
+    "shadow_execution",
+    "clinical_governance",
+    "clinical_validation",
+    "real_world_authorization",
+    "software_evidence_only",
+    "external_owner_appointment",
+    "authorization_boundary",
+    "notification_mode",
+    "evidence_class",
+    "zero_pii_claim",
+    "metrics_claim",
+    "common_controls",
+    "tracks",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub P1-005 Clinical Shadow Readiness",
+  "type": "object"
+}

@@ -1,0 +1,115 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_governance": "PENDING",
+  "clinical_validation": "PENDING",
+  "common_controls": {
+    "accuracy_claim_forbidden": true,
+    "approved_signal_types": [
+      "suspected fall",
+      "vital anomaly signal",
+      "device/perimeter warning"
+    ],
+    "denominator_explicit": true,
+    "manual_fallback": "EXTERNAL_PENDING",
+    "max_context_length": 512,
+    "protocol_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "retention_decision": "EXTERNAL_PENDING",
+    "review_classifications": [
+      "TRUE_POSITIVE",
+      "FALSE_POSITIVE",
+      "MISSED_EVENT",
+      "INDETERMINATE",
+      "DEVICE_DATA_FAULT"
+    ],
+    "review_coverage_required": true,
+    "review_plan_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule": "Stop shadow intake on privacy leakage, identity mismatch, duplicate pairing, sequence corruption, recovery failure, alert flood, serious missed event, premature purge or operator interpretation as treatment instruction.",
+    "training_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "evidence_class": "SOFTWARE_SHADOW_MODE_NOT_CLINICAL_ACCURACY",
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "independent_verification_required": true,
+  "metrics_claim": "NON_ACCURACY_WORKFLOW_DATA_QUALITY_ONLY",
+  "notification_mode": "DISABLED",
+  "project": "smart-ward-hub",
+  "real_world_authorization": false,
+  "schema_version": "p1-005-clinical-shadow-readiness-v1",
+  "shadow_execution": "NOT_STARTED",
+  "software_evidence_only": true,
+  "status": "SHADOW_MODE_SOFTWARE_PREPARATION_READY",
+  "tracks": {
+    "SM-001": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "clinical governance approval and owner appointment",
+      "external_required": true,
+      "required_state": "named owners and governance approval are required",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if any named owner, governance approval or accountable escalation contact is missing.",
+      "title": "governance activation gate"
+    },
+    "SM-002": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "clinical wording and human-factors review",
+      "external_required": true,
+      "required_state": "only approved shadow signal labels are accepted",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if a signal is phrased as diagnosis, treatment, medication order or clinical certainty.",
+      "title": "non-diagnostic signal vocabulary"
+    },
+    "SM-003": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "upstream/export/log/backup privacy review",
+      "external_required": true,
+      "required_state": "tested opaque-token and marker boundary is enforced",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop on raw identity marker, secret/contact leakage or unreviewed upstream/export/log/backup boundary.",
+      "title": "Zero-PII input boundary"
+    },
+    "SM-004": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "independent event adjudication process",
+      "external_required": true,
+      "required_state": "reviewer, reason and ordered timestamps are required",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if reviewer, reason, classification or event/received/review time ordering is incomplete.",
+      "title": "review classification workflow"
+    },
+    "SM-005": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "approved analysis plan and complete review dataset",
+      "external_required": true,
+      "required_state": "coverage and denominators accompany workflow/data-quality rates",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if review coverage, unreviewed count or denominator semantics are absent or accuracy is inferred.",
+      "title": "non-accuracy metric semantics"
+    },
+    "SM-006": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "clinical escalation and manual fallback drill",
+      "external_required": true,
+      "required_state": "incident stop blocks intake until separate approval",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop on privacy, identity, duplicate pairing, sequence, recovery, alert flood, serious missed event or operator misuse incident.",
+      "title": "stop/resume safety control"
+    },
+    "SM-007": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "signed change-control and rollback record",
+      "external_required": true,
+      "required_state": "workflow-changing notifications and threshold changes require separate approval",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if notification, threshold, risk-weight, deduplication or policy change bypasses approval and rollback control.",
+      "title": "change and notification boundary"
+    }
+  },
+  "zero_pii_claim": "TESTED_INPUT_MARKER_BOUNDARY_NOT_SYSTEMWIDE_PRIVACY_PROOF"
+}
