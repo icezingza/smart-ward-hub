@@ -70,6 +70,8 @@ TESTS = [
     "test_p2_005_worker_phase_end_hardening.py",
     "test_durable_worker_store.py",
     "test_p2_005_durable_worker_phase_end_hardening.py",
+    "test_worker_queue_backup.py",
+    "test_p2_005_worker_backup_phase_end_hardening.py",
     "test_serial_framing.py",
     "test_network_pressure_simulation.py",
     "test_serial_bench_runner.py",
