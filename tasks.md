@@ -98,10 +98,11 @@ The live evaluation runner now rebuilds retrieval through `DocumentRegistry` and
 | P2-003 | Proposed | Clinical scoring requires reviewer ownership, versioned policy and shadow-mode validation | Keep out of pilot default; prepare clinical review package after P1-005 |
 | P2-004 | In Progress | Current live samples are insufficient; Gemini 2.5 is 0/8 provider-limited and Gemini 3 is 6/8 with two provider 429; runtime readiness and operations handoff are NOT_READY/BLOCKED | Repeat each pinned model in an appropriate provider window, obtain at least two compatible samples, then complete external persistence owner/retention/access review, runtime semantic-index evaluation and external gate review |
 | Pilot operations gate | In Progress | Local manifest/receipt simulation is not external custody or authorization | Obtain independent reviewer, external receipt/trusted timestamp, gate-owner decisions and signed stop/go record |
+| External Authorization unblock | In Progress | Seven blocked gates remain externally unverified; 3 open gates still need review closure | Execute Wave 0 owner/reviewer appointment, freeze scope, then follow `EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md` through technical, integration, operations and independent adjudication waves |
 | P2-005 | Proposed | Worker mesh can create duplicate jobs, unsafe retries and autonomous clinical side effects | Start with non-clinical backup/report jobs, idempotency/locks/failure injection and explicit approval gates |
 | P2-006 | Deferred | Voice/facial/emotion signals require consent, data minimization and clinical validation | Keep outside pilot; create separate research protocol and privacy threat model |
 
-The next implementation phase should prioritize **P2-004 registry/index hardening and model rerun**, while P2-001/P2-002 remain gated by P0 hardware and trust evidence. No P2 item may be closed by software tests alone when it changes clinical behavior, identity, secrets, external transmission, network exposure or durable state.
+The next implementation phase should prioritize the **External Authorization unblock plan** beginning with Wave 0 governance setup, while P2-001/P2-002 remain gated by P0 hardware and trust evidence. No P2 item may be closed by software tests alone when it changes clinical behavior, identity, secrets, external transmission, network exposure or durable state.
 
 ## Task rules
 

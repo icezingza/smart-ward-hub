@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "title": "Smart Ward Hub: Controlled-Pilot Operations",
+    "created": 1787199176.604,
+    "last_updated": 1787199481.453,
+    "total_slides": 10
+  },
+  "slides": [
+    {
+      "id": "slide_01_cover",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_02_executive_summary",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_03_evidence_integrity",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_04_external_gate_matrix",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_05_seven_blockers_overview",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_06_foundation_blockers",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_07_boundary_blockers",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_08_five_wave_unblock_plan",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_09_decision_gates_stop_rules",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10_next_actions_roadmap",
+      "state": "edited",
+      "pageNum": 10
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_01_cover",
+      "title": "Smart Ward Hub: Controlled-Pilot Operations",
+      "summary": "หน้าปกรายงานการตรวจสอบ blocker 7 รายการและแผนปลดบล็อก External Authorization ประจำวันที่ 20 สิงหาคม 2026",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_02_executive_summary",
+      "title": "ข้อสรุปสำหรับผู้บริหารและผู้ตัดสินใจ",
+      "summary": "สรุปสถานะ operations, 10 gates, no-authorization boundary และผล integrity checks เบื้องต้น",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_03_evidence_integrity",
+      "title": "ผลตรวจ Evidence Manifest และ Integrity Checks",
+      "summary": "รายงานผลตรวจ manifest checks 6/6, 4 artifact entries, SHA-256 และสถานะ non-cryptographic receipt simulation",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_04_external_gate_matrix",
+      "title": "สถานะ 10 External Gates: 7 BLOCKED / 3 OPEN",
+      "summary": "แสดงตารางสถานะ 10 gates พร้อมเงื่อนไข reopen ก่อนส่ง evidence ใหม่",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_05_seven_blockers_overview",
+      "title": "ภาพรวม 7 Blockers ที่ต้องปลดล็อก",
+      "summary": "จัดกลุ่ม 7 blockers ตาม severity P0/P1 และ owner roles ที่รับผิดชอบ",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_06_foundation_blockers",
+      "title": "P0 Foundation: Governance, Identity, Device, Hardware",
+      "summary": "เจาะลึก GV-01, GV-04, GV-08 และ GV-06 พร้อมหลักฐานภายนอกที่จำเป็น",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_07_boundary_blockers",
+      "title": "P1 Boundary: HIS, Forensics และ Ward Operations",
+      "summary": "เจาะลึก GV-03, GV-07 และ GV-09 พร้อมข้อกำหนด isolated testing และ rollback",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_08_five_wave_unblock_plan",
+      "title": "แผนการดำเนินงาน 5 Waves เพื่อปลดบล็อก",
+      "summary": "แสดงลำดับขั้น Wave 0 ถึง Wave 4 สำหรับการรวบรวมหลักฐานและการขออนุมัติภายนอก",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_09_decision_gates_stop_rules",
+      "title": "เกณฑ์การตัดสินใจและเงื่อนไขสั่งหยุด (Stop Conditions)",
+      "summary": "ระบุเงื่อนไขผ่านแต่ละ gate และ cross-cutting stop conditions อย่างชัดเจน",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_10_next_actions_roadmap",
+      "title": "ข้อเสนอการดำเนินการขั้นตอนถัดไป",
+      "summary": "สรุป action items ที่ต้องเริ่มใน Wave 0 และการยืนยันสถานะ controlled production prototype",
+      "image_plan": "Use a suitable image if needed"
+    }
+  ]
+}

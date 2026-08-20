@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 26px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #38bdf8;
+        background: rgba(14, 165, 233, 0.15);
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 14px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .wave-row {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 8px 14px;
+        display: grid;
+        grid-template-columns: 90px 170px 200px 1fr;
+        align-items: center;
+        gap: 14px;
+      }
+      .wave-badge {
+        font-size: 11px;
+        font-weight: 800;
+        padding: 3px 6px;
+        text-align: center;
+        border-radius: 2px;
+      }
+      .w0-badge { background: #334155; color: #f8fafc; }
+      .w1-badge { background: rgba(244, 63, 94, 0.2); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); }
+      .w2-badge { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+      .w3-badge { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+      .w4-badge { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); }
+      .wave-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .wave-gates {
+        font-size: 11.5px;
+        font-family: monospace;
+        color: #38bdf8;
+      }
+      .wave-desc {
+        font-size: 11.5px;
+        color: #cbd5e1;
+        line-height: 1.35;
+      }
+      .footer-bar {
+        padding-top: 12px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 44px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>แผนการดำเนินงาน 5 Waves เพื่อปลดบล็อก</h2>
+                <p>ลำดับขั้นตอนการจัดเตรียมสภาพแวดล้อม รวบรวมพยานหลักฐาน และการยื่นเรื่องขออนุมัติอย่างปลอดภัย</p>
+            </div>
+            <div class="gate-tag">5-WAVE UNBLOCK ROADMAP</div>
+        </div>
+
+        <div class="content-body">
+            <!-- Wave 0 -->
+            <div class="wave-row">
+                <div class="wave-badge w0-badge">WAVE 0</div>
+                <div class="wave-name">Governance Setup</div>
+                <div class="wave-gates">GV-01 / GV-10 Setup</div>
+                <div class="wave-desc">แต่งตั้ง Clinical Owner, Independent Reviewer, อนุมัติกรอบเวลาทดสอบ (Test Window), Freeze Evidence Register และกำหนดผู้มีอำนาจสั่งหยุด (Stop Authority)</div>
+            </div>
+
+            <!-- Wave 1 -->
+            <div class="wave-row">
+                <div class="wave-badge w1-badge">WAVE 1</div>
+                <div class="wave-name">Tech Foundation</div>
+                <div class="wave-gates">GV-04, GV-08, GV-06</div>
+                <div class="wave-desc">ทดสอบ IdP/mTLS ในระบบปิด (Isolated), จัดทำพิธีกุญแจฮาร์ดแวร์ (Key Ceremony) และรัน Loopback S-015 บนเครื่อง Acer ที่มี COM Port จริง</div>
+            </div>
+
+            <!-- Wave 2 -->
+            <div class="wave-row">
+                <div class="wave-badge w2-badge">WAVE 2</div>
+                <div class="wave-name">Integration &amp; WORM</div>
+                <div class="wave-gates">GV-03, GV-07</div>
+                <div class="wave-desc">เชื่อมต่อ Sandbox HIS เพื่อทดสอบ FHIR Ack Reconciliation และผูกระบบส่งแฮชกล่องดำไปยัง WORM ภายนอกพร้อมรับ Timestamp Authority</div>
+            </div>
+
+            <!-- Wave 3 -->
+            <div class="wave-row">
+                <div class="wave-badge w3-badge">WAVE 3</div>
+                <div class="wave-name">Host &amp; Operations</div>
+                <div class="wave-gates">GV-02, GV-05, GV-09</div>
+                <div class="wave-desc">ตรวจ Host Hardening ของ Acer หน้างาน, อนุมัตินโยบาย Zero-PII Retention และฝึกอบรมพยาบาลพร้อมลงนามรับรอง SOP สำรองแบบ Manual</div>
+            </div>
+
+            <!-- Wave 4 -->
+            <div class="wave-row">
+                <div class="wave-badge w4-badge">WAVE 4</div>
+                <div class="wave-name">Final Adjudication</div>
+                <div class="wave-gates">GV-10 Review &amp; Pilot Sign</div>
+                <div class="wave-desc">คณะกรรมการอิสระตรวจประเมิน Evidence Manifest ทั้งชุด ปิดข้อค้นพบ (Findings) และลงนามอนุมัติใบอนุญาต Controlled Pilot อย่างเป็นทางการ</div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 8 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

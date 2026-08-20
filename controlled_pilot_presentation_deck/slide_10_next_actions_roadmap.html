@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 26px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4ade80;
+        background: rgba(74, 222, 128, 0.15);
+        border: 1px solid rgba(74, 222, 128, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 16px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .action-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .action-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 6px;
+      }
+      .action-num {
+        background: #1e293b;
+        color: #38bdf8;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        border-radius: 2px;
+      }
+      .action-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .action-desc {
+        font-size: 11.5px;
+        color: #cbd5e1;
+        line-height: 1.4;
+      }
+      .action-target {
+        font-size: 11px;
+        color: #94a3b8;
+        background: #070b14;
+        padding: 5px 8px;
+        border-left: 2px solid #38bdf8;
+      }
+      .summary-banner {
+        grid-column: span 3;
+        background: rgba(14, 165, 233, 0.08);
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12.5px;
+        color: #e2e8f0;
+      }
+      .footer-bar {
+        padding-top: 12px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 44px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>ข้อเสนอการดำเนินการขั้นตอนถัดไป</h2>
+                <p>แผนปฏิบัติการเร่งด่วนสำหรับการปลดบล็อกใน Wave 0 และการรักษามาตรฐานความปลอดภัยทางคลินิก</p>
+            </div>
+            <div class="gate-tag">NEXT ACTIONS &amp; ROADMAP</div>
+        </div>
+
+        <div class="content-body">
+            <!-- Action 1 -->
+            <div class="action-card">
+                <div class="action-header">
+                    <span class="action-num">1</span>
+                    <span class="action-title">แต่งตั้งคณะกรรมการและผู้รับผิดชอบ</span>
+                </div>
+                <div class="action-desc">
+                    ออกคำสั่งแต่งตั้ง <code>clinical_owner</code>, <code>security_owner</code>, <code>integration_owner</code> และคณะกรรมการตรวจสอบอิสระ (<code>independent_reviewer</code>) สำหรับ Wave 0
+                </div>
+                <div class="action-target">
+                    เป้าหมาย: ปลดล็อก GV-01 Protocol Scope และตั้งหลักการ GV-10 Review
+                </div>
+            </div>
+
+            <!-- Action 2 -->
+            <div class="action-card">
+                <div class="action-header">
+                    <span class="action-num">2</span>
+                    <span class="action-title">จัดเตรียมสภาพแวดล้อมทดสอบปิด</span>
+                </div>
+                <div class="action-desc">
+                    จัดสรร Test Tenant สำหรับ IdP/OIDC, Sandbox สำหรับ HIS FHIR Integration และจัดหา USB-Serial Loopback Fixture สำหรับทดสอบบนเครื่อง Acer
+                </div>
+                <div class="action-target">
+                    เป้าหมาย: เตรียมหลักฐานจริงสำหรับ GV-04, GV-03 และ GV-06
+                </div>
+            </div>
+
+            <!-- Action 3 -->
+            <div class="action-card">
+                <div class="action-header">
+                    <span class="action-num">3</span>
+                    <span class="action-title">ดำเนินกระบวนการกุญแจฮาร์ดแวร์</span>
+                </div>
+                <div class="action-desc">
+                    ประสานงานกับผู้ผลิตสายรัด (OEM) เพื่อขอหลักฐาน Provenance และจัดทำ Key Ceremony สำหรับการแจกจ่ายกุญแจ Ed25519 แบบ Dual-Control
+                </div>
+                <div class="action-target">
+                    เป้าหมาย: ปลดล็อก GV-08 Device Trust และ Hardware Root-of-Trust
+                </div>
+            </div>
+
+            <!-- Summary Banner -->
+            <div class="summary-banner">
+                <span><i class="fa-solid fa-flag-checkered" style="color: #38bdf8; margin-right: 8px;"></i> <strong>สถานะของระบบ:</strong> Controlled Production Prototype · Functional Verification Passed · Clinical Validation Pending</span>
+                <span style="color: #94a3b8; font-size: 12px;">Smart Ward Hub Sovereign Operating Layer</span>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 10 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 26px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fb7185;
+        background: rgba(244, 63, 94, 0.15);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 14px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 20px;
+      }
+      .rules-column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .section-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .section-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #38bdf8;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 6px;
+      }
+      .rule-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .rule-item {
+        font-size: 12px;
+        color: #cbd5e1;
+        line-height: 1.4;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .stop-item {
+        background: rgba(244, 63, 94, 0.08);
+        border-left: 2px solid #fb7185;
+        padding: 6px 8px;
+        font-size: 11.5px;
+        color: #fca5a5;
+        line-height: 1.35;
+      }
+      .footer-bar {
+        padding-top: 12px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 44px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>เกณฑ์การตัดสินใจและเงื่อนไขสั่งหยุด (Stop Conditions)</h2>
+                <p>ข้อกำหนดในการยอมรับหลักฐาน กฎเหล็กความปลอดภัย และการจำกัดสิทธิ์ของซอฟต์แวร์</p>
+            </div>
+            <div class="gate-tag">DECISION GATES &amp; SAFETY RULES</div>
+        </div>
+
+        <div class="content-body">
+            <!-- Left: Criteria -->
+            <div class="rules-column">
+                <div class="section-card">
+                    <div class="section-title"><i class="fa-solid fa-list-check"></i> ข้อกำหนดการส่งและประเมิน Evidence</div>
+                    <div class="rule-list">
+                        <div class="rule-item">
+                            <i class="fa-solid fa-check" style="color: #4ade80;"></i>
+                            <span><strong>Evidence Fingerprint:</strong> ต้องมี Gate ID, SHA-256 ของไฟล์จริง, Timezone-aware timestamp, Prepared-by role และ Redaction status = PASS</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class="fa-solid fa-check" style="color: #4ade80;"></i>
+                            <span><strong>Evidence Classification:</strong> แยกแยะชัดเจนระหว่าง <code>SOFTWARE_VERIFIED</code>, <code>SIMULATION_ONLY</code>, <code>EXTERNAL_UNVERIFIED</code> และ <code>CLINICAL_GOVERNANCE_UNVERIFIED</code></span>
+                        </div>
+                        <div class="rule-item">
+                            <i class="fa-solid fa-check" style="color: #4ade80;"></i>
+                            <span><strong>Blocked Gate Reopen:</strong> เกตที่ติดบล็อกต้องเรียกคำสั่ง <code>reopen()</code> พร้อมบันทึกเหตุผลก่อนส่งหลักฐานใหม่เสมอ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title"><i class="fa-solid fa-scale-balanced"></i> สิทธิอำนาจการตัดสินใจ</div>
+                    <div class="rule-list">
+                        <div class="rule-item">
+                            <i class="fa-solid fa-arrow-right" style="color: #38bdf8;"></i>
+                            <span>ซอฟต์แวร์มีสิทธิ์ประเมินได้สูงสุดเพียง <code>READY_FOR_EXTERNAL_REVIEW</code> เท่านั้น</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class="fa-solid fa-arrow-right" style="color: #38bdf8;"></i>
+                            <span>การเลื่อนขั้นสู่ <code>AUTHORIZED_BY_EXTERNAL_OWNER</code> ต้องมาจากลายเซ็นของผู้รับผิดชอบภายนอกระบบ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Stop Conditions -->
+            <div class="rules-column">
+                <div class="section-card" style="border-color: rgba(244, 63, 94, 0.4);">
+                    <div class="section-title" style="color: #fb7185;"><i class="fa-solid fa-triangle-exclamation"></i> Cross-Cutting Stop Conditions</div>
+                    <div class="rule-list">
+                        <div class="stop-item">
+                            <strong>1. Zero-PII Leakage:</strong> พบข้อมูล HN, AN, MRN, ชื่อ หรือเลขบัตรประชาชนหลุดเข้าไปใน Evidence Manifest
+                        </div>
+                        <div class="stop-item">
+                            <strong>2. Fake Assurance:</strong> นำผลการจำลองในเครื่อง (Simulation) ไปอ้างว่าเป็น WORM, Hardware Root-of-Trust หรือผลทดสอบทางคลินิก
+                        </div>
+                        <div class="stop-item">
+                            <strong>3. Unverified Boundary:</strong> เริ่มการเชื่อมต่อสายเคเบิลจริง, HIS จริง หรือ IdP โดยไม่มีพยานหลักฐานในสภาพแวดล้อมปิด (Isolated Environment)
+                        </div>
+                        <div class="stop-item">
+                            <strong>4. Missing Governance:</strong> ดำเนินการทดสอบในวอร์ดโดยที่พยาบาลยังไม่ผ่านการฝึกอบรม หรือไม่มี Clinical Owner ลงนามรับรอง
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 9 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

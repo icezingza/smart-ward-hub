@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 28px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fb7185;
+        background: rgba(244, 63, 94, 0.15);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 16px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .group-container {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 14px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 6px;
+      }
+      .group-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .group-badge-p0 {
+        background: rgba(244, 63, 94, 0.2);
+        color: #fb7185;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 2px;
+        border: 1px solid rgba(244, 63, 94, 0.4);
+      }
+      .group-badge-p1 {
+        background: rgba(251, 191, 36, 0.2);
+        color: #fbbf24;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 2px;
+        border: 1px solid rgba(251, 191, 36, 0.4);
+      }
+      .blocker-item {
+        background: #070b14;
+        border: 1px solid #1e293b;
+        padding: 8px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .blocker-top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        font-weight: 700;
+      }
+      .blocker-id {
+        color: #38bdf8;
+      }
+      .blocker-owner {
+        color: #94a3b8;
+        font-size: 11px;
+        font-family: monospace;
+      }
+      .blocker-desc {
+        font-size: 11.5px;
+        color: #cbd5e1;
+        line-height: 1.35;
+      }
+      .footer-bar {
+        padding-top: 12px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 44px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>ภาพรวม 7 Blockers ที่ต้องปลดล็อก</h2>
+                <p>การจัดกลุ่มเกตที่ติดบล็อกตามระดับความสำคัญ (Priority) และผู้ถือสิทธิ์ความรับผิดชอบ (Owners)</p>
+            </div>
+            <div class="gate-tag">7 BLOCKERS BREAKDOWN</div>
+        </div>
+
+        <div class="content-body">
+            <!-- Group 1: P0 Foundation -->
+            <div class="group-container">
+                <div class="group-header">
+                    <div class="group-title">
+                        <i class="fa-solid fa-layer-group" style="color: #fb7185;"></i>
+                        P0 Foundation Blockers (4 รายการ)
+                    </div>
+                    <span class="group-badge-p0">P0 / CRITICAL &amp; HIGH</span>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-01 · Clinical Governance</span>
+                        <span class="blocker-owner">clinical_owner</span>
+                    </div>
+                    <div class="blocker-desc">ขาด Protocol วิจัยทางคลินิกที่อนุมัติ ขอบเขตที่ลงนาม และเอกสาร Consent/Waiver</div>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-04 · Identity Transport</span>
+                        <span class="blocker-owner">security_owner</span>
+                    </div>
+                    <div class="blocker-desc">ขาดผลการทดสอบ Handshake กับ IdP จริง, OIDC claims และ mTLS certificate rotation</div>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-08 · Device Trust &amp; Key Custody</span>
+                        <span class="blocker-owner">security_owner</span>
+                    </div>
+                    <div class="blocker-desc">ขาดเอกสารรับรองที่มาของชิปจากโรงงาน (OEM) และการแจกจ่ายกุญแจฮาร์ดแวร์แบบ Dual-Control</div>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-06 · Hardware &amp; Serial Recovery</span>
+                        <span class="blocker-owner">reliability_owner</span>
+                    </div>
+                    <div class="blocker-desc">Acer Spin N17H2 ยังไม่มี COM port ตรวจพบ และยังไม่มีผล Loopback S-015/Power-loss จริง</div>
+                </div>
+            </div>
+
+            <!-- Group 2: P1 Boundary & Operations -->
+            <div class="group-container">
+                <div class="group-header">
+                    <div class="group-title">
+                        <i class="fa-solid fa-hospital-user" style="color: #fbbf24;"></i>
+                        P1 Boundary &amp; Ops Blockers (3 รายการ)
+                    </div>
+                    <span class="group-badge-p1">P1 / HIGH SEVERITY</span>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-03 · HIS / Admission Integration</span>
+                        <span class="blocker-owner">integration_owner</span>
+                    </div>
+                    <div class="blocker-desc">ขาดผลการทดสอบรับส่งข้อมูลกับ HIS จริง, FHIR ack reconciliation และแผนกู้คืนระบบล่ม</div>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-07 · Independent WORM Anchor</span>
+                        <span class="blocker-owner">forensic_owner</span>
+                    </div>
+                    <div class="blocker-desc">ขาดใบรับเสร็จการฝากแฮชกล่องดำไปยัง WORM ภายนอกที่เป็นอิสระพร้อมตราประทับเวลาที่เชื่อถือได้</div>
+                </div>
+
+                <div class="blocker-item">
+                    <div class="blocker-top">
+                        <span class="blocker-id">GV-09 · Clinical Operations &amp; Fallback</span>
+                        <span class="blocker-owner">ward_manager</span>
+                    </div>
+                    <div class="blocker-desc">ขาดหลักฐานการฝึกอบรมพยาบาลหน้างาน, SOP แผนสำรองแบบ Manual และการทบทวน Alarm Fatigue</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 5 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

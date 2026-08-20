@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: radial-gradient(circle at 85% 15%, #1e293b 0%, #0f172a 50%, #090d16 100%);
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 36px;
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+      .brand-badge {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        padding: 8px 18px;
+        border-radius: 999px;
+        color: #38bdf8;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      .status-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(244, 63, 94, 0.15);
+        border: 1px solid rgba(244, 63, 94, 0.4);
+        padding: 8px 18px;
+        border-radius: 999px;
+        color: #fb7185;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .hero-section {
+        padding-top: 24px;
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+      .category-tag {
+        color: #38bdf8;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .main-title {
+        font-size: 42px;
+        font-weight: 800;
+        line-height: 1.25;
+        color: #ffffff;
+        max-width: 980px;
+        margin-bottom: 16px;
+      }
+      .subtitle {
+        font-size: 18px;
+        color: #94a3b8;
+        line-height: 1.5;
+        max-width: 920px;
+      }
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        padding-top: 16px;
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+      .meta-box {
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px solid rgba(51, 65, 85, 0.7);
+        padding: 14px 16px;
+      }
+      .meta-label {
+        font-size: 11.5px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .meta-value {
+        font-size: 14px;
+        color: #e2e8f0;
+        font-weight: 700;
+      }
+      .footer-bar {
+        padding-top: 14px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: rgba(10, 15, 26, 0.95);
+        border-top: 1px solid rgba(30, 41, 59, 0.8);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 48px;
+      }
+      .highlight-rose { color: #fb7185; }
+      .highlight-cyan { color: #38bdf8; }
+      .highlight-amber { color: #fbbf24; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="top-nav">
+            <div class="brand-badge">
+                <i class="fa-solid fa-shield-heart"></i>
+                SMART WARD HUB · GOVERNANCE &amp; OPERATIONS
+            </div>
+            <div class="status-pill">
+                <i class="fa-solid fa-lock"></i>
+                BLOCKED PENDING EXTERNAL AUTHORIZATION
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <div class="category-tag">Operations Readiness &amp; Blocker Analysis</div>
+            <h1 class="main-title">การวิเคราะห์ Blocker 7 รายการและแผนปลดล็อกเพื่อขออนุมัติภายนอก (External Authorization)</h1>
+            <p class="subtitle">รายงานการตรวจสอบหลักฐานของ Controlled-Pilot Operations, สถานะ 10 External Gates, การทดสอบความสมบูรณ์ของ Manifest และลำดับขั้นการประสานงานเพื่อเตรียมความพร้อมสู่การนำร่องแบบควบคุม</p>
+        </div>
+
+        <div class="meta-grid">
+            <div class="meta-box">
+                <div class="meta-label">Product Status</div>
+                <div class="meta-value highlight-cyan">Controlled Production Prototype</div>
+            </div>
+            <div class="meta-box">
+                <div class="meta-label">10 External Gates</div>
+                <div class="meta-value highlight-rose">7 BLOCKED / 3 OPEN / 0 PASSED</div>
+            </div>
+            <div class="meta-box">
+                <div class="meta-label">Manifest Integrity</div>
+                <div class="meta-value highlight-amber">6/6 Passed (SHA-256 Verified)</div>
+            </div>
+            <div class="meta-box">
+                <div class="meta-label">Authorization Boundary</div>
+                <div class="meta-value">Clinical / Prod: <span class="highlight-rose">False</span> · Auth: <span class="highlight-rose">NONE</span></div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>เอกสารประสานงานหลักฐานซอฟต์แวร์ภายใน · วันที่ 20 สิงหาคม 2026</span>
+            <span>ห้ามใช้เป็นคำอนุมัติทางคลินิกหรือใบอนุญาตผลิตโดยตรง</span>
+        </div>
+    </div>
+</body>
+</html>

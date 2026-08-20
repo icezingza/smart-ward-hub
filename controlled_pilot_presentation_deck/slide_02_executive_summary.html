@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 30px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #38bdf8;
+        background: rgba(14, 165, 233, 0.15);
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 18px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 24px;
+      }
+      .table-container {
+        width: 100%;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      .data-table th {
+        background: #1e293b;
+        color: #94a3b8;
+        text-align: left;
+        padding: 10px 12px;
+        font-weight: 600;
+        border-bottom: 2px solid #334155;
+      }
+      .data-table td {
+        padding: 9px 12px;
+        border-bottom: 1px solid #1e293b;
+        color: #e2e8f0;
+      }
+      .status-blocked {
+        color: #fb7185;
+        font-weight: 700;
+      }
+      .status-passed {
+        color: #4ade80;
+        font-weight: 700;
+      }
+      .status-open {
+        color: #38bdf8;
+        font-weight: 700;
+      }
+      .callout-column {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .insight-box {
+        background: #0f172a;
+        border: 1px solid #334155;
+        padding: 14px 18px;
+      }
+      .insight-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #38bdf8;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .insight-text {
+        font-size: 12.5px;
+        color: #cbd5e1;
+        line-height: 1.5;
+      }
+      .footer-bar {
+        padding-top: 14px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 48px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>ข้อสรุปสำหรับผู้บริหารและผู้ตัดสินใจ</h2>
+                <p>สถานะของระบบ ความสมบูรณ์ของการทดสอบซอฟต์แวร์ และขอบเขตการขออนุมัติภายนอก</p>
+            </div>
+            <div class="gate-tag">EXECUTIVE SUMMARY · OPERATIONS STATUS</div>
+        </div>
+
+        <div class="content-body">
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>มิติการประเมิน</th>
+                            <th>สถานะปัจจุบัน</th>
+                            <th>คำอธิบายทางเทคนิค</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Operations Gate</strong></td>
+                            <td><span class="status-blocked">BLOCKED</span></td>
+                            <td>ติดบล็อกรอการขออนุมัติและหลักฐานจากระบบภายนอก</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Review Decision</strong></td>
+                            <td><span class="status-blocked">BLOCKED</span></td>
+                            <td>ตัวอย่างโมเดลไม่เพียงพอ (1 sample ต่อโมเดล)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>10 External Gates</strong></td>
+                            <td><span class="status-open">7 BLK / 3 OPEN</span></td>
+                            <td>ยังไม่มีเกตใดส่งหลักฐานครบหรือผ่านสมบูรณ์</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manifest Integrity</strong></td>
+                            <td><span class="status-passed">6/6 PASSED</span></td>
+                            <td>โครงสร้างไฟล์, SHA-256 และการแยก PII ถูกต้อง</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claim Boundary</strong></td>
+                            <td><span class="status-passed">STRICT PROTOTYPE</span></td>
+                            <td>ไม่อ้าง clinical-ready, production-ready หรือ tamper-proof</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Authorization State</strong></td>
+                            <td><span class="status-blocked">FALSE / NONE</span></td>
+                            <td>ซอฟต์แวร์ไม่สามารถให้สิทธิ์ทางคลินิกหรือผลิตได้เอง</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout-column">
+                <div class="insight-box">
+                    <div class="insight-title"><i class="fa-solid fa-circle-check"></i> ซอฟต์แวร์และกรอบงานเสร็จสมบูรณ์</div>
+                    <div class="insight-text">ฐานโค้ดหลัก (P0 Baseline), เอนจิน SQLite WAL, Device Trust, การจัดเก็บหลักฐาน และระบบตรวจสอบ Manifest ผ่านการทดสอบระดับซอฟต์แวร์ครบถ้วน 100% พร้อมทำหน้าที่เป็นเครื่องมือประสานงานหลักฐาน</div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title"><i class="fa-solid fa-triangle-exclamation"></i> ทำไมถึงยังเริ่ม Controlled Pilot ไม่ได้?</div>
+                    <div class="insight-text">เกตสำคัญ 7 รายการ (คลินิก, HIS, IdP/mTLS, ฮาร์ดแวร์ Acer, WORM, กุญแจโรงงาน และการอบรมเจ้าหน้าที่) ต้องใช้ระบบและบุคคลภายนอกจริงมาร่วมทดสอบและลงนามรับรอง ซึ่งไม่สามารถทดแทนด้วยผลการจำลองใน Sandbox ได้</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 2 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

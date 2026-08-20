@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 30px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #38bdf8;
+        background: rgba(14, 165, 233, 0.15);
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 16px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 24px;
+      }
+      .check-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .check-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .check-name {
+        font-size: 13px;
+        color: #e2e8f0;
+        font-weight: 600;
+      }
+      .badge-pass {
+        background: rgba(74, 222, 128, 0.15);
+        border: 1px solid rgba(74, 222, 128, 0.4);
+        color: #4ade80;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 3px;
+      }
+      .manifest-details {
+        background: #0f172a;
+        border: 1px solid #334155;
+        padding: 14px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .manifest-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #38bdf8;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6px;
+      }
+      .hash-display {
+        background: #070b14;
+        border: 1px solid #1e293b;
+        padding: 8px 10px;
+        font-family: monospace;
+        font-size: 11.5px;
+        color: #38bdf8;
+        word-break: break-all;
+      }
+      .manifest-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      .manifest-table th {
+        background: #1e293b;
+        color: #94a3b8;
+        padding: 6px 8px;
+        text-align: left;
+      }
+      .manifest-table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid #1e293b;
+        color: #cbd5e1;
+      }
+      .receipt-note {
+        font-size: 11.5px;
+        color: #fbbf24;
+        line-height: 1.4;
+        background: rgba(251, 191, 36, 0.08);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+        padding: 8px 10px;
+      }
+      .footer-bar {
+        padding-top: 14px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 46px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>ผลตรวจ Evidence Manifest และ Integrity Checks</h2>
+                <p>การตรวจสอบความสมบูรณ์ของชุดหลักฐาน 4 ชิ้น ลายเซ็นจำลอง และการป้องกันข้อมูลรั่วไหล</p>
+            </div>
+            <div class="gate-tag">EVIDENCE INTEGRITY · 6/6 PASSED</div>
+        </div>
+
+        <div class="content-body">
+            <div class="check-grid">
+                <div class="check-card">
+                    <span class="check-name">1. Manifest Schema &amp; Structure</span>
+                    <span class="badge-pass">PASSED</span>
+                </div>
+                <div class="check-card">
+                    <span class="check-name">2. Manifest SHA-256 Match Report</span>
+                    <span class="badge-pass">PASSED</span>
+                </div>
+                <div class="check-card">
+                    <span class="check-name">3. Receipt Manifest Hash Binding</span>
+                    <span class="badge-pass">PASSED</span>
+                </div>
+                <div class="check-card">
+                    <span class="check-name">4. Receipt Type: Non-Cryptographic Sim</span>
+                    <span class="badge-pass">PASSED</span>
+                </div>
+                <div class="check-card">
+                    <span class="check-name">5. Receipt External Authority = NONE</span>
+                    <span class="badge-pass">PASSED</span>
+                </div>
+                <div class="check-card">
+                    <span class="check-name">6. All Artifact References Non-PII</span>
+                    <span class="badge-pass">PASSED</span>
+                </div>
+            </div>
+
+            <div class="manifest-details">
+                <div class="manifest-title">Current Evidence Manifest (SHA-256)</div>
+                <div class="hash-display">5f4cd2b5eb0251bcb07c9b1a429f1b28b75bb98a2481c5f24fdc2ab329630b05</div>
+
+                <table class="manifest-table">
+                    <thead>
+                        <tr>
+                            <th>Evidence ID</th>
+                            <th>Gate</th>
+                            <th>Class</th>
+                            <th>Target File Ref</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ops-p2004-001</code></td>
+                            <td>GV-10</td>
+                            <td>SOFTWARE_VERIFIED</td>
+                            <td>P2_004_HARDENING_EVIDENCE.md</td>
+                        </tr>
+                        <tr>
+                            <td><code>ops-p2004-002</code></td>
+                            <td>GV-10</td>
+                            <td>SOFTWARE_VERIFIED</td>
+                            <td>P2_004_REPEATED_SAMPLE_PROTOCOL.md</td>
+                        </tr>
+                        <tr>
+                            <td><code>ops-p2004-003</code></td>
+                            <td>GV-02</td>
+                            <td>SOFTWARE_VERIFIED</td>
+                            <td>P2_004_PERSISTENCE_OWNERSHIP_CONTRACT.md</td>
+                        </tr>
+                        <tr>
+                            <td><code>ops-p2004-004</code></td>
+                            <td>GV-06</td>
+                            <td>BLOCKER_RECORD</td>
+                            <td>ACER_BENCH_READONLY_INVENTORY.md</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="receipt-note">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>ข้อจำกัดสำคัญ:</strong> Detached Receipt เป็นเพียงการจำลองเพื่อตรวจ Tamper-Evident เท่านั้น ไม่ถือเป็นลายเซ็นดิจิทัลทางกฎหมายและไม่เทียบเท่าระบบ WORM ภายนอก
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 3 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

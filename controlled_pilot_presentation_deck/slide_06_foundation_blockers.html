@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 26px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 14px;
+        color: #94a3b8;
+        padding-top: 4px;
+      }
+      .gate-tag {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fb7185;
+        background: rgba(244, 63, 94, 0.15);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+        padding: 6px 14px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 14px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .card-box {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 4px;
+      }
+      .card-id {
+        font-size: 14.5px;
+        font-weight: 800;
+        color: #38bdf8;
+      }
+      .card-owner {
+        font-size: 11px;
+        color: #94a3b8;
+        background: #1e293b;
+        padding: 2px 6px;
+      }
+      .card-row {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .row-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+      }
+      .row-val {
+        font-size: 12px;
+        color: #cbd5e1;
+        line-height: 1.35;
+      }
+      .stop-warning {
+        font-size: 11px;
+        color: #fb7185;
+        background: rgba(244, 63, 94, 0.08);
+        border-left: 2px solid #fb7185;
+        padding: 4px 6px;
+        line-height: 1.3;
+      }
+      .footer-bar {
+        padding-top: 12px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 44px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>P0 Foundation: Governance, Identity, Device, Hardware</h2>
+                <p>เจาะลึก 4 บล็อกเกอร์ระดับรากฐาน ความต้องการหลักฐานภายนอก และเงื่อนไขสั่งหยุด (Stop Conditions)</p>
+            </div>
+            <div class="gate-tag">P0 FOUNDATION GATES</div>
+        </div>
+
+        <div class="content-body">
+            <!-- GV-01 -->
+            <div class="card-box">
+                <div class="card-header">
+                    <span class="card-id">GV-01 · Clinical Governance</span>
+                    <span class="card-owner">clinical_owner</span>
+                </div>
+                <div class="card-row">
+                    <span class="row-label">หลักฐานภายนอกที่ต้องใช้</span>
+                    <span class="row-val">Approved Clinical Protocol, Signed Scope of Study, Consent / Waiver Document</span>
+                </div>
+                <div class="stop-warning">
+                    <i class="fa-solid fa-ban"></i> <strong>Stop Condition:</strong> ห้ามเริ่มกิจกรรมวิจัยคลินิกหรือแตะต้องผู้ป่วยจริงเด็ดขาดหากยังไม่มีลายเซ็นจากคณะกรรมการจริยธรรม
+                </div>
+            </div>
+
+            <!-- GV-04 -->
+            <div class="card-box">
+                <div class="card-header">
+                    <span class="card-id">GV-04 · Identity Transport</span>
+                    <span class="card-owner">security_owner</span>
+                </div>
+                <div class="card-row">
+                    <span class="row-label">หลักฐานภายนอกที่ต้องใช้</span>
+                    <span class="row-val">Real IdP Discovery/Token Claims, mTLS Handshake Logs, Certificate/Key Rotation Audit</span>
+                </div>
+                <div class="stop-warning">
+                    <i class="fa-solid fa-ban"></i> <strong>Stop Condition:</strong> ห้ามเปิดรับ Real Credentials หรือส่งข้อมูลผ่านระบบระบุตัวตนจริงก่อนผลการจับมือ mTLS ผ่านเกณฑ์
+                </div>
+            </div>
+
+            <!-- GV-08 -->
+            <div class="card-box">
+                <div class="card-header">
+                    <span class="card-id">GV-08 · Device Trust &amp; Keys</span>
+                    <span class="card-owner">security_owner</span>
+                </div>
+                <div class="card-row">
+                    <span class="row-label">หลักฐานภายนอกที่ต้องใช้</span>
+                    <span class="row-val">Manufacturer Provenance, Hardware Key Ceremony, Dual-Control Provisioning &amp; Revocation</span>
+                </div>
+                <div class="stop-warning">
+                    <i class="fa-solid fa-ban"></i> <strong>Stop Condition:</strong> ห้ามผูกริสแบนด์จริงหรืออ้างอิงความปลอดภัยระดับฮาร์ดแวร์จากผลการรัน Software Unit Test เพียงอย่างเดียว
+                </div>
+            </div>
+
+            <!-- GV-06 -->
+            <div class="card-box">
+                <div class="card-header">
+                    <span class="card-id">GV-06 · Hardware Recovery</span>
+                    <span class="card-owner">reliability_owner</span>
+                </div>
+                <div class="card-row">
+                    <span class="row-label">หลักฐานภายนอกที่ต้องใช้</span>
+                    <span class="row-val">Acer COM Port Enumeration, Physical Serial S-015 Drill, Power-Loss &amp; Disk-Full Drills</span>
+                </div>
+                <div class="stop-warning">
+                    <i class="fa-solid fa-ban"></i> <strong>Stop Condition:</strong> ห้ามรัน Physical Bench หากไม่มีพอร์ตจริงและไม่ได้ยืนยันคำว่า <code>I_HAVE_A_NONPRODUCTION_LOOPBACK</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 6 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background: #0b1120;
+        color: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .header-area {
+        padding-top: 26px;
+        padding-left: 60px;
+        padding-right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .slide-title-group h2 {
+        font-size: 26px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .slide-title-group p {
+        font-size: 13.5px;
+        color: #94a3b8;
+        padding-top: 3px;
+      }
+      .gate-tag {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #fb7185;
+        background: rgba(244, 63, 94, 0.15);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+        padding: 5px 12px;
+        border-radius: 4px;
+      }
+      .content-body {
+        padding-top: 12px;
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+      .gate-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11.5px;
+      }
+      .gate-table th {
+        background: #1e293b;
+        color: #94a3b8;
+        padding: 6px 8px;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #334155;
+      }
+      .gate-table td {
+        padding: 5.5px 8px;
+        border-bottom: 1px solid #1e293b;
+        color: #cbd5e1;
+      }
+      .status-blocked {
+        color: #fb7185;
+        font-weight: 700;
+      }
+      .status-open {
+        color: #38bdf8;
+        font-weight: 700;
+      }
+      .rule-callout {
+        margin-top: 10px;
+        background: rgba(14, 165, 233, 0.08);
+        border: 1px solid rgba(14, 165, 233, 0.25);
+        padding: 8px 12px;
+        font-size: 11.5px;
+        color: #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .footer-bar {
+        padding-top: 10px;
+        padding-left: 60px;
+        padding-right: 60px;
+        background: #070b14;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #64748b;
+        min-height: 42px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-area">
+            <div class="slide-title-group">
+                <h2>สถานะ 10 External Gates: 7 BLOCKED / 3 OPEN</h2>
+                <p>ตารางแจกแจงเกตภายนอกทั้งหมด ผู้รับผิดชอบ และหลักฐานสำคัญที่ต้องใช้ในการปลดบล็อก</p>
+            </div>
+            <div class="gate-tag">10 GATES REGISTRY STATUS</div>
+        </div>
+
+        <div class="content-body">
+            <table class="gate-table">
+                <thead>
+                    <tr>
+                        <th>Gate ID</th>
+                        <th>Domain / Name</th>
+                        <th>Owner Role</th>
+                        <th>Status</th>
+                        <th>Required External Evidence &amp; Blocker Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GV-01</strong></td>
+                        <td>Clinical Governance &amp; Protocol</td>
+                        <td><code>clinical_owner</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>Approved clinical protocol, consent/waiver decision, signed scope</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-02</strong></td>
+                        <td>Privacy / Security &amp; Zero-PII</td>
+                        <td><code>privacy_security_reviewer</code></td>
+                        <td><span class="status-open">OPEN</span></td>
+                        <td>Zero-PII boundary sign-off, retention policy, access-control review</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-03</strong></td>
+                        <td>HIS / Admission Integration</td>
+                        <td><code>integration_owner</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>Real HIS sandbox transcript, FHIR ack reconciliation, failure recovery</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-04</strong></td>
+                        <td>OIDC / mTLS Identity Transport</td>
+                        <td><code>security_owner</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>Real IdP discovery/claims, real mTLS handshake, key rotation transcript</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-05</strong></td>
+                        <td>Acer Fixed Hub Host Hardening</td>
+                        <td><code>host_operator</code></td>
+                        <td><span class="status-open">OPEN</span></td>
+                        <td>Target host hardening checklist, firewall ACL evidence, service recovery</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-06</strong></td>
+                        <td>Hardware Recovery &amp; Serial Loopback</td>
+                        <td><code>reliability_owner</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>Physical loopback S-015, power-loss drill, disk-full drill (Acer COM unverified)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-07</strong></td>
+                        <td>Independent WORM Forensic Anchor</td>
+                        <td><code>forensic_owner</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>External WORM receipt, trusted timestamp, cross-boundary verification</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-08</strong></td>
+                        <td>Manufacturer Device Trust &amp; Keys</td>
+                        <td><code>security_owner</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>Manufacturer provenance, hardware key custody, revocation distribution</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-09</strong></td>
+                        <td>Clinical Operations &amp; Fallback SOP</td>
+                        <td><code>ward_manager</code></td>
+                        <td><span class="status-blocked">BLOCKED</span></td>
+                        <td>Staff training records, manual fallback SOP, alarm fatigue review</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GV-10</strong></td>
+                        <td>Independent Review &amp; Analysis Plan</td>
+                        <td><code>independent_reviewer</code></td>
+                        <td><span class="status-open">OPEN</span></td>
+                        <td>Independent reviewer appointment, analysis/adjudication plan, audit export</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="rule-callout">
+                <i class="fa-solid fa-circle-info"></i> <strong>กติกาการเปลี่ยนสถานะ (Gate Transition Contract):</strong> เกตที่มีสถานะ BLOCKED จะไม่สามารถส่ง Evidence ใหม่เข้าไปได้ทันที จนกว่าจะมีการเรียกคำสั่ง <code>reopen(reason)</code> พร้อมระบุเหตุผลและเวลาที่ชัดเจน
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <span>Smart Ward Hub Controlled-Pilot Operations · สไลด์ 4 / 10</span>
+            <span>สถานะระบบ: Controlled Production Prototype (Clinical Validation Pending)</span>
+        </div>
+    </div>
+</body>
+</html>
