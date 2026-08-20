@@ -517,6 +517,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "RELEASE_FREEZE_REFRESH_REPORT_20260820.md",
+      "sha256": "8b188d2f9495a0ea039c3145c54d5a0214087c33a257e9174a538201fedbfd3e",
+      "size_bytes": 2675
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "RESIDUAL_HARDENING_REPORT.md",
       "sha256": "493f9355d4d0aa92b561529ab5ec935d0c0524c4d3f0c4d53a399e1609792c31",
       "size_bytes": 15006
@@ -566,8 +572,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "6b56930b3a7b16ae7983a766283b51591513ff4eb580aeab6ee033992015c880",
-      "size_bytes": 24206
+      "sha256": "98d467b5baee3d166071a69eec5956a85e09178a9d23e1a07512a38c22bbebd4",
+      "size_bytes": 26317
     },
     {
       "classification": "contract_or_governance_document",
@@ -601,6 +607,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "WAVE_0_EXTERNAL_OWNER_APPOINTMENT_PACKAGE_20260820.md",
+      "sha256": "d06070f8be40e9c029b82da0203fe10dd518d198bc948e96c60b7ce1c76c4f01",
+      "size_bytes": 5972
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "WAVE_0_GOVERNANCE_CONTRACT.md",
       "sha256": "cfe7a1bd5dc7fae3b5c765e139ba9995086d00bf43cf7c002e7deaf583a992c2",
       "size_bytes": 13087
@@ -622,6 +634,30 @@
       "path": "WAVE_0_OWNER_APPROVAL_GAP_REPORT_20260820.md",
       "sha256": "0d0f40e5c0b32b0fc3a0f05cc4dc69a0598d19c6bfc8a2c45c874e429bf7d3f9",
       "size_bytes": 5595
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_1_EXTERNAL_EXECUTION_READINESS_REPORT_20260820.md",
+      "sha256": "bfc3688992f44c608246916abe31fa947baa06bfb3b8eecb6475cccb7bbc0128",
+      "size_bytes": 2571
+    },
+    {
+      "classification": "repository_asset",
+      "path": "WAVE_1_IDENTITY_TRANSPORT_CONFIG_TEMPLATE.env.example",
+      "sha256": "8330e6e328a74b616befea6904cbbce901d9d9817572eb9e5bdc02d417487a10",
+      "size_bytes": 1443
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_1_PREFLIGHT_REPORT_20260820.md",
+      "sha256": "50c6a6d7d769c21b79e6899c4876343a5e7dc107cf49afb9263175ac76e56c3f",
+      "size_bytes": 3838
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_1_SOFTWARE_PREPARATION_PACKAGE_20260820.md",
+      "sha256": "209cf21e289f3f37afefda5e401a2bece8b2557f7e9070b365dfdfcaf602e562",
+      "size_bytes": 5195
     },
     {
       "classification": "contract_or_governance_document",
@@ -985,6 +1021,42 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave0-owner-appointment-intake-schema-v1.json",
+      "sha256": "5e03b5ad52c10635807e04b6fe80872d80a1cc75f2c34efac99e88c646e0c418",
+      "size_bytes": 3341
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave0-owner-appointment-intake-template-20260820.json",
+      "sha256": "447e9334d7887466164dc07046f2f3c4af39c85f2dfc1f976ef292725d089297",
+      "size_bytes": 2198
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave1-external-execution-readiness-20260820.json",
+      "sha256": "3dc19769899cdd1bee90ba544857a23a1d889596c4f3b034a062afd469c2d922",
+      "size_bytes": 2856
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave1-preflight-20260820.json",
+      "sha256": "181adccaeaba2608d127b86672dc9abf2d6e5906dfcf61e6c55d4f1514373d20",
+      "size_bytes": 3985
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave1-software-preparation-schema-v1.json",
+      "sha256": "ea6d4f2dfc7fd11849f80393d7af8b3e9ea3e97b0ef214181cf6f1646b111c14",
+      "size_bytes": 2323
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave1-software-preparation-template-20260820.json",
+      "sha256": "ccba8ecd6d9609c83293393a4caa5c273cca8c12791207bfe5d10b728c3d03f8",
+      "size_bytes": 4596
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/fixtures.json",
       "sha256": "b6709ce3d664024c3ea6d86c656d1636d4aaec54b45ef73214bb469fcd68add0",
       "size_bytes": 3827
@@ -1036,6 +1108,18 @@
       "path": "evals/micro_rag/test_response_adapter.py",
       "sha256": "36d98b949821f467f2bc602021400d014b6cd0267f5de50c9269748f6b172f42",
       "size_bytes": 8266
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave0_owner_appointment_intake.py",
+      "sha256": "4fd2e764b9ffe12eee9c46aa360398393b482bc25643453896f9d62d5742aae1",
+      "size_bytes": 3528
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave1_software_preparation.py",
+      "sha256": "d8371b5b46fe78fcfafb1df9d8293de35c987c37850200018799e0bc210c5d81",
+      "size_bytes": 3068
     },
     {
       "classification": "source_or_runtime_config",
@@ -1436,8 +1520,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "5a0f95c5f58f11d41a2355272c76636c7a8afd5507683295e555273a759b5ef8",
-      "size_bytes": 2812
+      "sha256": "8740c61d57261ce8600785376f0f4b36c5afd154e4f70637ee7100b51875300c",
+      "size_bytes": 2990
     },
     {
       "classification": "source_or_runtime_config",
@@ -1496,8 +1580,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "7522be89fcaa9afce24df43f98513e718ce893789994b0cb3fe010aadc6e7d1b",
-      "size_bytes": 23395
+      "sha256": "9b06c60eaf349a59be1394c7308830ee70095b7a08765fb8b48c6f7898bc2f02",
+      "size_bytes": 25736
     },
     {
       "classification": "source_or_runtime_config",
@@ -1717,6 +1801,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_release_freeze_candidate.py",
+      "sha256": "711113fde56e19effb50c92de25dfb81423b67ffcaaeee8fb0b7d81eba85b559",
+      "size_bytes": 3171
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_repeated_sample_evaluation.py",
       "sha256": "dad5ef78ac1a74b02a319e6958bf7e5c47be37cc686c595603678a018ce68579",
       "size_bytes": 4127
@@ -1783,6 +1873,24 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_wave0_owner_appointment_intake.py",
+      "sha256": "5b661a0c01c0f27bb3db76070f54ed1f0ec3c5d0a50fe26ffaf1ecfd7403f7cc",
+      "size_bytes": 1839
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave1_external_execution_readiness.py",
+      "sha256": "71635c2054a0279b9dcb1dfa17aa68f5e0eb6a1c3fb4c09c48e20f4ef6ceeb5e",
+      "size_bytes": 1588
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave1_software_preparation.py",
+      "sha256": "04484efe2194039058ca6823ffa3816af9c3a3321ea6f36bb3a0f910b47d94bc",
+      "size_bytes": 2398
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_wave_e_evidence.py",
       "sha256": "438b72ea7b748a5fac4d8d26b0efb1f447f35925df53f32646c16d2fc76a7a08",
       "size_bytes": 11821
@@ -1813,19 +1921,37 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "wave0_owner_appointment_intake.py",
+      "sha256": "813dc7fa8d7b529e5b16a03f63fc70ad146fce6d0438cdcf2766d5d23e9d34c1",
+      "size_bytes": 9724
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "wave1_external_execution_readiness.py",
+      "sha256": "2a42375f70e41b10c713de5277d45e55aa68161d899819f15f50ecd89ce4d2e6",
+      "size_bytes": 5020
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "wave1_software_preparation.py",
+      "sha256": "0bbadc349c004923043acea1810c9c12bf37cb23034e27c2f5233b2c815d8754",
+      "size_bytes": 12004
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "wave_e_evidence_validation_runner.py",
       "sha256": "e829da3f584217269e8ecca7b58a5b7f79fba53cf2048a8ce5defca1ef3167f5",
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T11:54:27.858048+00:00",
+  "freeze_created_at_utc": "2026-08-20T13:24:05.509950+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0da6a381e4004ea31537383a351bce9846418ec1",
+  "origin_main_revision": "033ccaedb9bbf53ac10e51d8c62163448d85ae7f",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "0da6a381e4004ea31537383a351bce9846418ec1"
+  "source_revision": "033ccaedb9bbf53ac10e51d8c62163448d85ae7f"
 }
