@@ -2,7 +2,7 @@
   "audit": {
     "chain_valid": true,
     "errors": [],
-    "event_count": 6,
+    "event_count": 7,
     "events": [
       {
         "action": "submit",
@@ -85,10 +85,27 @@
         "simulation": true
       },
       {
-        "action": "poll",
+        "action": "chunk_manifest_validated",
         "actor_ref": "local_submitter",
         "audit_event_id": "sim-audit-0006",
-        "event_hash": "c46bdcc4ab1195c1010c9d72ca8e4a43dd07ad8effa480f9af2201f7fb349e7d",
+        "event_hash": "d76da9b2a285f05410a3948850645108d07cac4600ae24020ba6396116dbe71d",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:05:30+00:00",
+        "payload": {
+          "artifact_count": 1,
+          "chunk_count": 1,
+          "manifest_hash": "7c7e24317583207891110c54eaa7dae1fd774d2c8ddc1be9c8b46ad38404f2c6"
+        },
+        "previous_event_hash": "2afcf4d7ce8185f457358ae465c962f7b9f13a1f6a4a8cfa9fad76a94202723d",
+        "sequence": 6,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
+        "simulation": true
+      },
+      {
+        "action": "poll",
+        "actor_ref": "local_submitter",
+        "audit_event_id": "sim-audit-0007",
+        "event_hash": "c8436fd885893db91fd35d81670dafd6ee84ff0e1b8d37f991ddbabe6614e3f3",
         "external_authority": "NONE",
         "occurred_at": "2026-08-20T08:05:00+00:00",
         "payload": {
@@ -96,8 +113,8 @@
           "status": "DECISION_PENDING_EXTERNAL_VERIFICATION",
           "submission_id": "sim-submission-d3b759d5aab646c8"
         },
-        "previous_event_hash": "2afcf4d7ce8185f457358ae465c962f7b9f13a1f6a4a8cfa9fad76a94202723d",
-        "sequence": 6,
+        "previous_event_hash": "d76da9b2a285f05410a3948850645108d07cac4600ae24020ba6396116dbe71d",
+        "sequence": 7,
         "server_observed_at": "2026-08-20T08:00:00+00:00",
         "simulation": true
       }
@@ -105,6 +122,60 @@
   },
   "clinical_validation_authorized": false,
   "external_authority": "NONE",
+  "hardening_evidence": {
+    "append_only_audit_store": "SOFTWARE_BASELINE",
+    "audit_incident_fail_stop": "REGRESSION_TESTED",
+    "chunk_manifest": {
+      "artifact_id": "repo://WAVE_0_GOVERNANCE_HANDOFF_REPORT.md",
+      "audit_event_id": "sim-audit-0006",
+      "chunk_count": 1,
+      "clinical_validation_authorized": false,
+      "complete": true,
+      "contract_version": "external-auth-sim-v2",
+      "external_authority": "NONE",
+      "manifest_sha256": "7c7e24317583207891110c54eaa7dae1fd774d2c8ddc1be9c8b46ad38404f2c6",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE",
+      "simulation": true
+    },
+    "concurrency_serialization": "REGRESSION_TESTED",
+    "decision_cache_version": 5,
+    "governance_binding": "LOCAL_WAVE0_VALIDATION_BOUND",
+    "response_authenticity": {
+      "action": "BLOCK_UNTIL_EXTERNAL_SIGNATURE_AND_READBACK",
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "response_hash": "f08b4b4f65d555e3a6d32e9bf1111273ccd9040ed9bd51722fef953305ee77c0",
+      "runtime_authority": "NONE",
+      "simulation": true,
+      "trusted": false,
+      "verification_status": "SIMULATION_ONLY"
+    },
+    "restart_snapshot": {
+      "integrity_valid": true,
+      "recovery_epoch": 0,
+      "snapshot_sha256": "2d1e7b68bd3175c05cf0a32b5dea42012a773e47df6ebcb30d19765086fa4148",
+      "snapshot_version": "external-auth-sim-snapshot-v1"
+    },
+    "retry_advice": {
+      "action": "RECONCILE",
+      "attempt": 1,
+      "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "external_authority": "NONE",
+      "fault_class": "COMMIT_UNKNOWN",
+      "max_attempts": 3,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "retry_after_seconds": 1,
+      "runtime_authority": "NONE",
+      "simulation": true
+    }
+  },
+  "hardening_version": "wave-a-d-v1",
   "negative_cases": {
     "authorization_escalation": "REJECTED_AUTHORIZATION_ESCALATION",
     "bad_manifest": "REJECTED_MANIFEST_MISMATCH",
@@ -119,9 +190,13 @@
   "positive_lifecycle": {
     "clarification_resolved": {
       "audit_event_id": "sim-audit-0004",
+      "cache_version": 4,
       "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "decision": null,
       "external_authority": "NONE",
       "finding_count": 1,
+      "incident_state": "OPERATIONAL",
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
       "reconciled": false,
@@ -136,9 +211,20 @@
     },
     "decision_pending": {
       "audit_event_id": "sim-audit-0005",
+      "cache_version": 5,
       "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "decision": {
+        "cache_version": 5,
+        "decision_id": "sim-decision-001",
+        "decision_revision": 4,
+        "decision_status": "PENDING_EXTERNAL_VERIFICATION",
+        "expires_at": "2026-08-20T09:00:00+00:00",
+        "external_verification_status": "PENDING_EXTERNAL_VERIFICATION"
+      },
       "external_authority": "NONE",
       "finding_count": 1,
+      "incident_state": "OPERATIONAL",
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
       "reconciled": false,
@@ -152,10 +238,21 @@
       "submission_id": "sim-submission-d3b759d5aab646c8"
     },
     "final_poll": {
-      "audit_event_id": "sim-audit-0006",
+      "audit_event_id": "sim-audit-0007",
+      "cache_version": 5,
       "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "decision": {
+        "cache_version": 5,
+        "decision_id": "sim-decision-001",
+        "decision_revision": 4,
+        "decision_status": "PENDING_EXTERNAL_VERIFICATION",
+        "expires_at": "2026-08-20T09:00:00+00:00",
+        "external_verification_status": "PENDING_EXTERNAL_VERIFICATION"
+      },
       "external_authority": "NONE",
       "finding_count": 1,
+      "incident_state": "OPERATIONAL",
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
       "reconciled": false,
@@ -170,9 +267,13 @@
     },
     "finding": {
       "audit_event_id": "sim-audit-0003",
+      "cache_version": 3,
       "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "decision": null,
       "external_authority": "NONE",
       "finding_count": 1,
+      "incident_state": "OPERATIONAL",
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
       "reconciled": false,
@@ -187,9 +288,13 @@
     },
     "received": {
       "audit_event_id": "sim-audit-0001",
+      "cache_version": 1,
       "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "decision": null,
       "external_authority": "NONE",
       "finding_count": 0,
+      "incident_state": "OPERATIONAL",
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
       "reconciled": false,
@@ -204,9 +309,13 @@
     },
     "review": {
       "audit_event_id": "sim-audit-0002",
+      "cache_version": 2,
       "clinical_validation_authorized": false,
+      "contract_version": "external-auth-sim-v2",
+      "decision": null,
       "external_authority": "NONE",
       "finding_count": 0,
+      "incident_state": "OPERATIONAL",
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
       "reconciled": false,

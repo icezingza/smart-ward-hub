@@ -112,15 +112,24 @@ Retry policy ต้องกำหนด maximum attempts, backoff, deadline, co
 
 เมื่อ audit chain ตรวจไม่ได้, event hash เปลี่ยน, sequence ย้อนกลับ หรือ event ขาด ให้เปลี่ยน service state เป็น `AUDIT_INTEGRITY_FAILURE`, block all state-changing commands, preserve forensic snapshot และ require stop-authority/reviewer action. ห้ามตรวจพบความเสียหายภายหลังแล้วดำเนินงานต่อเหมือนไม่มีเหตุการณ์
 
-## 10. Acceptance criteria for next implementation wave
+## 10. Wave A–D implementation acceptance criteria
 
 - มี strict state transition map และ typed errors สำหรับทุก invalid transition.
 - มี deterministic clock และ expiry tests.
-- มี revocation/supersession records และ cache invalidation tests.
-- มี stale revision/ETag polling tests.
-- มี timeout/uncertain-commit/reconciliation tests.
+- มี revocation/supersession records, decision revision และ local cache invalidation tests.
+- มี stale revision/event-hash/cache-version polling tests.
+- มี timeout/uncertain-commit/reconciliation tests และ bounded retry advice.
+- มี bounded chunk manifest, contiguous sequence, per-chunk hash และ incomplete-finalize tests.
 - มี atomic mutation tests ที่ยืนยัน no partial commit เมื่อ event validation ล้มเหลว.
-- มี private/immutable state exposure tests.
-- มี audit integrity fail-stop tests.
+- มี private/immutable state exposure และ concurrent serialization tests.
+- มี hashed snapshot export/import ที่ bind กับ package/manifest/scope/window และ fail-closed เมื่อ snapshot ผิด.
+- มี audit integrity fail-stop incident state และ recovery-required marker.
+- มี governance validation/freeze binding และ evidence-ref membership checks.
+- มี exact contract-version negotiation และ unsupported-version rejection.
+- มี response-authenticity denial ที่คืน `trusted=false` และ `SIMULATION_ONLY` จนกว่าจะมี signature/read-back จริง.
 - ทุก response คง simulation/no-authorization fields.
 - ไม่มี path ใดสร้าง clinical, production หรือ external authorization.
+
+## 11. External validation remains mandatory
+
+Local Wave A–D evidence เป็น software baseline เท่านั้น และไม่ปิด EA-020. การเปลี่ยนไปสู่ external authorization ต้องผ่าน non-production endpoint จริง, OIDC/mTLS, ACL, signed response, trusted clock, expiry/revocation propagation, timeout/retry transcript, independent read-back, custody และ named external reviewer/stop authority โดยยังต้องมี clinical validation และ production-readiness gates แยกต่างหาก

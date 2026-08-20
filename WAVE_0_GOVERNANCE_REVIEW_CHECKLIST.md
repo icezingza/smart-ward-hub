@@ -127,7 +127,7 @@ The local package must remain:
 
 ## J. API simulation boundary
 
-`external_authorization_api_simulator.py` และรายงาน simulation สามารถยืนยันได้เฉพาะ document handoff lifecycle, deterministic polling, idempotency, finding traceability, audit hash-chain และ fail-closed mutations ใน memory เท่านั้น ผลดังกล่าวต้องจัดเป็น `SIMULATION_ONLY` และห้ามใช้แทนหลักฐาน OIDC/mTLS, external WORM, trusted timestamp, real reviewer identity, clinical governance หรือ production authorization
+`external_authorization_api_simulator.py` และรายงาน simulation สามารถยืนยันได้เฉพาะ document handoff lifecycle, deterministic polling, idempotency, finding traceability, audit hash-chain, Wave A–D software controls และ fail-closed mutations ใน memory เท่านั้น ผลดังกล่าวต้องจัดเป็น `SOFTWARE_VERIFIED` หรือ `SIMULATION_ONLY` ตาม control และห้ามใช้แทนหลักฐาน OIDC/mTLS, external WORM, trusted timestamp, real reviewer identity, clinical governance หรือ production authorization
 
 ## K. v2 fail-closed simulator review
 
@@ -142,6 +142,12 @@ The local package must remain:
 | Stale polling | revision/hash เก่าถูก reject และไม่เลื่อน authorization | Software verified by v2 regression | ☐ Accept ☐ Clarify ☐ Reject |
 | Commit uncertainty | timeout หลัง commit ต้องเข้า reconciliation ไม่ blind retry | Simulation verified; network transcript pending | ☐ Accept ☐ Clarify ☐ Reject |
 | Audit fail-stop | chain tamper block state-changing command และสร้าง incident boundary | Simulation verified; durable append-only store pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Concurrency serialization | concurrent commands มี monotonic event sequence และไม่สร้าง duplicate state | Software verified by Wave A regression | ☐ Accept ☐ Clarify ☐ Reject |
+| Cache/restart recovery | cache version, package-bound snapshot hash และ invalid snapshot fail-closed | Software verified/partial; distributed propagation pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Chunk integrity | bounded count/size, contiguous sequence, per-chunk hash และ incomplete finalize ถูก reject | Software verified/partial; real upload transport pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Governance binding | local package ต้องอยู่ใน review-ready state, freeze/validation boundary และ authorization flags locked | Software verified/partial; external appointments pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Response authenticity | local/external authorization response ถูก reject; result ต้อง `trusted=false` จนกว่าจะมี signature/read-back จริง | Simulation-only denial; real trust chain pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Contract version | unsupported version ถูก reject และ exact match ถูกบันทึก | Software verified by Wave D regression | ☐ Accept ☐ Clarify ☐ Reject |
 | Strict schema | wrong type, unknown field, oversized field, invalid enum/hash/role ถูก reject | Software verified by v2 regression | ☐ Accept ☐ Clarify ☐ Reject |
 
 ## L. Production-readiness evidence audit

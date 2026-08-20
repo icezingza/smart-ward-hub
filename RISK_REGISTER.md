@@ -40,6 +40,11 @@
 | R-053 | Decision เก่าถูกใช้หลัง expiry/revocation หรือ poll จาก revision ที่ stale | Critical | v2 simulator expiry/revocation/stale polling tests | v2 block/expire/revoke และตรวจ known revision/hash | real client ต้อง invalidate cache, รับ revocation propagation และมี trusted server time |
 | R-054 | Audit integrity failure ถูกตรวจพบแต่ state-changing operation ยังเดินต่อ | Critical | v2 simulator audit tamper/fail-stop regression | v2 เปลี่ยนเป็น `AUDIT_INTEGRITY_FAILURE` และ block commands | durable append-only store ต้อง verify-before-read, preserve incident snapshot และ require stop-authority recovery |
 | R-055 | Production-readiness audit หรือจำนวนสถานะถูกตีความเป็น certification/authorization | Critical | `PRODUCTION_READINESS_EVIDENCE_AUDIT.md` | report ใช้ `NOT_PRODUCTION_READY`, แยก Implemented/Experimental/Unverified/Planned และตรึง authority false | ต้องมี named external decision, clinical governance, host/hardware and 10-gate evidence ก่อนเปลี่ยน claim |
+| R-056 | Corrupted or replayed local simulator snapshot is restored as current authorization state | Critical | Wave A–D software control | snapshot SHA-256, package/manifest/scope/window binding, audit-chain verification and fail-closed restore regression | storage is in-memory/local software only; off-host encrypted retention, rollback detection and operator recovery approval remain unverified |
+| R-057 | Local cache version is mistaken for distributed revocation propagation | Critical | Wave B simulation-only control | monotonic `cache_version`, decision revision and stale-cache rejection are returned in local responses | real external revocation stream, multi-process cache invalidation, offline expiry policy and trusted server clock remain external |
+| R-058 | Simulator response-authenticity result is misread as a cryptographic signature verification | Critical | Wave D simulation-only denial control | simulator returns `trusted=false`, `SIMULATION_ONLY` and `BLOCK_UNTIL_EXTERNAL_SIGNATURE_AND_READBACK`; it rejects local authorization flags | real signed response, key ID, trust-chain validation, key custody and independent read-back remain unverified |
+| R-059 | Chunk manifest validation is mistaken for complete transport or storage evidence | High | Wave C software control partially verified | bounded chunk count/size, contiguous sequence, per-chunk hash and `received=true` finalize checks | real upload transport, proxy limits, interrupted transfer recovery, durable storage and external receipt remain unverified |
+| R-060 | Synthetic Wave 0 governance binding is treated as an external appointment, signature or custody decision | Critical | Wave D software control partially verified | constructor binds local governance state, validation snapshot and freeze record while requiring external verification pending | named external roles, signed scope, stop authority, custody and independent review remain external-unverified |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -100,8 +105,10 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `WAVE_0_GOVERNANCE_CONTRACT.md` | Role, scope, test-window, stop-authority and freeze contract |
 | `wave0_governance.py` | Wave 0 local validator and freeze simulation |
 | `EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md` | Offline API handoff/status/audit contract and no-authorization boundary |
-| `external_authorization_api_simulator.py` | Deterministic v2 simulator with atomic state, decision lifecycle and audit fail-stop tests |
+| `external_authorization_api_simulator.py` | Deterministic v2 simulator with Wave A–D hardening, decision lifecycle, snapshot/cache controls and audit fail-stop tests |
+| `test_external_authorization_api_simulator.py` | Wave A–D concurrency, recovery, retry, chunk, governance and authenticity regression |
 | `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md` | EA-001–EA-020 fail-closed gap register and remediation waves |
+| `EXTERNAL_AUTHORIZATION_API_WAVE_A_D_HARDENING_PLAN.md` | Wave A–D software-vs-external disposition and Wave E handoff boundary |
 | `EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md` | Expiry, revocation, stale polling, retry and partial commit design |
 | `PRODUCTION_READINESS_EVIDENCE_AUDIT.md` | Evidence-bounded production-readiness classification and remaining blockers |
 

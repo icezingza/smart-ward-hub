@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import copy
+import threading
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -158,6 +160,87 @@ def main() -> int:
 
     skew_service = api(FixedClock(datetime(2026, 8, 20, 8, 0, tzinfo=timezone.utc)), skew=timedelta(minutes=5))
     expect_code(lambda: skew_service.submit({**BASE_REQUEST, "submission_idempotency_key": "skew-submit", "submitted_at": "2026-08-20T09:00:00+00:00"}), "CLOCK_SKEW_EXCEEDED")
+
+    # Wave A: the incident state is explicit and blocks commands after audit tamper.
+    assert tamper_service.service_status["state"] == "AUDIT_INTEGRITY_FAILURE"
+    assert tamper_service.service_status["incident"]["recovery_required"] is True
+
+    # Wave B: cache version is monotonic and stale cache observations fail closed.
+    cache_service = api()
+    cache_received = cache_service.submit({**BASE_REQUEST, "submission_idempotency_key": "cache-submit"})
+    cache_version = cache_received["cache_version"]
+    cache_service.start_review(cache_received["submission_id"], "2026-08-20T08:01:00+00:00")
+    expect_code(lambda: cache_service.poll(cache_received["submission_id"], "2026-08-20T08:02:00+00:00", known_cache_version=cache_version + 10), "STALE_RESPONSE_REJECTED")
+
+    # Wave D: version negotiation and response authenticity stay simulation-only.
+    version_service = api()
+    assert version_service.negotiate_contract_version("external-auth-sim-v2")["compatibility"] == "EXACT_MATCH"
+    expect_code(lambda: version_service.negotiate_contract_version("external-auth-sim-v1"), "REJECTED_UNSUPPORTED_CONTRACT")
+    safe_response = {"contract_version": "external-auth-sim-v2", "simulation": True, "external_authority": "NONE", "clinical_validation_authorized": False, "production_authorized": False, "runtime_authority": "NONE", "status": "DECISION_PENDING_EXTERNAL_VERIFICATION"}
+    assert version_service.verify_external_response_contract(safe_response)["trusted"] is False
+    unsafe_response = {**safe_response, "production_authorized": True}
+    expect_code(lambda: version_service.verify_external_response_contract(unsafe_response), "REJECTED_RESPONSE_AUTHORITY")
+
+    # Wave C: bounded delivery policy and chunk manifest integrity.
+    retry_service = api()
+    assert retry_service.retry_advice("COMMIT_UNKNOWN", 1)["action"] == "RECONCILE"
+    assert retry_service.retry_advice("TRANSIENT_TIMEOUT", 3)["action"] == "STOP"
+    expect_code(lambda: retry_service.retry_advice("TRANSIENT_TIMEOUT", 4), "RETRY_BUDGET_EXHAUSTED")
+    expect_code(lambda: retry_service.retry_advice("AUTH_FAILURE", 1), "REJECTED_NON_RETRYABLE_FAULT")
+    chunk_service = api()
+    chunk_body = {
+        "artifact_id": "repo://synthetic-artifact.bin",
+        "artifact_sha256": "a" * 64,
+        "chunks": [
+            {"sequence": 0, "sha256": "b" * 64, "size": 12, "received": True},
+            {"sequence": 1, "sha256": "c" * 64, "size": 8, "received": True},
+        ],
+    }
+    chunk_manifest = {**chunk_body, "manifest_sha256": chunk_service._hash(chunk_body)}
+    assert chunk_service.validate_chunk_manifest(chunk_manifest, "2026-08-20T08:01:00+00:00")["complete"] is True
+    expect_code(lambda: chunk_service.validate_chunk_manifest({**chunk_manifest, "manifest_sha256": "0" * 64}, "2026-08-20T08:02:00+00:00"), "REJECTED_CHUNK_MANIFEST_HASH")
+    incomplete = {**chunk_body, "chunks": [{"sequence": 0, "sha256": "b" * 64, "size": 12, "received": False}]}
+    incomplete["manifest_sha256"] = chunk_service._hash(incomplete)
+    expect_code(lambda: chunk_service.validate_chunk_manifest(incomplete, "2026-08-20T08:03:00+00:00"), "REJECTED_INCOMPLETE_ARTIFACT")
+
+    # Wave B: a verified local snapshot can be reloaded after restart; tampering is rejected.
+    snapshot_service = api()
+    snapshot_received = snapshot_service.submit({**BASE_REQUEST, "submission_idempotency_key": "snapshot-submit"})
+    snapshot = snapshot_service.export_snapshot()
+    recovered = SimulatedExternalAuthorizationApi.from_snapshot(PACKAGE, snapshot, clock=FixedClock(datetime(2026, 8, 20, 8, 0, tzinfo=timezone.utc)))
+    assert recovered.submissions[snapshot_received["submission_id"]]["status"] == "RECEIVED_FOR_SIMULATION"
+    assert recovered.service_status["recovery_epoch"] == 1
+    tampered_snapshot = copy.deepcopy(snapshot)
+    tampered_snapshot["snapshot_sha256"] = "0" * 64
+    expect_code(lambda: SimulatedExternalAuthorizationApi.from_snapshot(PACKAGE, tampered_snapshot), "REJECTED_SNAPSHOT_HASH")
+
+    # Wave D: governance package binding rejects any local authorization escalation.
+    escalated_package = copy.deepcopy(PACKAGE)
+    escalated_package["production_authorized"] = True
+    expect_code(lambda: SimulatedExternalAuthorizationApi(escalated_package), "REJECTED_AUTHORIZATION_ESCALATION")
+
+    # Wave A: concurrent idempotent commands serialize deterministically.
+    concurrent_service = api()
+    concurrent_results: list[dict] = []
+    concurrent_errors: list[Exception] = []
+    barrier = threading.Barrier(8)
+
+    def concurrent_submit(index: int) -> None:
+        try:
+            barrier.wait()
+            concurrent_results.append(concurrent_service.submit({**BASE_REQUEST, "submission_idempotency_key": f"concurrent-{index}"}))
+        except Exception as exc:  # pragma: no cover - failure is asserted below
+            concurrent_errors.append(exc)
+
+    threads = [threading.Thread(target=concurrent_submit, args=(index,)) for index in range(8)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert not concurrent_errors, concurrent_errors
+    assert len(concurrent_results) == 8
+    assert concurrent_service.audit()["event_count"] == 8
+    assert len({item["submission_id"] for item in concurrent_results}) == 8
 
     for event in service.audit()["events"]:
         assert event["simulation"] is True

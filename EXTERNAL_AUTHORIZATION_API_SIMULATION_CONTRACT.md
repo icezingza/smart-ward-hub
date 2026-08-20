@@ -145,19 +145,25 @@ Simulation report ต้องเก็บ request/response hashes, event chain,
 7. Simulator ไม่เปิด network และไม่มี external credential.
 8. ไม่มี path ใดสร้าง clinical, production หรือ external authorization.
 
-## 8. v2 fail-closed hardening requirements
+## 8. v2 Wave A–D fail-closed hardening requirements
 
-ตัวจำลอง v2 เพิ่ม state integrity controls ที่ต้องถือเป็น baseline สำหรับ integration contract:
+ตัวจำลอง v2 หลังการ harden เพิ่ม controls ที่ต้องถือเป็น **P0-hardened software baseline** สำหรับ integration contract:
 
-| Control | v2 behavior | Claim class |
+| Wave/control | Behavior | Claim class |
 |---|---|---|
-| Atomic transition | validate → build candidate → build audit event → commit; timestamp/audit failure ต้องไม่ทิ้ง partial state | Software verified |
-| Private state | `submissions` และ `audit_events` ส่งคืน defensive snapshots ไม่เปิด internal mutation | Software verified |
-| Decision lifecycle | รองรับ `DECISION_PENDING_EXTERNAL_VERIFICATION`, `DECISION_EXPIRED`, `DECISION_REVOKED` และ resubmission boundary | Simulation-only |
-| Stale polling | ตรวจ `known_revision`/`known_event_hash` และ reject stale response | Software verified |
-| Delivery uncertainty | `COMMIT_UNKNOWN` และ `reconcile_submission()` ใช้ idempotency key/request hash เดิม | Simulation-only |
-| Clock policy | injected clock, timezone-aware timestamp และ optional clock-skew limit | Software verified |
-| Audit fail-stop | chain tamper เปลี่ยน service เป็น integrity-failure boundary และ block state-changing commands | Simulation-only |
-| Strict schema | reject unknown fields, wrong types, malformed hash, invalid role/severity/ref และ oversized values | Software verified |
+| A — Atomic transition | validate → build candidate → build audit event → commit; timestamp/audit failure ต้องไม่ทิ้ง partial state | Software verified |
+| A — Private state and serialization | private submissions/audit store, defensive snapshots, monotonic sequence และ deterministic lock serialization | Software verified |
+| A — Audit incident fail-stop | chain tamper สร้าง incident ID, `recovery_required=true`, service state `AUDIT_INTEGRITY_FAILURE` และ block state-changing commands | Simulation-only |
+| B — Decision lifecycle | รองรับ pending, expiry, revocation และ resubmission boundary พร้อม decision revision/cache version | Simulation-only |
+| B — Stale/cache/restart | ตรวจ known revision/event hash/cache version และใช้ hashed snapshot export/import ที่ bind กับ frozen package | Software verified/partial |
+| C — Delivery uncertainty | `COMMIT_UNKNOWN`, reconciliation และ bounded retry advice ที่แยก retry กับ reconcile | Simulation-only |
+| C — Chunk/audit bounds | bounded chunk manifest, contiguous sequence, per-chunk hash, received/finalize check, allowlisted audit payload และ event-size limit | Software verified/partial |
+| C — Strict schema | reject unknown fields, wrong types, malformed hash, invalid role/severity/ref, untraceable evidence และ oversized values | Software verified |
+| D — Governance binding | constructor ตรวจ governance state, validation snapshot, freeze record และ locked authorization boundary | Software verified/partial |
+| D — Authenticity/version guard | exact contract negotiation; simulator ปฏิเสธ response ที่อ้าง local/external authorization และคืน `SIMULATION_ONLY`/untrusted result | Simulation-only |
 
-v2 ยังคงเป็น in-memory simulator จึงไม่ยืนยัน database transaction, process restart recovery, TLS/mTLS, OIDC, ACL, external WORM, trusted time, reviewer identity หรือ real network behavior. ช่องว่างทั้งหมดอยู่ใน `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md`
+v2 ยังคงเป็น in-memory simulator จึงไม่ยืนยัน durable database transaction, process restart ของ production service, TLS/mTLS, OIDC, ACL, external WORM, trusted time, reviewer identity หรือ real network behavior. ช่องว่างทั้งหมดอยู่ใน `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md`
+
+## 9. Wave E external validation boundary
+
+ก่อนจะเปลี่ยน claim หรือ gate status ต้องมีการทดสอบ non-production กับ external endpoint จริง โดยมี named owner, approved test window, stop authority, OIDC/mTLS transcript, ACL decision, signed response verification, expiry/revocation propagation, timeout/retry transcript, independent read-back และ custody evidence. Local simulator, local snapshot หรือ local hash chain ไม่สามารถแทนหลักฐานดังกล่าวได้
