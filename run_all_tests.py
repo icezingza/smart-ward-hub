@@ -42,6 +42,7 @@ TESTS = [
     "test_wave0_governance.py",
     "test_external_authorization_api_simulator.py",
     "test_wave_e_evidence.py",
+    "test_wave1_external_execution_readiness.py",
     "test_production_readiness_audit.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
