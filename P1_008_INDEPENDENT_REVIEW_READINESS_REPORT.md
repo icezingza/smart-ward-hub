@@ -47,11 +47,13 @@ The readiness validator in `p1_008_independent_review_readiness.py` fixes the se
 | Existing P1-008 lifecycle regression | Passed | `test_independent_review_operations.py` |
 | Adversarial review hardening | Passed | `test_p1_008_independent_review_hardening.py` |
 | Readiness template generation | Passed | `export_p1_008_independent_review_readiness.py` |
-| Template/schema artifact validation | Gate-controlled | `test_p1_008_phase_end_hardening_gate.py` |
-| Private-key block scan | Gate-controlled | P1-008 phase-end gate |
-| Whitespace/diff hygiene | Gate-controlled | `git diff --check` |
+| Template/schema artifact validation | Passed | `test_p1_008_phase_end_hardening_gate.py` |
+| Private-key block scan | Passed | P1-008 phase-end gate |
+| Whitespace/diff hygiene | Passed | `git diff --check` |
+| Release-freeze candidate contract | Passed | `test_release_freeze_candidate.py` |
+| Master regression | Passed | `run_all_tests.py` |
 
-The focused regression and adversarial suite are deterministic software tests. They are not clinical validation, hardware bench validation, real HIS/EMR interoperability validation, real OIDC/mTLS validation, external WORM verification or independent adjudication.
+The P1-008 phase-end gate passed focused regression, adversarial review hardening, readiness template/schema validation, private-key marker scanning and `git diff --check`. The final master regression and release-freeze candidate contract also passed after commit/push. These are deterministic software tests. They are not clinical validation, hardware bench validation, real HIS/EMR interoperability validation, real OIDC/mTLS validation, external WORM verification or independent adjudication.
 
 ## 5. Locked authorization boundary
 
