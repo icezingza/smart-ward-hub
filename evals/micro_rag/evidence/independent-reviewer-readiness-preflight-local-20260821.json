@@ -1,10 +1,10 @@
 {
   "schema_version": "independent-reviewer-readiness-preflight-v1",
   "project": "smart-ward-hub",
-  "preflight_id": "reviewer-preflight-e0cb88955c26",
-  "source_revision": "e0cb88955c26889139ac5f90aae78f6b112678ec",
+  "preflight_id": "reviewer-preflight-899e9423412a",
+  "source_revision": "899e9423412ac91276340b0e13cf0998ec10aec7",
   "freeze_manifest_sha256": "TOP_LEVEL_RELEASE_FREEZE",
-  "local_index_sha256": "3a02e99739b5a00f9daf31294c3ec0889cc8c8782190df170538dd1d3ac405f4",
+  "local_index_sha256": "f1e3ad75e99c907e816c8267784b9b13951ff65d7094aa23cb3e1d7209d442d0",
   "status": "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT",
   "submission_status": "NOT_SUBMITTED",
   "reviewer_appointment": "PENDING_EXTERNAL_APPOINTMENT",

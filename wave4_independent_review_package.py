@@ -83,12 +83,15 @@ def _safe_text(value: Any, field: str) -> None:
     _require(not SECRET_MARKER.search(value), f"{field} must not contain secret material")
 
 
-def _opaque(value: Any, field: str, *, pending: bool = False) -> None:
+def _opaque(value: Any, field: str, *, pending: bool = False, allow_numeric: bool = False) -> None:
     _require(isinstance(value, str) and value.strip(), f"{field} must be non-empty")
     if pending and value == PENDING:
         return
     _require(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:-]{2,127}", value) is not None, f"{field} must be opaque")
-    _safe_text(value, field)
+    _require(not RAW_ID.search(value), f"{field} must not contain raw identity")
+    _require(not SECRET_MARKER.search(value), f"{field} must not contain secret material")
+    if not allow_numeric:
+        _require(not RAW_CONTACT.search(value), f"{field} must not contain raw identity/contact")
 
 
 def _validate_artifact(artifact: dict[str, Any], expected_ref: str, *, template_only: bool) -> None:
@@ -120,7 +123,7 @@ def validate_package(payload: dict[str, Any], *, template_only: bool = False) ->
     _require(not (set(payload) - allowed), f"unknown package fields: {sorted(set(payload) - allowed)}")
     _require(payload.get("schema_version") == SCHEMA_VERSION, "schema_version mismatch")
     _require(payload.get("project") == PROJECT, "project mismatch")
-    _opaque(payload.get("package_id"), "package_id", pending=template_only)
+    _opaque(payload.get("package_id"), "package_id", pending=template_only, allow_numeric=True)
     if template_only:
         _require(payload.get("source_revision") == PENDING, "template source revision must be pending")
         _require(payload.get("freeze_manifest_sha256") == TOP_LEVEL_FREEZE_REFERENCE, "template freeze binding must remain top-level")
