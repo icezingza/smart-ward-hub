@@ -1,0 +1,139 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/wave0-owner-appointment-intake-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "clinical_validation_authorized": {
+      "const": false
+    },
+    "evidence_intake": {
+      "additionalProperties": false,
+      "required": [
+        "submission_manifest_ref",
+        "custody_ref",
+        "redaction"
+      ],
+      "type": "object"
+    },
+    "external_execution_authorized": {
+      "const": false
+    },
+    "freeze_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "package_id": {
+      "type": "string"
+    },
+    "production_authorized": {
+      "const": false
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "repository": {
+      "const": "icezingza/smart-ward-hub"
+    },
+    "roles": {
+      "additionalProperties": false,
+      "description": "Each role must resolve to a distinct opaque actor/organization/appointment reference before submission.",
+      "required": [
+        "external_coordinator",
+        "clinical_owner",
+        "security_owner",
+        "integration_owner",
+        "custody_owner",
+        "reliability_owner",
+        "independent_verifier",
+        "stop_authority",
+        "rollback_owner"
+      ],
+      "type": "object"
+    },
+    "rollback_plan": {
+      "additionalProperties": false,
+      "required": [
+        "target_revision",
+        "owner_approval_ref",
+        "restore_drill_ref"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "wave0-owner-appointment-intake-v1"
+    },
+    "scope": {
+      "additionalProperties": false,
+      "required": [
+        "scope_id",
+        "signed_scope_ref",
+        "approved_by_ref",
+        "in_scope",
+        "out_of_scope"
+      ],
+      "type": "object"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "OWNER_APPOINTMENT_TEMPLATE",
+        "OWNER_APPOINTMENT_SUBMITTED",
+        "BLOCKED"
+      ]
+    },
+    "stop_authority": {
+      "additionalProperties": false,
+      "required": [
+        "stop_rule_ref",
+        "notification_ref"
+      ],
+      "type": "object"
+    },
+    "test_window": {
+      "additionalProperties": false,
+      "required": [
+        "start_utc",
+        "end_utc",
+        "approval_ref",
+        "allowlist_ref"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "package_id",
+    "project",
+    "repository",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "scope",
+    "test_window",
+    "roles",
+    "stop_authority",
+    "rollback_plan",
+    "evidence_intake",
+    "authorization_boundary",
+    "status",
+    "external_execution_authorized",
+    "production_authorized",
+    "clinical_validation_authorized",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub Wave 0 Owner Appointment Intake",
+  "type": "object"
+}

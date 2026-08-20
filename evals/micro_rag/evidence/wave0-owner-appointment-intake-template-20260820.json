@@ -1,0 +1,58 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_validation_authorized": false,
+  "evidence_intake": {
+    "custody_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "redaction": "PENDING",
+    "submission_manifest_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "external_execution_authorized": false,
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "independent_verification_required": true,
+  "package_id": "PENDING_EXTERNAL_APPOINTMENT",
+  "production_authorized": false,
+  "project": "smart-ward-hub",
+  "repository": "icezingza/smart-ward-hub",
+  "roles": {
+    "clinical_owner": "PENDING_EXTERNAL_APPOINTMENT",
+    "custody_owner": "PENDING_EXTERNAL_APPOINTMENT",
+    "external_coordinator": "PENDING_EXTERNAL_APPOINTMENT",
+    "independent_verifier": "PENDING_EXTERNAL_APPOINTMENT",
+    "integration_owner": "PENDING_EXTERNAL_APPOINTMENT",
+    "reliability_owner": "PENDING_EXTERNAL_APPOINTMENT",
+    "rollback_owner": "PENDING_EXTERNAL_APPOINTMENT",
+    "security_owner": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_authority": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "rollback_plan": {
+    "owner_approval_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "restore_drill_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "target_revision": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "schema_version": "wave0-owner-appointment-intake-v1",
+  "scope": {
+    "approved_by_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "in_scope": [],
+    "out_of_scope": [],
+    "scope_id": "PENDING_EXTERNAL_APPOINTMENT",
+    "signed_scope_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "status": "OWNER_APPOINTMENT_TEMPLATE",
+  "stop_authority": {
+    "notification_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "test_window": {
+    "allowlist_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "approval_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "end_utc": null,
+    "start_utc": null
+  }
+}
