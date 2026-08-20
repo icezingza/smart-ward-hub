@@ -33,6 +33,7 @@ TESTS = [
     "test_clinical_shadow_mode_negative.py",
     "test_p1_005_phase_end_hardening_gate.py",
     "test_clinical_validation_readiness.py",
+    "test_p1_006_phase_end_hardening_gate.py",
     "test_external_validation_package.py",
     "test_external_validation_gate_matrix.py",
     "test_gv10_evidence.py",

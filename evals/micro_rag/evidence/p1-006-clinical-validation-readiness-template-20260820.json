@@ -1,0 +1,144 @@
+{
+  "analysis_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "analysis_semantics": {
+    "accuracy_claim_forbidden": true,
+    "clinical_effectiveness_claim_forbidden": true,
+    "denominator_explicit": true,
+    "note": "Software preflight and synthetic/replay evidence do not establish clinical accuracy, effectiveness, safety or patient outcomes.",
+    "review_coverage_required": true,
+    "synthetic_data_not_clinical_evidence": true,
+    "unreviewed_events_visible": true
+  },
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_claim_boundary": "NO_CLINICAL_VALIDATION_OR_ACCURACY_CLAIM",
+  "clinical_governance": "PENDING",
+  "clinical_shadow_dependency": "P1_005_SOFTWARE_SHADOW_CONTRACT_EXTERNAL_APPROVAL_PENDING",
+  "clinical_validation": "PENDING",
+  "consent_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "evidence_class": "SOFTWARE_PREFLIGHT_UNVERIFIED",
+  "execution_status": "NOT_STARTED",
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "hard_stops": [
+    "Stop if intended use, excluded use, population or non-interventional scope is ambiguous.",
+    "Stop if accountable clinical, technical, governance or incident roles are not named and separated.",
+    "Stop on unresolved privacy leakage, missing consent/waiver, retention ambiguity or unsafe access/export boundary.",
+    "Stop if stop, incident, escalation, rollback or manual fallback cannot be executed and evidenced.",
+    "Stop if backup/restore and recovery evidence is absent or only inferred from software simulation.",
+    "Stop if device, host, clock, network, power-loss or recovery qualification is incomplete.",
+    "Stop if real identity transport, mTLS/IdP, HIS acknowledgment or integration evidence is absent.",
+    "Stop if staff can interpret a shadow signal as diagnosis/treatment or human-factors review is incomplete.",
+    "Stop if independent review, analysis denominator, review coverage or missed-event handling is incomplete.",
+    "Stop if any system or local operator attempts automatic promotion to clinical treatment workflow."
+  ],
+  "independent_verification_required": true,
+  "preflight_status": "READY_FOR_EXTERNAL_GOVERNANCE_REVIEW",
+  "project": "smart-ward-hub",
+  "protocol_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "real_world_authorization": false,
+  "retention_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "schema_version": "p1-006-clinical-validation-readiness-v1",
+  "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "software_evidence_only": true,
+  "status": "CLINICAL_VALIDATION_SOFTWARE_PREFLIGHT_READY",
+  "tracks": {
+    "CV-001": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "approved protocol and population/scope decision",
+      "external_required": true,
+      "required_state": "decision-support scope and excluded clinical actions are explicit",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if intended use, excluded use, population or non-interventional scope is ambiguous.",
+      "title": "intended use and excluded use"
+    },
+    "CV-002": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "named accountable owners and signed governance approval",
+      "external_required": true,
+      "required_state": "clinical/technical owners, governance and escalation roles are assigned",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if accountable clinical, technical, governance or incident roles are not named and separated.",
+      "title": "owners and governance"
+    },
+    "CV-003": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "approved privacy/consent/retention evidence",
+      "external_required": true,
+      "required_state": "privacy/security review, consent or waiver and retention decision are required",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop on unresolved privacy leakage, missing consent/waiver, retention ambiguity or unsafe access/export boundary.",
+      "title": "privacy, consent and retention"
+    },
+    "CV-004": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "approved safety protocol and fallback drill",
+      "external_required": true,
+      "required_state": "stop, incident, rollback, manual fallback and escalation paths are required",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if stop, incident, escalation, rollback or manual fallback cannot be executed and evidenced.",
+      "title": "operational safety and fallback"
+    },
+    "CV-005": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "approved recovery/DR evidence",
+      "external_required": true,
+      "required_state": "backup/restore evidence is a prerequisite and not inferred from code tests",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if backup/restore and recovery evidence is absent or only inferred from software simulation.",
+      "title": "backup and recovery"
+    },
+    "CV-006": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "qualified device/host evidence",
+      "external_required": true,
+      "required_state": "device, clock, host and recovery qualification remain external",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if device, host, clock, network, power-loss or recovery qualification is incomplete.",
+      "title": "device and host qualification"
+    },
+    "CV-007": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "real transport/HIS integration evidence",
+      "external_required": true,
+      "required_state": "auth/mTLS/IdP and HIS acknowledgment are required before real evaluation",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if real identity transport, mTLS/IdP, HIS acknowledgment or integration evidence is absent.",
+      "title": "identity, transport and HIS"
+    },
+    "CV-008": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "training and human-factors review",
+      "external_required": true,
+      "required_state": "staff walkthrough, wording, alarm-fatigue and no-treatment-order interpretation are required",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if staff can interpret a shadow signal as diagnosis/treatment or human-factors review is incomplete.",
+      "title": "training and human factors"
+    },
+    "CV-009": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "approved analysis plan and adjudication owner",
+      "external_required": true,
+      "required_state": "independent review plan and non-accuracy analysis semantics are required",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if independent review, analysis denominator, review coverage or missed-event handling is incomplete.",
+      "title": "independent review and analysis"
+    },
+    "CV-010": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "signed decision gate record",
+      "external_required": true,
+      "required_state": "continue/modify/pause/reject requires governance decision; no automatic treatment promotion",
+      "status": "SOFTWARE_PREFLIGHT_EXTERNAL_PENDING",
+      "stop_condition": "Stop if any system or local operator attempts automatic promotion to clinical treatment workflow.",
+      "title": "decision and promotion gate"
+    }
+  },
+  "training_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+}

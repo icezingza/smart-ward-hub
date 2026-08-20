@@ -34,7 +34,7 @@
 | P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | KT-001–KT-007 software-preparation contract, adversarial lifecycle gate, manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | In Progress |
 | P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | AC-001–AC-007 software-preparation contract, adversarial/failure-injection gate, independent append-only/WORM verification and retention transcript | In Progress |
 | P1-005 | Approve clinical shadow-mode protocol | Clinical reviewer | `CLINICAL_SAFETY_SHADOW_MODE.md` | SM-001–SM-007 software-preparation contract, adversarial/clinical-safety negative gate, human-factors review, stop conditions, alarm-fatigue review and sign-off record | In Progress |
-| P1-006 | Prepare clinical validation readiness package | Clinical reviewer + security auditor | P1-005 shadow-mode review, protocol and safety gates | Intended/excluded use, consent/waiver, owners, fallback, rollback, independent review and preflight evidence | In Progress |
+| P1-006 | Prepare clinical validation readiness package | Clinical reviewer + security auditor | P1-005 shadow-mode review, protocol and safety gates | CV-001–CV-010 software preflight contract, adversarial/clinical-safety negative gate, intended/excluded use, consent/waiver, owners, fallback, rollback, independent review and external preflight evidence | In Progress |
 | P1-007 | Coordinate external validation and pilot readiness | Integration owner + clinical governance coordinator | P1-001–P1-006 evidence register | Ten named gates, owner assignments, evidence refs, blocker reasons and no-authorization boundary | In Progress |
 | P1-008 | Operate independent review session and controlled pilot gate | Independent reviewer + governance coordinator | GV-10 dossier, P1-007 gate registry, signed evidence export | Review lifecycle, severity-coded findings, finding-to-gate traceability, close/reopen control and no-authorization boundary | Dry-run complete |
 
@@ -63,7 +63,7 @@
 
 ### P1-006 clinical validation readiness status note
 
-`clinical_validation_readiness.py` and `test_clinical_validation_readiness.py` provide a fail-closed preflight that distinguishes `NOT_READY_FOR_CLINICAL_VALIDATION` from `READY_FOR_EXTERNAL_GOVERNANCE_REVIEW`. The preflight cannot self-assert clinical evidence or authorize real-world testing; all clinical, privacy, consent, device, HIS, transport, fallback and independent-review gates remain external.
+`clinical_validation_readiness.py` and `test_clinical_validation_readiness.py` provide a fail-closed preflight that distinguishes `NOT_READY_FOR_CLINICAL_VALIDATION` from `READY_FOR_EXTERNAL_GOVERNANCE_REVIEW`. The runtime contract now rejects unsafe owner/reference and intended/excluded-use fields, non-boolean gates, self-asserted real-world authorization and external evidence classes, while returning a copied locked authorization boundary. `p1_006_clinical_validation_readiness.py`, its template/schema, `P1_006_CLINICAL_VALIDATION_READINESS_REPORT.md`, `test_p1_006_clinical_validation_hardening.py` and `test_p1_006_phase_end_hardening_gate.py` provide CV-001–CV-010 software-preparation and adversarial evidence. The preflight cannot self-assert clinical evidence or authorize real-world testing; all clinical, privacy, consent, device, HIS, transport, fallback and independent-review gates remain external.
 
 ### P1-004 external anchor status note
 

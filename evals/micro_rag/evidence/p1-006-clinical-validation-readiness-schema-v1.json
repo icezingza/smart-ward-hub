@@ -1,0 +1,149 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/p1-006-clinical-validation-readiness-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_ref": {
+      "type": "string"
+    },
+    "analysis_semantics": {
+      "additionalProperties": false,
+      "required": [
+        "accuracy_claim_forbidden",
+        "clinical_effectiveness_claim_forbidden",
+        "review_coverage_required",
+        "denominator_explicit",
+        "unreviewed_events_visible",
+        "synthetic_data_not_clinical_evidence",
+        "note"
+      ],
+      "type": "object"
+    },
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "clinical_claim_boundary": {
+      "const": "NO_CLINICAL_VALIDATION_OR_ACCURACY_CLAIM"
+    },
+    "clinical_governance": {
+      "const": "PENDING"
+    },
+    "clinical_shadow_dependency": {
+      "const": "P1_005_SOFTWARE_SHADOW_CONTRACT_EXTERNAL_APPROVAL_PENDING"
+    },
+    "clinical_validation": {
+      "const": "PENDING"
+    },
+    "consent_ref": {
+      "type": "string"
+    },
+    "evidence_class": {
+      "const": "SOFTWARE_PREFLIGHT_UNVERIFIED"
+    },
+    "execution_status": {
+      "const": "NOT_STARTED"
+    },
+    "external_owner_appointment": {
+      "type": "string"
+    },
+    "hard_stops": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 10,
+      "type": "array"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "preflight_status": {
+      "const": "READY_FOR_EXTERNAL_GOVERNANCE_REVIEW"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "protocol_ref": {
+      "type": "string"
+    },
+    "real_world_authorization": {
+      "const": false
+    },
+    "retention_ref": {
+      "type": "string"
+    },
+    "rollback_ref": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "p1-006-clinical-validation-readiness-v1"
+    },
+    "scope_ref": {
+      "type": "string"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "status": {
+      "const": "CLINICAL_VALIDATION_SOFTWARE_PREFLIGHT_READY"
+    },
+    "tracks": {
+      "additionalProperties": false,
+      "required": [
+        "CV-001",
+        "CV-002",
+        "CV-003",
+        "CV-004",
+        "CV-005",
+        "CV-006",
+        "CV-007",
+        "CV-008",
+        "CV-009",
+        "CV-010"
+      ],
+      "type": "object"
+    },
+    "training_ref": {
+      "type": "string"
+    },
+    "window_ref": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "status",
+    "preflight_status",
+    "execution_status",
+    "clinical_governance",
+    "clinical_validation",
+    "real_world_authorization",
+    "software_evidence_only",
+    "external_owner_appointment",
+    "authorization_boundary",
+    "evidence_class",
+    "clinical_claim_boundary",
+    "clinical_shadow_dependency",
+    "protocol_ref",
+    "scope_ref",
+    "window_ref",
+    "rollback_ref",
+    "consent_ref",
+    "retention_ref",
+    "training_ref",
+    "analysis_ref",
+    "analysis_semantics",
+    "hard_stops",
+    "tracks",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub P1-006 Clinical Validation Readiness",
+  "type": "object"
+}
