@@ -1,0 +1,130 @@
+{
+  "audit": {
+    "chain_valid": true,
+    "errors": [],
+    "event_count": 4,
+    "events": [
+      {
+        "action": "submit",
+        "actor_ref": "evidence_custodian",
+        "audit_event_id": "sim-audit-0001",
+        "event_hash": "b3687b5ccd4f77dbaf602c35d0ddb9e1ab66f10c380243b855e658c0de66fcdb",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:05:00+00:00",
+        "payload": {
+          "request_hash": "5d00deea33a2329b04c199f2f3cfee66f76343d98c7d9e136d593d81fc0685fa",
+          "submission_id": "sim-submission-5d00deea33a2329b"
+        },
+        "previous_event_hash": null,
+        "simulation": true
+      },
+      {
+        "action": "review_start",
+        "actor_ref": "simulated_external_reviewer",
+        "audit_event_id": "sim-audit-0002",
+        "event_hash": "cfec30bab2371fc0efc36e2a4b9f0f22eafcca71a1952c1508f9a1d4582a9379",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:06:00+00:00",
+        "payload": {
+          "submission_id": "sim-submission-5d00deea33a2329b"
+        },
+        "previous_event_hash": "b3687b5ccd4f77dbaf602c35d0ddb9e1ab66f10c380243b855e658c0de66fcdb",
+        "simulation": true
+      },
+      {
+        "action": "finding_issued",
+        "actor_ref": "simulated_external_reviewer",
+        "audit_event_id": "sim-audit-0003",
+        "event_hash": "c678bcb5fb5757c740cc3a3809dc178d840144443221aaa60dca212120ced485",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:07:00+00:00",
+        "payload": {
+          "finding_id": "sim-finding-gv01-001",
+          "submission_id": "sim-submission-5d00deea33a2329b"
+        },
+        "previous_event_hash": "cfec30bab2371fc0efc36e2a4b9f0f22eafcca71a1952c1508f9a1d4582a9379",
+        "simulation": true
+      },
+      {
+        "action": "poll",
+        "actor_ref": "local_submitter",
+        "audit_event_id": "sim-audit-0004",
+        "event_hash": "7c863d52a251bd7ee65fcf4f9808ab8863e617f297898a7f248bff765a8e512a",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:08:00+00:00",
+        "payload": {
+          "status": "REQUIRES_CLARIFICATION",
+          "submission_id": "sim-submission-5d00deea33a2329b"
+        },
+        "previous_event_hash": "c678bcb5fb5757c740cc3a3809dc178d840144443221aaa60dca212120ced485",
+        "simulation": true
+      }
+    ]
+  },
+  "clinical_validation_authorized": false,
+  "external_authority": "NONE",
+  "negative_cases": {
+    "authorization_escalation": "REJECTED_AUTHORIZATION_ESCALATION",
+    "bad_manifest": "REJECTED_MANIFEST_MISMATCH",
+    "idempotency_conflict": "REJECTED_IDEMPOTENCY_CONFLICT",
+    "raw_identity": "REJECTED_RAW_IDENTITY",
+    "timezone_missing": "REJECTED_TIMEZONE_REQUIRED",
+    "verification_bypass": "REJECTED_VERIFICATION_BYPASS"
+  },
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "positive_lifecycle": {
+    "final_poll": {
+      "audit_event_id": null,
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "finding_count": 1,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE",
+      "simulation": true,
+      "status": "REQUIRES_CLARIFICATION",
+      "submission_id": "sim-submission-5d00deea33a2329b"
+    },
+    "finding": {
+      "audit_event_id": "sim-audit-0003",
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "finding_count": 1,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE",
+      "simulation": true,
+      "status": "REQUIRES_CLARIFICATION",
+      "submission_id": "sim-submission-5d00deea33a2329b"
+    },
+    "received": {
+      "audit_event_id": "sim-audit-0001",
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "finding_count": 0,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE",
+      "simulation": true,
+      "status": "RECEIVED_FOR_SIMULATION",
+      "submission_id": "sim-submission-5d00deea33a2329b"
+    },
+    "review": {
+      "audit_event_id": "sim-audit-0002",
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "finding_count": 0,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE",
+      "simulation": true,
+      "status": "IN_SIMULATED_REVIEW",
+      "submission_id": "sim-submission-5d00deea33a2329b"
+    }
+  },
+  "production_authorized": false,
+  "report_type": "EXTERNAL_AUTHORIZATION_API_SIMULATION",
+  "runtime_authority": "NONE",
+  "simulation": true,
+  "source_boundary": "offline in-memory simulator; no network or credential"
+}

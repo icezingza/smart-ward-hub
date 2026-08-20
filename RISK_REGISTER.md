@@ -34,6 +34,8 @@
 | R-047 | Blocker analysis และ 5-wave plan ถูกใช้แทน external owner appointment, signed scope หรือ authorization decision | Critical | `analyze_controlled_pilot_blockers.py`, `EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md` | analysis ตรวจ 7 blockers และจัดลำดับ owner/evidence/stop condition แต่คง authorization false | ต้องมี named external owners, explicit approval, test-window record, signed scope, expiry, rollback และ independent decision |
 | R-048 | Local Wave 0 governance record ถูก self-attest ว่าเป็น appointment/signature/custody จริง | Critical | `WAVE_0_GOVERNANCE_CONTRACT.md`, `wave0_governance.py` | validator บังคับ `PENDING_EXTERNAL_VERIFICATION`, `external_authority=NONE` และเปิดสูงสุดเพียง review-ready | ต้องมี external directory/appointment evidence, signed scope, independent custody และ reviewer verification นอก baseline |
 | R-049 | Test window หมดอายุหรือ scope เปลี่ยน แต่ยังใช้ manifest/freeze เดิม | High | `wave0_governance.py`, `WAVE_0_GOVERNANCE_REVIEW_CHECKLIST.md` | ตรวจ timezone-aware expiry, freeze version และ append-only policy | ต้องสร้าง window/manifest version ใหม่พร้อม previous hash, reason และ external notification |
+| R-050 | Offline External Authorization API simulator ถูกตีความว่าเป็นหลักฐานของ API transport, reviewer identity หรือ external decision จริง | Critical | `external_authorization_api_simulator.py`, `EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md` | simulator บังคับ `simulation=true`, audit chain, idempotency และ authorization flags false | ต้องมี real API endpoint, OIDC/mTLS, ACL, signed response, clock, custody, outage/retry และ independent read-back evidence |
+| R-051 | Status polling เห็น `REQUIRES_CLARIFICATION` แล้วถูกใช้เป็น approval หรือไม่ติดตาม expiry/revocation | High | API simulator report และ expanded reviewer checklist | status machine จำกัด transition และคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION` | ต้องมี external decision lifecycle, expiry, revocation propagation, escalation, reviewer sign-off และ stop authority |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -93,6 +95,8 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md` | Five-wave plan for external evidence and authorization |
 | `WAVE_0_GOVERNANCE_CONTRACT.md` | Role, scope, test-window, stop-authority and freeze contract |
 | `wave0_governance.py` | Wave 0 local validator and freeze simulation |
+| `EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md` | Offline API handoff/status/audit contract and no-authorization boundary |
+| `external_authorization_api_simulator.py` | Deterministic submit/poll/finding/audit simulator |
 
 
 ## Device Trust and provisioning roadmap risks
