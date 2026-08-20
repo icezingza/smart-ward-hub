@@ -21,6 +21,7 @@ TESTS = [
     "test_power_loss_recovery_harness.py",
     "test_backup_restore.py",
     "test_deployment_readiness.py",
+    "test_p1_002_host_hardening_readiness.py",
     "test_key_custody_contract.py",
     "test_key_custody_contract_negative.py",
     "test_external_anchor_contract.py",

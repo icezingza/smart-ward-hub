@@ -1,0 +1,113 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/p1-002-host-hardening-readiness-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "clinical_validation": {
+      "const": "PENDING"
+    },
+    "common_controls": {
+      "additionalProperties": false,
+      "required": [
+        "runtime_paths_outside_source_tree",
+        "api_docs_enabled",
+        "auto_create_db",
+        "seed_data",
+        "loopback_only_reference",
+        "static_credentials_embedded",
+        "evidence_class",
+        "scope_ref",
+        "window_ref",
+        "rollback_ref",
+        "stop_rule"
+      ],
+      "type": "object"
+    },
+    "controls": {
+      "additionalProperties": false,
+      "description": "Exact P1-002 host hardening control set; external controls remain pending target-host evidence.",
+      "required": [
+        "dedicated_service_identity",
+        "source_runtime_separation",
+        "disk_encryption",
+        "firewall_and_network",
+        "pilot_safe_api_defaults",
+        "loopback_binding",
+        "identity_transport",
+        "time_integrity",
+        "patch_state",
+        "service_recovery",
+        "backup_and_restore",
+        "privacy_and_kiosk",
+        "monitoring"
+      ],
+      "type": "object"
+    },
+    "external_owner_appointment": {
+      "type": "string"
+    },
+    "freeze_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "host_execution_status": {
+      "const": "NOT_STARTED"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "package_id": {
+      "type": "string"
+    },
+    "physical_validation": {
+      "const": "UNVERIFIED"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "schema_version": {
+      "const": "p1-002-host-hardening-readiness-v1"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "status": {
+      "const": "HOST_HARDENING_SOFTWARE_PREPARATION_READY"
+    },
+    "target": {
+      "const": "Acer Spin N17H2 Fixed Hub candidate"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "package_id",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "target",
+    "status",
+    "host_execution_status",
+    "physical_validation",
+    "clinical_validation",
+    "software_evidence_only",
+    "external_owner_appointment",
+    "authorization_boundary",
+    "controls",
+    "common_controls",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub P1-002 Host Hardening Readiness",
+  "type": "object"
+}

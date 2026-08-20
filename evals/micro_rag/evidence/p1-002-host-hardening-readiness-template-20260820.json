@@ -1,0 +1,167 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_validation": "PENDING",
+  "common_controls": {
+    "api_docs_enabled": false,
+    "auto_create_db": false,
+    "evidence_class": "SOFTWARE_PREPARATION_ONLY",
+    "loopback_only_reference": true,
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "runtime_paths_outside_source_tree": true,
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "seed_data": false,
+    "static_credentials_embedded": false,
+    "stop_rule": "Stop deployment on source-tree runtime path, exposed docs, wildcard binding, embedded credential, unapproved volume, failed isolated restore or unknown rollback version.",
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "controls": {
+    "backup_and_restore": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "backup_restore_manifest_and_isolated_restore_transcript",
+      "external_required": true,
+      "required_state": "strict_manifest_isolated_restore_external_destination_pending",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "backup cannot be restored to isolated target or destination/retention is unapproved"
+      ]
+    },
+    "dedicated_service_identity": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "windows_account_group_access_review",
+      "external_required": true,
+      "required_state": "non_admin_service_identity",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "service identity is administrator or access review is absent"
+      ]
+    },
+    "disk_encryption": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "windows_encryption_status_and_key_custody_record",
+      "external_required": true,
+      "required_state": "approved_encrypted_runtime_volume",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "runtime volume encryption is absent or custody record is missing"
+      ]
+    },
+    "firewall_and_network": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "firewall_export_and_approved_segment_port_scan",
+      "external_required": true,
+      "required_state": "explicit_allowlist_loopback_or_approved_gateway",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "wildcard exposure, unexpected listener or unapproved gateway path"
+      ]
+    },
+    "identity_transport": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "redacted_oidc_mtls_configuration_and_lifecycle_transcript",
+      "external_required": true,
+      "required_state": "oidc_selected_static_only_for_bench",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "static credentials used outside bench or real IdP/mTLS lifecycle is unverified"
+      ]
+    },
+    "loopback_binding": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "process_and_listening_socket_transcript",
+      "external_required": true,
+      "required_state": "127.0.0.1_or_approved_gateway_only",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "non-loopback bind without approved gateway and ACL"
+      ]
+    },
+    "monitoring": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "daily_preflight_and_alert_transcript",
+      "external_required": true,
+      "required_state": "health_disk_backup_auth_sync_and_alert_observables_defined",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "health/backup/auth/sync alert has no owner or escalation rule"
+      ]
+    },
+    "patch_state": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "host_patch_inventory_and_change_record",
+      "external_required": true,
+      "required_state": "approved_os_runtime_dependency_inventory",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "unsupported runtime, missing security patch or unapproved change"
+      ]
+    },
+    "pilot_safe_api_defaults": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "deployment_readiness_transcript",
+      "external_required": false,
+      "required_state": "docs_disabled_no_auto_create_no_seed_data",
+      "status": "SOFTWARE_PASS",
+      "stop_conditions": [
+        "API docs, auto-create database or seed data enabled"
+      ]
+    },
+    "privacy_and_kiosk": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "site_privacy_and_human_factors_record",
+      "external_required": true,
+      "required_state": "screen_ports_removable_media_and_kiosk_reviewed",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "kiosk escape, privacy exposure or unreviewed removable-media path"
+      ]
+    },
+    "service_recovery": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "task_scheduler_or_supervisor_transcript_and_failure_drill",
+      "external_required": true,
+      "required_state": "operator_controlled_start_stop_restart_rollback",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "rollback version is unknown or restart policy is not bounded"
+      ]
+    },
+    "source_runtime_separation": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "path_acl_transcript",
+      "external_required": true,
+      "required_state": "runtime_database_checkpoint_logs_outside_source_tree",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "runtime path resolves inside source tree or ACL is not restricted"
+      ]
+    },
+    "time_integrity": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "time_sync_and_clock_drift_record",
+      "external_required": true,
+      "required_state": "trusted_time_source_and_bounded_clock_skew",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_conditions": [
+        "clock drift exceeds policy or time source is untrusted"
+      ]
+    }
+  },
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "host_execution_status": "NOT_STARTED",
+  "independent_verification_required": true,
+  "package_id": "PENDING_EXTERNAL_APPOINTMENT",
+  "physical_validation": "UNVERIFIED",
+  "project": "smart-ward-hub",
+  "schema_version": "p1-002-host-hardening-readiness-v1",
+  "software_evidence_only": true,
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "status": "HOST_HARDENING_SOFTWARE_PREPARATION_READY",
+  "target": "Acer Spin N17H2 Fixed Hub candidate"
+}
