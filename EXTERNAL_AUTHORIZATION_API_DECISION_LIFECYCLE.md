@@ -133,3 +133,9 @@ Retry policy ต้องกำหนด maximum attempts, backoff, deadline, co
 ## 11. External validation remains mandatory
 
 Local Wave A–D evidence เป็น software baseline เท่านั้น และไม่ปิด EA-020. การเปลี่ยนไปสู่ external authorization ต้องผ่าน non-production endpoint จริง, OIDC/mTLS, ACL, signed response, trusted clock, expiry/revocation propagation, timeout/retry transcript, independent read-back, custody และ named external reviewer/stop authority โดยยังต้องมี clinical validation และ production-readiness gates แยกต่างหาก
+
+## 12. Wave E evidence record contract
+
+Wave E record-level evidence ต้องใช้ `wave-e-evidence-v1` ตาม `external_authorization_api_wave_e_evidence.py` และ JSON Schema ที่ `evals/micro_rag/evidence/wave-e-evidence-schema-v1.json`. Record ต้องผูก test run/case, expected/actual result, failure class, ordered timezone-aware observed timestamps, clock source/skew, endpoint/TLS identity references, request/response/artifact/manifest hashes, correlation/idempotency, remote receipt/reconciliation, signature/key/read-back, scope/window/expiry/revocation, stop/recovery separation-of-duties, topology/worker/limiter semantics และ chain of custody.
+
+`READY_FOR_INDEPENDENT_REVIEW` เป็น evidence/dossier state เท่านั้น ไม่ใช่ simulator API status, `PASSED`, external authorization, clinical authorization หรือ production authorization. Dossier coordination state ใช้ลำดับ `EXTERNAL_VALIDATION_NOT_STARTED -> READY_FOR_EXTERNAL_OWNER_APPOINTMENT -> READY_FOR_EXTERNAL_EXECUTION -> IN_EXECUTION -> READY_FOR_INDEPENDENT_REVIEW -> CLOSED_NO_AUTHORIZATION`; `BLOCKED` กลับได้ด้วย explicit reopen/reason เท่านั้น และทุก state ต้องคง no-authorization boundary.

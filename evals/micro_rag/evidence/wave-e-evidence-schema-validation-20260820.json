@@ -1,0 +1,90 @@
+{
+  "claim_boundary": "EXTERNAL_UNVERIFIED_PENDING_REVIEW",
+  "clinical_validation_authorized": false,
+  "dossier_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+  "environment": "LOCAL_SOFTWARE_SIMULATION",
+  "evidence_class": "SOFTWARE_VERIFIED/SIMULATION_ONLY",
+  "external_authority": "NONE",
+  "external_endpoint_contacted": false,
+  "external_execution": "NOT_STARTED",
+  "git_commit": "c0869a992491a1dd6e598bc65092ddeb700ed98d",
+  "hashed_files": {
+    "EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md": "0a0e88be0ca0be349c79af99787f045d436207e2ac9b65f5f17c5c6a62509bd5",
+    "EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md": "1aacd4d503e9e15a2aff0c13b92a5391b5e0c9aed8bf8efa632f2f55ce887ec7",
+    "EXTERNAL_AUTHORIZATION_API_WAVE_E_EXTERNAL_VALIDATION_DOSSIER.md": "a9c9614ef5446876062b5af941a9aee3f306192f65d2de579c1095936336f564",
+    "evals/micro_rag/evidence/wave-e-evidence-schema-v1.json": "afb93db474e1a97b7b7122a3a72ecfcd30d231f21bf3b18c63f44ea852e0f582",
+    "external_authorization_api_wave_e_evidence.py": "fd6c85a142fabf1a037359cf2521e7cd7b190813ecf023996234baad16e14cef",
+    "test_wave_e_evidence.py": "c06483f01ed5d52648251739b11b1c60805e5fe8f93111b8fa0b6be3558ac309"
+  },
+  "independent_verification_required": true,
+  "overall_status": "PASS",
+  "patient_data_used": false,
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "prepared_at_utc": "2026-08-20T09:21:44.390621+00:00",
+  "prepared_by_role": "integration_owner",
+  "production_authorized": false,
+  "production_traffic_used": false,
+  "raw_identity_present": false,
+  "redaction": "PASS",
+  "repository": "icezingza/smart-ward-hub",
+  "runtime_authority": "NONE",
+  "schema_version": "wave-e-validation-run-v1",
+  "test_results": [
+    {
+      "exit_code": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "WAVE_E_EVIDENCE_SCHEMA_TESTS_PASSED",
+      "stdout_sha256": "14690bc63303405e0be3624d36492646fa197d1cfc87b2547c33c9b447c8f388",
+      "test": "test_wave_e_evidence.py"
+    },
+    {
+      "exit_code": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "EXTERNAL_AUTHORIZATION_API_SIMULATOR_V2_TESTS_PASSED",
+      "stdout_sha256": "c95c8a91253b0bd288c77fa72511780634d0d1f6c766e2291b2435bbea4a930e",
+      "test": "test_external_authorization_api_simulator.py"
+    },
+    {
+      "exit_code": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "[GV-MATRIX] All 10 gates have unique IDs, owners and required evidence: PASSED\n[GV-MATRIX] Timezone-aware timestamps and case-insensitive claim boundary: PASSED\n[GV-MATRIX] Blocked gate cannot be overwritten; explicit reopen is required: PASSED\n[GV-MATRIX] GV-10 required evidence cannot be silently removed: PASSED\nEXTERNAL_VALIDATION_GATE_MATRIX_TESTS_PASSED",
+      "stdout_sha256": "f1a2d72502b6ca022382e83cd950e68ec46d923ffd00195b6849789e89ebc9db",
+      "test": "test_external_validation_gate_matrix.py"
+    },
+    {
+      "exit_code": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "[GV-10] Evidence dossier with hash, provenance, redaction and chain-of-custody passes: PASSED\n[GV-10] Hash, redaction, raw-identity, forbidden-claim and timestamp failures are rejected: PASSED\n[GV-10] Empty dossier cannot be submitted as independent-review input: PASSED\n[GV-10] Dossier cannot remove its UNVERIFIED claim boundary: PASSED\nGV10_EVIDENCE_TESTS_PASSED",
+      "stdout_sha256": "4a8588c44ce2e55728506b091e4a809c92b76d99c196055bfe2759f6b2300b4c",
+      "test": "test_gv10_evidence.py"
+    },
+    {
+      "exit_code": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "WAVE0_GOVERNANCE_TESTS_PASSED",
+      "stdout_sha256": "652727fd47d589f1a3eba6f9eabd06c97b5127f141ae16455055e3ece8352ff2",
+      "test": "test_wave0_governance.py"
+    },
+    {
+      "exit_code": 0,
+      "status": "PASS",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "PRODUCTION_READINESS_AUDIT_TESTS_PASSED",
+      "stdout_sha256": "4c784cd941189c3b4e5af53e7674cf808a6b104fb0ae7b444015726eddaf7294",
+      "test": "test_production_readiness_audit.py"
+    }
+  ],
+  "working_tree_clean": false,
+  "working_tree_status_sha256": "f603363bd34ea003f1b23712ea05e5a197e80422a1284c19c94097aa0ab5d5ca"
+}

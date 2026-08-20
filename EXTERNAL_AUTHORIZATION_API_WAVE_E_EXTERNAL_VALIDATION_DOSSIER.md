@@ -1,15 +1,36 @@
 # External Authorization API — Wave E Non-Production Validation Dossier
 
 **ตรวจเมื่อ:** 2026-08-20
-**สถานะ:** `EXTERNAL_VALIDATION_NOT_STARTED`
+**สถานะ:** `READY_FOR_EXTERNAL_OWNER_APPOINTMENT`
 **Evidence class:** `EXTERNAL_UNVERIFIED`
 **ขอบเขต:** เตรียมการทดสอบกับ external endpoint ใน non-production เท่านั้น; ไม่มี credential, patient data, production traffic หรือ authorization decision ในเอกสารนี้
+
+> `READY_FOR_EXTERNAL_OWNER_APPOINTMENT` เป็น **dossier coordination state** เท่านั้น หมายถึง package ผ่าน schema validation ภายในและพร้อมให้แต่งตั้ง owner ภายนอก ไม่ใช่ `EXTERNAL_VALIDATION_STARTED`, ไม่ใช่ `ACCEPTED_FOR_INDEPENDENT_REVIEW`, ไม่ใช่ clinical authorization และไม่ใช่ production authorization
 
 ## Executive boundary
 
 เอกสารนี้เป็น package สำหรับแต่งตั้ง owner, อนุมัติ test window และเตรียม independent verification ของ External Authorization API เท่านั้น ผลจาก local simulator และ Wave A–D regression เป็น software evidence ไม่ใช่หลักฐานของ endpoint, OIDC/mTLS, ACL, signed response, trusted clock, external custody หรือ reviewer จริง
 
 > Local code ห้ามสร้าง `AUTHORIZED_BY_EXTERNAL_OWNER` และห้ามเปลี่ยน `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE` หรือ `pilot_gate_status=BLOCKED_PENDING_EXTERNAL_AUTHORIZATION` ก่อนมี external decision ที่ตรวจสอบได้จาก owner ภายนอก
+
+## Dossier coordination state machine
+
+สถานะของ dossier แยกจาก API simulator `STATUSES` และไม่ใช่ authorization state:
+
+```text
+EXTERNAL_VALIDATION_NOT_STARTED
+  -> READY_FOR_EXTERNAL_OWNER_APPOINTMENT
+  -> READY_FOR_EXTERNAL_EXECUTION
+  -> IN_EXECUTION
+  -> READY_FOR_INDEPENDENT_REVIEW
+  -> CLOSED_NO_AUTHORIZATION
+
+Any non-terminal state -> BLOCKED
+BLOCKED -> READY_FOR_EXTERNAL_OWNER_APPOINTMENT only after explicit reopen/reason
+CLOSED_NO_AUTHORIZATION -> terminal; no local transition to authorization
+```
+
+ทุก transition ต้องมี `revision`, `actor_role`, `reason`, timezone-aware timestamp และ evidence reference. การเปลี่ยนเป็น `READY_FOR_EXTERNAL_EXECUTION` ต้องมี external owner, test window, endpoint, identity transport, ACL และ custody prerequisites ครบโดย owner ภายนอก; local code ทำได้เพียงตรวจ package readiness และคง no-authorization boundary
 
 ## Current readiness
 
@@ -74,32 +95,65 @@ External execution must not begin until every criterion below is recorded as `TR
 
 ## Evidence record schema
 
-Every external test artifact must include the following fields before independent verification:
+Every external test artifact must include the following fields before independent verification. This is the `wave-e-evidence-v1` record contract; it records a test result and provenance, never an authorization decision:
 
 ```text
-record_id
-prepared_at_utc
-prepared_by_role
-external_owner_role
-independent_verification_required=true
-environment=NON_PRODUCTION
-request_correlation_id
-contract_version
+schema_version=wave-e-evidence-v1
+test_run_id
+test_case_id=T-01..T-12
+status=NOT_EXECUTED|EXECUTED_FAIL_CLOSED|EXECUTED_BLOCKED|EXECUTED_REQUIRES_CLARIFICATION|READY_FOR_INDEPENDENT_REVIEW
+expected_result
+actual_result
+failure_class
+started_at_utc
+observed_at_utc
+completed_at_utc
+clock_source
+clock_skew_ms
+time_verification_result
+endpoint_environment_id
 endpoint_identity_ref
+tls_certificate_fingerprint
 identity_transport_ref
+request_correlation_id
+idempotency_key_hash
 request_sha256
 response_sha256
-receipt_ref
-trusted_timestamp_ref
+remote_receipt_id
+reconciliation_result
+artifact_type
+artifact_sha256
+manifest_sha256
+artifact_size_bytes
+artifact_record_count
+signature_ref
+key_id
+signature_algorithm
+signed_payload_hash
+signature_verification_result
+independent_readback_ref
 scope_id
 window_id
 expiry
 revocation_status
 stop_authority_ref
+stop_trigger
+stopped_at_utc
+stopped_by_role
+recovery_approved_by_role
+recovery_at_utc
+recovery_evidence_ref
+topology=SINGLE_PROCESS|MULTI_PROCESS|MULTI_NODE|UNKNOWN
+worker_count
+limiter_backend
+quota_scope
 chain_of_custody_ref
+prepared_by_role
+external_owner_role
+independent_verification_required=true
 redaction=PASS
 raw_identity_present=false
-external_authority=NONE until independently verified
+external_authority=NONE
 clinical_validation_authorized=false
 production_authorized=false
 runtime_authority=NONE
@@ -107,9 +161,13 @@ pilot_gate_status=BLOCKED_PENDING_EXTERNAL_AUTHORIZATION
 claim_boundary=EXTERNAL_UNVERIFIED_PENDING_REVIEW
 ```
 
+Validation rules include: timestamps must be timezone-aware and ordered; review-ready evidence requires response hash, remote receipt, independent read-back and verified signature; `COMMIT_UNKNOWN` requires reconciliation; blocked/fail-closed results require a failure class; single-process topology cannot declare multiple workers; extra unknown fields and authorization mutations are rejected.
+
 ## Decision rules
 
-A test may be recorded as `ACCEPTED_FOR_INDEPENDENT_REVIEW` only when the artifact is complete, redacted, hash-bound, time-bound, independently readable and linked to the signed scope. That state is not `PASSED`, is not clinical authorization, and is not production authorization. Any mismatch, missing receipt, invalid signature, expired scope, stale response, unknown clock state or custody gap returns the test to `BLOCKED` or `REQUIRES_CLARIFICATION`.
+A test may be recorded as `READY_FOR_INDEPENDENT_REVIEW` only when the `wave-e-evidence-v1` artifact is complete, redacted, hash-bound, time-bound, independently readable and linked to the signed scope. This is a dossier/evidence state, not an API simulator status and not `PASSED`; it is not clinical authorization and not production authorization. Any mismatch, missing receipt, invalid signature, expired scope, stale response, unknown clock state or custody gap returns the test to `BLOCKED` or `REQUIRES_CLARIFICATION`.
+
+The local implementation for this schema is `external_authorization_api_wave_e_evidence.py`. Its regression is `test_wave_e_evidence.py`; `export_wave_e_evidence_schema.py` generates the JSON Schema/state manifest; and `wave_e_evidence_validation_runner.py` generates the local software-validation evidence JSON. These controls enforce the no-authorization fields and reject malformed, stale, untrusted or incomplete records. The generated local validation report is `evals/micro_rag/evidence/wave-e-evidence-schema-validation-20260820.json`; it is `SOFTWARE_VERIFIED/SIMULATION_ONLY`, not external evidence.
 
 The 10 External Gates remain governed by `external_validation_package.py`. A local `reopen()` is required before resubmitting evidence to a previously blocked gate. Local acceptance of an evidence file cannot convert a gate to `PASSED` without the external owner and independent reviewer decision.
 
@@ -128,6 +186,12 @@ The dossier is not executable because there is no external endpoint, test IdP, m
 - `GV10_INDEPENDENT_REVIEW_DOSSIER.md`
 - `EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md`
 - `PRODUCTION_READINESS_EVIDENCE_AUDIT.md`
+- `external_authorization_api_wave_e_evidence.py`
+- `test_wave_e_evidence.py`
+- `export_wave_e_evidence_schema.py`
+- `wave_e_evidence_validation_runner.py`
+- `evals/micro_rag/evidence/wave-e-evidence-schema-v1.json`
+- `evals/micro_rag/evidence/wave-e-evidence-schema-validation-20260820.json`
 
 **Product statement:** controlled production prototype; P0-hardened software baseline; functional verification passed; pilot-ready foundation; clinical validation pending; pilot deployment configuration pending.
 
@@ -153,3 +217,8 @@ The dossier is not executable because there is no external endpoint, test IdP, m
 **Clinical validation authorized:** `false`
 **Production authorized:** `false`
 **Runtime authority:** `NONE`
+
+**Dossier coordination state:** `READY_FOR_EXTERNAL_OWNER_APPOINTMENT`
+**Evidence schema:** `wave-e-evidence-v1`
+**External execution:** `NOT_STARTED`
+**Independent review:** `NOT_STARTED`

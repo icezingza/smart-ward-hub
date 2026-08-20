@@ -164,6 +164,25 @@ Simulation report ต้องเก็บ request/response hashes, event chain,
 
 v2 ยังคงเป็น in-memory simulator จึงไม่ยืนยัน durable database transaction, process restart ของ production service, TLS/mTLS, OIDC, ACL, external WORM, trusted time, reviewer identity หรือ real network behavior. ช่องว่างทั้งหมดอยู่ใน `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md`
 
-## 9. Wave E external validation boundary
+## 9. Wave E evidence record and dossier-state boundary
+
+Wave E ใช้ `wave-e-evidence-v1` เป็น record-level evidence contract. JSON Schema และ state transition manifest อยู่ที่ `evals/micro_rag/evidence/wave-e-evidence-schema-v1.json`; strict implementation อยู่ที่ `external_authorization_api_wave_e_evidence.py` และ regression อยู่ที่ `test_wave_e_evidence.py`.
+
+Record ที่พร้อม independent review ต้องมี test run/case identity, expected/actual result, failure class, ordered timezone-aware timestamps, clock source/skew result, endpoint environment and TLS identity references, correlation/idempotency hashes, request/response/artifact/manifest hashes, remote receipt and reconciliation result, signature/key/read-back evidence, scope/window/expiry/revocation, stop/recovery separation-of-duties fields, topology/worker/limiter semantics, chain of custody and role provenance. Unknown fields, naive timestamps, incomplete signature/read-back, unresolved `COMMIT_UNKNOWN`, invalid topology และ authorization mutations ต้องถูก reject.
+
+Dossier coordination state แยกจาก simulator API `STATUSES` และไม่ใช่ authorization state:
+
+```text
+EXTERNAL_VALIDATION_NOT_STARTED
+ -> READY_FOR_EXTERNAL_OWNER_APPOINTMENT
+ -> READY_FOR_EXTERNAL_EXECUTION
+ -> IN_EXECUTION
+ -> READY_FOR_INDEPENDENT_REVIEW
+ -> CLOSED_NO_AUTHORIZATION
+```
+
+การกลับจาก `BLOCKED` ทำได้ด้วย explicit reopen/reason เท่านั้น; `CLOSED_NO_AUTHORIZATION` เป็น terminal coordination state และไม่มี local transition ไปสู่ external, clinical, production หรือ runtime authority.
+
+## 10. Wave E external validation boundary
 
 ก่อนจะเปลี่ยน claim หรือ gate status ต้องมีการทดสอบ non-production กับ external endpoint จริง โดยมี named owner, approved test window, stop authority, OIDC/mTLS transcript, ACL decision, signed response verification, expiry/revocation propagation, timeout/retry transcript, independent read-back และ custody evidence. Local simulator, local snapshot หรือ local hash chain ไม่สามารถแทนหลักฐานดังกล่าวได้

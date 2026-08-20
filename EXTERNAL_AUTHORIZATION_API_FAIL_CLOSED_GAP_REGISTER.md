@@ -65,6 +65,12 @@
 
 Wave A–D software controls มี regression evidence แล้วใน `test_external_authorization_api_simulator.py` และ `EXTERNAL_AUTHORIZATION_API_WAVE_A_D_HARDENING_PLAN.md` แต่ `EA-020` ยัง `EXTERNAL_UNVERIFIED` และ simulator ยังเป็น in-memory เท่านั้น ทุกการเปลี่ยนแปลงต้องคง `pilot_gate_status=BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`, `clinical_validation_authorized=false`, `production_authorized=false` และ `runtime_authority=NONE`
 
+## Wave E evidence-v1 amendment
+
+`external_authorization_api_wave_e_evidence.py` และ `evals/micro_rag/evidence/wave-e-evidence-schema-v1.json` เพิ่ม strict record-level evidence fields สำหรับ test run/case, expected/actual result, failure class, ordered timezone-aware observations, clock skew, endpoint/TLS identity, artifact/manifest hashes, idempotency/reconciliation, signature/key/read-back, stop/recovery separation of duties และ topology/limiter semantics. `test_wave_e_evidence.py` regression ยืนยัน unknown-field rejection, malformed timestamps, incomplete signature/read-back, unresolved `COMMIT_UNKNOWN`, invalid topology และ authorization mutation rejection.
+
+Amendment นี้เป็น software evidence contract และไม่เปลี่ยน EA-020. It does not provision endpoint, OIDC/mTLS, ACL, custody, trusted external clock, reviewer or clinical authority. `READY_FOR_INDEPENDENT_REVIEW` เป็น dossier/evidence state เท่านั้น ไม่ใช่ `PASSED` หรือ authorization.
+
 ## Immediate next step
 
 เตรียม Wave E non-production external validation package สำหรับ endpoint จริง, OIDC/mTLS, ACL, signed response, expiry/revocation, custody, outage/retry และ independent read-back โดยต้องมี external owner, approved test window, stop authority และ no-authorization decision แยกจาก local regression

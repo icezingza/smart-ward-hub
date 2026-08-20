@@ -1,0 +1,560 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "dossier_state_machine": {
+    "states": [
+      "EXTERNAL_VALIDATION_NOT_STARTED",
+      "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+      "READY_FOR_EXTERNAL_EXECUTION",
+      "IN_EXECUTION",
+      "BLOCKED",
+      "READY_FOR_INDEPENDENT_REVIEW",
+      "CLOSED_NO_AUTHORIZATION"
+    ],
+    "terminal_states": [
+      "CLOSED_NO_AUTHORIZATION"
+    ],
+    "transitions": {
+      "BLOCKED": [
+        "READY_FOR_EXTERNAL_OWNER_APPOINTMENT"
+      ],
+      "CLOSED_NO_AUTHORIZATION": [],
+      "EXTERNAL_VALIDATION_NOT_STARTED": [
+        "BLOCKED",
+        "READY_FOR_EXTERNAL_OWNER_APPOINTMENT"
+      ],
+      "IN_EXECUTION": [
+        "BLOCKED",
+        "READY_FOR_INDEPENDENT_REVIEW"
+      ],
+      "READY_FOR_EXTERNAL_EXECUTION": [
+        "BLOCKED",
+        "IN_EXECUTION"
+      ],
+      "READY_FOR_EXTERNAL_OWNER_APPOINTMENT": [
+        "BLOCKED",
+        "READY_FOR_EXTERNAL_EXECUTION"
+      ],
+      "READY_FOR_INDEPENDENT_REVIEW": [
+        "BLOCKED",
+        "CLOSED_NO_AUTHORIZATION"
+      ]
+    }
+  },
+  "evidence_class": "EXTERNAL_UNVERIFIED",
+  "record_schema": {
+    "$defs": {
+      "EvidenceStatus": {
+        "enum": [
+          "NOT_EXECUTED",
+          "EXECUTED_FAIL_CLOSED",
+          "EXECUTED_BLOCKED",
+          "EXECUTED_REQUIRES_CLARIFICATION",
+          "READY_FOR_INDEPENDENT_REVIEW"
+        ],
+        "title": "EvidenceStatus",
+        "type": "string"
+      },
+      "FailureClass": {
+        "enum": [
+          "NONE",
+          "SAFE_NOT_SENT",
+          "COMMIT_UNKNOWN",
+          "RESPONSE_UNTRUSTED",
+          "IDENTITY_FAILURE",
+          "CUSTODY_FAILURE",
+          "CLOCK_UNTRUSTED",
+          "SCOPE_EXPIRED",
+          "REVOKED",
+          "STALE_RESPONSE",
+          "INTEGRITY_FAILURE",
+          "STOP_TRIGGERED",
+          "OTHER"
+        ],
+        "title": "FailureClass",
+        "type": "string"
+      },
+      "SignatureVerificationResult": {
+        "enum": [
+          "NOT_APPLICABLE",
+          "PASS",
+          "FAIL",
+          "BLOCKED"
+        ],
+        "title": "SignatureVerificationResult",
+        "type": "string"
+      },
+      "TimeVerificationResult": {
+        "enum": [
+          "PASS",
+          "FAIL",
+          "BLOCKED"
+        ],
+        "title": "TimeVerificationResult",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "One test-case evidence record; never an authorization decision.",
+    "properties": {
+      "actual_result": {
+        "maxLength": 2048,
+        "minLength": 1,
+        "title": "Actual Result",
+        "type": "string"
+      },
+      "artifact_record_count": {
+        "maximum": 10000000,
+        "minimum": 0,
+        "title": "Artifact Record Count",
+        "type": "integer"
+      },
+      "artifact_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Artifact Sha256",
+        "type": "string"
+      },
+      "artifact_size_bytes": {
+        "maximum": 10000000000,
+        "minimum": 0,
+        "title": "Artifact Size Bytes",
+        "type": "integer"
+      },
+      "artifact_type": {
+        "maxLength": 128,
+        "minLength": 1,
+        "title": "Artifact Type",
+        "type": "string"
+      },
+      "chain_of_custody_ref": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Chain Of Custody Ref",
+        "type": "string"
+      },
+      "claim_boundary": {
+        "const": "EXTERNAL_UNVERIFIED_PENDING_REVIEW",
+        "default": "EXTERNAL_UNVERIFIED_PENDING_REVIEW",
+        "title": "Claim Boundary",
+        "type": "string"
+      },
+      "clinical_validation_authorized": {
+        "const": false,
+        "default": false,
+        "title": "Clinical Validation Authorized",
+        "type": "boolean"
+      },
+      "clock_skew_ms": {
+        "maximum": 86400000,
+        "minimum": 0,
+        "title": "Clock Skew Ms",
+        "type": "integer"
+      },
+      "clock_source": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Clock Source",
+        "type": "string"
+      },
+      "completed_at_utc": {
+        "format": "date-time",
+        "title": "Completed At Utc",
+        "type": "string"
+      },
+      "endpoint_environment_id": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Endpoint Environment Id",
+        "type": "string"
+      },
+      "endpoint_identity_ref": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Endpoint Identity Ref",
+        "type": "string"
+      },
+      "expected_result": {
+        "maxLength": 2048,
+        "minLength": 1,
+        "title": "Expected Result",
+        "type": "string"
+      },
+      "expiry": {
+        "format": "date-time",
+        "title": "Expiry",
+        "type": "string"
+      },
+      "external_authority": {
+        "const": "NONE",
+        "default": "NONE",
+        "title": "External Authority",
+        "type": "string"
+      },
+      "external_owner_role": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "External Owner Role",
+        "type": "string"
+      },
+      "failure_class": {
+        "$ref": "#/$defs/FailureClass",
+        "default": "NONE"
+      },
+      "idempotency_key_hash": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Idempotency Key Hash",
+        "type": "string"
+      },
+      "identity_transport_ref": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Identity Transport Ref",
+        "type": "string"
+      },
+      "independent_readback_ref": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Independent Readback Ref",
+        "type": "string"
+      },
+      "independent_verification_required": {
+        "const": true,
+        "default": true,
+        "title": "Independent Verification Required",
+        "type": "boolean"
+      },
+      "key_id": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Key Id",
+        "type": "string"
+      },
+      "limiter_backend": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Limiter Backend",
+        "type": "string"
+      },
+      "manifest_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Manifest Sha256",
+        "type": "string"
+      },
+      "observed_at_utc": {
+        "format": "date-time",
+        "title": "Observed At Utc",
+        "type": "string"
+      },
+      "pilot_gate_status": {
+        "const": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "default": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "title": "Pilot Gate Status",
+        "type": "string"
+      },
+      "prepared_by_role": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Prepared By Role",
+        "type": "string"
+      },
+      "production_authorized": {
+        "const": false,
+        "default": false,
+        "title": "Production Authorized",
+        "type": "boolean"
+      },
+      "quota_scope": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Quota Scope",
+        "type": "string"
+      },
+      "raw_identity_present": {
+        "const": false,
+        "default": false,
+        "title": "Raw Identity Present",
+        "type": "boolean"
+      },
+      "reconciliation_result": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Reconciliation Result",
+        "type": "string"
+      },
+      "recovery_approved_by_role": {
+        "anyOf": [
+          {
+            "maxLength": 256,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Recovery Approved By Role"
+      },
+      "recovery_at_utc": {
+        "anyOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Recovery At Utc"
+      },
+      "recovery_evidence_ref": {
+        "anyOf": [
+          {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Recovery Evidence Ref"
+      },
+      "redaction": {
+        "const": "PASS",
+        "default": "PASS",
+        "title": "Redaction",
+        "type": "string"
+      },
+      "remote_receipt_id": {
+        "anyOf": [
+          {
+            "maxLength": 512,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Remote Receipt Id"
+      },
+      "request_correlation_id": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Request Correlation Id",
+        "type": "string"
+      },
+      "request_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Request Sha256",
+        "type": "string"
+      },
+      "response_sha256": {
+        "anyOf": [
+          {
+            "maxLength": 64,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Response Sha256"
+      },
+      "revocation_status": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Revocation Status",
+        "type": "string"
+      },
+      "runtime_authority": {
+        "const": "NONE",
+        "default": "NONE",
+        "title": "Runtime Authority",
+        "type": "string"
+      },
+      "schema_version": {
+        "const": "wave-e-evidence-v1",
+        "default": "wave-e-evidence-v1",
+        "title": "Schema Version",
+        "type": "string"
+      },
+      "scope_id": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Scope Id",
+        "type": "string"
+      },
+      "signature_algorithm": {
+        "maxLength": 128,
+        "minLength": 1,
+        "title": "Signature Algorithm",
+        "type": "string"
+      },
+      "signature_ref": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Signature Ref",
+        "type": "string"
+      },
+      "signature_verification_result": {
+        "$ref": "#/$defs/SignatureVerificationResult"
+      },
+      "signed_payload_hash": {
+        "anyOf": [
+          {
+            "maxLength": 64,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Signed Payload Hash"
+      },
+      "started_at_utc": {
+        "format": "date-time",
+        "title": "Started At Utc",
+        "type": "string"
+      },
+      "status": {
+        "$ref": "#/$defs/EvidenceStatus"
+      },
+      "stop_authority_ref": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Stop Authority Ref",
+        "type": "string"
+      },
+      "stop_trigger": {
+        "maxLength": 1024,
+        "minLength": 1,
+        "title": "Stop Trigger",
+        "type": "string"
+      },
+      "stopped_at_utc": {
+        "anyOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Stopped At Utc"
+      },
+      "stopped_by_role": {
+        "anyOf": [
+          {
+            "maxLength": 256,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Stopped By Role"
+      },
+      "test_case_id": {
+        "pattern": "^T-(0[1-9]|1[0-2])$",
+        "title": "Test Case Id",
+        "type": "string"
+      },
+      "test_run_id": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Test Run Id",
+        "type": "string"
+      },
+      "time_verification_result": {
+        "$ref": "#/$defs/TimeVerificationResult"
+      },
+      "tls_certificate_fingerprint": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Tls Certificate Fingerprint",
+        "type": "string"
+      },
+      "topology": {
+        "enum": [
+          "SINGLE_PROCESS",
+          "MULTI_PROCESS",
+          "MULTI_NODE",
+          "UNKNOWN"
+        ],
+        "title": "Topology",
+        "type": "string"
+      },
+      "window_id": {
+        "maxLength": 256,
+        "minLength": 1,
+        "title": "Window Id",
+        "type": "string"
+      },
+      "worker_count": {
+        "maximum": 10000,
+        "minimum": 0,
+        "title": "Worker Count",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "test_run_id",
+      "test_case_id",
+      "status",
+      "expected_result",
+      "actual_result",
+      "started_at_utc",
+      "observed_at_utc",
+      "completed_at_utc",
+      "clock_source",
+      "clock_skew_ms",
+      "time_verification_result",
+      "endpoint_environment_id",
+      "endpoint_identity_ref",
+      "tls_certificate_fingerprint",
+      "identity_transport_ref",
+      "request_correlation_id",
+      "idempotency_key_hash",
+      "request_sha256",
+      "reconciliation_result",
+      "artifact_type",
+      "artifact_sha256",
+      "manifest_sha256",
+      "artifact_size_bytes",
+      "artifact_record_count",
+      "signature_ref",
+      "key_id",
+      "signature_algorithm",
+      "signature_verification_result",
+      "independent_readback_ref",
+      "scope_id",
+      "window_id",
+      "expiry",
+      "revocation_status",
+      "stop_authority_ref",
+      "stop_trigger",
+      "topology",
+      "worker_count",
+      "limiter_backend",
+      "quota_scope",
+      "chain_of_custody_ref",
+      "prepared_by_role",
+      "external_owner_role"
+    ],
+    "title": "WaveEEvidenceRecord",
+    "type": "object"
+  },
+  "schema_id": "wave-e-evidence-v1"
+}
