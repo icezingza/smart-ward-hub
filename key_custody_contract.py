@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import datetime, timezone
 import re
 from typing import Any
@@ -102,7 +102,7 @@ class KeyCustodyRegistry:
             created_at_utc=self._now(),
         )
         self._records[key_id] = record
-        return record
+        return self._clone(record)
 
     def activate(self, key_id: str, *, approver_ids: list[str], attestation: CustodyAttestation) -> ProvisioningRecord:
         record = self._get(key_id)
@@ -110,6 +110,8 @@ class KeyCustodyRegistry:
             raise KeyCustodyError(f"activation_not_allowed_from_{record.status}")
         if not isinstance(attestation, CustodyAttestation) or not isinstance(attestation.evidence_id, str) or not attestation.evidence_id.strip():
             raise KeyCustodyError("attestation_evidence_id_required")
+        if not isinstance(approver_ids, list):
+            raise KeyCustodyError("dual_control_approval_required")
         distinct_approvers = {item.strip() for item in approver_ids if isinstance(item, str) and item.strip()}
         if self.require_dual_control and len(distinct_approvers) < 2:
             raise KeyCustodyError("dual_control_approval_required")
@@ -127,33 +129,33 @@ class KeyCustodyRegistry:
         record.private_key_non_exportable = attestation.private_key_non_exportable
         record.attestation_evidence_id = attestation.evidence_id.strip()
         record.evidence_status = "VERIFIED" if hardware_verified else "UNVERIFIED"
-        return record
+        return self._clone(record)
 
     def suspend(self, key_id: str) -> ProvisioningRecord:
         record = self._get(key_id)
         if record.status in {"REVOKED", "LOST"}:
             raise KeyCustodyError("terminal_credential_cannot_suspend")
         record.status = "SUSPENDED"
-        return record
+        return self._clone(record)
 
     def revoke(self, key_id: str, *, reason: str) -> ProvisioningRecord:
-        if not reason.strip():
+        if not isinstance(reason, str) or not reason.strip():
             raise KeyCustodyError("revocation_reason_required")
         record = self._get(key_id)
         if record.status == "REVOKED":
-            return record
+            return self._clone(record)
         record.status = "REVOKED"
         record.revoked_at_utc = self._now()
-        return record
+        return self._clone(record)
 
     def mark_lost(self, key_id: str, *, incident_id: str) -> ProvisioningRecord:
-        if not incident_id.strip():
+        if not isinstance(incident_id, str) or not incident_id.strip():
             raise KeyCustodyError("lost_device_incident_required")
         record = self._get(key_id)
         record.status = "LOST"
         record.lost_at_utc = self._now()
         record.revoked_at_utc = record.lost_at_utc
-        return record
+        return self._clone(record)
 
     def complete_rotation(self, *, new_key_id: str, old_key_id: str) -> tuple[ProvisioningRecord, ProvisioningRecord]:
         new_record = self._get(new_key_id)
@@ -162,13 +164,17 @@ class KeyCustodyRegistry:
             raise KeyCustodyError("rotation_requires_active_same_device_key")
         if new_record.previous_key_id != old_key_id:
             raise KeyCustodyError("rotation_link_mismatch")
-        if old_record.status not in {"ACTIVE", "SUSPENDED"}:
+        if old_record.status != "ACTIVE":
             raise KeyCustodyError("old_key_not_rotatable")
         old_record.status = "SUSPENDED"
-        return new_record, old_record
+        return self._clone(new_record), self._clone(old_record)
 
     def snapshot(self) -> list[dict[str, Any]]:
         return [asdict(record) for record in sorted(self._records.values(), key=lambda item: item.key_id)]
+
+    @staticmethod
+    def _clone(record: ProvisioningRecord) -> ProvisioningRecord:
+        return replace(record)
 
     def _get(self, key_id: str) -> ProvisioningRecord:
         if key_id not in self._records:

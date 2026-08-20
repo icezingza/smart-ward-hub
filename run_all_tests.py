@@ -24,6 +24,7 @@ TESTS = [
     "test_p1_002_host_hardening_readiness.py",
     "test_key_custody_contract.py",
     "test_key_custody_contract_negative.py",
+    "test_p1_003_phase_end_hardening_gate.py",
     "test_external_anchor_contract.py",
     "test_external_anchor_fault_injection.py",
     "test_file_anchor_store.py",

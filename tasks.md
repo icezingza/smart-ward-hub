@@ -31,7 +31,7 @@
 |---|---|---|---|---|---|
 | P1-001 | Define encrypted backup/restore and retention | Reliability operator | Backup skill overlay | Strict manifest schema, size/hash/integrity checks, isolated successful restore transcript, approved encryption/destination/retention/RPO/RTO | In Progress |
 | P1-002 | Harden host and least-privilege deployment | Host operator + security auditor | P0 hardware/network observations | Strict 13-control software-preparation contract, target-host OS/firewall/account/patch/disk/service evidence and external readiness decision | In Progress |
-| P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | Manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | In Progress |
+| P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | KT-001–KT-007 software-preparation contract, adversarial lifecycle gate, manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | In Progress |
 | P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | Independent append-only/WORM verification and retention transcript | In Progress |
 | P1-005 | Approve clinical shadow-mode protocol | Clinical reviewer | `CLINICAL_SAFETY_SHADOW_MODE.md` | Human-factors review, stop conditions, alarm-fatigue review and sign-off record | In Progress |
 | P1-006 | Prepare clinical validation readiness package | Clinical reviewer + security auditor | P1-005 shadow-mode review, protocol and safety gates | Intended/excluded use, consent/waiver, owners, fallback, rollback, independent review and preflight evidence | In Progress |
@@ -71,7 +71,7 @@
 
 ### P1 Device Trust status note
 
-`key_custody_contract.py` and `test_key_custody_contract.py` provide a software-only provisioning registry contract. Dual-control activation, explicit hardware-attestation flags, rotation linkage, terminal revocation, lost-device transition and private-key material exclusion pass. Hardware-backed custody, manufacturer CA, firmware interoperability, MDM integration and independent revocation distribution remain unverified.
+`key_custody_contract.py` and `test_key_custody_contract.py` provide a software-only provisioning registry contract. `p1_003_key_custody_readiness.py` and its template/schema define KT-001–KT-007 as software-preparation tracks with all external evidence pending. The phase-end hardening gate adds mutation isolation, None/type confusion rejection, duplicate-approver collapse, hardware-attestation fail-closed checks, rotation replay rejection, terminal-state enforcement and private-material block scanning. Hardware-backed custody, manufacturer CA, firmware interoperability, MDM integration and independent revocation distribution remain unverified.
 
 ### P1 operational trunk status note
 

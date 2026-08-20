@@ -1,0 +1,110 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/p1-003-key-custody-readiness-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "clinical_validation": {
+      "const": "PENDING"
+    },
+    "common_controls": {
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "private_key_storage",
+        "registry_material",
+        "evidence_class",
+        "production_credentials_present",
+        "scope_ref",
+        "window_ref",
+        "rollback_ref",
+        "custody_ref",
+        "stop_rule"
+      ],
+      "type": "object"
+    },
+    "external_owner_appointment": {
+      "type": "string"
+    },
+    "freeze_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "hardware_custody_validation": {
+      "const": "UNVERIFIED"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "key_custody_execution": {
+      "const": "NOT_STARTED"
+    },
+    "no_private_key_material": {
+      "const": true
+    },
+    "package_id": {
+      "type": "string"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "schema_version": {
+      "const": "p1-003-key-custody-readiness-v1"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "software_fixture_mode": {
+      "const": "ALLOW_FOR_TESTS_ONLY_UNVERIFIED"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "status": {
+      "const": "KEY_CUSTODY_SOFTWARE_PREPARATION_READY"
+    },
+    "tracks": {
+      "additionalProperties": false,
+      "description": "Exact KT-001 through KT-007 key-custody tracks; all require external evidence.",
+      "required": [
+        "KT-001",
+        "KT-002",
+        "KT-003",
+        "KT-004",
+        "KT-005",
+        "KT-006",
+        "KT-007"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "package_id",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "status",
+    "key_custody_execution",
+    "hardware_custody_validation",
+    "clinical_validation",
+    "software_evidence_only",
+    "external_owner_appointment",
+    "authorization_boundary",
+    "software_fixture_mode",
+    "no_private_key_material",
+    "tracks",
+    "common_controls",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub P1-003 Key Custody Readiness",
+  "type": "object"
+}

@@ -1,0 +1,100 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_validation": "PENDING",
+  "common_controls": {
+    "algorithm": "Ed25519",
+    "custody_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "evidence_class": "SOFTWARE_PREPARATION_ONLY",
+    "private_key_storage": "EXTERNAL_CUSTODY_ONLY",
+    "production_credentials_present": false,
+    "registry_material": "PUBLIC_KEY_FINGERPRINT_AND_LIFECYCLE_METADATA_ONLY",
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule": "Stop all custody execution on private-material exposure, failed dual control, unverified hardware assertion, broken rotation/revocation linkage or incomplete independent read-back.",
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "hardware_custody_validation": "UNVERIFIED",
+  "independent_verification_required": true,
+  "key_custody_execution": "NOT_STARTED",
+  "no_private_key_material": true,
+  "package_id": "PENDING_EXTERNAL_APPOINTMENT",
+  "project": "smart-ward-hub",
+  "schema_version": "p1-003-key-custody-readiness-v1",
+  "software_evidence_only": true,
+  "software_fixture_mode": "ALLOW_FOR_TESTS_ONLY_UNVERIFIED",
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "status": "KEY_CUSTODY_SOFTWARE_PREPARATION_READY",
+  "tracks": {
+    "KT-001": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "device_provenance_and_algorithm_policy",
+      "external_required": true,
+      "required_state": "unique_device_key_identity_ed25519_only",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if device/key identity is duplicated, algorithm is not Ed25519 or manufacturer provenance is absent.",
+      "title": "stable device/key identity and Ed25519 contract"
+    },
+    "KT-002": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "secret_scan_and_custody_boundary_record",
+      "external_required": true,
+      "required_state": "public_fingerprint_only_private_material_never_entered",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if private key, seed, factory secret or production credential enters source, database, log or evidence.",
+      "title": "private-key material boundary"
+    },
+    "KT-003": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "dual_control_ceremony_record",
+      "external_required": true,
+      "required_state": "two_distinct_approver_refs_required",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if activation lacks two distinct approver references or separation of duties is not evidenced.",
+      "title": "dual-control activation"
+    },
+    "KT-004": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "manufacturer_ca_and_hardware_attestation_transcript",
+      "external_required": true,
+      "required_state": "ca_secure_element_non_exportable_flags_captured",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if manufacturer CA, secure element or non-exportability is only asserted by local code.",
+      "title": "manufacturer attestation"
+    },
+    "KT-005": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "rotation_rollout_and_rollback_record",
+      "external_required": true,
+      "required_state": "new_key_links_previous_and_old_key_suspends",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if rotation lacks previous-key linkage, rollback or old-key suspension evidence.",
+      "title": "linked key rotation"
+    },
+    "KT-006": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "revocation_distribution_and_lost_device_drill",
+      "external_required": true,
+      "required_state": "revoked_lost_terminal_with_reason_and_incident",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if revocation/lost state lacks reason, incident reference or independent distribution evidence.",
+      "title": "revocation and lost-device handling"
+    },
+    "KT-007": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "protected_audit_retention_and_independent_readback",
+      "external_required": true,
+      "required_state": "snapshot_excludes_private_material_and_has_chain_reference",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if evidence has no custody reference, retention decision or independent read-back.",
+      "title": "custody evidence and independent verification"
+    }
+  }
+}
