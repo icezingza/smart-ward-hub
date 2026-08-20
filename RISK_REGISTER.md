@@ -36,6 +36,10 @@
 | R-049 | Test window หมดอายุหรือ scope เปลี่ยน แต่ยังใช้ manifest/freeze เดิม | High | `wave0_governance.py`, `WAVE_0_GOVERNANCE_REVIEW_CHECKLIST.md` | ตรวจ timezone-aware expiry, freeze version และ append-only policy | ต้องสร้าง window/manifest version ใหม่พร้อม previous hash, reason และ external notification |
 | R-050 | Offline External Authorization API simulator ถูกตีความว่าเป็นหลักฐานของ API transport, reviewer identity หรือ external decision จริง | Critical | `external_authorization_api_simulator.py`, `EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md` | simulator บังคับ `simulation=true`, audit chain, idempotency และ authorization flags false | ต้องมี real API endpoint, OIDC/mTLS, ACL, signed response, clock, custody, outage/retry และ independent read-back evidence |
 | R-051 | Status polling เห็น `REQUIRES_CLARIFICATION` แล้วถูกใช้เป็น approval หรือไม่ติดตาม expiry/revocation | High | API simulator report และ expanded reviewer checklist | status machine จำกัด transition และคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION` | ต้องมี external decision lifecycle, expiry, revocation propagation, escalation, reviewer sign-off และ stop authority |
+| R-052 | API command ล้มเหลวหลัง commit แต่ก่อน response ทำให้ client retry และสร้าง duplicate/ผิดสถานะ | Critical | `EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md`, `external_authorization_api_simulator.py` | v2 ใช้ idempotency replay, `COMMIT_UNKNOWN` และ reconciliation regression | real API ต้องมี durable idempotency, commit status query, bounded retry และ incident transcript |
+| R-053 | Decision เก่าถูกใช้หลัง expiry/revocation หรือ poll จาก revision ที่ stale | Critical | v2 simulator expiry/revocation/stale polling tests | v2 block/expire/revoke และตรวจ known revision/hash | real client ต้อง invalidate cache, รับ revocation propagation และมี trusted server time |
+| R-054 | Audit integrity failure ถูกตรวจพบแต่ state-changing operation ยังเดินต่อ | Critical | v2 simulator audit tamper/fail-stop regression | v2 เปลี่ยนเป็น `AUDIT_INTEGRITY_FAILURE` และ block commands | durable append-only store ต้อง verify-before-read, preserve incident snapshot และ require stop-authority recovery |
+| R-055 | Production-readiness audit หรือจำนวนสถานะถูกตีความเป็น certification/authorization | Critical | `PRODUCTION_READINESS_EVIDENCE_AUDIT.md` | report ใช้ `NOT_PRODUCTION_READY`, แยก Implemented/Experimental/Unverified/Planned และตรึง authority false | ต้องมี named external decision, clinical governance, host/hardware and 10-gate evidence ก่อนเปลี่ยน claim |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -96,7 +100,10 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `WAVE_0_GOVERNANCE_CONTRACT.md` | Role, scope, test-window, stop-authority and freeze contract |
 | `wave0_governance.py` | Wave 0 local validator and freeze simulation |
 | `EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md` | Offline API handoff/status/audit contract and no-authorization boundary |
-| `external_authorization_api_simulator.py` | Deterministic submit/poll/finding/audit simulator |
+| `external_authorization_api_simulator.py` | Deterministic v2 simulator with atomic state, decision lifecycle and audit fail-stop tests |
+| `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md` | EA-001–EA-020 fail-closed gap register and remediation waves |
+| `EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md` | Expiry, revocation, stale polling, retry and partial commit design |
+| `PRODUCTION_READINESS_EVIDENCE_AUDIT.md` | Evidence-bounded production-readiness classification and remaining blockers |
 
 
 ## Device Trust and provisioning roadmap risks

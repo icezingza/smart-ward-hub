@@ -144,3 +144,20 @@ Simulation report ต้องเก็บ request/response hashes, event chain,
 6. Audit hash chain ตรวจสอบได้และ reject mutation.
 7. Simulator ไม่เปิด network และไม่มี external credential.
 8. ไม่มี path ใดสร้าง clinical, production หรือ external authorization.
+
+## 8. v2 fail-closed hardening requirements
+
+ตัวจำลอง v2 เพิ่ม state integrity controls ที่ต้องถือเป็น baseline สำหรับ integration contract:
+
+| Control | v2 behavior | Claim class |
+|---|---|---|
+| Atomic transition | validate → build candidate → build audit event → commit; timestamp/audit failure ต้องไม่ทิ้ง partial state | Software verified |
+| Private state | `submissions` และ `audit_events` ส่งคืน defensive snapshots ไม่เปิด internal mutation | Software verified |
+| Decision lifecycle | รองรับ `DECISION_PENDING_EXTERNAL_VERIFICATION`, `DECISION_EXPIRED`, `DECISION_REVOKED` และ resubmission boundary | Simulation-only |
+| Stale polling | ตรวจ `known_revision`/`known_event_hash` และ reject stale response | Software verified |
+| Delivery uncertainty | `COMMIT_UNKNOWN` และ `reconcile_submission()` ใช้ idempotency key/request hash เดิม | Simulation-only |
+| Clock policy | injected clock, timezone-aware timestamp และ optional clock-skew limit | Software verified |
+| Audit fail-stop | chain tamper เปลี่ยน service เป็น integrity-failure boundary และ block state-changing commands | Simulation-only |
+| Strict schema | reject unknown fields, wrong types, malformed hash, invalid role/severity/ref และ oversized values | Software verified |
+
+v2 ยังคงเป็น in-memory simulator จึงไม่ยืนยัน database transaction, process restart recovery, TLS/mTLS, OIDC, ACL, external WORM, trusted time, reviewer identity หรือ real network behavior. ช่องว่างทั้งหมดอยู่ใน `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md`

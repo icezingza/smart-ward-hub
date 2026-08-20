@@ -2,61 +2,103 @@
   "audit": {
     "chain_valid": true,
     "errors": [],
-    "event_count": 4,
+    "event_count": 6,
     "events": [
       {
         "action": "submit",
         "actor_ref": "evidence_custodian",
         "audit_event_id": "sim-audit-0001",
-        "event_hash": "b3687b5ccd4f77dbaf602c35d0ddb9e1ab66f10c380243b855e658c0de66fcdb",
+        "event_hash": "da6dd7fec193bb765675664f4b971348beb7e41105ca9abeb16d8ae49fad9920",
         "external_authority": "NONE",
-        "occurred_at": "2026-08-20T08:05:00+00:00",
+        "occurred_at": "2026-08-20T08:00:00+00:00",
         "payload": {
-          "request_hash": "5d00deea33a2329b04c199f2f3cfee66f76343d98c7d9e136d593d81fc0685fa",
-          "submission_id": "sim-submission-5d00deea33a2329b"
+          "request_hash": "d3b759d5aab646c8f986231e0f98ee98198570fc3a473d9aec8032c302bcc3ba",
+          "submission_id": "sim-submission-d3b759d5aab646c8"
         },
         "previous_event_hash": null,
+        "sequence": 1,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
         "simulation": true
       },
       {
         "action": "review_start",
         "actor_ref": "simulated_external_reviewer",
         "audit_event_id": "sim-audit-0002",
-        "event_hash": "cfec30bab2371fc0efc36e2a4b9f0f22eafcca71a1952c1508f9a1d4582a9379",
+        "event_hash": "6378faff856377c97eb0f5309bf78772605432837374c883cce5740850b532fe",
         "external_authority": "NONE",
-        "occurred_at": "2026-08-20T08:06:00+00:00",
+        "occurred_at": "2026-08-20T08:01:00+00:00",
         "payload": {
-          "submission_id": "sim-submission-5d00deea33a2329b"
+          "submission_id": "sim-submission-d3b759d5aab646c8"
         },
-        "previous_event_hash": "b3687b5ccd4f77dbaf602c35d0ddb9e1ab66f10c380243b855e658c0de66fcdb",
+        "previous_event_hash": "da6dd7fec193bb765675664f4b971348beb7e41105ca9abeb16d8ae49fad9920",
+        "sequence": 2,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
         "simulation": true
       },
       {
         "action": "finding_issued",
         "actor_ref": "simulated_external_reviewer",
         "audit_event_id": "sim-audit-0003",
-        "event_hash": "c678bcb5fb5757c740cc3a3809dc178d840144443221aaa60dca212120ced485",
+        "event_hash": "01d183836475861626f65b04738819685bf47196722af3d56a241a6082506643",
         "external_authority": "NONE",
-        "occurred_at": "2026-08-20T08:07:00+00:00",
+        "occurred_at": "2026-08-20T08:02:00+00:00",
         "payload": {
-          "finding_id": "sim-finding-gv01-001",
-          "submission_id": "sim-submission-5d00deea33a2329b"
+          "finding_id": "sim-finding-gv01-002",
+          "severity": "HIGH",
+          "submission_id": "sim-submission-d3b759d5aab646c8"
         },
-        "previous_event_hash": "cfec30bab2371fc0efc36e2a4b9f0f22eafcca71a1952c1508f9a1d4582a9379",
+        "previous_event_hash": "6378faff856377c97eb0f5309bf78772605432837374c883cce5740850b532fe",
+        "sequence": 3,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
+        "simulation": true
+      },
+      {
+        "action": "clarification_resolved",
+        "actor_ref": "evidence_custodian",
+        "audit_event_id": "sim-audit-0004",
+        "event_hash": "7cd1b006df6364d054cfe94b6642196b78d8c43b7d73413a1e8c621a73d3b092",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:03:00+00:00",
+        "payload": {
+          "submission_id": "sim-submission-d3b759d5aab646c8"
+        },
+        "previous_event_hash": "01d183836475861626f65b04738819685bf47196722af3d56a241a6082506643",
+        "sequence": 4,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
+        "simulation": true
+      },
+      {
+        "action": "decision_pending",
+        "actor_ref": "simulated_external_reviewer",
+        "audit_event_id": "sim-audit-0005",
+        "event_hash": "2afcf4d7ce8185f457358ae465c962f7b9f13a1f6a4a8cfa9fad76a94202723d",
+        "external_authority": "NONE",
+        "occurred_at": "2026-08-20T08:04:00+00:00",
+        "payload": {
+          "decision_id": "sim-decision-001",
+          "expires_at": "2026-08-20T09:00:00+00:00",
+          "submission_id": "sim-submission-d3b759d5aab646c8"
+        },
+        "previous_event_hash": "7cd1b006df6364d054cfe94b6642196b78d8c43b7d73413a1e8c621a73d3b092",
+        "sequence": 5,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
         "simulation": true
       },
       {
         "action": "poll",
         "actor_ref": "local_submitter",
-        "audit_event_id": "sim-audit-0004",
-        "event_hash": "7c863d52a251bd7ee65fcf4f9808ab8863e617f297898a7f248bff765a8e512a",
+        "audit_event_id": "sim-audit-0006",
+        "event_hash": "c46bdcc4ab1195c1010c9d72ca8e4a43dd07ad8effa480f9af2201f7fb349e7d",
         "external_authority": "NONE",
-        "occurred_at": "2026-08-20T08:08:00+00:00",
+        "occurred_at": "2026-08-20T08:05:00+00:00",
         "payload": {
-          "status": "REQUIRES_CLARIFICATION",
-          "submission_id": "sim-submission-5d00deea33a2329b"
+          "revision": 4,
+          "status": "DECISION_PENDING_EXTERNAL_VERIFICATION",
+          "submission_id": "sim-submission-d3b759d5aab646c8"
         },
-        "previous_event_hash": "c678bcb5fb5757c740cc3a3809dc178d840144443221aaa60dca212120ced485",
+        "previous_event_hash": "2afcf4d7ce8185f457358ae465c962f7b9f13a1f6a4a8cfa9fad76a94202723d",
+        "sequence": 6,
+        "server_observed_at": "2026-08-20T08:00:00+00:00",
         "simulation": true
       }
     ]
@@ -67,23 +109,64 @@
     "authorization_escalation": "REJECTED_AUTHORIZATION_ESCALATION",
     "bad_manifest": "REJECTED_MANIFEST_MISMATCH",
     "idempotency_conflict": "REJECTED_IDEMPOTENCY_CONFLICT",
+    "invalid_refs_type": "REJECTED_INVALID_ARTIFACT_REFS",
     "raw_identity": "REJECTED_RAW_IDENTITY",
     "timezone_missing": "REJECTED_TIMEZONE_REQUIRED",
+    "unknown_field": "REJECTED_UNKNOWN_FIELD",
     "verification_bypass": "REJECTED_VERIFICATION_BYPASS"
   },
   "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
   "positive_lifecycle": {
-    "final_poll": {
-      "audit_event_id": null,
+    "clarification_resolved": {
+      "audit_event_id": "sim-audit-0004",
       "clinical_validation_authorized": false,
       "external_authority": "NONE",
       "finding_count": 1,
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
+      "reconciled": false,
+      "revision": 3,
       "runtime_authority": "NONE",
+      "server_observed_at": "2026-08-20T08:00:00+00:00",
       "simulation": true,
-      "status": "REQUIRES_CLARIFICATION",
-      "submission_id": "sim-submission-5d00deea33a2329b"
+      "source_event_hash": "7cd1b006df6364d054cfe94b6642196b78d8c43b7d73413a1e8c621a73d3b092",
+      "stale": false,
+      "status": "IN_SIMULATED_REVIEW",
+      "submission_id": "sim-submission-d3b759d5aab646c8"
+    },
+    "decision_pending": {
+      "audit_event_id": "sim-audit-0005",
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "finding_count": 1,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "reconciled": false,
+      "revision": 4,
+      "runtime_authority": "NONE",
+      "server_observed_at": "2026-08-20T08:00:00+00:00",
+      "simulation": true,
+      "source_event_hash": "2afcf4d7ce8185f457358ae465c962f7b9f13a1f6a4a8cfa9fad76a94202723d",
+      "stale": false,
+      "status": "DECISION_PENDING_EXTERNAL_VERIFICATION",
+      "submission_id": "sim-submission-d3b759d5aab646c8"
+    },
+    "final_poll": {
+      "audit_event_id": "sim-audit-0006",
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "finding_count": 1,
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "reconciled": false,
+      "revision": 4,
+      "runtime_authority": "NONE",
+      "server_observed_at": "2026-08-20T08:00:00+00:00",
+      "simulation": true,
+      "source_event_hash": "2afcf4d7ce8185f457358ae465c962f7b9f13a1f6a4a8cfa9fad76a94202723d",
+      "stale": false,
+      "status": "DECISION_PENDING_EXTERNAL_VERIFICATION",
+      "submission_id": "sim-submission-d3b759d5aab646c8"
     },
     "finding": {
       "audit_event_id": "sim-audit-0003",
@@ -92,10 +175,15 @@
       "finding_count": 1,
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
+      "reconciled": false,
+      "revision": 2,
       "runtime_authority": "NONE",
+      "server_observed_at": "2026-08-20T08:00:00+00:00",
       "simulation": true,
+      "source_event_hash": "01d183836475861626f65b04738819685bf47196722af3d56a241a6082506643",
+      "stale": false,
       "status": "REQUIRES_CLARIFICATION",
-      "submission_id": "sim-submission-5d00deea33a2329b"
+      "submission_id": "sim-submission-d3b759d5aab646c8"
     },
     "received": {
       "audit_event_id": "sim-audit-0001",
@@ -104,10 +192,15 @@
       "finding_count": 0,
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
+      "reconciled": false,
+      "revision": 0,
       "runtime_authority": "NONE",
+      "server_observed_at": "2026-08-20T08:00:00+00:00",
       "simulation": true,
+      "source_event_hash": "da6dd7fec193bb765675664f4b971348beb7e41105ca9abeb16d8ae49fad9920",
+      "stale": false,
       "status": "RECEIVED_FOR_SIMULATION",
-      "submission_id": "sim-submission-5d00deea33a2329b"
+      "submission_id": "sim-submission-d3b759d5aab646c8"
     },
     "review": {
       "audit_event_id": "sim-audit-0002",
@@ -116,14 +209,19 @@
       "finding_count": 0,
       "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
       "production_authorized": false,
+      "reconciled": false,
+      "revision": 1,
       "runtime_authority": "NONE",
+      "server_observed_at": "2026-08-20T08:00:00+00:00",
       "simulation": true,
+      "source_event_hash": "6378faff856377c97eb0f5309bf78772605432837374c883cce5740850b532fe",
+      "stale": false,
       "status": "IN_SIMULATED_REVIEW",
-      "submission_id": "sim-submission-5d00deea33a2329b"
+      "submission_id": "sim-submission-d3b759d5aab646c8"
     }
   },
   "production_authorized": false,
-  "report_type": "EXTERNAL_AUTHORIZATION_API_SIMULATION",
+  "report_type": "EXTERNAL_AUTHORIZATION_API_SIMULATION_V2",
   "runtime_authority": "NONE",
   "simulation": true,
   "source_boundary": "offline in-memory simulator; no network or credential"

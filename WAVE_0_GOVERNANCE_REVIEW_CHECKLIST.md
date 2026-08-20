@@ -128,3 +128,33 @@ The local package must remain:
 ## J. API simulation boundary
 
 `external_authorization_api_simulator.py` และรายงาน simulation สามารถยืนยันได้เฉพาะ document handoff lifecycle, deterministic polling, idempotency, finding traceability, audit hash-chain และ fail-closed mutations ใน memory เท่านั้น ผลดังกล่าวต้องจัดเป็น `SIMULATION_ONLY` และห้ามใช้แทนหลักฐาน OIDC/mTLS, external WORM, trusted timestamp, real reviewer identity, clinical governance หรือ production authorization
+
+## K. v2 fail-closed simulator review
+
+ส่วนนี้ใช้ตรวจว่า software simulator รองรับ failure semantics ที่จำเป็นก่อนนำ contract ไปทดสอบกับ external API จริง:
+
+| Check | Required condition | Current status | Reviewer result |
+|---|---|---|---|
+| Atomic state transition | Naive timestamp, audit failure หรือ schema failure ต้องไม่เปลี่ยน submission/finding/status ค้าง | Software verified by v2 regression | ☐ Accept ☐ Clarify ☐ Reject |
+| Private state exposure | Caller แก้ `submissions`/`audit_events` จาก snapshot ที่คืนไม่ได้ | Software verified by v2 regression | ☐ Accept ☐ Clarify ☐ Reject |
+| Expiry | `now >= expires_at` เปลี่ยนเป็น `DECISION_EXPIRED` และไม่ใช้ cache เก่า | Simulation verified; external clock pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Revocation | revoke ต้องมี decision ID/reason และ block invalid follow-up | Simulation verified; external propagation pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Stale polling | revision/hash เก่าถูก reject และไม่เลื่อน authorization | Software verified by v2 regression | ☐ Accept ☐ Clarify ☐ Reject |
+| Commit uncertainty | timeout หลัง commit ต้องเข้า reconciliation ไม่ blind retry | Simulation verified; network transcript pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Audit fail-stop | chain tamper block state-changing command และสร้าง incident boundary | Simulation verified; durable append-only store pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Strict schema | wrong type, unknown field, oversized field, invalid enum/hash/role ถูก reject | Software verified by v2 regression | ☐ Accept ☐ Clarify ☐ Reject |
+
+## L. Production-readiness evidence audit
+
+| Domain | Required evidence before production claim | Current classification | Decision |
+|---|---|---|---|
+| Code and regression | Source, targeted tests, master regression and reproducible run transcript | Implemented software baseline | ☐ Accept ☐ Clarify ☐ Reject |
+| Configuration | Pilot environment, disabled docs, loopback/allowlist, out-of-tree runtime paths, OIDC shape | Implemented validator; real environment pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Real identity transport | Real IdP/HIS OIDC/mTLS handshake, claims, rotation, revocation and network segmentation | Unverified | ☐ Accept ☐ Clarify ☐ Reject |
+| Host and physical hardware | Acer account/ACL, encryption, firewall, patch state, time, COM, power-loss, disk-full and recovery | Unverified | ☐ Accept ☐ Clarify ☐ Reject |
+| Backup/restore | Encrypted destination, retention owner, RPO/RTO, isolated restore and post-restore verification | Software verified; external destination pending | ☐ Accept ☐ Clarify ☐ Reject |
+| Forensic anchoring | Independent append-only/WORM receipt, trusted time, key custody and read-back | Unverified | ☐ Accept ☐ Clarify ☐ Reject |
+| Clinical governance | Protocol, clinical owner/committee decision, consent/waiver, human-factors and shadow-mode review | Unverified | ☐ Accept ☐ Clarify ☐ Reject |
+| Operational authorization | 10 gates, reviewer decision, expiry, revocation, stop authority and rollback record | Blocked: 7 BLOCKED, 3 OPEN, 0 PASSED | ☐ Accept ☐ Clarify ☐ Reject |
+
+Production claim remains prohibited until every applicable domain has named owner, external evidence, independent verification and explicit decision record. Local v2 simulator output remains `SIMULATION_ONLY`.

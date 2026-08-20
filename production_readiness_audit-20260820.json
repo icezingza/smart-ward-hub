@@ -1,0 +1,152 @@
+{
+  "authorization": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": [
+    "controlled production prototype",
+    "P0-hardened software baseline",
+    "functional verification passed",
+    "pilot-ready foundation",
+    "clinical validation pending",
+    "pilot deployment configuration pending"
+  ],
+  "findings": [
+    {
+      "area": "software_core",
+      "control": "required source/test/document inventory",
+      "evidence": "main.py; config.py; run_all_tests.py; test_security.py; test_deployment_readiness.py; external_authorization_api_simulator.py; test_external_authorization_api_simulator.py",
+      "gap": "none detected in repository inventory",
+      "next_action": "keep in master regression",
+      "severity": "INFO",
+      "status": "Implemented"
+    },
+    {
+      "area": "continuity",
+      "control": "required source/test/document inventory",
+      "evidence": "backup_restore.py; test_backup_restore.py; BACKUP_RESTORE_CONTRACT.md",
+      "gap": "none detected in repository inventory",
+      "next_action": "keep in master regression",
+      "severity": "INFO",
+      "status": "Implemented"
+    },
+    {
+      "area": "governance",
+      "control": "required source/test/document inventory",
+      "evidence": "WAVE_0_GOVERNANCE_CONTRACT.md; WAVE_0_GOVERNANCE_HANDOFF_REPORT.md; WAVE_0_GOVERNANCE_REVIEW_CHECKLIST.md; EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md; EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md; ZERO_TRUST_TRUST_BOUNDARIES.md; P1_HOST_HARDENING_CHECKLIST.md",
+      "gap": "none detected in repository inventory",
+      "next_action": "keep in master regression",
+      "severity": "INFO",
+      "status": "Implemented"
+    },
+    {
+      "area": "simulated_external_api",
+      "control": "offline handoff/status/finding/audit lifecycle",
+      "evidence": "external_authorization_api_simulator.py; test_external_authorization_api_simulator.py; v2 simulation JSON",
+      "gap": "no real endpoint, OIDC/mTLS, ACL, signed response, external custody or network-failure transcript",
+      "next_action": "run a separately approved non-production API test against the real external service before any production claim",
+      "severity": "CRITICAL",
+      "status": "Experimental"
+    },
+    {
+      "area": "deployment_config",
+      "control": "pilot configuration preflight",
+      "evidence": "deployment_readiness.validate_environment status=PASS; physical_validation=UNVERIFIED; clinical_validation=PENDING",
+      "gap": "synthetic environment only; issuer, host, network and physical checks are not real evidence",
+      "next_action": "run redacted preflight on the approved Acer host and external IdP environment",
+      "severity": "MEDIUM",
+      "status": "Implemented"
+    },
+    {
+      "area": "host_hardening",
+      "control": "Acer Spin N17H2 host controls",
+      "evidence": "P1_HOST_HARDENING_CHECKLIST.md states physical host execution pending",
+      "gap": "disk encryption, firewall, patch state, service identity, time, recovery and physical power tests are not verified",
+      "next_action": "complete Acer bench evidence and retain redacted OS/ACL/firewall/service transcripts",
+      "severity": "CRITICAL",
+      "status": "Unverified"
+    },
+    {
+      "area": "hardware",
+      "control": "Serial/power-loss/disk-full/hardware recovery",
+      "evidence": "SERIAL_BENCH_VALIDATION_PLAN.md and ACER_BENCH_READONLY_INVENTORY.md; physical COM port not enumerated",
+      "gap": "no real serial loopback, power interruption, disk-full or sensor bench transcript",
+      "next_action": "run the approved non-production physical bench procedure with the required confirmation phrase",
+      "severity": "CRITICAL",
+      "status": "Unverified"
+    },
+    {
+      "area": "identity_transport",
+      "control": "OIDC/mTLS with real IdP/HIS",
+      "evidence": "config.py and deployment readiness validator only validate shape/selection",
+      "gap": "issuer, claims, certificate chain, rotation, revocation, handshake and network segmentation are not verified",
+      "next_action": "obtain external IdP/HIS owner, non-production credentials and handshake/rotation/revocation evidence",
+      "severity": "CRITICAL",
+      "status": "Unverified"
+    },
+    {
+      "area": "backup_restore",
+      "control": "SQLite backup API, manifest and isolated restore",
+      "evidence": "backup_restore.py and test_backup_restore.py; software restore status is verified",
+      "gap": "physical destination encryption, retention owner, off-host custody and real recovery drill remain unverified",
+      "next_action": "perform approved isolated restore on the target host and record RPO/RTO, retention and destination evidence",
+      "severity": "HIGH",
+      "status": "Implemented"
+    },
+    {
+      "area": "forensic_anchor",
+      "control": "independent append-only/WORM evidence anchor",
+      "evidence": "external_anchor.py/FileAnchorStore software baseline and controlled-pilot manifest simulation",
+      "gap": "no independent external receipt, trusted timestamp, key custody or read-back evidence",
+      "next_action": "obtain an external anchor owner and run non-production append/read-back/rotation test",
+      "severity": "CRITICAL",
+      "status": "Unverified"
+    },
+    {
+      "area": "clinical_governance",
+      "control": "clinical protocol, owner, consent/waiver and validation",
+      "evidence": "P1-006 readiness contract and Wave 0 checklist; clinical authorization remains false",
+      "gap": "no clinical committee decision, protocol sign-off, shadow-mode outcome or human factors evidence",
+      "next_action": "obtain named clinical owner/committee decision before any clinical workflow or accuracy claim",
+      "severity": "CRITICAL",
+      "status": "Unverified"
+    },
+    {
+      "area": "external_gates",
+      "control": "10 External Gates",
+      "evidence": "current registry/operations package reports 7 BLOCKED, 3 OPEN, 0 PASSED",
+      "gap": "GV-01, GV-03, GV-04, GV-06, GV-07, GV-08 and GV-09 require evidence outside the repository",
+      "next_action": "follow EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md and reopen blocked gates before new evidence submission",
+      "severity": "CRITICAL",
+      "status": "Unverified"
+    },
+    {
+      "area": "production_claim",
+      "control": "production authorization boundary",
+      "evidence": "controlled_pilot_handoff.py and Wave 0 contracts force authorization flags false/NONE",
+      "gap": "there is no evidence basis to call the product production-ready",
+      "next_action": "do not promote claim; complete all external, host, hardware, clinical, backup and operational gates first",
+      "severity": "CRITICAL",
+      "status": "Planned"
+    }
+  ],
+  "forbidden_claims": [
+    "clinical-ready",
+    "production-ready",
+    "tamper-proof",
+    "HIPAA/PDPA compliant 100%"
+  ],
+  "generated_at": "2026-08-20T08:30:00+00:00",
+  "overall_decision": "NOT_PRODUCTION_READY",
+  "report_type": "PRODUCTION_READINESS_EVIDENCE_AUDIT",
+  "source_boundary": "repository code, tests, contracts and deterministic simulation only",
+  "status_counts": {
+    "Experimental": 1,
+    "Implemented": 5,
+    "Planned": 1,
+    "Unverified": 6
+  }
+}
