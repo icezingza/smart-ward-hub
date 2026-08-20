@@ -23,7 +23,7 @@ This package does not submit to an external endpoint, does not create `READY_FOR
 | Package component | Result | Meaning |
 |---|---|---|
 | T-01–T-12 mapping | 12/12 local mapping entries | Local traceability only; not executed external tests |
-| Local artifact index | 23 repository artifacts hashed | Repository evidence; external custody pending |
+| Local artifact index | 22 repository artifacts hashed | Repository evidence; release-freeze is a top-level binding; external custody pending |
 | Wave E bundle | `NOT_EXECUTED` | No external evidence records exist in this package |
 | Independent review | `NOT_STARTED` | No reviewer appointment or finding exists |
 | External owner | `PENDING_EXTERNAL_APPOINTMENT` | No external execution authority exists |
@@ -33,7 +33,7 @@ This package does not submit to an external endpoint, does not create `READY_FOR
 
 The mapping covers endpoint identity, OIDC/JWKS, mTLS, ACL/segmentation, contract version, governance binding, idempotency/uncertain commit, expiry/revocation, response authenticity, audit/custody, retry/rate limiting and stop/recovery. Local inputs are classified as software preparation, simulation, local-only or coordination evidence; none is represented as an externally verified transcript.
 
-The local artifact index is bound to the repository source revision and the release-freeze manifest hash. Each indexed record has an artifact reference, relative repository path, SHA-256, source revision, `prepared_by_role=evidence_custodian`, `redaction=PASS`, `raw_identity_present=false` and `external_verification_status=PENDING_EXTERNAL`.
+The local artifact index is bound to the repository source revision and the release-freeze manifest hash. It deliberately excludes the release-freeze file from its own artifact list to avoid circular self-hashing. Each indexed record has an artifact reference, relative repository path, SHA-256, source revision, `prepared_by_role=evidence_custodian`, `redaction=PASS`, `raw_identity_present=false` and `external_verification_status=PENDING_EXTERNAL`.
 
 ## 4. Verification performed
 

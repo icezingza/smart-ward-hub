@@ -72,7 +72,7 @@
       "local_artifact_refs": [
         "wave0-governance-checklist",
         "wave3-readiness-report",
-        "release-freeze"
+        "wave-e-contract"
       ],
       "external_verification_status": "PENDING_EXTERNAL",
       "reviewer_action": "Independent reviewer must verify hash, source revision, scope, expiry, role separation and external evidence before any decision."
@@ -271,18 +271,6 @@
       "artifact_ref": "wave3-readiness-report",
       "repo_path": "WAVE_3_GOVERNANCE_HOST_CLINICAL_READINESS_REPORT_20260821.md",
       "artifact_type": "md",
-      "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-      "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
-      "evidence_class": "SOFTWARE_REPOSITORY",
-      "prepared_by_role": "evidence_custodian",
-      "redaction": "PASS",
-      "raw_identity_present": false,
-      "external_verification_status": "PENDING_EXTERNAL"
-    },
-    {
-      "artifact_ref": "release-freeze",
-      "repo_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
-      "artifact_type": "json",
       "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
       "evidence_class": "SOFTWARE_REPOSITORY",

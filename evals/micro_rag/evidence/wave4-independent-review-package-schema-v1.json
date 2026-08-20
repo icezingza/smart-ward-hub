@@ -99,8 +99,8 @@
     },
     "artifacts": {
       "type": "array",
-      "minItems": 23,
-      "maxItems": 23,
+      "minItems": 22,
+      "maxItems": 22,
       "items": {
         "type": "object",
         "additionalProperties": false,
