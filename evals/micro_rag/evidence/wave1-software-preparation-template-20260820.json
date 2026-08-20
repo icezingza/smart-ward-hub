@@ -1,0 +1,131 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "common_controls": {
+    "evidence_class": "SOFTWARE_PREPARATION_ONLY",
+    "private_key_material_allowed": false,
+    "production_credentials_allowed": false,
+    "raw_patient_data_allowed": false,
+    "raw_serial_frames_allowed": false,
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule": "Any scope, identity, trust, privacy, integrity, recovery or clinical safety mismatch stops the track without bypass.",
+    "synthetic_data_only": true,
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "environment": "ISOLATED_NON_PRODUCTION_ONLY",
+  "execution_status": "NOT_STARTED",
+  "external_execution_authorized": false,
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "independent_verification_required": true,
+  "package_id": "PENDING_EXTERNAL_APPOINTMENT",
+  "project": "smart-ward-hub",
+  "schema_version": "wave1-software-preparation-v1",
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "status": "SOFTWARE_PREPARATION_READY",
+  "tracks": {
+    "acer_bench": {
+      "execution_status": "NOT_STARTED",
+      "external_inputs": [
+        "acer_fixture_and_driver_ref",
+        "isolated_loopback_fixture_ref",
+        "operator_and_independent_witness_ref",
+        "power_thermal_soak_window_ref",
+        "no_production_network_attestation_ref"
+      ],
+      "gate_id": "GV-06",
+      "hardware_or_external_validation": "UNVERIFIED",
+      "owner_appointment_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "owner_role": "reliability_owner",
+      "planned_test_ids": [
+        "S-001",
+        "S-002",
+        "S-003",
+        "S-004",
+        "S-005",
+        "S-006",
+        "S-007",
+        "S-008",
+        "S-009",
+        "S-010",
+        "S-011",
+        "S-012",
+        "S-013",
+        "S-014",
+        "S-015"
+      ],
+      "status": "PREPARED_SOFTWARE_ONLY",
+      "stop_conditions": [
+        "no approved non-production loopback, unknown driver or unexplained external traffic",
+        "COM port absent, raw PII/secret/command observed or replay accepted",
+        "memory bound, power/thermal/soak, restart or audit evidence fails"
+      ],
+      "test_matrix_ref": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "key_custody": {
+      "execution_status": "NOT_STARTED",
+      "external_inputs": [
+        "manufacturer_ca_or_approved_hsm_ref",
+        "dual_control_ceremony_ref",
+        "device_inventory_and_public_key_ref",
+        "rotation_revocation_distribution_ref",
+        "lost_device_and_manual_fallback_ref"
+      ],
+      "gate_id": "GV-08",
+      "hardware_or_external_validation": "UNVERIFIED",
+      "owner_appointment_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "owner_role": "custody_owner",
+      "planned_test_ids": [
+        "KT-001",
+        "KT-002",
+        "KT-003",
+        "KT-004",
+        "KT-005",
+        "KT-006",
+        "KT-007"
+      ],
+      "status": "PREPARED_SOFTWARE_ONLY",
+      "stop_conditions": [
+        "private key material appears in any input, log, database or evidence",
+        "single-person approval, missing hardware attestation or duplicate device identity",
+        "revoked/lost key reactivated or manual fallback not available"
+      ],
+      "test_matrix_ref": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "oidc_mtls": {
+      "execution_status": "NOT_STARTED",
+      "external_inputs": [
+        "isolated_nonproduction_issuer_and_jwks_ref",
+        "test_client_and_certificate_chain_ref",
+        "approved_dns_network_acl_ref",
+        "rotation_revocation_and_rollback_ref",
+        "independent_readback_ref"
+      ],
+      "gate_id": "GV-04",
+      "hardware_or_external_validation": "UNVERIFIED",
+      "owner_appointment_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "owner_role": "security_owner",
+      "planned_test_ids": [
+        "ID-001",
+        "ID-002",
+        "ID-003",
+        "ID-004",
+        "ID-005",
+        "ID-006",
+        "ID-007"
+      ],
+      "status": "PREPARED_SOFTWARE_ONLY",
+      "stop_conditions": [
+        "issuer/JWKS/TLS host mismatch or untrusted certificate",
+        "wrong issuer/audience/role accepted or stale token remains authorized",
+        "rotation/revocation/readback failure or endpoint outside allowlist"
+      ],
+      "test_matrix_ref": "PENDING_EXTERNAL_APPOINTMENT"
+    }
+  }
+}

@@ -44,6 +44,7 @@ TESTS = [
     "test_wave_e_evidence.py",
     "test_wave1_external_execution_readiness.py",
     "test_wave0_owner_appointment_intake.py",
+    "test_wave1_software_preparation.py",
     "test_production_readiness_audit.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",

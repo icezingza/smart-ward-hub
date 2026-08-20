@@ -1,0 +1,90 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/wave1-software-preparation-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "common_controls": {
+      "additionalProperties": false,
+      "required": [
+        "synthetic_data_only",
+        "raw_patient_data_allowed",
+        "production_credentials_allowed",
+        "private_key_material_allowed",
+        "raw_serial_frames_allowed",
+        "evidence_class",
+        "scope_ref",
+        "window_ref",
+        "rollback_ref",
+        "stop_rule"
+      ],
+      "type": "object"
+    },
+    "environment": {
+      "const": "ISOLATED_NON_PRODUCTION_ONLY"
+    },
+    "execution_status": {
+      "const": "NOT_STARTED"
+    },
+    "external_execution_authorized": {
+      "const": false
+    },
+    "freeze_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "package_id": {
+      "type": "string"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "schema_version": {
+      "const": "wave1-software-preparation-v1"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "status": {
+      "const": "SOFTWARE_PREPARATION_READY"
+    },
+    "tracks": {
+      "additionalProperties": false,
+      "description": "Exactly GV-04 OIDC/mTLS, GV-08 key custody and GV-06 Acer bench tracks; all remain NOT_STARTED and UNVERIFIED externally.",
+      "required": [
+        "oidc_mtls",
+        "key_custody",
+        "acer_bench"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "package_id",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "status",
+    "environment",
+    "execution_status",
+    "external_execution_authorized",
+    "authorization_boundary",
+    "tracks",
+    "common_controls",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub Wave 1 Software Preparation",
+  "type": "object"
+}
