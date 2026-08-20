@@ -53,6 +53,7 @@ TESTS = [
     "test_wave1_external_execution_readiness.py",
     "test_wave0_owner_appointment_intake.py",
     "test_wave1_software_preparation.py",
+    "test_wave1_software_preparation_phase_end_hardening.py",
     "test_release_freeze_candidate.py",
     "test_production_readiness_audit.py",
     "evals/micro_rag/test_hallucination_suite.py",

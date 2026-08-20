@@ -10,7 +10,8 @@ PROJECT = "smart-ward-hub"
 PENDING = "PENDING_EXTERNAL_APPOINTMENT"
 OPAQUE_REF = re.compile(r"^(?:opaque|org|approval|evidence|artifact|scope|window|incident|rollback|commit|freeze):[A-Za-z0-9._-]+$")
 SECRET_MARKER = re.compile(r"(?:BEGIN (?:RSA|EC|OPENSSH|DSA|PRIVATE) KEY|Bearer\s+\S+|(?:password|secret|token|private_key)\s*[:=]\s*\S+)", re.IGNORECASE)
-RAW_CONTACT = re.compile(r"(?:@|\+?\d[\d\s().-]{6,}|\b(?:mr|mrs|ms|นาย|นาง|นางสาว)\b)", re.IGNORECASE)
+RAW_CONTACT = re.compile(r"(?:@|(?<![A-Za-z0-9])\+?\d[\d\s().-]{7,}\d(?![A-Za-z0-9])|\b(?:mr|mrs|ms|นาย|นาง|นางสาว)\b)", re.IGNORECASE)
+RAW_IDENTITY = re.compile(r"\b(?:HN|AN|MRN|NATIONAL_ID)(?:\s*[-_:]\s*[A-Z0-9-]{2,}|\s+\d[A-Z0-9-]{1,})\b", re.IGNORECASE)
 
 TRACKS = {
     "oidc_mtls": {
@@ -69,6 +70,13 @@ def _require(condition: bool, message: str) -> None:
         raise PreparationValidationError(message)
 
 
+def _exact_keys(value: Any, expected: set[str], field: str) -> None:
+    _require(isinstance(value, dict), f"{field} must be an object")
+    unknown = sorted(set(value) - expected)
+    missing = sorted(expected - set(value))
+    _require(not unknown and not missing, f"{field} fields mismatch: unknown={unknown}, missing={missing}")
+
+
 def _opaque(value: Any, field: str, *, allow_pending: bool = False) -> str:
     _require(isinstance(value, str) and value.strip(), f"{field} must be a non-empty string")
     if allow_pending and value == PENDING:
@@ -81,7 +89,8 @@ def _opaque(value: Any, field: str, *, allow_pending: bool = False) -> str:
 
 def _safe_text(value: Any, field: str) -> str:
     _require(isinstance(value, str) and value.strip(), f"{field} must be non-empty")
-    _require(RAW_CONTACT.search(value) is None, f"{field} must not contain raw identity/contact data")
+    _require(len(value) <= 512, f"{field} too large")
+    _require(RAW_CONTACT.search(value) is None and RAW_IDENTITY.search(value) is None, f"{field} must not contain raw identity/contact data")
     _require(SECRET_MARKER.search(value) is None, f"{field} must not contain secret material")
     lowered = value.lower()
     _require("production" not in lowered or "non-production" in lowered or "no production" in lowered, f"{field} must not describe a production target")
@@ -115,7 +124,7 @@ def validate_preparation_manifest(payload: dict[str, Any], *, template_only: boo
     _require(payload.get("independent_verification_required") is True, "independent_verification_required must be true")
 
     common = payload.get("common_controls")
-    _require(isinstance(common, dict), "common_controls must be an object")
+    _exact_keys(common, {"synthetic_data_only", "raw_patient_data_allowed", "production_credentials_allowed", "private_key_material_allowed", "raw_serial_frames_allowed", "evidence_class", "scope_ref", "window_ref", "rollback_ref", "stop_rule"}, "common_controls")
     _require(common.get("synthetic_data_only") is True, "synthetic_data_only must be true")
     _require(common.get("raw_patient_data_allowed") is False, "raw_patient_data_allowed must be false")
     _require(common.get("production_credentials_allowed") is False, "production_credentials_allowed must be false")
@@ -135,7 +144,7 @@ def validate_preparation_manifest(payload: dict[str, Any], *, template_only: boo
     _require(isinstance(tracks, dict) and set(tracks) == set(TRACKS), "tracks must contain exactly oidc_mtls, key_custody and acer_bench")
     for name, contract in TRACKS.items():
         track = tracks[name]
-        _require(isinstance(track, dict), f"tracks.{name} must be an object")
+        _exact_keys(track, {"gate_id", "owner_role", "owner_appointment_ref", "test_matrix_ref", "status", "execution_status", "hardware_or_external_validation", "planned_test_ids", "external_inputs", "stop_conditions"}, f"tracks.{name}")
         _require(track.get("gate_id") == contract["gate_id"], f"tracks.{name}.gate_id mismatch")
         _require(track.get("owner_role") == contract["owner_role"], f"tracks.{name}.owner_role mismatch")
         _require(track.get("status") == "PREPARED_SOFTWARE_ONLY", f"tracks.{name}.status mismatch")
@@ -143,6 +152,8 @@ def validate_preparation_manifest(payload: dict[str, Any], *, template_only: boo
         _require(track.get("hardware_or_external_validation") == "UNVERIFIED", f"tracks.{name} external validation must remain unverified")
         _require(track.get("planned_test_ids") == contract["planned_test_ids"], f"tracks.{name}.planned_test_ids mismatch")
         _require(track.get("external_inputs") == contract["external_inputs"], f"tracks.{name}.external_inputs mismatch")
+        _require(all(isinstance(item, str) and item.strip() for item in track["planned_test_ids"]), f"tracks.{name}.planned_test_ids must contain strings")
+        _require(all(isinstance(item, str) and item.strip() for item in track["external_inputs"]), f"tracks.{name}.external_inputs must contain strings")
         _require(isinstance(track.get("stop_conditions"), list) and track["stop_conditions"], f"tracks.{name}.stop_conditions must be non-empty")
         for index, condition in enumerate(track["stop_conditions"]):
             _safe_text(condition, f"tracks.{name}.stop_conditions[{index}]")
@@ -184,9 +195,9 @@ def template() -> dict[str, Any]:
             "status": "PREPARED_SOFTWARE_ONLY",
             "execution_status": "NOT_STARTED",
             "hardware_or_external_validation": "UNVERIFIED",
-            "planned_test_ids": contract["planned_test_ids"],
-            "external_inputs": contract["external_inputs"],
-            "stop_conditions": stop_conditions[name],
+            "planned_test_ids": list(contract["planned_test_ids"]),
+            "external_inputs": list(contract["external_inputs"]),
+            "stop_conditions": list(stop_conditions[name]),
         }
     return {
         "schema_version": SCHEMA_VERSION,
@@ -198,7 +209,7 @@ def template() -> dict[str, Any]:
         "environment": "ISOLATED_NON_PRODUCTION_ONLY",
         "execution_status": "NOT_STARTED",
         "external_execution_authorized": False,
-        "authorization_boundary": LOCKED_AUTHORIZATION,
+        "authorization_boundary": dict(LOCKED_AUTHORIZATION),
         "common_controls": {
             "synthetic_data_only": True,
             "raw_patient_data_allowed": False,
