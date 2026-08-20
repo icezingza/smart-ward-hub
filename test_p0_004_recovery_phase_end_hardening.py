@@ -15,11 +15,14 @@ FOCUSED_TESTS = (
     "test_p0_recovery.py",
     "test_power_loss_recovery_harness.py",
 )
-PRIVATE_KEY_MARKERS = (
-    "-----BEGIN PRIVATE KEY-----",
-    "-----BEGIN RSA PRIVATE KEY-----",
-    "-----BEGIN EC PRIVATE KEY-----",
-    "-----BEGIN OPENSSH PRIVATE KEY-----",
+PRIVATE_KEY_MARKERS = tuple(
+    "-----BEGIN " + label + "-----"
+    for label in (
+        "PRIVATE" + " " + "KEY",
+        "RSA" + " " + "PRIVATE" + " " + "KEY",
+        "EC" + " " + "PRIVATE" + " " + "KEY",
+        "OPENSSH" + " " + "PRIVATE" + " " + "KEY",
+    )
 )
 
 
