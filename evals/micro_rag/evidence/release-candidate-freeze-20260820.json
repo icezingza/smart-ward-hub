@@ -421,6 +421,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "P1_005_CLINICAL_SHADOW_READINESS_REPORT.md",
+      "sha256": "a74d3c4768f4745392787965ed3fa6cc872c7e7797a8c61c5282c724d8558212",
+      "size_bytes": 4175
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "P1_005_CLINICAL_SHADOW_REVIEW.md",
       "sha256": "51f6c494301512e8251396f0bfa8b3f51c8e681682c5a5966d6ade9afd2f5903",
       "size_bytes": 3730
@@ -596,8 +602,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "dae4a3de34a3ef3ffd3c06f5cb693007901ed81ff8ddfc43c447e62d674f9501",
-      "size_bytes": 27273
+      "sha256": "d0bb51de53236ca2b6e55ee6b2936a6cba0baa1fc46043d2b99e361106528ace",
+      "size_bytes": 27540
     },
     {
       "classification": "contract_or_governance_document",
@@ -770,8 +776,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "clinical_shadow_mode.py",
-      "sha256": "7c703fb67c9c22ea65c0ca205bd4835a230d3b664a74c6741d88c2e4b4fd880b",
-      "size_bytes": 9562
+      "sha256": "0cfc0dda076944078b42a3083e47f13753426a4a2b83d28f29933f451d07dd95",
+      "size_bytes": 12614
     },
     {
       "classification": "source_or_runtime_config",
@@ -1057,6 +1063,18 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p1-005-clinical-shadow-readiness-schema-v1.json",
+      "sha256": "a365dc60923853f61cae9d09f0ff48754a54a9c583bea52cc6bbd2d6ae4bb6ad",
+      "size_bytes": 2810
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p1-005-clinical-shadow-readiness-template-20260820.json",
+      "sha256": "1df5aa10d01bac469423e7fa210ad87b779037e239bb2a1b28680daf57625f82",
+      "size_bytes": 5511
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/p2-004-external-review-handoff-20260820.json",
       "sha256": "7429b689d26eae08858fc216d70ce141e63dbec481b33a35e662b8f069bf7d82",
       "size_bytes": 7617
@@ -1186,6 +1204,12 @@
       "path": "export_p1_004_external_anchor_readiness.py",
       "sha256": "f8e06fb42a56b58b6f7a7906e3e55c191f35b4b0adc436732404254a3b488cee",
       "size_bytes": 3257
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_p1_005_clinical_shadow_readiness.py",
+      "sha256": "74febcc17d54845f46499c67514ea5411d1d822e3ebc7c3470e9e56b9426957e",
+      "size_bytes": 3258
     },
     {
       "classification": "source_or_runtime_config",
@@ -1404,6 +1428,12 @@
       "size_bytes": 11304
     },
     {
+      "classification": "source_or_runtime_config",
+      "path": "p1_005_clinical_shadow_readiness.py",
+      "sha256": "57dbf1fdda7fe6d56690049d2a53f2cf90b13dfdc2d0c0487040451ea531b38f",
+      "size_bytes": 11392
+    },
+    {
       "classification": "repository_asset",
       "path": "p1_presentation_deck/slide_01_cover.html",
       "sha256": "76ed4db77f01d2c42deb9f58164446222e8641fa50f6ea2d761baa2293dc9d47",
@@ -1616,8 +1646,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "c837808f7b977a4c21341ca35af6633bdefa417bc2ef556c3989af5142d50bb1",
-      "size_bytes": 3131
+      "sha256": "40fdc6bc6f134546cfba4d465203a696721542b651937c3cd0a7e43eeb7833b0",
+      "size_bytes": 3178
     },
     {
       "classification": "source_or_runtime_config",
@@ -1676,8 +1706,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "47cda9a8730554ec400d2c1eebe0cc64cadd2366c32e31bcca4aa90c3af243e1",
-      "size_bytes": 27250
+      "sha256": "8b4baabab0f92c019986353453d15b81fd2509e75a5253cdb8b52fd488d526b2",
+      "size_bytes": 27727
     },
     {
       "classification": "source_or_runtime_config",
@@ -1891,6 +1921,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_p1_005_clinical_shadow_hardening.py",
+      "sha256": "d08e7bf0190616cc34bcf8795f1ee03a2ce06aed5c36a121b879d210ad500915",
+      "size_bytes": 7309
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p1_005_phase_end_hardening_gate.py",
+      "sha256": "b1a07de811adfc717e6e3cf3f16debc642abafa9e101c8a2159e837aa7cce173",
+      "size_bytes": 3219
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_p2_004_review_and_handoff.py",
       "sha256": "a683d146817acb2208e26bcf54f1301b2c0fe095a9b72667e8bace502aae30d1",
       "size_bytes": 3472
@@ -2070,14 +2112,14 @@
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T14:46:11.136082+00:00",
+  "freeze_created_at_utc": "2026-08-20T14:57:46.180510+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "dbeef38bbe7b89ed5d7a481f96bbece9059861ff",
+  "origin_main_revision": "27e4281d7af9e972aa58aa61ee4f0784e20b868c",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "dbeef38bbe7b89ed5d7a481f96bbece9059861ff"
+  "source_revision": "27e4281d7af9e972aa58aa61ee4f0784e20b868c"
 }
