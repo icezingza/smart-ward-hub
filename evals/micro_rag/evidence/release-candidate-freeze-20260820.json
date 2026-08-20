@@ -620,8 +620,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "3e864fea741f2a7233a1cb5042426cf95308958ba105b718de20a4d8112c3202",
-      "size_bytes": 31816
+      "sha256": "abf82cf07fda06178f80217c9ec64ea6bd7559e06861907618f4bef46fe0ecff",
+      "size_bytes": 32710
     },
     {
       "classification": "contract_or_governance_document",
@@ -748,6 +748,18 @@
       "path": "WAVE_3_GOVERNANCE_HOST_CLINICAL_READINESS_REPORT_20260821.md",
       "sha256": "abd1c05776d01a55b9085fe1e6e49592b56e765bce3d4d1a15695a92174fc429",
       "size_bytes": 5762
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_4_INDEPENDENT_REVIEW_EVIDENCE_MAPPING_20260821.md",
+      "sha256": "f38f3754b3d5e14e5960a932ef8b016ed56eca4ad04da045df136d42f3245c98",
+      "size_bytes": 4676
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_4_INDEPENDENT_REVIEW_PACKAGE_REPORT_20260821.md",
+      "sha256": "066f75399cc99bb82c9a1b60c34138b544fa0afccd96153e8eed115c663a8423",
+      "size_bytes": 5165
     },
     {
       "classification": "contract_or_governance_document",
@@ -1249,6 +1261,24 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave4-independent-review-package-local-index-20260821.json",
+      "sha256": "da6137021d47fef7edb20545fa61a7949c95b61acd52795b1a2ed374e40180e0",
+      "size_bytes": 18243
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave4-independent-review-package-schema-v1.json",
+      "sha256": "528f3dd117d102ca8539b9b6bf234c4fc2c7286698a6d47d099f66ed6c2844f1",
+      "size_bytes": 4775
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave4-independent-review-package-template-20260821.json",
+      "sha256": "485425bbbe1f74f8e32a73aaba09e87d5ab84b46f4b08aca038905e79345dcb7",
+      "size_bytes": 17971
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/fixtures.json",
       "sha256": "b6709ce3d664024c3ea6d86c656d1636d4aaec54b45ef73214bb469fcd68add0",
       "size_bytes": 3827
@@ -1366,6 +1396,12 @@
       "path": "export_wave3_governance_host_clinical_readiness.py",
       "sha256": "33862375547b1bb6505f124b115ef7dbeeaf07c12231330d9515eab7fcb056f7",
       "size_bytes": 4361
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave4_independent_review_package.py",
+      "sha256": "b55358f2134bcfb52f17cda3c8e58d788f3599c1a5e8cc3bf6f9cc068d063b28",
+      "size_bytes": 5384
     },
     {
       "classification": "source_or_runtime_config",
@@ -1808,8 +1844,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "408cb48bebede6ea985254bca22c40fca2a760af91c70f6392bb52fc62815c13",
-      "size_bytes": 3568
+      "sha256": "5eb181a8083b5e06eaede0fadb3b3027d3654ca9bd8e36a091fe22d74ba6fd04",
+      "size_bytes": 3636
     },
     {
       "classification": "source_or_runtime_config",
@@ -1868,8 +1904,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "dae4ac5052f78a72e976378ff05da0abae336395ecba941067c843125a259d1e",
-      "size_bytes": 32605
+      "sha256": "f12d09c3c3841e3f569292e5da3c37d6aa3cf58b27477e9837af989d19ac3c1b",
+      "size_bytes": 33460
     },
     {
       "classification": "source_or_runtime_config",
@@ -2305,6 +2341,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_wave4_independent_review_package_hardening.py",
+      "sha256": "4e486398f2204ed45ab9b60d97cc02069200365687ceb7300555bd2232357509",
+      "size_bytes": 4333
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave4_independent_review_package_phase_end_hardening.py",
+      "sha256": "ac69987f6f7699e87d0bb02c265e399dcaa63c685078dc893c761df1b559560b",
+      "size_bytes": 3443
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_wave_e_evidence.py",
       "sha256": "438b72ea7b748a5fac4d8d26b0efb1f447f35925df53f32646c16d2fc76a7a08",
       "size_bytes": 11821
@@ -2365,19 +2413,25 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "wave4_independent_review_package.py",
+      "sha256": "bb6cac87e7511e1f55994810a9a8244c75e3b77680b2de9ce15c4704e09fbc37",
+      "size_bytes": 15574
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "wave_e_evidence_validation_runner.py",
       "sha256": "e829da3f584217269e8ecca7b58a5b7f79fba53cf2048a8ce5defca1ef3167f5",
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T20:11:17.355337+00:00",
+  "freeze_created_at_utc": "2026-08-20T20:44:07.329650+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "72f78ebcc19e88765e1b90d90f31f85481b0373a",
+  "origin_main_revision": "a612349b8f5284b94cc9c3160069e84594c5560e",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "72f78ebcc19e88765e1b90d90f31f85481b0373a"
+  "source_revision": "a612349b8f5284b94cc9c3160069e84594c5560e"
 }
