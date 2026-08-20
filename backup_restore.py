@@ -14,6 +14,19 @@ from typing import Any
 
 RESTORE_CONFIRMATION = "I_UNDERSTAND_RESTORE_TO_NONPRODUCTION_TARGET"
 _SECRET_NAME = re.compile(r"(^|[._-])(env|key|pem|p12|pfx|crt|secret|credential)([._-]|$)", re.IGNORECASE)
+_HEX64 = re.compile(r"^[a-f0-9]{64}$")
+_ALLOWED_ARTIFACTS = {"database", "telemetry_checkpoint", "forensic_manifest"}
+_ALLOWED_MANIFEST_FIELDS = {
+    "schema",
+    "backup_id",
+    "created_at_utc",
+    "source_revision",
+    "source_database",
+    "secret_material_included",
+    "artifacts",
+    "restore_status",
+    "physical_storage_validation",
+}
 
 
 class BackupRestoreError(RuntimeError):
@@ -158,15 +171,75 @@ def _read_and_verify_manifest(bundle: Path) -> dict[str, Any]:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise BackupRestoreError("manifest_invalid") from exc
+    if not isinstance(manifest, dict):
+        raise BackupRestoreError("manifest_invalid")
+    if set(manifest) - _ALLOWED_MANIFEST_FIELDS:
+        raise BackupRestoreError("manifest_unknown_field")
+    required = _ALLOWED_MANIFEST_FIELDS
+    if not required.issubset(manifest):
+        raise BackupRestoreError("manifest_required_field_missing")
     if manifest.get("schema") != "smart-ward-backup-manifest-v1":
         raise BackupRestoreError("manifest_schema_invalid")
-    for artifact in manifest.get("artifacts", {}).values():
-        relative = Path(str(artifact.get("path", "")))
-        if relative.is_absolute() or ".." in relative.parts:
+    if manifest.get("backup_id") != bundle.name:
+        raise BackupRestoreError("manifest_backup_id_mismatch")
+    created_at = manifest.get("created_at_utc")
+    if not isinstance(created_at, str):
+        raise BackupRestoreError("manifest_timestamp_invalid")
+    try:
+        parsed_created_at = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise BackupRestoreError("manifest_timestamp_invalid") from exc
+    if parsed_created_at.tzinfo is None:
+        raise BackupRestoreError("manifest_timestamp_not_timezone_aware")
+    if not isinstance(manifest.get("source_revision"), str) or not manifest["source_revision"].strip():
+        raise BackupRestoreError("manifest_source_revision_invalid")
+    if manifest.get("secret_material_included") is not False:
+        raise BackupRestoreError("manifest_secret_boundary_invalid")
+    if manifest.get("restore_status") != "UNVERIFIED":
+        raise BackupRestoreError("manifest_restore_status_invalid")
+    if manifest.get("physical_storage_validation") != "UNVERIFIED":
+        raise BackupRestoreError("manifest_physical_validation_invalid")
+
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, dict) or "database" not in artifacts:
+        raise BackupRestoreError("manifest_artifacts_invalid")
+    if set(artifacts) - _ALLOWED_ARTIFACTS:
+        raise BackupRestoreError("manifest_artifact_kind_invalid")
+    seen_paths: set[Path] = set()
+    for kind, artifact in artifacts.items():
+        if not isinstance(artifact, dict):
+            raise BackupRestoreError("manifest_artifact_invalid")
+        allowed_fields = {"path", "size_bytes", "sha256"} | ({"sqlite"} if kind == "database" else set())
+        if set(artifact) - allowed_fields or not {"path", "size_bytes", "sha256"}.issubset(artifact):
+            raise BackupRestoreError("manifest_artifact_schema_invalid")
+        raw_relative = artifact.get("path")
+        if not isinstance(raw_relative, str) or not raw_relative or "\\" in raw_relative:
+            raise BackupRestoreError("manifest_path_invalid")
+        relative = Path(raw_relative)
+        if relative.is_absolute() or ".." in relative.parts or relative in seen_paths:
             raise BackupRestoreError("manifest_path_traversal")
+        if relative.name == "manifest.json" or _SECRET_NAME.search(relative.name) or relative.suffix.lower() in {".env", ".key", ".pem", ".p12", ".pfx", ".crt"}:
+            raise BackupRestoreError("manifest_secret_like_artifact")
+        if kind == "database" and relative != Path("database.sqlite3"):
+            raise BackupRestoreError("manifest_database_binding_invalid")
+        size_bytes = artifact.get("size_bytes")
+        if not isinstance(size_bytes, int) or isinstance(size_bytes, bool) or size_bytes < 0:
+            raise BackupRestoreError("manifest_artifact_size_invalid")
+        digest = artifact.get("sha256")
+        if not isinstance(digest, str) or _HEX64.fullmatch(digest) is None:
+            raise BackupRestoreError("manifest_artifact_hash_invalid")
         artifact_path = bundle / relative
-        if not artifact_path.is_file() or _sha256(artifact_path) != artifact.get("sha256"):
+        if not artifact_path.is_file():
+            raise BackupRestoreError(f"artifact_not_found:{relative.name}")
+        if artifact_path.stat().st_size != size_bytes:
+            raise BackupRestoreError(f"artifact_size_failed:{relative.name}")
+        if _sha256(artifact_path) != digest:
             raise BackupRestoreError(f"artifact_checksum_failed:{relative.name}")
+        if kind == "database":
+            sqlite_metadata = artifact.get("sqlite")
+            if not isinstance(sqlite_metadata, dict) or sqlite_metadata.get("integrity_check") != "ok":
+                raise BackupRestoreError("manifest_database_metadata_invalid")
+        seen_paths.add(relative)
     return manifest
 
 

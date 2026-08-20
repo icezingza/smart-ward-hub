@@ -29,6 +29,14 @@ PRECHECKED → SNAPSHOT_CREATED → CHECKSUMMED → MANIFESTED → RETAINED
 
 The exact confirmation phrase `I_UNDERSTAND_RESTORE_TO_NONPRODUCTION_TARGET` is required by the utility. Restores are written to a separate target through a temporary file and atomic replacement. A manifest checksum mismatch, path traversal, missing artifact, invalid SQLite state or missing confirmation blocks the restore.
 
+## Strict manifest validation — software baseline
+
+Before restore, the utility now validates the manifest as a closed contract. Unknown or missing top-level fields, backup-ID mismatch, naive/non-ISO timestamps, blank source revision, secret-boundary mutation, unexpected restore/physical-validation status, unknown artifact kinds, duplicate paths, path separators/traversal, manifest self-reference, secret-like filenames, non-canonical database binding, invalid size/hash types, size mismatch, checksum mismatch and missing/invalid SQLite integrity metadata are rejected fail-closed.
+
+The database artifact must be bound to `database.sqlite3`, contain a lowercase 64-character SHA-256 and declare `integrity_check=ok`. Optional checkpoint/forensic artifacts remain hash- and size-bound and are never allowed to carry private keys, credentials or raw frames. This is a stronger local software contract; the manifest itself is still not an independently anchored or WORM-protected artifact.
+
+`test_backup_restore.py` covers successful isolated restore plus strict mutations for unknown fields, missing database, size mismatch, database path substitution, naive timestamp, tampered artifact, missing confirmation and secret-like artifact rejection. The test result is software evidence only.
+
 The current software regression proves successful restore to an isolated temporary target and verifies a durable fixture row. It does not prove restore to an encrypted Acer volume, a production filesystem, a real backup destination, a real service supervisor or a clinically approved recovery point.
 
 ## Retention and recovery boundaries

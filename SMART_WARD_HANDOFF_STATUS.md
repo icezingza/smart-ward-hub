@@ -24,7 +24,7 @@ Smart Ward Hub อยู่ในสถานะ **controlled production prototy
 | P2-004 Micro-RAG | Deterministic baseline, registry/index baseline และ model-agnostic adapter ผ่าน; Gemini 3 Flash v2 ผ่าน 8/8; Gemini 2.5 pinned rerun ได้ 2/8 โดย 6 calls ติด HTTP 429 |
 | P0-001 HIS/Admission Gateway | Sandbox contract test ผ่าน tokenization, TTL, revocation, idempotency และ structured acknowledgment; hospital integration ยังเปิด |
 | P0-004 Recovery | Software fault harness ผ่าน checkpoint/WAL/malformed-state scenarios; physical power-loss/storage gate ยังเปิด |
-| P1-001 Backup/restore | SQLite backup API, manifest/checksum, isolated restore, tamper detection และ secret-boundary regression ผ่าน; real destination/retention ยังเปิด |
+| P1-001 Backup/restore | SQLite backup API, strict manifest schema, database artifact binding, size/hash/integrity validation, isolated restore, tamper/path/secret-boundary regression ผ่าน; real encrypted destination, retention, Acer filesystem and disaster-recovery drill remain external/unverified |
 | P1-002 Host/deployment | Readiness validator, Windows Acer auto-run template และ host-hardening checklist เตรียมแล้ว; Acer execution ยังไม่เริ่ม |
 | P1-003 Device Trust custody | Dual-control, rotation, terminal revocation, lost-device และ private-key exclusion software contract ผ่าน; manufacturer CA/HSM/secure element ยังเปิด |
 | P1-004 External anchor | Receipt identity, idempotency, append-only delete refusal, tamper detection และ fault matrix ผ่าน; independent WORM service ยังเปิด |

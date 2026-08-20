@@ -54,6 +54,33 @@ def run() -> None:
         assert restored_checkpoint.read_text(encoding="utf-8").startswith("{\"state_version\"")
         print("[P1-001] Separate-target restore and row verification: PASSED")
 
+        manifest_path = bundle / "manifest.json"
+        original_manifest_text = manifest_path.read_text(encoding="utf-8")
+
+        def reject_manifest(mutator, expected: str) -> None:
+            mutated = json.loads(original_manifest_text)
+            mutator(mutated)
+            manifest_path.write_text(json.dumps(mutated, indent=2) + "\n", encoding="utf-8")
+            try:
+                restore_backup_bundle(
+                    bundle_dir=bundle,
+                    target_database=root / f"rejected-{expected}.db",
+                    confirmation=RESTORE_CONFIRMATION,
+                )
+            except BackupRestoreError as exc:
+                assert str(exc).startswith(expected), str(exc)
+            else:
+                raise AssertionError(f"manifest mutation accepted: {expected}")
+            finally:
+                manifest_path.write_text(original_manifest_text, encoding="utf-8")
+
+        reject_manifest(lambda value: value.update({"unexpected": True}), "manifest_unknown_field")
+        reject_manifest(lambda value: value["artifacts"].pop("database"), "manifest_artifacts_invalid")
+        reject_manifest(lambda value: value["artifacts"]["database"].update({"size_bytes": 0}), "artifact_size_failed:")
+        reject_manifest(lambda value: value["artifacts"]["database"].update({"path": "other.sqlite3"}), "manifest_database_binding_invalid")
+        reject_manifest(lambda value: value.update({"created_at_utc": "2026-08-20T12:00:00"}), "manifest_timestamp_not_timezone_aware")
+        print("[P1-001] Strict backup manifest mutations fail closed: PASSED")
+
         try:
             restore_backup_bundle(
                 bundle_dir=bundle,
@@ -75,7 +102,7 @@ def run() -> None:
                 confirmation=RESTORE_CONFIRMATION,
             )
         except BackupRestoreError as exc:
-            assert str(exc).startswith("artifact_checksum_failed:")
+            assert str(exc).startswith(("artifact_size_failed:", "artifact_checksum_failed:"))
         else:
             raise AssertionError("tampered artifact was accepted")
         print("[P1-001] Manifest checksum rejects tampered artifact: PASSED")

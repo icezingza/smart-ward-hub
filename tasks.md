@@ -29,7 +29,7 @@
 
 | ID | Task | Owner role | Dependencies | Acceptance evidence | Status |
 |---|---|---|---|---|---|
-| P1-001 | Define encrypted backup/restore and retention | Reliability operator | Backup skill overlay | Manifest, checksum and isolated successful restore transcript | Dry-run complete |
+| P1-001 | Define encrypted backup/restore and retention | Reliability operator | Backup skill overlay | Strict manifest schema, size/hash/integrity checks, isolated successful restore transcript, approved encryption/destination/retention/RPO/RTO | In Progress |
 | P1-002 | Harden host and least-privilege deployment | Host operator + security auditor | P0 hardware/network observations | OS, firewall, account, patch, disk and service-binding checklist | In Progress |
 | P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | Manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | In Progress |
 | P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | Independent append-only/WORM verification and retention transcript | In Progress |
@@ -75,7 +75,7 @@
 
 ### P1 operational trunk status note
 
-`backup_restore.py` implements a SQLite backup-API snapshot, manifest/checksum, secret-like artifact rejection, isolated-target restore and exact non-production confirmation. `test_backup_restore.py` passes software backup/restore, tamper detection and restore refusal checks. This is a dry-run/software baseline; encrypted destination, retention approval, real Acer filesystem and disaster-recovery evidence remain pending.
+`backup_restore.py` implements a SQLite backup-API snapshot, strict manifest schema, source/backup identity binding, timezone-aware timestamp validation, artifact size/SHA-256/integrity binding, secret-like artifact rejection, isolated-target restore and exact non-production confirmation. `test_backup_restore.py` passes successful software restore plus unknown-field, missing-database, size/path/timestamp mutation, tamper, confirmation and secret-boundary refusal checks. This is a dry-run/software baseline; encrypted destination, retention/RPO/RTO approval, real Acer filesystem and disaster-recovery evidence remain pending.
 
 `deployment_readiness.py` validates pilot-safe defaults, loopback binding, non-wildcard hosts, OIDC configuration shape, runtime path separation and Device Trust staging. Windows templates under `deploy/windows/` prepare Acer auto-run through an operator-controlled PowerShell/Task Scheduler adaptation. They do not install services, configure Windows Firewall, create accounts or prove Acer boot/service recovery.
 
