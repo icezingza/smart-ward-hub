@@ -1,0 +1,54 @@
+{
+  "artifact_hashes": {
+    "owner_gap_report": "0d0f40e5c0b32b0fc3a0f05cc4dc69a0598d19c6bfc8a2c45c874e429bf7d3f9",
+    "release_freeze": "8985cf0e83017515f1c4a9faf8b9b70fd1cb447808d384de3d2ec6b69f8e7995",
+    "technical_package": "cc915d23c5ae286dcae478ccbf22bf4b1c05795229c731280ca3c4bc3be43cb9",
+    "wave1_preflight": "181adccaeaba2608d127b86672dc9abf2d6e5906dfcf61e6c55d4f1514373d20"
+  },
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "checks": {
+    "head_matches_origin_main": true,
+    "no_authorization_boundary": true,
+    "no_physical_execution": true,
+    "no_real_external_execution": true,
+    "release_freeze_pass": true,
+    "wave1_local_preflight_recorded": true,
+    "working_tree_clean_before_readiness": true
+  },
+  "current_revision": "d32118b4799460a791bf8cb4db3965684a104f33",
+  "environment": "LOCAL_READINESS_ONLY",
+  "evidence_class": "SOFTWARE_VERIFIED/SIMULATION_ONLY",
+  "execution_status": "NOT_STARTED",
+  "independent_verification_required": true,
+  "missing_external_prerequisites": {
+    "gv04_certificate_owner": "certificate owner, chain and rotation/revocation plan",
+    "gv04_network_acl": "approved network path and deny transcript",
+    "gv04_nonproduction_idp": "isolated non-production IdP/HIS tenant",
+    "gv06_acer_fixture": "dedicated Acer non-production fixture",
+    "gv06_loopback_fixture": "isolated USB-serial loopback fixture",
+    "gv06_operator_confirmation": "I_HAVE_A_NONPRODUCTION_LOOPBACK",
+    "gv06_physical_witness": "independent physical bench witness",
+    "gv08_custody_owner": "OEM or approved HSM/secure-element custody owner",
+    "gv08_dual_control_ceremony": "dual-control key issuance record",
+    "gv08_revocation_distribution": "real revocation distribution/read-back procedure",
+    "wave0_approved_test_window": "approved timezone-aware start/end and allowlist",
+    "wave0_independent_verifier": "named independent verifier and read-back channel",
+    "wave0_named_stop_authority": "named stop authority with notification path",
+    "wave0_rollback_owner": "named rollback owner and rehearsed target revision",
+    "wave0_signed_scope": "external signed scope with in/out-of-scope, data boundary and purpose"
+  },
+  "next_action": "Obtain external role appointments and signed test-window package before any isolated external execution.",
+  "origin_main_revision": "d32118b4799460a791bf8cb4db3965684a104f33",
+  "prepared_at_utc": "2026-08-20T12:13:15.594774+00:00",
+  "raw_identity_present": false,
+  "readiness": "READY_FOR_OWNER_APPOINTMENT",
+  "redaction": "PASS",
+  "repository": "icezingza/smart-ward-hub",
+  "schema_version": "wave1-external-execution-readiness-v1"
+}
