@@ -1,0 +1,1819 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "checks": {
+    "head_matches_origin_main": true,
+    "runtime_artifact_scan_pass": true,
+    "secret_marker_scan_pass": true,
+    "tracked_file_hashes_generated": true,
+    "working_tree_clean_before_manifest": true
+  },
+  "claim_boundary": {
+    "forbidden_from_local_freeze": [
+      "clinical-ready",
+      "production-ready",
+      "tamper-proof",
+      "HIPAA/PDPA compliant 100%"
+    ],
+    "valid": [
+      "controlled production prototype",
+      "P0-hardened software baseline",
+      "functional verification passed",
+      "pilot-ready foundation",
+      "clinical validation pending"
+    ]
+  },
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "files": [
+    {
+      "classification": "repository_asset",
+      "path": ".agents/backups/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".agents/evidence/README.md",
+      "sha256": "453a1afe7ba8c8a8253c1ec430fab1376f400f01c2664d3760e3e9d05239cbee",
+      "size_bytes": 1834
+    },
+    {
+      "classification": "repository_asset",
+      "path": ".agents/policies/permissions.yaml",
+      "sha256": "2a53b1c68aa48427caa0b807cf0bf065279db6e9be1d312e2b988178fd8b69c8",
+      "size_bytes": 3291
+    },
+    {
+      "classification": "repository_asset",
+      "path": ".agents/registry/skills.yaml",
+      "sha256": "1bd5d19c054b5b656d4c79004b249234b532fc74d320b9fd7abd6939ce89cfaa",
+      "size_bytes": 5051
+    },
+    {
+      "classification": "repository_asset",
+      "path": ".agents/workflows/pilot-gates.yaml",
+      "sha256": "553bb027dfb572a03cc7f47b5b83f3ec3eda5002675a263b7cad37e379f79f41",
+      "size_bytes": 3106
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/agent-backup-manager/SKILL.md",
+      "sha256": "e7a3fffcd9425689bd0a4b3f481cba3530a8268a72cf97facfcd625253e507f9",
+      "size_bytes": 1555
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/agent-control-room/SKILL.md",
+      "sha256": "520bb8140987df18fdc14e4dd37414a0f5d9e2ad265075c9e02071caad1e8e79",
+      "size_bytes": 1567
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/agent-registry-manager/SKILL.md",
+      "sha256": "abca3e49b48fe4693a2fdda407e22a79d7fb0a4a967116e4020a11037925cc54",
+      "size_bytes": 1440
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/agent-security-auditor/SKILL.md",
+      "sha256": "061cd810f2b0b20f8163e3d21ce705fb220981ee7d14f30178baf6163a907a36",
+      "size_bytes": 1643
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/agent-task-router/SKILL.md",
+      "sha256": "1cb63f557d064cfaffca2fb5051fc211db339bff60872c4108b018602ac57e0f",
+      "size_bytes": 1728
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/agent-team-cron-planner/SKILL.md",
+      "sha256": "9be2943e88adcaee08b988fab34d344b06ddccb322c414319f5831fe24dad7fc",
+      "size_bytes": 1494
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/create-vps/SKILL.md",
+      "sha256": "4e9c56acf3db3c52e23cf5080457601592a392281961d8372362982b64d5bd39",
+      "size_bytes": 1754
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": ".claude/skills/setup-control-room/SKILL.md",
+      "sha256": "cb1a335e9491158b0f13cf2d72087a077da95752ba41cd707a63b50b1a961430",
+      "size_bytes": 1773
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": ".env.example",
+      "sha256": "6df951e6da348fc980edede808e7fb85acd08073d2a981b5adc9857b16208905",
+      "size_bytes": 3153
+    },
+    {
+      "classification": "repository_asset",
+      "path": ".gitignore",
+      "sha256": "e298fbaf22873010612a6b0b616d6b0c656693c35ce1ecbed1354988b2bc414c",
+      "size_bytes": 607
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "ACER_BENCH_READONLY_INVENTORY.md",
+      "sha256": "996ea27f0f8e58ed3d2317661463b3c197420a39f7144f60ca486d238e669b20",
+      "size_bytes": 1627
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "BACKUP_RESTORE_CONTRACT.md",
+      "sha256": "ca8d0c8b7c7e1c575beb33ee5b110916451adef9ed023e5d5a47a9c5c16d7757",
+      "size_bytes": 3718
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "CLINICAL_SAFETY_SHADOW_MODE.md",
+      "sha256": "b6d30a276eaf67d214a4fe9ac1a9466ca990cddd7b4564772fbf301c3f36734f",
+      "size_bytes": 8024
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "CONTROLLED_PILOT_BLOCKER_ANALYSIS.md",
+      "sha256": "1812eec53f7c3a085923e6aa64df84c8795834818abd3bc02a3447ee1d9b7aff",
+      "size_bytes": 3364
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "CONTROLLED_PILOT_OPERATIONS_GATE.md",
+      "sha256": "d01492ed032a448e8e9167bbfb7dac95ab809daa6b6b5c5953af8cfc0391e0d1",
+      "size_bytes": 5575
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "CONTROLLED_PILOT_OPERATIONS_REVIEW_CHECKLIST.md",
+      "sha256": "4add9bfa853c73a7f9dcfa1869b52a457f7cfc6630e08c09e06a496cff51454b",
+      "size_bytes": 4191
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "CONTROLLED_PILOT_PRESENTATION_OUTLINE.md",
+      "sha256": "3025e44c589781930f5bd9ca920f2fa3144d1ce58ce49c6705919373122230cd",
+      "size_bytes": 4720
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "DEVICE_TRUST_BASELINE_REPORT.md",
+      "sha256": "ab560bc9a591a99b533585992373cbd536c51d3f2558e3824c50cf2a61b66b70",
+      "size_bytes": 7918
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EDGE_HUB_ARCHITECTURE.md",
+      "sha256": "ad742eaefe7c6484b78867ec7bbf6cb92628c58bc2f09c41456617878ab5e857",
+      "size_bytes": 11334
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md",
+      "sha256": "9a27cb723205a0667ba75c53c7e7ffedaa4d7ae4635d253f28aa3d6721abecb4",
+      "size_bytes": 12688
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md",
+      "sha256": "4a025fbd071a0f1f15fc015a8686da4b250d84c2754676b55f0eec0c53cfaf95",
+      "size_bytes": 12232
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EXTERNAL_AUTHORIZATION_API_SIMULATION_CONTRACT.md",
+      "sha256": "6d11cb9463861922b5fef0664bf5fda3d72ca2fde07273f317579b68c1908645",
+      "size_bytes": 13949
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EXTERNAL_AUTHORIZATION_API_WAVE_A_D_HARDENING_PLAN.md",
+      "sha256": "adb9528c00120bd1cd75b627e2812629b702eea09fa4006a7a001a9f56d7b847",
+      "size_bytes": 6641
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EXTERNAL_AUTHORIZATION_API_WAVE_E_EXTERNAL_VALIDATION_DOSSIER.md",
+      "sha256": "288be628a0a82a782d9efafe696a42dda00f11cd359694ca96ff92fcbd1c0cab",
+      "size_bytes": 16929
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md",
+      "sha256": "e3cca07d733aa0aa7b079ffaa8fc539b6603b4a9e057b9f7b5c8c1f85717869d",
+      "size_bytes": 8233
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "FILE_ANCHOR_STORE_PRODUCTION_GAP_REVIEW.md",
+      "sha256": "dc7ec65f4b7b6106bf9a1697849f239c2e8c932860ee2b65cd020148cf766c43",
+      "size_bytes": 4750
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "GV10_INDEPENDENT_REVIEW_DOSSIER.md",
+      "sha256": "6a00c8328d37e8c89d9202a005253a67e77b7f3743b90491fde6faf2c78d3315",
+      "size_bytes": 7414
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "GV10_PRESENTATION_OUTLINE.md",
+      "sha256": "d86db4cf8e8833d3287a9b2b431058b1d43423d5e22c0f4c7117483154f1c3ad",
+      "size_bytes": 4640
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "GV10_SIMULATION_REPORT.md",
+      "sha256": "064d46169de57651dec9c0177e1347a61bb7670c9a78a24d3f89526e64f2da3f",
+      "size_bytes": 7861
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "GV10_SUBMISSION_CHECKLIST.md",
+      "sha256": "47d9765233d78226f2cb8bad500d16de804960ab1db6f3806b4785dc3aa83b7e",
+      "size_bytes": 4532
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "HIS_FHIR_INTEGRATION_CONTRACT.md",
+      "sha256": "fd9a2c5eb53d17a465e5800c0097fc2713caaf463d0278eb17167f96fe180e60",
+      "size_bytes": 3772
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "HUB_REFERENCE_DESIGN.md",
+      "sha256": "65bc992d60e7d524d701cb30e35d747d1a3421e38cf056fa40c7bb0e7f5bebb2",
+      "size_bytes": 13476
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "KEY_CUSTODY_PROVISIONING_CONTRACT.md",
+      "sha256": "80c2b4fbc94b037bfe2469e06438d43f18e62fba5f3ad182ddd00f3208a1d79c",
+      "size_bytes": 3330
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "KNOWLEDGE_UPDATE_2026-08.md",
+      "sha256": "a5da26ea218d3d3b6e2e6bb3a261d452d224afd863320467499ba4442a7ad012",
+      "size_bytes": 6049
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "MICRO_RAG_BILINGUAL_ADVERSARIAL_REPORT.md",
+      "sha256": "5400d4883f7140c87cd4a536cb404b00d1e27d54df5166f74d75d9ea22d13397",
+      "size_bytes": 3402
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "MICRO_RAG_EVALUATION_CONTRACT.md",
+      "sha256": "c7635eb300613537887af68028ebb5e74c0b029ca59406ddbbfd4804cda68e1f",
+      "size_bytes": 5601
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "MICRO_RAG_MODEL_EVALUATION_REPORT.md",
+      "sha256": "61cc70486a210e8a2cc1e91112ae215ddee96e7f19c2a8923f4a599f92234c91",
+      "size_bytes": 5147
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "MICRO_RAG_READINESS_REPORT.md",
+      "sha256": "b53d03a987baeb4bc2457d4f07579ff7a6b8aefafee5bb6a0f1fc88b54e640b0",
+      "size_bytes": 5424
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "MICRO_RAG_REGISTRY_INDEX_DESIGN.md",
+      "sha256": "83edc6aa531e51f3403c82966f90ba38dda61540e3a7b80e71085847956d4183",
+      "size_bytes": 4226
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "MODEL_RESPONSE_ADAPTER_CONTRACT.md",
+      "sha256": "c67818cb1e4b102fb4e4035a49f2db81c9af0027090af4fea3af360ebf7d302a",
+      "size_bytes": 4021
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "NETWORK_PRESSURE_BACKPRESSURE_PLAN.md",
+      "sha256": "9847bf60c3c08983e59210b18acbf84e4ec4f74a6b843bf14f6a4e8b8f9feec6",
+      "size_bytes": 4924
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "NETWORK_PRESSURE_SIMULATION_REPORT.md",
+      "sha256": "ff9905cc66c9e4f9673edd5aec9b775e39fc9d6a370f7188bea6834adea5642d",
+      "size_bytes": 3531
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "NEXT_PHASE_PRIORITY_MATRIX.md",
+      "sha256": "ae036696ff193cf92f4ab14c8d59c9cabb22bc3c2c5cac5de59777324f761961",
+      "size_bytes": 4865
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "OPERATIONAL_TRUNK_HANDOFF.md",
+      "sha256": "16b930295bf4e6d43681c1517f206b8804196aa9b716bd2d425a3ae2d266b072",
+      "size_bytes": 5335
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "OPERATIONS_RUNBOOK.md",
+      "sha256": "a8cb1db829ff5b563370c41d5cf30f579eac4549350430b8ff91dc9a9b3e1c53",
+      "size_bytes": 11003
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "OUTSIDE_IN_WARD_WORKFLOW.md",
+      "sha256": "1c53cbe103881f5e408950cdbf62c49562e383843a45e02a3a94f604f3ff59a9",
+      "size_bytes": 9368
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P0_HARDENING_REPORT.md",
+      "sha256": "2fcdd4cd577d453060c52b84e8321f9289dfb63f0bf8a33721f7bb79faa01199",
+      "size_bytes": 2967
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P0_HARDWARE_BENCH_CHECKLIST.md",
+      "sha256": "66e8ef0ff7c1ef5333f12c119ccb05be6568061e1a1a10034347f18ad5f1144e",
+      "size_bytes": 3833
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P0_PHASE_HANDOFF.md",
+      "sha256": "e02906eb0313879b7837c9ba473a4f33684381cde25114b6f03beffbc2e24f61",
+      "size_bytes": 4729
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "P0_POWER_LOSS_SOFTWARE_EVIDENCE.json",
+      "sha256": "aac48cabd8967e186fd755cd24a2f49fb9ebb3052a0e02b028c1f6231d8cbfee",
+      "size_bytes": 692
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P0_STATUS_REPORT.md",
+      "sha256": "57d5c168b1a3a23373cb90ca7952538bf8eb7100a99569c087dfee696f02e948",
+      "size_bytes": 9176
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_003_KEY_CUSTODY_TEST_REVIEW.md",
+      "sha256": "aa4c608ad69cfdfce7ac0517c806aac1d45377745e8a3ac9a0527183c20f23d4",
+      "size_bytes": 3460
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_004_EXTERNAL_ANCHOR_CONTRACT.md",
+      "sha256": "b9d754c7d45f3fd1f52e56c360453827e561e2f724ce8c3754764f1d308fb459",
+      "size_bytes": 2867
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_004_HANDOFF.md",
+      "sha256": "8331f827536a6fd1f2a0b5480a18f2e74a4c9a6e079f6a1c1fd3efb3e7a02957",
+      "size_bytes": 3357
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_005_CLINICAL_SHADOW_MODE_CONTRACT.md",
+      "sha256": "a6f6e049dde1400e1bc6ea648a847109bc425ca880f255e9b4a8bb149cfbaa7d",
+      "size_bytes": 3534
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_005_CLINICAL_SHADOW_REVIEW.md",
+      "sha256": "51f6c494301512e8251396f0bfa8b3f51c8e681682c5a5966d6ade9afd2f5903",
+      "size_bytes": 3730
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_005_ZERO_PII_AND_NON_ACCURACY_METRICS.md",
+      "sha256": "4ca262b6ac47614f0a1423356e89f4f8c27e9daaeae06d6acd5c1b233ca5404d",
+      "size_bytes": 4166
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_006_CLINICAL_VALIDATION_READINESS_PLAN.md",
+      "sha256": "44d0a113cfcd0177ff93114f8db2c997a7f66920d5f3a4d7a7514eeabf168d28",
+      "size_bytes": 5003
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_007_EXTERNAL_VALIDATION_COORDINATION_PACKAGE.md",
+      "sha256": "698900266ca276a8417535fd36f1b65ffca157279d777a484fd84644059774c6",
+      "size_bytes": 4202
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_008_INDEPENDENT_REVIEW_OPERATIONS.md",
+      "sha256": "4a31e9252c3781721d8fcdfe2c87c88b96f75ed67f58c2695ffd623bb18a84e5",
+      "size_bytes": 5427
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_DEVICE_TRUST_HANDOFF.md",
+      "sha256": "e3b9718c67deee7872edb90791d971efbc12e1ea32aabb11ff33cd61a4a9ce80",
+      "size_bytes": 3166
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P1_HOST_HARDENING_CHECKLIST.md",
+      "sha256": "1ab1a9a8a14b2d435d8ed3e0bf85cad1f66df95955c93888f73d10306b1ade74",
+      "size_bytes": 3220
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_004_EXTERNAL_REVIEW_COORDINATION_PACKAGE.md",
+      "sha256": "5f073ccd6930125ca3680e8c40c54d4072ac72850164e93829f46809a6e8b38e",
+      "size_bytes": 5334
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_004_HARDENING_EVIDENCE.md",
+      "sha256": "a52ebd4f304c7e80bd37a3a9a2be5bd9fbaa218668708f6a09e8951bb65e86ee",
+      "size_bytes": 4988
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_004_PERSISTENCE_OWNERSHIP_CONTRACT.md",
+      "sha256": "04a813cfbbc52899d191d355f150df27c0f88701cd6cd47ecd6b99ad61212b34",
+      "size_bytes": 5079
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_004_REGISTRY_INDEX_HARDENING_PLAN.md",
+      "sha256": "1c89a87c12da4f8ad739ac1eaa741c979dfca5bd120f6ce8671e32e256bb20ef",
+      "size_bytes": 4270
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_004_REPEATED_SAMPLE_PROTOCOL.md",
+      "sha256": "cb0182cca72ef04ecfd66520f4493c5bf8eabf2812de7af1bd38c9b8d9af75c6",
+      "size_bytes": 6320
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_EDGE_IOT_ADAPTER_ARCHITECTURE.md",
+      "sha256": "ed0056a2ddc2e5e0834640cf19da887fc4423a4c3567f95ce8cc0b884f2c79e4",
+      "size_bytes": 11175
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md",
+      "sha256": "803a2af77cc02db1bf5f2b39fed666801821b561c3f7afdd82577fa3f2cdcebb",
+      "size_bytes": 4453
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "PILOT_READINESS_PACK.md",
+      "sha256": "2d9bfa9fac4f2b31870ce7b41a7282a20d19e3acad9051148e2748c17615acfb",
+      "size_bytes": 15021
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "PILOT_READINESS_REPORT.md",
+      "sha256": "bfeb1be701cfe7a51bd768b4ec3696c9c8eb005a957b2e9449591bbb672c0618",
+      "size_bytes": 11412
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "PRODUCTION_READINESS_EVIDENCE_AUDIT.md",
+      "sha256": "cdf36ca210fa8263ab85a661764a7ec10ea02f44cacc8251ef091410ab2ca64e",
+      "size_bytes": 6742
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "PRODUCTION_READINESS_ROADMAP_20260820.md",
+      "sha256": "4fe56f35a524dc207dfec17da56f558ac70c3a8f8b659f6c9362276b326a63e0",
+      "size_bytes": 20978
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "PRODUCT_DIFFERENTIATORS.md",
+      "sha256": "ace28c957892362bd46eb67c63bfd3068b1b759971a01347bd2182f480b8d8c2",
+      "size_bytes": 15444
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "README.md",
+      "sha256": "0573dd72bc9020d36889d9a1159f99b62a95b5bb9f4eae6b2756368469a2f927",
+      "size_bytes": 9003
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "RESIDUAL_HARDENING_REPORT.md",
+      "sha256": "493f9355d4d0aa92b561529ab5ec935d0c0524c4d3f0c4d53a399e1609792c31",
+      "size_bytes": 15006
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "RISK_R061_R066_REMEDIATION_PLAN_20260820.md",
+      "sha256": "edfa506549efe0ecbf6e1eb48d60db65e3ee5ab97c4cddead5e035261700bbb9",
+      "size_bytes": 5393
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "RISK_REGISTER.md",
+      "sha256": "683d55aab25b76311539ab5e3107a0882d58955f82ac9749be882b0f31ac08d1",
+      "size_bytes": 35538
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "ROAMING_TABLET_ARCHITECTURE.md",
+      "sha256": "251677349677d22ab661c8572e1add5364cf2200bbc3a0cd1c1e9071a643b1b2",
+      "size_bytes": 10578
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "ROAMING_TABLET_BASELINE_REPORT.md",
+      "sha256": "27aa761e70954577b8e979270b4e9a485209a59dbb30403bf328e4530211776c",
+      "size_bytes": 4712
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "SECURITY_BASELINE.md",
+      "sha256": "f557dc91f49243c9ff42619f81278a0cdc1e8b8fef5554ebbe248b83d7567762",
+      "size_bytes": 16078
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "SERIAL_BENCH_VALIDATION_PLAN.md",
+      "sha256": "a9223c2dd190c26904a23e753e1e5c36e457b251f13a3f0b0dd738004df193b6",
+      "size_bytes": 8353
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "SMART_WARD_8_SKILL_INTEGRATION.md",
+      "sha256": "85a9ed05f0a6c69aff3afc9a40be2074ac4d1e5e2fddf39affa46eb9511c3178",
+      "size_bytes": 8119
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "SMART_WARD_HANDOFF_STATUS.md",
+      "sha256": "29f485d3b0cf091a9d14c87a428e91798447858f8033e8c225224359753bc948",
+      "size_bytes": 23290
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "SMART_WARD_P1_STATUS_PRESENTATION_CONTENT.md",
+      "sha256": "8667e7199c75892b1524c0aa4077f3dc3ea57b39ce6afd7380217980f4b40eae",
+      "size_bytes": 11139
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "SMART_WARD_STATUS_PRESENTATION_CONTENT.md",
+      "sha256": "db3d01bc276a2983a90d7e93bc017713531870ab055a682dbfee1b1f18dcb0e7",
+      "size_bytes": 9174
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "TABLET_HARDWARE_DECISION.md",
+      "sha256": "8bb7d8f3f91489418c0276f6098ca06dd4935440dc4504cac5ea41d4cc8f1aa5",
+      "size_bytes": 7278
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "TABLET_ONLY_KIOSK_SPEC.md",
+      "sha256": "95777e9b72e747392da5da81863cd00b260bc92a9f680a731e57f3c4366c5ecb",
+      "size_bytes": 10107
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WARD_WORKFLOW_CONTRACT.md",
+      "sha256": "56a15c0d8394b175608c7c78b0b8446d6781d313a29389fdeb632ea569e3fcb9",
+      "size_bytes": 8902
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_0_GOVERNANCE_CONTRACT.md",
+      "sha256": "cfe7a1bd5dc7fae3b5c765e139ba9995086d00bf43cf7c002e7deaf583a992c2",
+      "size_bytes": 13087
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_0_GOVERNANCE_HANDOFF_REPORT.md",
+      "sha256": "289dd34d27b8f504d8077a5c7755fdc35de59406f4e248594f74b6ca4ca978b8",
+      "size_bytes": 2972
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_0_GOVERNANCE_REVIEW_CHECKLIST.md",
+      "sha256": "87cce08555c0c0adfffde12237f90b769e25213e66d0b63ffb33ad1bf32702d4",
+      "size_bytes": 18027
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "ZERO_TRUST_TRUST_BOUNDARIES.md",
+      "sha256": "5eb1327e25f2df579006cc3b536ad1ab6ac5b6b1dd7008c83394199c3ac49c95",
+      "size_bytes": 11749
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "agents.md",
+      "sha256": "e0bf8df11659b7acaf334e98ccc04c153f8008a6c3bec61b7477e39ba5e17cbf",
+      "size_bytes": 2901
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic.ini",
+      "sha256": "7b3f623fbdec2fdabd3da75ae24e87061edc8086dcd20e0a3e4d195d94934a72",
+      "size_bytes": 583
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic/env.py",
+      "sha256": "83e59c01cec0889f7fd45b1134ce54bded395767686a426883d0b4c6651b1e31",
+      "size_bytes": 1440
+    },
+    {
+      "classification": "repository_asset",
+      "path": "alembic/script.py.mako",
+      "sha256": "304a8bfb6a804e5493f5300e79882c70c9f5bb2e87512f4d16f0e097dddd323f",
+      "size_bytes": 635
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic/versions/2c3d7e4f9a10_device_trust_credentials.py",
+      "sha256": "8745e33764c2cb024ef078714bf2dbafcdeca841676a2b934e89c5e5e4a23e2f",
+      "size_bytes": 2311
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic/versions/4f1a2c7d8e90_workflow_sessions.py",
+      "sha256": "16fe03749660eac7a0d3f19feac324ad17d826a447a22591c474d94ac7981a03",
+      "size_bytes": 7393
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic/versions/6a7b8c9d0e11_outside_admission.py",
+      "sha256": "b827c46c7b2a4da6fccea89c67b5c7fea335b27e9a3f4650bfc526cc853c08c8",
+      "size_bytes": 4939
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic/versions/7b8c9d0e1f22_roaming_commands.py",
+      "sha256": "d012374e9ac36480d2e38c8c2eded1920d94ead10f7977b620e0d1a8350c4d12",
+      "size_bytes": 4462
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "alembic/versions/9e9c98c2eb7f_initial_schema.py",
+      "sha256": "64aca612cdbe26b882107deb15d3555d807ed6e16e8180a5b5a857233d4f454d",
+      "size_bytes": 13178
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "analyze_controlled_pilot_blockers.py",
+      "sha256": "1e34f051f902ced7828589d7559634f68d0c1f56a25890b50b0bc50fb3aff1c8",
+      "size_bytes": 12062
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "architecture.md",
+      "sha256": "0fe3f383cdee7436624d8101c6a95cda31ab1ae3261533c045e69b87b63d2123",
+      "size_bytes": 17831
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "backup_restore.py",
+      "sha256": "4cbede9f4b6dfb96da8eb8c63c41843a1446c6d041b201248f97c3b6227232ae",
+      "size_bytes": 10933
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "clinical_shadow_mode.py",
+      "sha256": "7c703fb67c9c22ea65c0ca205bd4835a230d3b664a74c6741d88c2e4b4fd880b",
+      "size_bytes": 9562
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "clinical_validation_readiness.py",
+      "sha256": "a8c5706533c69a8f48b622b2109b700dbb63e38a126736f6c729c81f139638b2",
+      "size_bytes": 3541
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "config.py",
+      "sha256": "a53453fd7903ce6b4c7003f1f6ab2e56abfb0823575acbebb3cb10225216d4b5",
+      "size_bytes": 4789
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "controlled_pilot_handoff.py",
+      "sha256": "c6eff75fd2c8f905a663d524e2c16a52f14332917046f2cbbf2bf3a5e16587f1",
+      "size_bytes": 5497
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "controlled_pilot_operations.py",
+      "sha256": "62a0318104fae9321758f3b6fcabe129f440c736dc162feeae85a2341f0fc976",
+      "size_bytes": 10720
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_01_cover.html",
+      "sha256": "609eb68a12a7e962ef2111216ccdd7c1a45ea607c3135390b400e17ddb86b9d4",
+      "size_bytes": 6010
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_02_executive_summary.html",
+      "sha256": "590437e710a4294fd30d749f26c30ad991198923b6216eee06b3adf0360e23a3",
+      "size_bytes": 8424
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_03_evidence_integrity.html",
+      "sha256": "a645745e2d6b56c8957b1aab26ae671e3bb7c51927f0efdc50ce68c9115547b8",
+      "size_bytes": 8339
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_04_external_gate_matrix.html",
+      "sha256": "cc6cb003853013242a5172b5520114f26952445df539fba0b42384e2a78d0201",
+      "size_bytes": 8760
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_05_seven_blockers_overview.html",
+      "sha256": "a70dd35efda4a764b1188e1e4daa1b6c44baed52bef4d59e6a256dbf998881d9",
+      "size_bytes": 9229
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_06_foundation_blockers.html",
+      "sha256": "a8955f8e70650e1d3e26a1ca206cdd11fb373223be0ed246d9ba567392be7665",
+      "size_bytes": 7927
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_07_boundary_blockers.html",
+      "sha256": "3cbbf9083797f09474cecd6fb198693516b28febfb8b7fd5229387aac3313f2c",
+      "size_bytes": 7672
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_08_five_wave_unblock_plan.html",
+      "sha256": "22d10ac9d146d24f61e95c878dce3344715cb38465a0e3b18a526d26e0efa90c",
+      "size_bytes": 6958
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_09_decision_gates_stop_rules.html",
+      "sha256": "1e0c7c3394f5eeaa1cc79d70611fc109bb4fc2894104f9f4838ccd7f9a80b49c",
+      "size_bytes": 8564
+    },
+    {
+      "classification": "repository_asset",
+      "path": "controlled_pilot_presentation_deck/slide_10_next_actions_roadmap.html",
+      "sha256": "0abf274c4be68a4fc921b14383dce65c547606f862989fcbeceaf6864b01c17a",
+      "size_bytes": 7380
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "controlled_pilot_presentation_deck/slide_state.json",
+      "sha256": "e765cbae75540912d4cb6c3215f1e0ac88d3658452f3589aff01e26d018d0928",
+      "size_bytes": 4998
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "database.py",
+      "sha256": "841c128596dcf4f846b17ffe70fe17c5c3d2c7ca4091daab86373c454d504407",
+      "size_bytes": 1307
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "deploy/tablet/README.md",
+      "sha256": "c2a809170306e408bdc9c7b0ff145304a943a86b771baa5bc889b7beca072050",
+      "size_bytes": 1981
+    },
+    {
+      "classification": "repository_asset",
+      "path": "deploy/tablet/smart-ward-hub-kiosk.service",
+      "sha256": "0999ab68af2389a3c3e98cefab5080c697dd3df4c84c9ff121b11dd54655e471",
+      "size_bytes": 429
+    },
+    {
+      "classification": "repository_asset",
+      "path": "deploy/tablet/smart-ward-hub.service",
+      "sha256": "b5c2c37b9c13818ec8ab2d410f14e14bbfecaad5c07fecf7b8a4fb065ffd9994",
+      "size_bytes": 563
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "deploy/windows/README.md",
+      "sha256": "7fb555cf0c20e48f3f9f41ee766ed1993d5c6ebf666164831adb0b6ea959a49f",
+      "size_bytes": 2947
+    },
+    {
+      "classification": "repository_asset",
+      "path": "deploy/windows/start_smart_ward_hub.cmd",
+      "sha256": "69df240bf257aec8500d9156ad6932e76718c34b99fbcc4bb6585f261fd47ab0",
+      "size_bytes": 139
+    },
+    {
+      "classification": "repository_asset",
+      "path": "deploy/windows/start_smart_ward_hub.ps1",
+      "sha256": "f189ac0f080f2fdc2aa05f9b7076c927119e9126cd1a6f40ee8388dc75fbfea3",
+      "size_bytes": 1955
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "deployment_readiness.py",
+      "sha256": "349c09a551e761a35dd2e608632f3467fdd4cc24b7e3d0899a8b8fb54ee686cc",
+      "size_bytes": 5170
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "design.md",
+      "sha256": "c9a780d1fd16203502f839f9086cb21c22401e3fd530ca0d71e63a82e8fced18",
+      "size_bytes": 4293
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "device_trust.py",
+      "sha256": "704c761e5b2952e9246c510d854d6a94e2c8bf4f62cf8994aac6b549572ca4ff",
+      "size_bytes": 3825
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "edge_controls.py",
+      "sha256": "aff9e00d99bcc192bbf2ed24795a9a57131cbdaba5d9557830d60f93602170c8",
+      "size_bytes": 8894
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "edge_iot_adapters.py",
+      "sha256": "7ea31177727a3627cef1a70c630244cdceee2c0e0870a0bcf0caeff9aaadbd4c",
+      "size_bytes": 9597
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "edge_runtime.py",
+      "sha256": "e0666558b3394134b27b3646189d28c7247b276e60115758c64532ef0518e674",
+      "size_bytes": 8886
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/document_registry.py",
+      "sha256": "1920db680c59240332693a57c8c35b074d7fa515430d78e6e060df5d42acf094",
+      "size_bytes": 14827
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/MICRO_RAG_V2_RERUN_EVIDENCE.md",
+      "sha256": "48a543d25d82d14abc9ec8c8020a7219c5168a407586844995dd7d354bee6001",
+      "size_bytes": 5104
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/controlled-pilot-blocker-analysis-20260820.json",
+      "sha256": "c10cd00553dfc12882d1ded620ad8afeab2a7b807da5a95849db48f89a279f6d",
+      "size_bytes": 10478
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/controlled-pilot-operations-report-20260820.json",
+      "sha256": "b2aaccb18a4844371f5a3781fca8bb467a38eee85f094e4a3708f68fed7b226c",
+      "size_bytes": 5844
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/external-authorization-api-simulation-20260820.json",
+      "sha256": "05ec280bb9ef9efaeab68fde250222ed68cf4466e84445d876fe50cacd38eb27",
+      "size_bytes": 13311
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-2.5-flash-v2-readiness-20260820.json",
+      "sha256": "cf935d083d72543a4b2f0c4b8e259f8cd7a048aededc877d794a3a5fed3831c8",
+      "size_bytes": 3499
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-2.5-flash-v2-repeated-aggregate-20260820.json",
+      "sha256": "b98a47b71811da4a8541d930598bf1cedf54bb0d31a8227b3b8705141cad7168",
+      "size_bytes": 939
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-2.5-flash-v2-rerun-20260819.json",
+      "sha256": "1b4fb109ca18b5a43d414ca4cf234889c2985d11b14003b3f4944fd9576de5b3",
+      "size_bytes": 8885
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-2.5-flash-v2-rerun-20260820.json",
+      "sha256": "ab7681efdc3f927e4d82bf14a357bbd0de1d53d60ef704645114aa8aba3dc5ff",
+      "size_bytes": 7865
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-3-flash-preview-v2-rerun-20260819.json",
+      "sha256": "bbec66e5a4fb0cd50ce1e42badbcf2e5a9085cd01df8cc666e9fe9a428023179",
+      "size_bytes": 18118
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-3-flash-preview-v2-rerun-20260820-indexv2.json",
+      "sha256": "a1aed2fa4714c9903768a1da0909255f570b2a6a72b23e8602fbe598253c6e7c",
+      "size_bytes": 15650
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-3-flash-v2-readiness-20260820.json",
+      "sha256": "fbe17815fe2735562ec2b66d42bd35d765d8bb677501db8e6958b155a9df86a5",
+      "size_bytes": 3552
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/gemini-3-flash-v2-repeated-aggregate-20260820.json",
+      "sha256": "f9bfa85dfd0b066f9e92c56936c78760501a583be5b787aab76c32f2aa427253",
+      "size_bytes": 978
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p2-004-external-review-handoff-20260820.json",
+      "sha256": "7429b689d26eae08858fc216d70ce141e63dbec481b33a35e662b8f069bf7d82",
+      "size_bytes": 7617
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave-e-evidence-schema-v1.json",
+      "sha256": "5e7a9db3f6b4aaaaa7ff79b0e905a1a572d6da7f3d91c99a367d7d75e22b162c",
+      "size_bytes": 32919
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave-e-evidence-schema-validation-20260820.json",
+      "sha256": "35c6b3210511eea69b7ac262fe71d564701f0aa2d31cfba8390f4289cd4e697b",
+      "size_bytes": 4734
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave0-governance-handoff-20260820.json",
+      "sha256": "f78f85dfc84676f4ee59bbad8ea52f21dc8eedf1ca0cf51a8c936b33eec0b4fd",
+      "size_bytes": 2268
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/fixtures.json",
+      "sha256": "b6709ce3d664024c3ea6d86c656d1636d4aaec54b45ef73214bb469fcd68add0",
+      "size_bytes": 3827
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/rebuildable_index.py",
+      "sha256": "a34a277db857ce94c23b79a709ba00aabe6812ae959246437be57213695a421b",
+      "size_bytes": 11723
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/replay_model_evaluation.py",
+      "sha256": "184cd7fb5d55bcb74bba70d11984e1d30a2f251a62c91f7deedf3f157e63f850",
+      "size_bytes": 3263
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/response_adapter.py",
+      "sha256": "d2092c0b13a87903e2d48f0af61646e4f90631ce4626be1d500cecb37205ac1b",
+      "size_bytes": 9111
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/run_gemini_evaluation.py",
+      "sha256": "f5b64a7b7f8e2d3b765bd52b52b4dcdec8039c038bae303b7ad357f943a4a72b",
+      "size_bytes": 15601
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/test_hallucination_suite.py",
+      "sha256": "951703ba3dba4b89f60fed8c006a5ddd8466f25e5528d8351f149677112b5d85",
+      "size_bytes": 8722
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/test_registry_backed_evaluation.py",
+      "sha256": "1b9ee5f9cd9f936622bab440368ccaa9e61178a8df440c9041f8cbc0cfe696b5",
+      "size_bytes": 1946
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/test_registry_index.py",
+      "sha256": "5f30b1ee4b5656d56f66db1bedb36a54a99c87ec9dadd248f104c67c8dc1c525",
+      "size_bytes": 7703
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/test_response_adapter.py",
+      "sha256": "36d98b949821f467f2bc602021400d014b6cd0267f5de50c9269748f6b172f42",
+      "size_bytes": 8266
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave_e_evidence_schema.py",
+      "sha256": "fe01ca33f00470671cf1b0755cc129eb55e746c2126ebfc7fed503020abc19c8",
+      "size_bytes": 1669
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "external_anchor.py",
+      "sha256": "4a89d8ee12f141bea9cb572154cbf2030734b1f02cb7724902f6eba443cc49f7",
+      "size_bytes": 6347
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "external_authorization_api_simulator.py",
+      "sha256": "37d6a8034dcd9e20a689f78e701f09914f623b3351d4df718097a80871d807c8",
+      "size_bytes": 58369
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "external_authorization_api_wave_e_evidence.py",
+      "sha256": "2f94ae76a37bb959c03a598b7c12d854cd7078ae35c7539c283a862f3bc1f163",
+      "size_bytes": 17461
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "external_validation_package.py",
+      "sha256": "8e0933314928fd3561c405f99fb40f1fdcd654c7c192e7a74154d5de393a4160",
+      "size_bytes": 7550
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "freeze_release_candidate.py",
+      "sha256": "8cffaf5e877e5868a547303eec2c8091aac6a86d01ec1be4fd9398313c051c6b",
+      "size_bytes": 4605
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "generate_controlled_pilot_operations_report.py",
+      "sha256": "5a742e7c19467fdbedd539e42152febeafc9f19a0e387cfa376454561f8504f5",
+      "size_bytes": 4903
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "generate_p2_004_external_review_handoff.py",
+      "sha256": "29febe2cb2d0b34a0590bc7a06a056f66b4ab2dbbf053717f8c844ae93558b89",
+      "size_bytes": 3714
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "generate_p2_004_readiness_report.py",
+      "sha256": "409e4e1bf39f4bdeed640bc263768ffd2b00ad5f4b1a185a02265045f5200dca",
+      "size_bytes": 1666
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "generate_wave0_governance_report.py",
+      "sha256": "8809f418fcda0af36e57b77e99f541a4d5371a67894aa319c7da0cdd7634480c",
+      "size_bytes": 5906
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "gv10_evidence.py",
+      "sha256": "840c75a290915b1c3038342b95406c9388ebfd6d84401cd39e5eb24cc5aa693c",
+      "size_bytes": 5213
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_01_cover.html",
+      "sha256": "f37c83443f46de5fd9da64d38a3dfd38eed8caa124341cd3cae536b91e58a297",
+      "size_bytes": 8480
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_02_executive_summary.html",
+      "sha256": "4c2358e74e781b8d1b6d53f852c951fe7449382addce7df61cb658f83fa7b2a5",
+      "size_bytes": 9568
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_03_gv10_boundary.html",
+      "sha256": "25409cbef0add8a0fd6b93d45a940d87e555acecd04d3b3c7cb0224666765b7a",
+      "size_bytes": 9854
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_04_fail_closed_pipeline.html",
+      "sha256": "8b4e97a6221f7aa8ec8fceec6538a2fe8ac1fc82e02150f817d8b591b4074b61",
+      "size_bytes": 9868
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_05_simulation_results.html",
+      "sha256": "634388f3b4f4ed0c182224f7fce676d65be0193ac6c1816ef3503d18c5a98ff5",
+      "size_bytes": 11824
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_06_accepted_meaning.html",
+      "sha256": "e680770a3a794b45229d01e2ca07cba29e3a411ef04df0718e0ec13b28c2b3cb",
+      "size_bytes": 9255
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_07_decision_matrix.html",
+      "sha256": "c08ac2d1ee5f39fdab9c4996d96f1e57c9779249d974149c6a83017e619834fa",
+      "size_bytes": 9087
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_08_external_gates_part1.html",
+      "sha256": "e0d84159a7ce1e94ede12f0f0c118ec7731a45df6110732871b621df1853e9cf",
+      "size_bytes": 9256
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_09_external_gates_part2.html",
+      "sha256": "8277bacd8f44b53d00feb48d5101520484ec5cb2e596a91eee84df927f752aaf",
+      "size_bytes": 9087
+    },
+    {
+      "classification": "repository_asset",
+      "path": "gv10_presentation_deck/slide_10_p1008_next_steps.html",
+      "sha256": "fbf8c44c2809e975b3c96eef235a2755a415ba73103ad74ce27d9c6868b15cf7",
+      "size_bytes": 8253
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "gv10_presentation_deck/slide_state.json",
+      "sha256": "a5f8ca7ab10654f6ad5fcaae81698e76df5b7756d57322f040f8b70c53bd2d4d",
+      "size_bytes": 5592
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "hardware_research_notes_2026-08-19.md",
+      "sha256": "31d524abdd8086fa2954cd0d68529c60103d655a14381b57a3f6239177cff535",
+      "size_bytes": 3907
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "his_admission_gateway_contract.py",
+      "sha256": "b25cf65ddbd605e457045adcee12fb578b0beb742934ed540700c007da49e998",
+      "size_bytes": 2495
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "independent_review_operations.py",
+      "sha256": "e54eb31d52293fbe9edeab4451c3d76db1f705811421327188c9cbd24239b6a4",
+      "size_bytes": 9057
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "key_custody_contract.py",
+      "sha256": "ba87c1b3dcd575a3cad3a26a2c45a93f5110c64130594aadb2833be30bae6944",
+      "size_bytes": 6935
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "main.py",
+      "sha256": "66358535217d598cc0d084aa49d13a362ab2d14e39e2ac60be474f3e6abf8377",
+      "size_bytes": 98763
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "memory.md",
+      "sha256": "a6d4ca2d9986571e2552532e55efce84c852189b6db6e621f20d4d15077b4b72",
+      "size_bytes": 2765
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "models.py",
+      "sha256": "677e4f56ee2669a8e9db9ce654642ef463d56346a1158a567710ab8e132816c1",
+      "size_bytes": 11057
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "network_pressure_simulation.py",
+      "sha256": "f229961859ac45bbeff9a1b2da3ee8cadc2afcb4066089dbfd8e26a4f1953f8f",
+      "size_bytes": 12039
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "oidc.py",
+      "sha256": "c6bf261d0c057e02d5672cc8b635be15609a00d26f980f4d95b4880afd9ac035",
+      "size_bytes": 1785
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_01_cover.html",
+      "sha256": "76ed4db77f01d2c42deb9f58164446222e8641fa50f6ea2d761baa2293dc9d47",
+      "size_bytes": 6066
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_02_p1_overview.html",
+      "sha256": "5a27e9387f80ba0a2480e0ed3e01ffca69cee812ad9615f57a446ebd200be3cb",
+      "size_bytes": 7269
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_03_p1_001_002_backup_host.html",
+      "sha256": "a09c8bdc23f0dd51d1d50209697e979a15ea49d3657bcb0cf0d322850b794409",
+      "size_bytes": 6151
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_04_p1_003_key_custody.html",
+      "sha256": "54143f81718c41928620be145115f5e261aba40434548afa3801752239fc44fc",
+      "size_bytes": 7296
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_05_p1_004_forensic_anchor.html",
+      "sha256": "ed48bfc2cb4ba42b9d1f1f8b5d974f12ec527c3b2ea844262d64785f05c0209b",
+      "size_bytes": 6225
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_06_p1_005_shadow_mode.html",
+      "sha256": "e41ca0e4d9f7bdd085eaa29e627a7e8b22ffa283a1542cfb4d2f091903f23bb4",
+      "size_bytes": 6397
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_07_p1_005_metrics.html",
+      "sha256": "2f0651a63908707b0bb097aaa97930b81385123eb8b51d12b449ec5be2fa9bd5",
+      "size_bytes": 8153
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_08_p1_006_readiness.html",
+      "sha256": "6e7acd877d03fb4118d6b5ab8e283481c032265e0ceaf5232f47697156ad9521",
+      "size_bytes": 6418
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_09_p1_matrix.html",
+      "sha256": "b2016884a647549d6839756451b5fa40a3ff748e3578d123c012c654cfb15fc7",
+      "size_bytes": 7303
+    },
+    {
+      "classification": "repository_asset",
+      "path": "p1_presentation_deck/slide_10_clinical_gates_next.html",
+      "sha256": "95bd110041ee4e45082a51d8239203a9a17acec228f1a9f73a09f726502b82ea",
+      "size_bytes": 7937
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "p1_presentation_deck/slide_state.json",
+      "sha256": "6ea773b001e6ac234a14978fe1abfb9a49c1441aee88c6cf008053427cd5bd36",
+      "size_bytes": 6223
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "p2_004_review_decision.py",
+      "sha256": "2b5a2bd13f3fefdcdcaebdcadb53594b93b79ebcdcccf5f83a96255c49b33992",
+      "size_bytes": 4318
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "persistence_contract.py",
+      "sha256": "ac24e53cb9b9880bfce8c3a934f326d94d9b17542b473cf95b515225633c9675",
+      "size_bytes": 6259
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "power_loss_recovery_harness.py",
+      "sha256": "a3e84ae6ba60e26d2b374b9cfecc1d0b7c833176a5aeb217997dcdbbe6aba6ef",
+      "size_bytes": 5274
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "prd.md",
+      "sha256": "7014d9e2cd04fc44b9989dcd0f8d865f0f55723cd37249711729fc32d0b32632",
+      "size_bytes": 5715
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_assets/healthcare_security_reference.jpeg",
+      "sha256": "3bd6fdeba31edb8a833e31e2b124233604a30414c6b64f260bb5a4d6b7e80846",
+      "size_bytes": 724872
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_assets/slide_03_image.jpg",
+      "sha256": "d6d0b8c414b03ea39af85e3843e6265fb674f11493d33c92631b415a860d2bee",
+      "size_bytes": 85222
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_assets/smart_ward_reference.webp",
+      "sha256": "d397963f456c068a6c08bae3529f6b89697945aa82ce8bdf6a56ecae10bae78c",
+      "size_bytes": 84872
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_assets/tablet_care_reference.webp",
+      "sha256": "432aee036961ad34ec2481f43dfb3366c0022f1ec2e748c088e501938393da70",
+      "size_bytes": 145594
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_01_title.html",
+      "sha256": "f3e843f7c6a0771af8e802d6af9fd0f6015deb1c4e35a115c5e232f756f0f701",
+      "size_bytes": 6404
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_02_product_thesis.html",
+      "sha256": "34f42e6e1cc4a24f221216449fe7a5e69bddf00f5b6fc33499abd0407bd37965",
+      "size_bytes": 8786
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_03_architecture.html",
+      "sha256": "0276b5e2822bbf34c603bf210bc69c3d0d5454b7930a516252ba9215f5554ecf",
+      "size_bytes": 6582
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_04_core_workflow.html",
+      "sha256": "d6dec5121a96ebe25fd228bfc01cce3cd108d8b04f383326c638f761d82c658e",
+      "size_bytes": 7696
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_05_ward_workflow_hardware.html",
+      "sha256": "9bb42b108d2580f496e0757766b26b1bd347c46ae6db890765e95108366e6f30",
+      "size_bytes": 7702
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_06_functional_verification.html",
+      "sha256": "7baae3e0911a25d289f67b7ac933c3b4413d0c53970f91b7a2a91ce9f9b811a8",
+      "size_bytes": 9485
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_07_security_device_trust.html",
+      "sha256": "ffe8a0b2e9c9b7f760117da01af2ce23b0c3e09e7392a2e5c93cf9d19aa09e20",
+      "size_bytes": 7596
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_08_ai_native_micro_rag.html",
+      "sha256": "ee6012c15c5c9b666fc17c9394d16f598753fce5f42fb2ae7a7d51c03b973835",
+      "size_bytes": 9732
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_09_status_matrix.html",
+      "sha256": "f15ad81f27077dfbe742eac4953cb93481cbf6d54179925b223a5fbea5c27d4e",
+      "size_bytes": 8406
+    },
+    {
+      "classification": "repository_asset",
+      "path": "presentation_deck/slide_10_roadmap_decision.html",
+      "sha256": "726b5a6fc1d7f545cd18b50e9333ec187ccb5dd6cc775b40c6183923bb6a5987",
+      "size_bytes": 8241
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "presentation_deck/slide_state.json",
+      "sha256": "eac49607dc1e6aade06ebc9b484a3c1b82a7531f7250eac4833a1a9ea8363c4c",
+      "size_bytes": 5352
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "production_readiness_audit-20260820.json",
+      "sha256": "7d8447e9921d09c46471d0529647709de86325489ce44e4a1c0bd11d02ef47fd",
+      "size_bytes": 7401
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "production_readiness_audit.py",
+      "sha256": "eaaef10db86189b2013b1f3ad92e91becb744b3b7717baed8a9ae3e9d9f0a8ee",
+      "size_bytes": 13316
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "repeated_sample_evaluation.py",
+      "sha256": "bef338e241a2a6ccefc41d97a6bec6697600aec5016e7528ed849e28a2d1f33e",
+      "size_bytes": 7454
+    },
+    {
+      "classification": "dependency_manifest",
+      "path": "requirements.txt",
+      "sha256": "c3a985c7a12b5955dd804ebe104f8ca53b1e53077ccd539f97412dc5bc88d898",
+      "size_bytes": 174
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "rules.md",
+      "sha256": "6d4adf8d3e1753880ae2dc89ce9555efcac5d580fccc274ba75c3f0f7253ea7f",
+      "size_bytes": 4097
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "run_all_tests.py",
+      "sha256": "5a0f95c5f58f11d41a2355272c76636c7a8afd5507683295e555273a759b5ef8",
+      "size_bytes": 2812
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "run_mtls.sh",
+      "sha256": "8cb6dc7fc9bbb5c31bb12458d63fc14b24e6b59ea862faa791600b71eddad7fa",
+      "size_bytes": 487
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "runtime_semantic_retrieval_readiness.py",
+      "sha256": "d098315ededd96edc1a866817c9cbb1e1fde29d866cb03c72a294dde76d0c900",
+      "size_bytes": 5599
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "schemas.py",
+      "sha256": "f99d4d491588bf7ad3095d978e9fb6de149e1d3c4fd5f297ff71f5881ebef91a",
+      "size_bytes": 9951
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "security.py",
+      "sha256": "a715628118d2b06d64e621b1d5b79e19bb39c6090ce9c5922b93c371fd6f4811",
+      "size_bytes": 2934
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "serial_bench_runner.py",
+      "sha256": "c6e2673100837771e7ee9978dc63d85b44852b23c03314265b086c7995bbdd17",
+      "size_bytes": 7359
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "serial_framing.py",
+      "sha256": "605ad8e6bc5396bae6bbcdee22bdf4a0d7f3a82c5c2e5b569f3e906e087ecd4b",
+      "size_bytes": 4851
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "simulate_gv10_submission.py",
+      "sha256": "3e8c2efd2c03fa9a97106319645ef9aa0a805b6d03cc5a4f1b4aace5e911e1c8",
+      "size_bytes": 19698
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "simulate_pilot_30days.py",
+      "sha256": "04240ed9a348be16711f38d4215fcc87d7bda03ea0b58e7807e2e9135218e92e",
+      "size_bytes": 6329
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "skills.md",
+      "sha256": "c4d42133dc8b9aa067b2fc0f13070a2502ab55f64d2c792cab62d9c0fe48aa37",
+      "size_bytes": 8511
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "tasks.md",
+      "sha256": "d6345621e85b3eff79c259490bc853231b589e30a80c6c428572882927354060",
+      "size_bytes": 22434
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_auth_fail_closed.py",
+      "sha256": "3d6fb483304f2626027537aff3742d52cfd60a019b7447208a1f70b296fada49",
+      "size_bytes": 795
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_backup_restore.py",
+      "sha256": "1b9fea5f432a7325ca1a6ceedd157f9e3e0a451f1c0349622fc971dea0e2e775",
+      "size_bytes": 4178
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_clinical_shadow_mode.py",
+      "sha256": "4c4cc66171848f3c3dd63332d6b449dc9947f0c0a1a0e7580cc6c645dd0281a0",
+      "size_bytes": 4896
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_clinical_shadow_mode_negative.py",
+      "sha256": "5a8d82a02b0e6edb514cd61b85b1d6c387d050308c45445f6fed8e97b61d47bd",
+      "size_bytes": 4300
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_clinical_validation_readiness.py",
+      "sha256": "e5464052eb19082e0e1eb3355c0cd89083f44af460aac6653b9c9dac8fa310db",
+      "size_bytes": 3059
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_controlled_pilot_blocker_analysis.py",
+      "sha256": "a8fcdd4e922af352568ccc2315ba42ab8cd73e8d117f68b9e09ea45cf8d8b31d",
+      "size_bytes": 1528
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_controlled_pilot_operations.py",
+      "sha256": "50c88dfb7130653d3f3c2cdd842f3b0f08443ea30c911c7a05f1d52fc0db5d27",
+      "size_bytes": 4715
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_deployment_readiness.py",
+      "sha256": "41a1ef377d02cd79c7951a122e257c131c40caa20a69dfdcc389ca2596cb709e",
+      "size_bytes": 2009
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_device_trust.py",
+      "sha256": "982a91f671505e543fc54cc2031ea5e050f903845cca10aa30c2f91724fc4714",
+      "size_bytes": 7253
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_device_trust_observe.py",
+      "sha256": "fb230d193a358f9be55e43e535ed562084aa22da337c1cb2c4f9b32910ba2b28",
+      "size_bytes": 2172
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_edge_runtime.py",
+      "sha256": "d7a29abcf912f47ce9dfc8460d4dd55af9974d505f372a1073f8f38db199c9b3",
+      "size_bytes": 1828
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_external_anchor_contract.py",
+      "sha256": "e7e5592a81139225e3d2dd160a7ecf4d4f6ce9b1741e576320d71d2688a02a74",
+      "size_bytes": 3616
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_external_anchor_fault_injection.py",
+      "sha256": "0ac6e9143f2e7ce1a551b6e6b9593b26021f482fe097ef7a0f81da94becb8fc9",
+      "size_bytes": 2406
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_external_authorization_api_simulator.py",
+      "sha256": "24628f936651e21f3e1a85f4f473fffb31465e1856f32fd400bec022d80b4265",
+      "size_bytes": 15397
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_external_validation_gate_matrix.py",
+      "sha256": "e144bb39315f9743b0b354094171cd2386f0383a7dfb60562dee3257afd97abb",
+      "size_bytes": 2518
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_external_validation_package.py",
+      "sha256": "d6ceec06639df5d7066d68afc7de5106a8ff02855ba14e10a7f306b0b84724aa",
+      "size_bytes": 2821
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_fhir.py",
+      "sha256": "28c7a47bffe026e2802dca731e1b084b0405493924c0ecf1146e1a2a4b76757b",
+      "size_bytes": 5940
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_file_anchor_store.py",
+      "sha256": "d1ed927f95501682c27aa53be88d60ee3bad9b0c9de632a0d9b9a93f802d37a7",
+      "size_bytes": 3039
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_forensics.py",
+      "sha256": "97c89faccd50e39bf10f2b94248d38dda785a7d509e257da7403766281018b27",
+      "size_bytes": 3199
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_gv10_evidence.py",
+      "sha256": "d6a07b42f92c14cf2d459450c32abce834a2f05aa9378f559daaae6ce152cf9b",
+      "size_bytes": 2881
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_independent_review_operations.py",
+      "sha256": "77aa1689314f8c5813ae6ef2802e262ef5318d104992b7d1eed7f993e03631e9",
+      "size_bytes": 4665
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_key_custody_contract.py",
+      "sha256": "00ae67cbb7ac2ad09ca5871c21cf73ecb708fb8ddeb24827d4a1a6ac29562436",
+      "size_bytes": 3511
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_key_custody_contract_negative.py",
+      "sha256": "67632658f187e334f1d54fac07a3db43c93370e3cfc62f401e804843ecceabea",
+      "size_bytes": 3868
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_network_pressure_simulation.py",
+      "sha256": "68cd981da1533fce40a9bbb3719f2cf3638a6cdc0afd554c685974e9739066bb",
+      "size_bytes": 2432
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_outside_admission.py",
+      "sha256": "8a221dcf7e8e471fcafc6cfca8671b645a28823c2a457905574ac3d94245d2b2",
+      "size_bytes": 8305
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_hardening.py",
+      "sha256": "f44b342c7c3abcf0bb7f6fdd257c281de7efb3b6907808a8ce49d28d2a543e6c",
+      "size_bytes": 2618
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_his_admission_contract.py",
+      "sha256": "0c5cc33dca846c97903fdee6ad1fbaa8ed2d7334741334c1eba1e06969800266",
+      "size_bytes": 7641
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_mtls_config.py",
+      "sha256": "d531cf50cff1366bf82e0cc5c3b331356c7e53ab0846e8b1018fc1958c281a14",
+      "size_bytes": 2398
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_oidc_config.py",
+      "sha256": "9f3de1f0a8cb66bf25764ee244bf2442714a0242d9c48c300a0a8e1bcf217143",
+      "size_bytes": 1675
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_recovery.py",
+      "sha256": "abb162f5dd8c26df4a64fd1f8f80acffe960225ad0ab04da01ddcb04ed2b73fa",
+      "size_bytes": 2460
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p2_004_review_and_handoff.py",
+      "sha256": "a683d146817acb2208e26bcf54f1301b2c0fe095a9b72667e8bace502aae30d1",
+      "size_bytes": 3472
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p2_edge_iot_adapters.py",
+      "sha256": "6004ab5bedba12c265a40e020b4d49f2c627b0d83ef2ae1ef6962a38fd06d7be",
+      "size_bytes": 6762
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_pairing.py",
+      "sha256": "796c47545bf1cbd513a2ddfce3924a253e80387626381543e3636832282515b3",
+      "size_bytes": 2715
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_persistence_contract.py",
+      "sha256": "e829d3ecc68d61248d87bd7a016dabf3762cbbfecaef117c6a6ca5b056c58e6a",
+      "size_bytes": 2583
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_power_loss_recovery_harness.py",
+      "sha256": "7e3e68e574749b88cd51dc6c39324ae77bbf7cb08d1d00d2b36e8503a0b689a6",
+      "size_bytes": 688
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_production_readiness_audit.py",
+      "sha256": "8963017600d78efec053109bb7c90644f1279c0fdc3ba96b6a474425c64efa84",
+      "size_bytes": 1115
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_repeated_sample_evaluation.py",
+      "sha256": "dad5ef78ac1a74b02a319e6958bf7e5c47be37cc686c595603678a018ce68579",
+      "size_bytes": 4127
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_residual_controls.py",
+      "sha256": "1f4419b20bf048de53c1c41fd03f2c26f038ef0ebb5c6a407cfa098e58fd747e",
+      "size_bytes": 6930
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_roaming.py",
+      "sha256": "e9337b1f8fd3911b07d62e871c6269c09c514c7b900edea3a35409bcad3d2a16",
+      "size_bytes": 8635
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_runtime_semantic_retrieval_readiness.py",
+      "sha256": "c42923ab703b1d49e5cb4315bc3e9a4aa4fac3d4577ef8f50a9f21a1adc4cbc1",
+      "size_bytes": 2703
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_security.py",
+      "sha256": "09be7c8375862d871e65faaca2ec23b709d7c0b726f654428b36c962c75c0bcf",
+      "size_bytes": 3432
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_serial_bench_runner.py",
+      "sha256": "6d669b72750fb3f13bb94e4174a550df170d4cb73b1628e38864735e1c581466",
+      "size_bytes": 1718
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_serial_framing.py",
+      "sha256": "fb85804d0b2469d01357be25961fd4fe6134d84ef3efd190b5368e573adba729",
+      "size_bytes": 6054
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_session_workflows.py",
+      "sha256": "a1a24261fb5f3caa08b0edbe08f83ba796a4c94a56a1b97c6129222db22e2a43",
+      "size_bytes": 6885
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_telemetry.py",
+      "sha256": "cd04156deb62d8266becfa70bd4fe0fdafc953cef453750e04928829c0ec57b3",
+      "size_bytes": 3476
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_triage.py",
+      "sha256": "a2ad06e6d0547fb9e50d27722b5808eb3fe7fcebfad4f4c8038ac83b3a255777",
+      "size_bytes": 3376
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave0_governance.py",
+      "sha256": "d57aa4eafe1080462635e9ad91c065a337ad801028a3541db4ccf290951e49f2",
+      "size_bytes": 2610
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave_e_evidence.py",
+      "sha256": "438b72ea7b748a5fac4d8d26b0efb1f447f35925df53f32646c16d2fc76a7a08",
+      "size_bytes": 11821
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "validate_mtls_config.py",
+      "sha256": "d2ee638fe7adf1811b33c25aa187005991f22c4ab9233ddd05cd278f02a089ad",
+      "size_bytes": 1588
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "validate_oidc_config.py",
+      "sha256": "9d3cce9917bc87a713b7a6a7a645c5130f95a63bfa4648a200902cd1d15dad01",
+      "size_bytes": 2389
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "validate_reliability.py",
+      "sha256": "5749ba3488e6812a0fb626476def6cfd53b8fda715ddc8d9b5fc355428188149",
+      "size_bytes": 6867
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "wave0_governance.py",
+      "sha256": "354fec5487f56da19344dd30e5dd7952d6116e7976b7d5d3017992d27e1d3467",
+      "size_bytes": 20796
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "wave_e_evidence_validation_runner.py",
+      "sha256": "e829da3f584217269e8ecca7b58a5b7f79fba53cf2048a8ce5defca1ef3167f5",
+      "size_bytes": 3853
+    }
+  ],
+  "freeze_created_at_utc": "2026-08-20T11:51:39.466310+00:00",
+  "freeze_status": "PASS",
+  "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
+  "manifest_self_hash_excluded": true,
+  "origin_main_revision": "58f8d60200ebe4bdbe0f87ed68965adefefc7a10",
+  "repository": "icezingza/smart-ward-hub",
+  "runtime_artifacts": [],
+  "schema_version": "smart-ward-hub-release-freeze-v1",
+  "secret_hits": [],
+  "source_revision": "58f8d60200ebe4bdbe0f87ed68965adefefc7a10"
+}
