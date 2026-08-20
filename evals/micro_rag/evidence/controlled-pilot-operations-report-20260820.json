@@ -1,0 +1,152 @@
+{
+  "decision": {
+    "blockers": [
+      {
+        "blocker_id": "BLK-GV01",
+        "gate_id": "GV-01",
+        "reason": "clinical governance protocol and signed scope are not externally verified",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      },
+      {
+        "blocker_id": "BLK-GV03",
+        "gate_id": "GV-03",
+        "reason": "real HIS/Admission transcript and reconciliation are not externally verified",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      },
+      {
+        "blocker_id": "BLK-GV04",
+        "gate_id": "GV-04",
+        "reason": "real OIDC/mTLS handshake and key-rotation transcript are not externally verified",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      },
+      {
+        "blocker_id": "BLK-GV06",
+        "gate_id": "GV-06",
+        "reason": "Acer physical serial fixture and COM-port evidence are not available",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      },
+      {
+        "blocker_id": "BLK-GV07",
+        "gate_id": "GV-07",
+        "reason": "independent WORM receipt and trusted timestamp are not externally verified",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      },
+      {
+        "blocker_id": "BLK-GV08",
+        "gate_id": "GV-08",
+        "reason": "manufacturer provenance and hardware key custody are not externally verified",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      },
+      {
+        "blocker_id": "BLK-GV09",
+        "gate_id": "GV-09",
+        "reason": "staff training and manual fallback review are not externally verified",
+        "recorded_at_utc": "2026-08-20T00:00:00Z",
+        "reopened_at_utc": null,
+        "status": "BLOCKED"
+      }
+    ],
+    "clinical_validation_authorized": false,
+    "manifest_hash": "5f4cd2b5eb0251bcb07c9b1a429f1b28b75bb98a2481c5f24fdc2ab329630b05",
+    "production_authorized": false,
+    "runtime_authority": "NONE",
+    "state": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+  },
+  "gate_statuses": {
+    "GV-01": "BLOCKED",
+    "GV-02": "OPEN",
+    "GV-03": "BLOCKED",
+    "GV-04": "BLOCKED",
+    "GV-05": "OPEN",
+    "GV-06": "BLOCKED",
+    "GV-07": "BLOCKED",
+    "GV-08": "BLOCKED",
+    "GV-09": "BLOCKED",
+    "GV-10": "OPEN"
+  },
+  "generated_at_utc": "2026-08-20T00:00:00Z",
+  "manifest": {
+    "claim_boundary": "CONTROLLED_PROTOTYPE_SOFTWARE_EVIDENCE_ONLY",
+    "generated_at_utc": "2026-08-20T00:00:00Z",
+    "items": [
+      {
+        "artifact_ref": "/home/ubuntu/smart-ward-hub/P2_004_HARDENING_EVIDENCE.md",
+        "artifact_sha256": "a52ebd4f304c7e80bd37a3a9a2be5bd9fbaa218668708f6a09e8951bb65e86ee",
+        "chain_of_custody_ref": "chain-p2004-ops-001",
+        "collected_at_utc": "2026-08-20T00:00:00Z",
+        "evidence_class": "SOFTWARE_VERIFIED",
+        "evidence_id": "ops-p2004-001",
+        "gate_id": "GV-10",
+        "independent_verification_required": true,
+        "prepared_by_role": "evidence-preparer",
+        "redaction_status": "PASS"
+      },
+      {
+        "artifact_ref": "/home/ubuntu/smart-ward-hub/P2_004_REPEATED_SAMPLE_PROTOCOL.md",
+        "artifact_sha256": "cb0182cca72ef04ecfd66520f4493c5bf8eabf2812de7af1bd38c9b8d9af75c6",
+        "chain_of_custody_ref": "chain-p2004-ops-002",
+        "collected_at_utc": "2026-08-20T00:00:00Z",
+        "evidence_class": "SOFTWARE_VERIFIED",
+        "evidence_id": "ops-p2004-002",
+        "gate_id": "GV-10",
+        "independent_verification_required": true,
+        "prepared_by_role": "evidence-preparer",
+        "redaction_status": "PASS"
+      },
+      {
+        "artifact_ref": "/home/ubuntu/smart-ward-hub/P2_004_PERSISTENCE_OWNERSHIP_CONTRACT.md",
+        "artifact_sha256": "04a813cfbbc52899d191d355f150df27c0f88701cd6cd47ecd6b99ad61212b34",
+        "chain_of_custody_ref": "chain-p2004-ops-003",
+        "collected_at_utc": "2026-08-20T00:00:00Z",
+        "evidence_class": "SOFTWARE_VERIFIED",
+        "evidence_id": "ops-p2004-003",
+        "gate_id": "GV-02",
+        "independent_verification_required": true,
+        "prepared_by_role": "evidence-preparer",
+        "redaction_status": "PASS"
+      },
+      {
+        "artifact_ref": "/home/ubuntu/smart-ward-hub/ACER_BENCH_READONLY_INVENTORY.md",
+        "artifact_sha256": "996ea27f0f8e58ed3d2317661463b3c197420a39f7144f60ca486d238e669b20",
+        "chain_of_custody_ref": "chain-p2004-ops-004",
+        "collected_at_utc": "2026-08-20T00:00:00Z",
+        "evidence_class": "BLOCKER_RECORD",
+        "evidence_id": "ops-p2004-004",
+        "gate_id": "GV-06",
+        "independent_verification_required": true,
+        "prepared_by_role": "evidence-preparer",
+        "redaction_status": "PASS"
+      }
+    ],
+    "manifest_id": "manifest-controlled-pilot-operations-20260820",
+    "manifest_version": "controlled-pilot-manifest-v1",
+    "previous_manifest_hash": null
+  },
+  "manifest_hash": "5f4cd2b5eb0251bcb07c9b1a429f1b28b75bb98a2481c5f24fdc2ab329630b05",
+  "reviewer_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "simulated_detached_receipt": {
+    "external_authority": "NONE",
+    "key_id": "review-key-simulation",
+    "manifest_hash": "5f4cd2b5eb0251bcb07c9b1a429f1b28b75bb98a2481c5f24fdc2ab329630b05",
+    "receipt_digest": "e5286482ccee2f981ba81aec82fddc07c69ea80e2726abf5bbdb8a135562e0c9",
+    "receipt_type": "SIGNED_STYLE_SIMULATION_NOT_CRYPTOGRAPHIC_SIGNATURE"
+  },
+  "suite": "controlled-pilot-operations-report-v1"
+}

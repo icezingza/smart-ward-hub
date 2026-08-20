@@ -30,6 +30,7 @@
 | R-043 | Readiness preflight ถูกตีความเป็น runtime/clinical approval | Critical | P2-004 readiness preflight | preflight เปิดสถานะสูงสุดเพียง `READY_FOR_EXTERNAL_GOVERNANCE_REVIEW`; `clinical_validation_authorized`, `production_authorized`, `runtime_authority` ถูกตรึง false/NONE | ต้องมี external persistence/access evidence, runtime backend verification, clinical governance และ controlled pilot authorization แยกต่างหาก |
 | R-044 | Repeated-sample decision ถูกใช้เป็น reliability/clinical score ทั้งที่ protocol ยังไม่ผ่าน minimum samples | High | P2-004 repeated-sample protocol and decision validator | บังคับ `min_samples>=2`, fixed provenance, provider/quality denominator separation และ `BLOCKED_INCOMPLETE_EVIDENCE` | ต้องได้รับ compatible samples เพิ่มและให้ reviewer อนุมัติ analysis plan ก่อนสรุปผล |
 | R-045 | External-review coordination package ถูกตีความเป็น controlled-pilot authorization | Critical | P2-004 controlled pilot handoff | handoff ใช้ `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`, 7 blocked/3 open gates และตรึง authorization false | ต้องมี independent review, clinical governance, external gate evidence และ authorization decision แยกจาก software package |
+| R-046 | Local SHA-256 manifest หรือ signed-style receipt ถูกตีความเป็น external WORM, trusted timestamp หรือ cryptographic signature | High | Controlled-pilot operations manifest simulation | manifest ตรวจ artifact hash, chain field และ receipt simulation ที่ระบุ `external_authority=NONE` | ต้องมี external receipt, trusted timestamp, independent custody และ real key custody evidence ข้าม trust boundary |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -82,6 +83,9 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `p2_004_review_decision.py` | Fail-closed repeated-sample decision validator |
 | `controlled_pilot_handoff.py` | 10-gate handoff and no-authorization contract |
 | `P2_004_EXTERNAL_REVIEW_COORDINATION_PACKAGE.md` | External-review evidence map and blocker visibility |
+| `CONTROLLED_PILOT_OPERATIONS_GATE.md` | Operational states, promotion rules and evidence export contract |
+| `CONTROLLED_PILOT_OPERATIONS_REVIEW_CHECKLIST.md` | Reviewer checklist and stop conditions |
+| `controlled_pilot_operations.py` | Blocker, manifest and operational gate validation |
 
 
 ## Device Trust and provisioning roadmap risks
