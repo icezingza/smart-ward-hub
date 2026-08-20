@@ -49,7 +49,10 @@ def classify(path: str) -> str:
 
 
 def main() -> int:
-    tracked = [item for item in run_git("ls-files").splitlines() if item]
+    manifest_relative = str(OUTPUT.relative_to(ROOT))
+    tracked = [
+        item for item in run_git("ls-files").splitlines() if item and item != manifest_relative
+    ]
     status = run_git("status", "--porcelain")
     head = run_git("rev-parse", "HEAD")
     remote = run_git("rev-parse", "origin/main")
