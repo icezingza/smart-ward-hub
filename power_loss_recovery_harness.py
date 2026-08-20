@@ -91,6 +91,76 @@ def _scenario_unsupported_and_malformed_payloads(root: Path) -> dict[str, Any]:
     return {"scenario": "unsupported_and_malformed_payloads", "status": "PASS", "cases": len(cases)}
 
 
+def _scenario_pii_checkpoint_rejected(root: Path) -> dict[str, Any]:
+    state_path = root / "pii-checkpoint.json"
+    state_path.write_text(
+        json.dumps(
+            {
+                "state_version": EdgeTelemetryStore.STATE_VERSION,
+                "buffers": {
+                    "device-recovery": {
+                        "samples": [{**sample(1), "patient_token": "must-not-restore"}],
+                        "last_sequence": 1,
+                        "dropped_samples": 0,
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    recovered = EdgeTelemetryStore(max_samples=3, state_path=state_path, checkpoint_every=1)
+    assert recovered.snapshot("device-recovery") == []
+    assert recovered.last_sequence("device-recovery") is None
+    assert recovered.stats()["buffered_samples"] == 0
+    return {"scenario": "pii_checkpoint_rejected", "status": "PASS"}
+
+
+def _scenario_sequence_inconsistency_rejected(root: Path) -> dict[str, Any]:
+    state_path = root / "sequence-inconsistency.json"
+    state_path.write_text(
+        json.dumps(
+            {
+                "state_version": EdgeTelemetryStore.STATE_VERSION,
+                "buffers": {
+                    "device-recovery": {
+                        "samples": [sample(2), sample(2)],
+                        "last_sequence": 2,
+                        "dropped_samples": 0,
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    recovered = EdgeTelemetryStore(max_samples=3, state_path=state_path, checkpoint_every=1)
+    assert recovered.snapshot("device-recovery") == []
+    assert recovered.last_sequence("device-recovery") is None
+    return {"scenario": "sequence_inconsistency_rejected", "status": "PASS"}
+
+
+def _scenario_last_sequence_mismatch_rejected(root: Path) -> dict[str, Any]:
+    state_path = root / "last-sequence-mismatch.json"
+    state_path.write_text(
+        json.dumps(
+            {
+                "state_version": EdgeTelemetryStore.STATE_VERSION,
+                "buffers": {
+                    "device-recovery": {
+                        "samples": [sample(2)],
+                        "last_sequence": 9,
+                        "dropped_samples": 0,
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    recovered = EdgeTelemetryStore(max_samples=3, state_path=state_path, checkpoint_every=1)
+    assert recovered.snapshot("device-recovery") == []
+    assert recovered.last_sequence("device-recovery") is None
+    return {"scenario": "last_sequence_mismatch_rejected", "status": "PASS"}
+
+
 def run_harness(output: Path | None = None) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="smart-ward-recovery-") as directory:
         root = Path(directory)
@@ -99,6 +169,9 @@ def run_harness(output: Path | None = None) -> dict[str, Any]:
             _scenario_stale_temp_does_not_replace(root),
             _scenario_corrupt_json_fails_closed(root),
             _scenario_unsupported_and_malformed_payloads(root),
+            _scenario_pii_checkpoint_rejected(root),
+            _scenario_sequence_inconsistency_rejected(root),
+            _scenario_last_sequence_mismatch_rejected(root),
         ]
     report = {
         "suite": "smart-ward-power-loss-storage-recovery-harness",
@@ -108,6 +181,7 @@ def run_harness(output: Path | None = None) -> dict[str, Any]:
         "physical_power_cut": "UNVERIFIED",
         "disk_full_drill": "UNVERIFIED",
         "filesystem_corruption_drill": "SOFTWARE_CORRUPTION_ONLY",
+        "checkpoint_invariant_hardening": "SOFTWARE_VERIFIED",
         "patient_data_used": False,
         "raw_frames_recorded": False,
     }

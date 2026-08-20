@@ -16,7 +16,7 @@
 | P0-001 | **In Progress** | `test_p0_his_admission_contract.py` ผ่าน opaque tokenization, token TTL/revocation, outside admission idempotency, failure retention, mismatched acknowledgment rejection และ exact-scope purge | Sandbox test double ไม่ใช่ HIS จริง; HIS ยังไม่ยืนยัน FHIR version/profile, terminology, patient-reference policy, issuer, CA, error body, support และ idempotency behavior | Hospital HIS contract test พร้อม real profile/version, real mTLS/OIDC transport และ purge/retention transcript |
 | P0-002 | **In Progress** | Local validator ตรวจ `SW_AUTH_MODE`, issuer, audience, HTTPS JWKS URL และ safe algorithms; missing config fail-closed | ยังไม่มี real IdP/test tenant; ไม่ได้พิสูจน์ JWKS discovery, key rotation, claim mapping, token expiry, revocation หรือ role/scopes จริง | Redacted transcript จาก real issuer/JWKS, rotation/revocation test, scope mapping และ failure cases |
 | P0-003 | **In Progress** | Local validator ตรวจ cert/key/CA file presence และ reject private key ที่ group/other-readable โดยไม่อ่าน key material; launcher fail-closed | ยังไม่มี CA chain จริง, mutual handshake, client cert identity, renewal/revocation, clock behavior หรือ network segmentation | Real test CA/PKI handshake, renewal, expired/revoked cert rejection, route/firewall evidence |
-| P0-004 | **In Progress** | `test_p0_recovery.py` และ `power_loss_recovery_harness.py` ผ่าน atomic restart, stale temp isolation, corrupt JSON fail-closed, unsupported/malformed payload handling และ SQLite WAL + synchronous FULL reopen check | เป็น software fault injection เท่านั้น; ยังไม่ทดสอบ power cut จริง, disk-full, filesystem corruption, storage controller, UPS/battery หรือ OS recovery บน Acer | Controlled hardware power cut, disk-full/corruption drill, reboot/service recovery transcript และ data-integrity comparison |
+| P0-004 | **In Progress** | `test_p0_recovery.py` และ `power_loss_recovery_harness.py` ผ่าน atomic restart, stale temp isolation, corrupt JSON fail-closed, unsupported/malformed payload handling, PII-bearing checkpoint rejection, sequence-inconsistency rejection และ SQLite WAL + synchronous FULL reopen check | เป็น software fault injection เท่านั้น; ยังไม่ทดสอบ power cut จริง, disk-full, filesystem corruption, storage controller, UPS/battery หรือ OS recovery บน Acer | Controlled hardware power cut, disk-full/corruption drill, reboot/service recovery transcript และ data-integrity comparison |
 | P0-005 | **Planned** | Hardware choice documented: Acer Spin N17H2 as Fixed Hub candidate | Physical Acer, charger/battery, thermal, touchscreen, network, USB/NFC/BLE gateway and service supervisor are not available to this sandbox | Bench protocol executed on Acer with serialised evidence, soak test, reboot, network interruption and service recovery |
 
 ## Technical blockers and risks
@@ -35,7 +35,7 @@ The new validator protects a basic local failure mode—missing files and overly
 
 ### 4. Software recovery is not power-loss evidence
 
-The software harness confirms the intended checkpoint/WAL behavior under controlled process/file fixtures. It cannot reproduce the failure modes that matter on a physical ward host: abrupt power removal during commit, battery depletion, disk-full, filesystem errors, SSD/controller behavior, OS boot recovery and service supervisor ordering.
+The software harness confirms the intended checkpoint/WAL behavior and fail-closed PII/sequence invariants under controlled process/file fixtures. It cannot reproduce the failure modes that matter on a physical ward host: abrupt power removal during commit, battery depletion, disk-full, filesystem errors, SSD/controller behavior, OS boot recovery and service supervisor ordering.
 
 ### 5. Zero-Trust requires enforcement across deployment boundaries
 
@@ -51,7 +51,7 @@ The architecture now defines per-zone identity, scope, freshness, segmentation, 
 | Bundle identity mismatch rejection | `test_fhir.py` passes with HTTP 409 before purge |
 | OIDC local configuration validator | `validate_oidc_config.py`, `test_p0_oidc_config.py` pass |
 | mTLS local file-hygiene validator | `validate_mtls_config.py`, `test_p0_mtls_config.py` pass |
-| Recovery software harness | `test_p0_recovery.py`, `power_loss_recovery_harness.py` and `test_power_loss_recovery_harness.py` pass; physical failures remain unverified |
+| Recovery software harness | `test_p0_recovery.py`, `power_loss_recovery_harness.py` and `test_power_loss_recovery_harness.py` pass; checkpoint PII/sequence invariants are software-verified; physical failures remain unverified |
 | Master regression integration | `run_all_tests.py` includes the HIS contract and recovery fault harness tests; complete suite passed |
 | Zero-Trust architecture design | `architecture.md` section 7 and `ZERO_TRUST_TRUST_BOUNDARIES.md` |
 | Hardware acceptance preparation | `P0_HARDWARE_BENCH_CHECKLIST.md` prepared; physical execution pending |

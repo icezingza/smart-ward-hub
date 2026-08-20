@@ -18,12 +18,25 @@
       "scenario": "unsupported_and_malformed_payloads",
       "status": "PASS",
       "cases": 4
+    },
+    {
+      "scenario": "pii_checkpoint_rejected",
+      "status": "PASS"
+    },
+    {
+      "scenario": "sequence_inconsistency_rejected",
+      "status": "PASS"
+    },
+    {
+      "scenario": "last_sequence_mismatch_rejected",
+      "status": "PASS"
     }
   ],
   "all_passed": true,
   "physical_power_cut": "UNVERIFIED",
   "disk_full_drill": "UNVERIFIED",
   "filesystem_corruption_drill": "SOFTWARE_CORRUPTION_ONLY",
+  "checkpoint_invariant_hardening": "SOFTWARE_VERIFIED",
   "patient_data_used": false,
   "raw_frames_recorded": false
 }

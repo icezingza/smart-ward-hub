@@ -19,6 +19,7 @@ TESTS = [
     "test_p0_recovery.py",
     "test_p0_his_admission_contract.py",
     "test_power_loss_recovery_harness.py",
+    "test_p0_004_recovery_phase_end_hardening.py",
     "test_backup_restore.py",
     "test_deployment_readiness.py",
     "test_p1_002_host_hardening_readiness.py",

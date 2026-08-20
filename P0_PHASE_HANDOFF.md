@@ -13,14 +13,14 @@ Smart Ward Hub ยังคงอยู่ในสถานะ **controlled pro
 | Workstream | ผลที่ตรวจสอบแล้ว | สถานะ gate |
 |---|---|---|
 | P0-001 HIS/Admission Gateway | Opaque tokenization, TTL expiry, revocation, outside admission idempotency, failure retention, mismatched Bundle acknowledgment rejection และ exact-scope purge ผ่านใน sandbox contract test | **In Progress** — hospital integration pending |
-| P0-004 Recovery | Atomic checkpoint restart, stale temporary-file isolation, corrupt JSON fail-closed, unsupported/malformed payload handling และ SQLite WAL/synchronous-FULL reopen ผ่าน software fault harness | **In Progress** — physical power-loss/storage drill pending |
+| P0-004 Recovery | Atomic checkpoint restart, stale temporary-file isolation, corrupt JSON fail-closed, unsupported/malformed payload handling, PII-bearing checkpoint rejection, sequence-inconsistency rejection และ SQLite WAL/synchronous-FULL reopen ผ่าน software fault harness | **In Progress** — physical power-loss/storage drill pending |
 | Master regression | `run_all_tests.py` ผ่าน exit code `0`, รวม P0 contract/recovery tests ใหม่ | Software verification only |
 
 ## หลักฐานที่เพิ่ม
 
 `his_admission_gateway_contract.py` เป็น test double สำหรับ outside boundary เท่านั้น โดยรับ raw HIS-looking reference แล้วทิ้งค่า raw หลังสร้าง opaque token. Hub-facing payload มีเฉพาะ `patient_token`, bed และ idempotency metadata. `test_p0_his_admission_contract.py` ขับผ่าน actual FastAPI boundary และตรวจว่า raw HN/AN ไม่อยู่ใน response หรือ audit output
 
-`power_loss_recovery_harness.py` ใช้ fault injection แบบ deterministic กับ checkpoint file เพื่อทดสอบ committed restart, stale `.tmp` file, corrupt JSON, unsupported state version, malformed buffers และ malformed sample metadata. `edge_runtime.py` ถูก harden ให้ restore fail-closed กับ payload/type ที่ไม่ถูกต้องและไม่รับ boolean เป็น sequence/drop counter
+`power_loss_recovery_harness.py` ใช้ fault injection แบบ deterministic กับ checkpoint file เพื่อทดสอบ committed restart, stale `.tmp` file, corrupt JSON, unsupported state version, malformed buffers, malformed sample metadata, PII-bearing checkpoint และ sequence inconsistency. `edge_runtime.py` ถูก harden ให้ restore fail-closed กับ payload/type ที่ไม่ถูกต้อง, PII keys, non-monotonic sample sequence และไม่รับ boolean เป็น sequence/drop counter โดย evidence ใหม่ระบุ `checkpoint_invariant_hardening=SOFTWARE_VERIFIED`
 
 ## สิ่งที่ยังไม่สามารถอ้างได้
 

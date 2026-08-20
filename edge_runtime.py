@@ -63,6 +63,29 @@ class EdgeTelemetryStore:
             return [EdgeTelemetryStore._serialize(item) for item in value]
         return value
 
+    @classmethod
+    def _restored_samples_are_safe(cls, samples: list[Any]) -> bool:
+        """Reject a device checkpoint when its persisted sample invariants fail.
+
+        A checkpoint is untrusted input: it may be stale, partially written, or
+        modified outside the process. Restoring no samples is safer than
+        rehydrating PII-bearing or sequence-inconsistent state.
+        """
+        previous_sequence: int | None = None
+        for sample in samples:
+            if not isinstance(sample, dict):
+                return False
+            if cls.FORBIDDEN_PII_KEYS.intersection(sample.keys()):
+                return False
+            sequence = sample.get("sequence")
+            if sequence is not None:
+                if isinstance(sequence, bool) or not isinstance(sequence, int) or sequence < 0:
+                    return False
+                if previous_sequence is not None and sequence <= previous_sequence:
+                    return False
+                previous_sequence = sequence
+        return True
+
     @staticmethod
     def _deserialize_sample(sample: dict[str, Any]) -> dict[str, Any]:
         restored = dict(sample)
@@ -205,16 +228,25 @@ class EdgeTelemetryStore:
             for device_id, state in buffers.items():
                 if not isinstance(device_id, str) or not isinstance(state, dict):
                     continue
-                buffer = self._buffer(device_id)
                 samples = state.get("samples", [])
                 if not isinstance(samples, list):
                     continue
-                for sample in samples[-self.max_samples :]:
-                    if isinstance(sample, dict):
-                        buffer.append(self._deserialize_sample(sample))
+                window = samples[-self.max_samples :]
+                if not self._restored_samples_are_safe(window):
+                    continue
                 last_sequence = state.get("last_sequence")
-                if isinstance(last_sequence, int) and not isinstance(last_sequence, bool):
-                    self._last_sequence[device_id] = last_sequence
+                if last_sequence is not None and (isinstance(last_sequence, bool) or not isinstance(last_sequence, int) or last_sequence < 0):
+                    continue
+                sample_sequences = [sample.get("sequence") for sample in window if isinstance(sample, dict) and sample.get("sequence") is not None]
+                if sample_sequences and last_sequence is not None and last_sequence != sample_sequences[-1]:
+                    continue
                 dropped_samples = state.get("dropped_samples", 0)
-                if isinstance(dropped_samples, int) and not isinstance(dropped_samples, bool) and dropped_samples >= 0:
+                if isinstance(dropped_samples, bool) or not isinstance(dropped_samples, int) or dropped_samples < 0:
+                    continue
+                buffer = self._buffer(device_id)
+                for sample in window:
+                    buffer.append(self._deserialize_sample(sample))
+                if last_sequence is not None:
+                    self._last_sequence[device_id] = last_sequence
+                if dropped_samples:
                     self._dropped_samples[device_id] = dropped_samples
