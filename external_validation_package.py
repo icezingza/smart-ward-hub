@@ -5,15 +5,32 @@ from datetime import datetime, timezone
 import re
 from typing import Any
 
-
 SAFE_REF = re.compile(r"[A-Za-z0-9._:/-]{1,160}")
-RAW_ID = re.compile(r"\b(?:HN|AN|MRN|NATIONAL_ID)\s*[-_:]?\s*[A-Z0-9-]+\b", re.IGNORECASE)
-FORBIDDEN_CLAIMS = {"clinical-ready", "tamper-proof", "production-ready", "hipaa/pdpa compliant 100%", "clinical validated"}
+RAW_ID = re.compile(r"\b(?:HN|AN|MRN|NATIONAL_ID)(?:\s*[-_:]\s*[A-Z0-9-]{2,}|\s+\d[A-Z0-9-]{1,})\b", re.IGNORECASE)
+RAW_CONTACT = re.compile(r"(?:@|\+?\d[\d\s().-]{6,})")
+SECRET_MARKER = re.compile(r"(?:BEGIN (?:RSA|EC|OPENSSH|DSA|PRIVATE) KEY|Bearer\s+\S+|(?:password|secret|token|private_key|seed)\s*[:=]\s*\S+)", re.IGNORECASE)
+FORBIDDEN_CLAIMS = {"clinical-ready", "tamper-proof", "production-ready", "hipaa/pdpa compliant 100%", "clinical validated", "clinical validation passed"}
+UNSUPPORTED_EVIDENCE_CLAIMS = {"CLINICAL_VALIDATED", "PRODUCTION_READY", "TAMPER_PROOF", "CLINICAL_ACCURACY", "CLINICAL_EFFECTIVENESS"}
 VALID_STATUSES = {"OPEN", "EVIDENCE_SUBMITTED", "BLOCKED"}
+LOCKED_EXTERNAL_OWNER_APPOINTMENT = "PENDING_EXTERNAL_APPOINTMENT"
 
 
 class ExternalValidationPackageError(ValueError):
     pass
+
+
+def _safe_ref(value: Any, error: str) -> None:
+    if not isinstance(value, str) or not value.strip() or not SAFE_REF.fullmatch(value.strip()) or RAW_ID.search(value) or RAW_CONTACT.search(value) or SECRET_MARKER.search(value):
+        raise ExternalValidationPackageError(error)
+
+
+def _safe_text(value: Any, error: str, *, max_length: int = 512) -> None:
+    if not isinstance(value, str) or not value.strip() or len(value) > max_length or RAW_ID.search(value) or RAW_CONTACT.search(value) or SECRET_MARKER.search(value):
+        raise ExternalValidationPackageError(error)
+
+
+def _safe_reason(value: Any, error: str) -> None:
+    _safe_text(value, error, max_length=240)
 
 
 @dataclass(frozen=True)
@@ -23,15 +40,18 @@ class GateEvidence:
     submitted_at_utc: str
 
     def validate(self) -> None:
-        if not SAFE_REF.fullmatch(self.evidence_ref) or RAW_ID.search(self.evidence_ref):
-            raise ExternalValidationPackageError("unsafe_evidence_reference")
-        if self.evidence_class.strip().upper() in {"CLINICAL_VALIDATED", "PRODUCTION_READY", "TAMPER_PROOF"}:
+        _safe_ref(self.evidence_ref, "unsafe_evidence_reference")
+        if not isinstance(self.evidence_class, str) or not self.evidence_class.strip() or RAW_ID.search(self.evidence_class) or RAW_CONTACT.search(self.evidence_class) or SECRET_MARKER.search(self.evidence_class):
+            raise ExternalValidationPackageError("invalid_evidence_class")
+        if self.evidence_class.strip().upper() in UNSUPPORTED_EVIDENCE_CLAIMS:
             raise ExternalValidationPackageError("unsupported_evidence_claim")
+        if not isinstance(self.submitted_at_utc, str):
+            raise ExternalValidationPackageError("invalid_evidence_timestamp")
         try:
             parsed = datetime.fromisoformat(self.submitted_at_utc.replace("Z", "+00:00"))
-        except ValueError as exc:
+        except (AttributeError, TypeError, ValueError) as exc:
             raise ExternalValidationPackageError("invalid_evidence_timestamp") from exc
-        if parsed.tzinfo is None:
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
             raise ExternalValidationPackageError("evidence_timestamp_must_be_timezone_aware")
 
 
@@ -46,14 +66,30 @@ class ValidationGate:
     evidence: list[GateEvidence] = field(default_factory=list)
 
     def validate(self) -> None:
-        if not SAFE_REF.fullmatch(self.gate_id) or not SAFE_REF.fullmatch(self.domain):
-            raise ExternalValidationPackageError("unsafe_gate_identifier")
-        if not self.owner_role.strip() or not self.required_evidence:
+        _safe_ref(self.gate_id, "unsafe_gate_identifier")
+        _safe_ref(self.domain, "unsafe_gate_identifier")
+        _safe_ref(self.owner_role, "unsafe_gate_owner")
+        if not isinstance(self.required_evidence, (tuple, list)) or not self.required_evidence:
             raise ExternalValidationPackageError("gate_owner_and_evidence_required")
+        for required in self.required_evidence:
+            _safe_ref(required, "unsafe_required_evidence_reference")
         if self.status not in VALID_STATUSES:
             raise ExternalValidationPackageError("invalid_gate_status")
+        if self.status == "BLOCKED":
+            if self.blocker is None or not self.blocker.strip():
+                raise ExternalValidationPackageError("blocked_gate_requires_reason")
+        elif self.blocker is not None:
+            raise ExternalValidationPackageError("non_blocked_gate_cannot_have_blocker")
+        if not isinstance(self.evidence, list):
+            raise ExternalValidationPackageError("gate_evidence_must_be_list")
+        seen: set[str] = set()
         for item in self.evidence:
+            if not isinstance(item, GateEvidence):
+                raise ExternalValidationPackageError("invalid_gate_evidence_record")
             item.validate()
+            if item.evidence_ref in seen:
+                raise ExternalValidationPackageError("duplicate_gate_evidence")
+            seen.add(item.evidence_ref)
 
     def submit_evidence(self, item: GateEvidence) -> None:
         self.validate()
@@ -67,16 +103,16 @@ class ValidationGate:
         self.blocker = None
 
     def block(self, reason: str) -> None:
-        if not reason.strip():
-            raise ExternalValidationPackageError("blocker_reason_required")
+        if self.status == "BLOCKED":
+            raise ExternalValidationPackageError("gate_already_blocked")
+        _safe_reason(reason, "blocker_reason_required")
         self.status = "BLOCKED"
-        self.blocker = reason.strip()[:240]
+        self.blocker = reason.strip()
 
     def reopen(self, reason: str) -> None:
         if self.status != "BLOCKED":
             raise ExternalValidationPackageError("gate_not_blocked")
-        if not reason.strip():
-            raise ExternalValidationPackageError("reopen_reason_required")
+        _safe_reason(reason, "reopen_reason_required")
         self.status = "OPEN"
         self.blocker = None
 
@@ -89,20 +125,33 @@ class ExternalValidationPackage:
     claim_boundary: str = "CONTROLLED_PROTOTYPE_SOFTWARE_EVIDENCE_ONLY"
     real_world_authorization: bool = False
     gates: dict[str, ValidationGate] = field(default_factory=dict)
+    external_owner_appointment: str = LOCKED_EXTERNAL_OWNER_APPOINTMENT
+    execution_status: str = "NOT_STARTED"
+    clinical_validation_authorized: bool = False
+    production_authorized: bool = False
 
     def validate(self) -> None:
-        if not SAFE_REF.fullmatch(self.package_id) or RAW_ID.search(self.package_id):
-            raise ExternalValidationPackageError("unsafe_package_identifier")
-        if not self.scope.strip() or not self.intended_use.strip():
-            raise ExternalValidationPackageError("package_scope_and_intended_use_required")
+        _safe_ref(self.package_id, "unsafe_package_identifier")
+        _safe_text(self.scope, "package_scope_and_intended_use_required")
+        _safe_text(self.intended_use, "package_scope_and_intended_use_required")
         if self.real_world_authorization is not False:
             raise ExternalValidationPackageError("software_package_cannot_authorize_real_world_testing")
+        if self.clinical_validation_authorized is not False or self.production_authorized is not False:
+            raise ExternalValidationPackageError("software_package_cannot_authorize_real_world_testing")
+        if self.external_owner_appointment != LOCKED_EXTERNAL_OWNER_APPOINTMENT:
+            raise ExternalValidationPackageError("external_owner_appointment_boundary_breached")
+        if self.execution_status != "NOT_STARTED":
+            raise ExternalValidationPackageError("external_execution_boundary_breached")
+        if not isinstance(self.claim_boundary, str) or not self.claim_boundary.strip():
+            raise ExternalValidationPackageError("forbidden_claim_boundary")
         lowered = self.claim_boundary.lower()
         if any(claim in lowered for claim in FORBIDDEN_CLAIMS):
             raise ExternalValidationPackageError("forbidden_claim_boundary")
-        if not self.gates:
+        if not isinstance(self.gates, dict) or not self.gates:
             raise ExternalValidationPackageError("validation_gates_required")
-        for gate in self.gates.values():
+        for gate_key, gate in self.gates.items():
+            if not isinstance(gate, ValidationGate) or gate_key != gate.gate_id:
+                raise ExternalValidationPackageError("gate_registry_key_mismatch")
             gate.validate()
 
     def submit_evidence(self, gate_id: str, evidence_ref: str, evidence_class: str) -> None:
@@ -120,6 +169,13 @@ class ExternalValidationPackage:
             raise ExternalValidationPackageError("unknown_validation_gate")
         gate.block(reason)
 
+    def reopen_gate(self, gate_id: str, reason: str) -> None:
+        self.validate()
+        gate = self.gates.get(gate_id)
+        if gate is None:
+            raise ExternalValidationPackageError("unknown_validation_gate")
+        gate.reopen(reason)
+
     def readiness_summary(self) -> dict[str, Any]:
         self.validate()
         counts = {status: 0 for status in VALID_STATUSES}
@@ -129,9 +185,14 @@ class ExternalValidationPackage:
             "package_id": self.package_id,
             "scope": self.scope,
             "gate_count": len(self.gates),
-            "status_counts": counts,
+            "status_counts": dict(counts),
             "ready_for_external_review": counts["OPEN"] == 0 and counts["BLOCKED"] == 0,
+            "external_owner_appointment": LOCKED_EXTERNAL_OWNER_APPOINTMENT,
+            "execution_status": "NOT_STARTED",
             "real_world_authorization": False,
+            "clinical_validation_authorized": False,
+            "production_authorized": False,
+            "runtime_authority": "NONE",
             "evidence_class": "COORDINATION_ARTIFACT_UNVERIFIED",
             "clinical_governance_required": True,
         }

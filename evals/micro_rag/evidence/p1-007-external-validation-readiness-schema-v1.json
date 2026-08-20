@@ -1,0 +1,143 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/p1-007-external-validation-readiness-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "blocker_policy": {
+      "additionalProperties": false,
+      "required": [
+        "blocked_count_visible",
+        "reason_required",
+        "max_reason_length",
+        "note"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "const": "CONTROLLED_PROTOTYPE_SOFTWARE_EVIDENCE_ONLY_NO_EXTERNAL_AUTHORIZATION"
+    },
+    "clinical_validation_authorized": {
+      "const": false
+    },
+    "coordination_evidence_only": {
+      "const": true
+    },
+    "evidence_class": {
+      "const": "COORDINATION_ARTIFACT_UNVERIFIED"
+    },
+    "external_execution_status": {
+      "const": "NOT_STARTED"
+    },
+    "external_owner_appointment": {
+      "type": "string"
+    },
+    "gate_count": {
+      "const": 10
+    },
+    "gate_status_counts": {
+      "const": {
+        "BLOCKED": 0,
+        "EVIDENCE_SUBMITTED": 0,
+        "OPEN": 10
+      }
+    },
+    "gates": {
+      "additionalProperties": false,
+      "required": [
+        "GV-01",
+        "GV-02",
+        "GV-03",
+        "GV-04",
+        "GV-05",
+        "GV-06",
+        "GV-07",
+        "GV-08",
+        "GV-09",
+        "GV-10"
+      ],
+      "type": "object"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "package_ref": {
+      "type": "string"
+    },
+    "pilot_gate_status": {
+      "const": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+    },
+    "production_authorized": {
+      "const": false
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "real_world_authorization": {
+      "const": false
+    },
+    "reopen_policy": {
+      "additionalProperties": false,
+      "required": [
+        "blocked_gate_submission",
+        "reopen_requires_reason",
+        "reopen_clears_blocker"
+      ],
+      "type": "object"
+    },
+    "rollback_ref": {
+      "type": "string"
+    },
+    "runtime_authority": {
+      "const": "NONE"
+    },
+    "schema_version": {
+      "const": "p1-007-external-validation-readiness-v1"
+    },
+    "scope_ref": {
+      "type": "string"
+    },
+    "status": {
+      "const": "COORDINATION_SOFTWARE_READY"
+    },
+    "window_ref": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "status",
+    "gate_count",
+    "gate_status_counts",
+    "external_execution_status",
+    "external_owner_appointment",
+    "real_world_authorization",
+    "clinical_validation_authorized",
+    "production_authorized",
+    "runtime_authority",
+    "pilot_gate_status",
+    "authorization_boundary",
+    "coordination_evidence_only",
+    "evidence_class",
+    "claim_boundary",
+    "reopen_policy",
+    "blocker_policy",
+    "gates",
+    "package_ref",
+    "scope_ref",
+    "window_ref",
+    "rollback_ref",
+    "independent_verification_required"
+  ],
+  "title": "Smart Ward Hub P1-007 External Validation Readiness",
+  "type": "object"
+}

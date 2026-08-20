@@ -36,6 +36,7 @@ TESTS = [
     "test_p1_006_phase_end_hardening_gate.py",
     "test_external_validation_package.py",
     "test_external_validation_gate_matrix.py",
+    "test_p1_007_phase_end_hardening_gate.py",
     "test_gv10_evidence.py",
     "test_independent_review_operations.py",
     "test_persistence_contract.py",

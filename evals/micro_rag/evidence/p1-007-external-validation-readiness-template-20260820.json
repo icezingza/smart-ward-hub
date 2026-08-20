@@ -1,0 +1,176 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "blocker_policy": {
+    "blocked_count_visible": true,
+    "max_reason_length": 240,
+    "note": "A blocked gate cannot accept new evidence until an explicit reopen action with a reason is recorded.",
+    "reason_required": true
+  },
+  "claim_boundary": "CONTROLLED_PROTOTYPE_SOFTWARE_EVIDENCE_ONLY_NO_EXTERNAL_AUTHORIZATION",
+  "clinical_validation_authorized": false,
+  "coordination_evidence_only": true,
+  "evidence_class": "COORDINATION_ARTIFACT_UNVERIFIED",
+  "external_execution_status": "NOT_STARTED",
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "gate_count": 10,
+  "gate_status_counts": {
+    "BLOCKED": 0,
+    "EVIDENCE_SUBMITTED": 0,
+    "OPEN": 10
+  },
+  "gates": {
+    "GV-01": {
+      "blocker": null,
+      "domain": "clinical_governance",
+      "evidence_refs": [],
+      "owner_role": "clinical_owner",
+      "required_evidence": [
+        "approved_protocol",
+        "consent_or_waiver",
+        "signed_scope"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if clinical protocol, consent/waiver, signed scope or accountable clinical owner is missing."
+    },
+    "GV-02": {
+      "blocker": null,
+      "domain": "privacy_security",
+      "evidence_refs": [],
+      "owner_role": "privacy_security_reviewer",
+      "required_evidence": [
+        "zero_pii_review",
+        "retention_decision",
+        "access_control_review"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop on unresolved privacy leakage, retention ambiguity, unsafe access or export boundary."
+    },
+    "GV-03": {
+      "blocker": null,
+      "domain": "his_admission",
+      "evidence_refs": [],
+      "owner_role": "integration_owner",
+      "required_evidence": [
+        "real_his_transcript",
+        "fhir_ack_reconciliation",
+        "failure_recovery"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if real HIS acknowledgment, FHIR reconciliation or failure recovery is not evidenced."
+    },
+    "GV-04": {
+      "blocker": null,
+      "domain": "identity_transport",
+      "evidence_refs": [],
+      "owner_role": "security_owner",
+      "required_evidence": [
+        "real_oidc_validation",
+        "real_mtls_handshake",
+        "key_rotation_transcript"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if real OIDC/mTLS, key rotation or transport identity evidence is absent."
+    },
+    "GV-05": {
+      "blocker": null,
+      "domain": "fixed_hub_host",
+      "evidence_refs": [],
+      "owner_role": "host_operator",
+      "required_evidence": [
+        "acer_hardening_checklist",
+        "firewall_acl_evidence",
+        "service_recovery"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if Acer account, firewall/ACL, patch, disk, service or host recovery evidence is absent."
+    },
+    "GV-06": {
+      "blocker": null,
+      "domain": "hardware_recovery",
+      "evidence_refs": [],
+      "owner_role": "reliability_owner",
+      "required_evidence": [
+        "serial_loopback_s015",
+        "power_loss_drill",
+        "disk_full_drill"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if serial loopback, power-loss or disk-full evidence is absent or only simulated."
+    },
+    "GV-07": {
+      "blocker": null,
+      "domain": "forensic_anchor",
+      "evidence_refs": [],
+      "owner_role": "forensic_owner",
+      "required_evidence": [
+        "external_worm_receipt",
+        "trusted_timestamp",
+        "cross_boundary_verify"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if independent WORM receipt, trusted timestamp or cross-boundary verification is absent."
+    },
+    "GV-08": {
+      "blocker": null,
+      "domain": "device_trust",
+      "evidence_refs": [],
+      "owner_role": "security_owner",
+      "required_evidence": [
+        "manufacturer_provenance",
+        "hardware_key_custody",
+        "revocation_distribution"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if manufacturer provenance, hardware key custody or revocation distribution is absent."
+    },
+    "GV-09": {
+      "blocker": null,
+      "domain": "clinical_operations",
+      "evidence_refs": [],
+      "owner_role": "ward_manager",
+      "required_evidence": [
+        "staff_training",
+        "manual_fallback_sop",
+        "alarm_fatigue_review"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if staff training, manual fallback or alarm-fatigue review is incomplete."
+    },
+    "GV-10": {
+      "blocker": null,
+      "domain": "independent_review",
+      "evidence_refs": [],
+      "owner_role": "independent_reviewer",
+      "required_evidence": [
+        "analysis_plan",
+        "adjudication_plan",
+        "audit_export"
+      ],
+      "status": "OPEN",
+      "stop_condition": "Stop if analysis/adjudication plan or independent audit export is incomplete."
+    }
+  },
+  "independent_verification_required": true,
+  "package_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "project": "smart-ward-hub",
+  "real_world_authorization": false,
+  "reopen_policy": {
+    "blocked_gate_submission": "REJECT_UNTIL_REOPEN",
+    "reopen_clears_blocker": true,
+    "reopen_requires_reason": true
+  },
+  "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "runtime_authority": "NONE",
+  "schema_version": "p1-007-external-validation-readiness-v1",
+  "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "status": "COORDINATION_SOFTWARE_READY",
+  "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+}
