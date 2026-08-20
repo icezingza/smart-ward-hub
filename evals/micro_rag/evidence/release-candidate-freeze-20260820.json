@@ -776,8 +776,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "clinical_shadow_mode.py",
-      "sha256": "0cfc0dda076944078b42a3083e47f13753426a4a2b83d28f29933f451d07dd95",
-      "size_bytes": 12614
+      "sha256": "2962a5bc4385b77743efc8e5b18201f1c1f119ef9f014949d9cca6602575ad92",
+      "size_bytes": 12732
     },
     {
       "classification": "source_or_runtime_config",
@@ -1922,8 +1922,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p1_005_clinical_shadow_hardening.py",
-      "sha256": "d08e7bf0190616cc34bcf8795f1ee03a2ce06aed5c36a121b879d210ad500915",
-      "size_bytes": 7309
+      "sha256": "d50511296b1b4baf48dd0b1bfbf290646860473c714f94c55d9f7a94f29b84f5",
+      "size_bytes": 7433
     },
     {
       "classification": "source_or_runtime_config",
@@ -2112,14 +2112,14 @@
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T14:57:46.180510+00:00",
+  "freeze_created_at_utc": "2026-08-20T15:00:25.609090+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "27e4281d7af9e972aa58aa61ee4f0784e20b868c",
+  "origin_main_revision": "172de0c2b8770c67d1ac2fab86eb9c3c4f94b927",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "27e4281d7af9e972aa58aa61ee4f0784e20b868c"
+  "source_revision": "172de0c2b8770c67d1ac2fab86eb9c3c4f94b927"
 }
