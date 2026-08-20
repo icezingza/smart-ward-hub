@@ -1,0 +1,109 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": "CONTROLLED_PRODUCTION_PROTOTYPE_SOFTWARE_VERIFICATION_ONLY_CLINICAL_VALIDATION_PENDING",
+  "clinical_validation_authorized": false,
+  "dossier_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "evidence_class": "SOFTWARE_VERIFIED_EXTERNAL_REVIEW_PENDING",
+  "external_decision_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "external_review_status": "PENDING_EXTERNAL_REVIEW",
+  "external_review_status_counts": {
+    "PENDING_EXTERNAL_REVIEW": 7
+  },
+  "findings_export_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "independent_verification_required": true,
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "project": "smart-ward-hub",
+  "real_world_authorization": false,
+  "review_session_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "review_session_status": "SOFTWARE_DRY_RUN_VERIFIED",
+  "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+  "runtime_authority": "NONE",
+  "schema_version": "p1-008-independent-review-readiness-v1",
+  "software_evidence_only": true,
+  "software_track_status_counts": {
+    "SOFTWARE_VERIFIED": 7
+  },
+  "status": "SOFTWARE_REVIEW_READY",
+  "stop_rule": "Do not enable clinical validation, production, real-world runtime or pilot deployment from this software manifest; require external governance and independent review decision first.",
+  "track_count": 7,
+  "tracks": {
+    "IR-001": {
+      "domain": "session_lifecycle",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-session-lifecycle"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if session identity, timezone-aware lifecycle or OPEN/CLOSED transition validation is missing."
+    },
+    "IR-002": {
+      "domain": "evidence_binding",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-evidence-binding"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if evidence is duplicate, invalid, unverified or not bound to the accepted registry."
+    },
+    "IR-003": {
+      "domain": "finding_traceability",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-finding-traceability"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if a finding cannot trace to accepted evidence from the same external gate."
+    },
+    "IR-004": {
+      "domain": "severity_and_outcome",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-severity-outcome"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if severity/outcome values are outside the controlled vocabulary or the summary contains raw identity/contact/secret markers."
+    },
+    "IR-005": {
+      "domain": "post_close_mutation_lock",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-post-close-lock"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if any evidence or finding can mutate after the review session is closed."
+    },
+    "IR-006": {
+      "domain": "authorization_boundary",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-authorization-boundary"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if clinical, production or real-world authorization can be self-asserted by software."
+    },
+    "IR-007": {
+      "domain": "pilot_gate",
+      "external_evidence_refs": [],
+      "external_status": "PENDING_EXTERNAL_REVIEW",
+      "software_evidence_refs": [
+        "software-test:independent-review-pilot-gate"
+      ],
+      "software_status": "SOFTWARE_VERIFIED",
+      "stop_condition": "Stop if the pilot gate is not blocked pending an external authorization decision."
+    }
+  }
+}

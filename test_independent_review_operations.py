@@ -73,11 +73,10 @@ def run() -> None:
     expect_error(lambda: session.authorize_clinical_validation(), "clinical_authorization_requires_external_governance")
     expect_error(lambda: session.authorize_production(), "production_authorization_requires_external_governance")
     boundary = session.authorization_boundary()
-    assert boundary == {
-        "clinical_validation_authorized": False,
-        "production_authorized": False,
-        "real_world_authorization": False,
-    }
+    assert boundary["clinical_validation_authorized"] is False
+    assert boundary["production_authorized"] is False
+    assert boundary["real_world_authorization"] is False
+    assert boundary["pilot_gate_status"] == "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
     print("[P1-008] No-authorization boundary remains locked: PASSED")
 
     closed = session.close(closed_at_utc=TIMESTAMP)

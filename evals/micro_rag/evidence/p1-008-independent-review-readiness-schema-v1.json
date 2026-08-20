@@ -1,0 +1,221 @@
+{
+  "$id": "https://smart-ward-hub.invalid/schema/p1-008-independent-review-readiness-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization_boundary": {
+      "const": {
+        "clinical_validation_authorized": false,
+        "external_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "production_authorized": false,
+        "runtime_authority": "NONE"
+      }
+    },
+    "claim_boundary": {
+      "const": "CONTROLLED_PRODUCTION_PROTOTYPE_SOFTWARE_VERIFICATION_ONLY_CLINICAL_VALIDATION_PENDING"
+    },
+    "clinical_validation_authorized": {
+      "const": false
+    },
+    "dossier_ref": {
+      "type": "string"
+    },
+    "evidence_class": {
+      "const": "SOFTWARE_VERIFIED_EXTERNAL_REVIEW_PENDING"
+    },
+    "external_decision_ref": {
+      "type": "string"
+    },
+    "external_owner_appointment": {
+      "type": "string"
+    },
+    "external_review_status": {
+      "const": "PENDING_EXTERNAL_REVIEW"
+    },
+    "external_review_status_counts": {
+      "const": {
+        "PENDING_EXTERNAL_REVIEW": 7
+      }
+    },
+    "findings_export_ref": {
+      "type": "string"
+    },
+    "independent_verification_required": {
+      "const": true
+    },
+    "pilot_gate_status": {
+      "const": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+    },
+    "production_authorized": {
+      "const": false
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "real_world_authorization": {
+      "const": false
+    },
+    "review_session_ref": {
+      "type": "string"
+    },
+    "review_session_status": {
+      "const": "SOFTWARE_DRY_RUN_VERIFIED"
+    },
+    "rollback_ref": {
+      "type": "string"
+    },
+    "runtime_authority": {
+      "const": "NONE"
+    },
+    "schema_version": {
+      "const": "p1-008-independent-review-readiness-v1"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "software_track_status_counts": {
+      "const": {
+        "SOFTWARE_VERIFIED": 7
+      }
+    },
+    "status": {
+      "const": "SOFTWARE_REVIEW_READY"
+    },
+    "stop_rule": {
+      "type": "string"
+    },
+    "track_count": {
+      "const": 7
+    },
+    "tracks": {
+      "additionalProperties": false,
+      "properties": {
+        "IR-001": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        },
+        "IR-002": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        },
+        "IR-003": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        },
+        "IR-004": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        },
+        "IR-005": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        },
+        "IR-006": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        },
+        "IR-007": {
+          "additionalProperties": false,
+          "required": [
+            "domain",
+            "software_status",
+            "external_status",
+            "software_evidence_refs",
+            "external_evidence_refs",
+            "stop_condition"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "IR-001",
+        "IR-002",
+        "IR-003",
+        "IR-004",
+        "IR-005",
+        "IR-006",
+        "IR-007"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project",
+    "status",
+    "track_count",
+    "software_track_status_counts",
+    "external_review_status_counts",
+    "review_session_status",
+    "external_review_status",
+    "external_owner_appointment",
+    "real_world_authorization",
+    "clinical_validation_authorized",
+    "production_authorized",
+    "runtime_authority",
+    "pilot_gate_status",
+    "authorization_boundary",
+    "software_evidence_only",
+    "independent_verification_required",
+    "evidence_class",
+    "claim_boundary",
+    "tracks",
+    "review_session_ref",
+    "dossier_ref",
+    "findings_export_ref",
+    "external_decision_ref",
+    "rollback_ref",
+    "stop_rule"
+  ],
+  "title": "Smart Ward Hub P1-008 Independent Review Readiness",
+  "type": "object"
+}
