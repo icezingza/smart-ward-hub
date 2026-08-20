@@ -66,6 +66,8 @@ TESTS = [
     "evals/micro_rag/test_registry_index.py",
     "evals/micro_rag/test_registry_backed_evaluation.py",
     "test_p2_edge_iot_adapters.py",
+    "test_worker_control_plane.py",
+    "test_p2_005_worker_phase_end_hardening.py",
     "test_serial_framing.py",
     "test_network_pressure_simulation.py",
     "test_serial_bench_runner.py",
