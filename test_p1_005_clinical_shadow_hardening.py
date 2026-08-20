@@ -106,6 +106,7 @@ def test_policy_and_signal_adversarial() -> None:
     expect_shadow_error(lambda: controller.record_signal(build_signal(context="sec" + "ret=" + "value")), "raw_identity_marker_forbidden")
     expect_shadow_error(lambda: controller.record_signal(build_signal(patient_token="HN-2026-9999")), "opaque_patient_token_required")
     expect_shadow_error(lambda: controller.record_signal(build_signal(event_time=datetime(2026, 1, 1), received_at=datetime(2026, 1, 1, 0, 0, 1))), "event_time_must_be_timezone_aware")
+    expect_shadow_error(lambda: controller.record_signal(build_signal(signal_type=None)), "unsupported_shadow_signal_type")
     expect_shadow_error(lambda: controller.record_signal(build_signal()), "duplicate_shadow_alert_id") if controller.record_signal(build_signal()) is None else None
     print("[P1-005] Policy type/reference/activation and signal PII/time/replay mutations: PASSED")
 

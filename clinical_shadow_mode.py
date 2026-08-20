@@ -108,6 +108,8 @@ class ShadowSignal:
             issue = _timezone_aware(value, field_name)
             if issue:
                 raise ShadowModeError(issue)
+        if not isinstance(self.signal_type, str):
+            raise ShadowModeError("unsupported_shadow_signal_type")
         normalized = self.signal_type.strip().lower()
         if normalized not in SAFE_SIGNAL_TYPES:
             if any(term in normalized for term in DISALLOWED_DIAGNOSTIC_TERMS):
