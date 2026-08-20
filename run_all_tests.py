@@ -30,6 +30,7 @@ TESTS = [
     "test_p1_004_phase_end_hardening_gate.py",
     "test_file_anchor_store.py",
     "test_wave2_integration_forensic_phase_end_hardening.py",
+    "test_wave3_governance_host_clinical_phase_end_hardening.py",
     "test_clinical_shadow_mode.py",
     "test_clinical_shadow_mode_negative.py",
     "test_p1_005_phase_end_hardening_gate.py",

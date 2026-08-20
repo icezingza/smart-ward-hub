@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smart-ward-hub.invalid/schemas/wave3-governance-host-clinical-readiness-v1",
+  "title": "Smart Ward Hub Wave 3 Governance Host Clinical Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "status",
+    "execution_status",
+    "clinical_governance",
+    "host_validation",
+    "privacy_review",
+    "clinical_operations",
+    "clinical_validation",
+    "software_evidence_only",
+    "external_owner_appointment",
+    "authorization_boundary",
+    "tracks",
+    "common_controls",
+    "required_external_prerequisites",
+    "independent_verification_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "wave3-governance-host-clinical-readiness-v1"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "freeze_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "status": {
+      "const": "WAVE3_SOFTWARE_PREPARATION_READY"
+    },
+    "execution_status": {
+      "const": "NOT_STARTED"
+    },
+    "clinical_governance": {
+      "const": "PENDING"
+    },
+    "host_validation": {
+      "const": "UNVERIFIED"
+    },
+    "privacy_review": {
+      "const": "UNVERIFIED"
+    },
+    "clinical_operations": {
+      "const": "NOT_STARTED"
+    },
+    "clinical_validation": {
+      "const": "PENDING"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "external_owner_appointment": {
+      "const": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "authorization_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "external_authority",
+        "clinical_validation_authorized",
+        "production_authorized",
+        "runtime_authority",
+        "pilot_gate_status"
+      ],
+      "properties": {
+        "external_authority": {
+          "const": "NONE"
+        },
+        "clinical_validation_authorized": {
+          "const": false
+        },
+        "production_authorized": {
+          "const": false
+        },
+        "runtime_authority": {
+          "const": "NONE"
+        },
+        "pilot_gate_status": {
+          "const": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+        }
+      }
+    },
+    "tracks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "GV-02",
+        "GV-05",
+        "GV-09",
+        "GV-01"
+      ],
+      "properties": {
+        "GV-02": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate",
+            "title",
+            "software_state",
+            "external_required",
+            "evidence_refs",
+            "stop_conditions"
+          ],
+          "properties": {
+            "gate": {
+              "const": "GV-02"
+            },
+            "title": {
+              "type": "string"
+            },
+            "software_state": {
+              "type": "string"
+            },
+            "external_required": {
+              "const": true
+            },
+            "evidence_refs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "stop_conditions": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "GV-05": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate",
+            "title",
+            "software_state",
+            "external_required",
+            "evidence_refs",
+            "stop_conditions"
+          ],
+          "properties": {
+            "gate": {
+              "const": "GV-05"
+            },
+            "title": {
+              "type": "string"
+            },
+            "software_state": {
+              "type": "string"
+            },
+            "external_required": {
+              "const": true
+            },
+            "evidence_refs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "stop_conditions": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "GV-09": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate",
+            "title",
+            "software_state",
+            "external_required",
+            "evidence_refs",
+            "stop_conditions"
+          ],
+          "properties": {
+            "gate": {
+              "const": "GV-09"
+            },
+            "title": {
+              "type": "string"
+            },
+            "software_state": {
+              "type": "string"
+            },
+            "external_required": {
+              "const": true
+            },
+            "evidence_refs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "stop_conditions": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "GV-01": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate",
+            "title",
+            "software_state",
+            "external_required",
+            "evidence_refs",
+            "stop_conditions"
+          ],
+          "properties": {
+            "gate": {
+              "const": "GV-01"
+            },
+            "title": {
+              "type": "string"
+            },
+            "software_state": {
+              "type": "string"
+            },
+            "external_required": {
+              "const": true
+            },
+            "evidence_refs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "stop_conditions": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "common_controls": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "required_external_prerequisites": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "independent_verification_required": {
+      "const": true
+    }
+  }
+}

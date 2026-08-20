@@ -1,0 +1,121 @@
+{
+  "schema_version": "wave3-governance-host-clinical-readiness-v1",
+  "project": "smart-ward-hub",
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "status": "WAVE3_SOFTWARE_PREPARATION_READY",
+  "execution_status": "NOT_STARTED",
+  "clinical_governance": "PENDING",
+  "host_validation": "UNVERIFIED",
+  "privacy_review": "UNVERIFIED",
+  "clinical_operations": "NOT_STARTED",
+  "clinical_validation": "PENDING",
+  "software_evidence_only": true,
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "authorization_boundary": {
+    "external_authority": "NONE",
+    "clinical_validation_authorized": false,
+    "production_authorized": false,
+    "runtime_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+  },
+  "tracks": {
+    "GV-02": {
+      "gate": "GV-02",
+      "title": "Privacy and security review",
+      "software_state": "SOFTWARE_PRIVACY_BOUNDARY_VERIFIED",
+      "external_required": true,
+      "evidence_refs": {
+        "zero_pii_dataflow_review": "PENDING_EXTERNAL_APPOINTMENT",
+        "retention_rbac_decision": "PENDING_EXTERNAL_APPOINTMENT",
+        "screen_site_privacy_review": "PENDING_EXTERNAL_APPOINTMENT",
+        "incident_residual_risk_register": "PENDING_EXTERNAL_APPOINTMENT"
+      },
+      "stop_conditions": [
+        "Stop on raw identity, contact or secret leakage in flow, export, log or backup.",
+        "Stop if retention, RBAC, screen privacy or incident owner is unreviewed.",
+        "Stop if local redaction output is used to claim systemwide privacy compliance."
+      ]
+    },
+    "GV-05": {
+      "gate": "GV-05",
+      "title": "Acer host hardening",
+      "software_state": "HOST_SOFTWARE_PREPARATION_VERIFIED",
+      "external_required": true,
+      "evidence_refs": {
+        "windows_identity_acl_transcript": "PENDING_EXTERNAL_APPOINTMENT",
+        "encryption_firewall_patch_record": "PENDING_EXTERNAL_APPOINTMENT",
+        "power_recovery_transcript": "PENDING_EXTERNAL_APPOINTMENT",
+        "privacy_kiosk_monitoring_record": "PENDING_EXTERNAL_APPOINTMENT"
+      },
+      "stop_conditions": [
+        "Stop on source-tree runtime path, exposed docs, non-loopback bind or embedded credentials.",
+        "Stop if encryption, ACL, firewall, patch, time or restore evidence is missing.",
+        "Stop if rollback version, power behavior, kiosk privacy or monitoring owner is unknown."
+      ]
+    },
+    "GV-09": {
+      "gate": "GV-09",
+      "title": "Clinical operations",
+      "software_state": "CLINICAL_OPERATIONS_SOFTWARE_CONTRACT_VERIFIED",
+      "external_required": true,
+      "evidence_refs": {
+        "staff_competency_record": "PENDING_EXTERNAL_APPOINTMENT",
+        "manual_fallback_sop_signoff": "PENDING_EXTERNAL_APPOINTMENT",
+        "alarm_escalation_fatigue_review": "PENDING_EXTERNAL_APPOINTMENT",
+        "downtime_walkthrough_stop_drill": "PENDING_EXTERNAL_APPOINTMENT"
+      },
+      "stop_conditions": [
+        "Stop if an untrained operator enters workflow or manual fallback is unsigned.",
+        "Stop on alert flood, missing escalation roster, unreviewed alarm fatigue or failed downtime drill.",
+        "Stop if clinical stop authority or outside-in/walk-round workflow is not approved."
+      ]
+    },
+    "GV-01": {
+      "gate": "GV-01",
+      "title": "Clinical governance",
+      "software_state": "CLINICAL_PREFLIGHT_CONTRACT_VERIFIED",
+      "external_required": true,
+      "evidence_refs": {
+        "approved_clinical_protocol": "PENDING_EXTERNAL_APPOINTMENT",
+        "consent_waiver_decision": "PENDING_EXTERNAL_APPOINTMENT",
+        "safety_hazard_human_factors_review": "PENDING_EXTERNAL_APPOINTMENT",
+        "committee_decision_record": "PENDING_EXTERNAL_APPOINTMENT"
+      },
+      "stop_conditions": [
+        "Stop if intended use, excluded use or safety thresholds are ambiguous.",
+        "Stop if protocol, consent/waiver, human-factors or adverse-event plan is not approved.",
+        "Stop if local preflight is used to claim clinical-ready, accuracy or authorization."
+      ]
+    }
+  },
+  "common_controls": {
+    "zero_pii_claim": "TESTED_MARKER_AND_FLOW_BOUNDARY_NOT_SYSTEMWIDE_PRIVACY_PROOF",
+    "host_claim": "SOFTWARE_CONFIGURATION_PREPARED_HOST_UNVERIFIED",
+    "clinical_claim": "WORKFLOW_AND_PREFLIGHT_CONTRACT_ONLY_NOT_CLINICAL_AUTHORIZATION",
+    "change_control": "EXTERNAL_APPROVAL_AND_ROLLBACK_REQUIRED",
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule": "Stop on raw identity/secret leakage, unsafe host exposure, missing restore or rollback, untrained clinical operation, absent manual fallback, unapproved clinical change or local-to-external claim escalation."
+  },
+  "required_external_prerequisites": [
+    "zero_pii_dataflow_review",
+    "retention_rbac_decision",
+    "screen_site_privacy_review",
+    "incident_residual_risk_register",
+    "windows_identity_acl_transcript",
+    "encryption_firewall_patch_record",
+    "power_recovery_transcript",
+    "privacy_kiosk_monitoring_record",
+    "staff_competency_record",
+    "manual_fallback_sop_signoff",
+    "alarm_escalation_fatigue_review",
+    "downtime_walkthrough_stop_drill",
+    "approved_clinical_protocol",
+    "consent_waiver_decision",
+    "safety_hazard_human_factors_review",
+    "committee_decision_record"
+  ],
+  "independent_verification_required": true
+}
