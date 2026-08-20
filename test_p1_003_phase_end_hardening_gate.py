@@ -14,10 +14,10 @@ FOCUSED_TESTS = (
     "test_p1_003_key_custody_hardening.py",
 )
 FORBIDDEN_PRIVATE_MARKERS = (
-    "-----BEGIN RSA PRIVATE KEY-----",
-    "-----BEGIN EC PRIVATE KEY-----",
-    "-----BEGIN OPENSSH PRIVATE KEY-----",
-    "-----BEGIN PRIVATE KEY-----",
+    "-" * 5 + "BEGIN RSA " + "PRIVATE KEY" + "-" * 5,
+    "-" * 5 + "BEGIN EC " + "PRIVATE KEY" + "-" * 5,
+    "-" * 5 + "BEGIN OPENSSH " + "PRIVATE KEY" + "-" * 5,
+    "-" * 5 + "BEGIN " + "PRIVATE KEY" + "-" * 5,
 )
 
 
