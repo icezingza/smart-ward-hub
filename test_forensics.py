@@ -76,6 +76,9 @@ def run() -> None:
         assert verification.status_code == 200
         assert verification.json()["integrity"] == "OK"
         assert verification.json()["last_hash"] == first_hash
+        assert verification.json()["external_anchor_verified"] is False
+        assert len(verification.json()["anchor_status"]) == 1
+        assert verification.json()["anchor_status"][0]["status"].startswith("LOCAL_ANCHOR_")
         print("[Test Verification] Step 4: Genesis Cryptographic Parameters checked (PASSED)")
 
         with SessionLocal() as db:

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smart-ward-hub.invalid/schemas/wave2-integration-forensic-readiness-v1",
+  "title": "Smart Ward Hub Wave 2 Integration and Forensic Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project",
+    "source_revision",
+    "freeze_manifest_sha256",
+    "status",
+    "execution_status",
+    "external_integration",
+    "clinical_validation",
+    "software_evidence_only",
+    "external_owner_appointment",
+    "authorization_boundary",
+    "tracks",
+    "common_controls",
+    "required_external_prerequisites",
+    "independent_verification_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "wave2-integration-forensic-readiness-v1"
+    },
+    "project": {
+      "const": "smart-ward-hub"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "freeze_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "status": {
+      "const": "WAVE2_SOFTWARE_PREPARATION_READY"
+    },
+    "execution_status": {
+      "const": "NOT_STARTED"
+    },
+    "external_integration": {
+      "const": "UNVERIFIED"
+    },
+    "clinical_validation": {
+      "const": "PENDING"
+    },
+    "software_evidence_only": {
+      "const": true
+    },
+    "external_owner_appointment": {
+      "const": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "authorization_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "external_authority",
+        "clinical_validation_authorized",
+        "production_authorized",
+        "runtime_authority",
+        "pilot_gate_status"
+      ],
+      "properties": {
+        "external_authority": {
+          "const": "NONE"
+        },
+        "clinical_validation_authorized": {
+          "const": false
+        },
+        "production_authorized": {
+          "const": false
+        },
+        "runtime_authority": {
+          "const": "NONE"
+        },
+        "pilot_gate_status": {
+          "const": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+        }
+      }
+    },
+    "tracks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "GV-03",
+        "GV-07"
+      ],
+      "properties": {
+        "GV-03": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate",
+            "title",
+            "software_state",
+            "external_required",
+            "evidence_refs",
+            "stop_conditions"
+          ]
+        },
+        "GV-07": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate",
+            "title",
+            "software_state",
+            "external_required",
+            "evidence_refs",
+            "stop_conditions"
+          ]
+        }
+      }
+    },
+    "common_controls": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "required_external_prerequisites": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true
+    },
+    "independent_verification_required": {
+      "const": true
+    }
+  }
+}

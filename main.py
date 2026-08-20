@@ -1916,19 +1916,69 @@ def freeze_forensic_package(
     db.add(package)
     db.commit()
     db.refresh(package)
-    anchored = ANCHOR_STORE.anchor(
-        block_hash=package.block_hash,
-        chain_tip=package.block_hash,
-        package_id=package.id,
-    )
+    anchor_receipt = None
+    anchor_with_receipt = getattr(ANCHOR_STORE, "anchor_with_receipt", None)
+    if callable(anchor_with_receipt):
+        anchor_receipt = anchor_with_receipt(
+            block_hash=package.block_hash,
+            chain_tip=package.block_hash,
+            package_id=package.id,
+        )
+        anchored = anchor_receipt is not None
+    else:
+        anchored = ANCHOR_STORE.anchor(
+            block_hash=package.block_hash,
+            chain_tip=package.block_hash,
+            package_id=package.id,
+        )
     AUDIT_SINK.record(
         "forensics.freeze",
-        "anchored" if anchored else "local_only",
+        "local_anchor_recorded" if anchored else "local_anchor_unavailable",
         resource_type="forensic_package",
         resource_id=str(package.id),
-        details={"block_hash": package.block_hash, "anchor_configured": anchored},
+        details={
+            "block_hash": package.block_hash,
+            "local_anchor_recorded": anchored,
+            "anchor_evidence_class": anchor_receipt.get("evidence_class") if isinstance(anchor_receipt, dict) else "LOCAL_TAMPER_EVIDENT_UNVERIFIED",
+            "external_anchor_verified": False,
+        },
     )
     return package
+
+
+def _local_anchor_status(*, package_id: int, block_hash: str, chain_tip: str) -> dict[str, Any]:
+    """Report local anchor readback separately; never promote it to external proof."""
+    base = {
+        "evidence_class": "LOCAL_TAMPER_EVIDENT_UNVERIFIED",
+        "external_anchor_verified": False,
+    }
+    reader = getattr(ANCHOR_STORE, "read_records", None)
+    verifier = getattr(ANCHOR_STORE, "verify_receipt", None)
+    if not callable(reader) or not callable(verifier):
+        return {**base, "status": "LOCAL_ANCHOR_READBACK_UNAVAILABLE"}
+    try:
+        records = reader()
+    except Exception:
+        return {**base, "status": "LOCAL_ANCHOR_READBACK_FAILED"}
+    matches = [
+        record for record in records
+        if isinstance(record, dict)
+        and record.get("package_id") == package_id
+        and record.get("block_hash") == block_hash
+        and record.get("chain_tip") == chain_tip
+    ]
+    if not matches:
+        return {**base, "status": "LOCAL_ANCHOR_MISSING"}
+    receipt = matches[-1]
+    try:
+        verified = verifier(receipt) is True
+    except Exception:
+        verified = False
+    return {
+        **base,
+        "status": "LOCAL_ANCHOR_READBACK_VERIFIED" if verified else "LOCAL_ANCHOR_READBACK_FAILED",
+        "anchor_id": receipt.get("anchor_id"),
+    }
 
 
 @app.get("/api/v1/forensics/verify")
@@ -1957,6 +2007,14 @@ def verify_forensic_chain(
                 "detail": "Forensic hash chain verification failed.",
             }
         previous_hash = package.block_hash
+    anchor_statuses = [
+        _local_anchor_status(
+            package_id=package.id,
+            block_hash=package.block_hash,
+            chain_tip=package.block_hash,
+        )
+        for package in packages
+    ]
     AUDIT_SINK.record(
         "forensics.verify",
         "success",
@@ -1969,6 +2027,8 @@ def verify_forensic_chain(
         "integrity": "OK",
         "package_count": len(packages),
         "last_hash": previous_hash if packages else GENESIS_HASH,
+        "anchor_status": anchor_statuses,
+        "external_anchor_verified": False,
     }
 
 

@@ -1,0 +1,76 @@
+{
+  "schema_version": "wave2-integration-forensic-readiness-v1",
+  "project": "smart-ward-hub",
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "status": "WAVE2_SOFTWARE_PREPARATION_READY",
+  "execution_status": "NOT_STARTED",
+  "external_integration": "UNVERIFIED",
+  "clinical_validation": "PENDING",
+  "software_evidence_only": true,
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "authorization_boundary": {
+    "external_authority": "NONE",
+    "clinical_validation_authorized": false,
+    "production_authorized": false,
+    "runtime_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+  },
+  "tracks": {
+    "GV-03": {
+      "gate": "GV-03",
+      "title": "HIS/FHIR integration boundary",
+      "software_state": "SOFTWARE_CONTRACT_VERIFIED",
+      "external_required": true,
+      "evidence_refs": {
+        "real_his_transcript": "PENDING_EXTERNAL_APPOINTMENT",
+        "fhir_ack_reconciliation": "PENDING_EXTERNAL_APPOINTMENT",
+        "failure_recovery_transcript": "PENDING_EXTERNAL_APPOINTMENT",
+        "hospital_fhir_profile_decision": "PENDING_EXTERNAL_APPOINTMENT"
+      },
+      "stop_conditions": [
+        "Stop if a raw HN/AN/MRN or direct patient identity crosses into Hub-facing payload.",
+        "Stop if a structured acknowledgment does not match bundle, receiving system, version and profile.",
+        "Stop if transport/authentication failure would purge aggregates or retry without a bounded policy."
+      ]
+    },
+    "GV-07": {
+      "gate": "GV-07",
+      "title": "External forensic anchor boundary",
+      "software_state": "LOCAL_ANCHOR_SOFTWARE_VERIFIED",
+      "external_required": true,
+      "evidence_refs": {
+        "external_worm_receipt": "PENDING_EXTERNAL_APPOINTMENT",
+        "trusted_timestamp": "PENDING_EXTERNAL_APPOINTMENT",
+        "retention_legal_hold": "PENDING_EXTERNAL_APPOINTMENT",
+        "cross_boundary_verification": "PENDING_EXTERNAL_APPOINTMENT"
+      },
+      "stop_conditions": [
+        "Stop if a local receipt is labeled external WORM, trusted timestamp or tamper-proof evidence.",
+        "Stop if an external receipt provider/package/hash/idempotency field mismatches or readback fails.",
+        "Stop if retention, custody, trusted time or cross-boundary verification is asserted without external evidence."
+      ]
+    }
+  },
+  "common_controls": {
+    "raw_identity_boundary": "RAW_HIS_REFERENCE_GATEWAY_ONLY_OPAQUE_TOKEN_IN_HUB",
+    "ack_purge_rule": "STRUCTURED_ACK_MATCH_EXACT_SCOPE_ONLY",
+    "local_anchor_claim": "LOCAL_TAMPER_EVIDENT_ONLY_NOT_EXTERNAL_WORM",
+    "external_receipt_required": true,
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule": "Stop on raw identity crossing, purge without structured matching acknowledgement, local-to-external claim escalation, receipt mutation, unbounded retry or missing independent verification."
+  },
+  "required_external_prerequisites": [
+    "real_his_transcript",
+    "fhir_ack_reconciliation",
+    "failure_recovery_transcript",
+    "hospital_fhir_profile_decision",
+    "external_worm_receipt",
+    "trusted_timestamp",
+    "retention_legal_hold",
+    "cross_boundary_verification"
+  ],
+  "independent_verification_required": true
+}
