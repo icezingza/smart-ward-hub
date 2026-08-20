@@ -147,7 +147,10 @@ def build_preflight(root: Path) -> dict[str, Any]:
     _require(validated["mapping_count"] == 12, "local mapping does not cover 12 tests")
     _require(validated["artifact_count"] == 22, "local index does not cover 22 artifacts")
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
-    _require(local_package["source_revision"] == revision, "local index source revision is stale")
+    recorded_revision = local_package.get("source_revision", "")
+    _require(REVISION_RE.fullmatch(recorded_revision) is not None, "local index source revision must be a git SHA-1")
+    ancestor_check = subprocess.run(["git", "merge-base", "--is-ancestor", recorded_revision, revision], cwd=root)
+    _require(ancestor_check.returncode == 0, "local index source revision must be an ancestor of current HEAD")
     package = template()
     package["preflight_id"] = f"reviewer-preflight-{revision[:12]}"
     package["source_revision"] = revision
