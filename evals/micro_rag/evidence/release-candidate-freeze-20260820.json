@@ -620,8 +620,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "10245c3a6944c52e1c4ceb80db66563bab5ef6cbdb4240e32a9ad1af318f1f06",
-      "size_bytes": 29944
+      "sha256": "bb0cdc92b02ed234127d886d38a348d9ad974fcba05468a0cb4837495bbbdd0d",
+      "size_bytes": 30949
     },
     {
       "classification": "contract_or_governance_document",
@@ -730,6 +730,12 @@
       "path": "WAVE_1_TECHNICAL_VALIDATION_PACKAGE_20260820.md",
       "sha256": "cc915d23c5ae286dcae478ccbf22bf4b1c05795229c731280ca3c4bc3be43cb9",
       "size_bytes": 7950
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_2_INTEGRATION_FORENSIC_READINESS_REPORT_20260821.md",
+      "sha256": "d1d97794daf0603b0b4ae7fef86a243a0e3f599f3b89cae0755f0b2b4fe27f54",
+      "size_bytes": 5632
     },
     {
       "classification": "contract_or_governance_document",
@@ -1207,6 +1213,18 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave2-integration-forensic-readiness-schema-v1.json",
+      "sha256": "1794a2841ce29c1af3fe9d42ef749c3322736c3e72e56ac605ab721c50dfaef8",
+      "size_bytes": 3202
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave2-integration-forensic-readiness-template-20260821.json",
+      "sha256": "a8129ce0ec72cb7e0fac67f7c4e6ba858bb1412386ad8df0b648d9e166ef1c8e",
+      "size_bytes": 3441
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/fixtures.json",
       "sha256": "b6709ce3d664024c3ea6d86c656d1636d4aaec54b45ef73214bb469fcd68add0",
       "size_bytes": 3827
@@ -1312,6 +1330,12 @@
       "path": "export_wave1_software_preparation.py",
       "sha256": "d8371b5b46fe78fcfafb1df9d8293de35c987c37850200018799e0bc210c5d81",
       "size_bytes": 3068
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave2_integration_forensic_readiness.py",
+      "sha256": "82dd5f7798a2ff023d7bca6b1a3327959a6c8df0e92ab6766ea7456ce41b0b12",
+      "size_bytes": 4036
     },
     {
       "classification": "source_or_runtime_config",
@@ -1472,8 +1496,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "main.py",
-      "sha256": "66358535217d598cc0d084aa49d13a362ab2d14e39e2ac60be474f3e6abf8377",
-      "size_bytes": 98763
+      "sha256": "553a3631eb4fd3748ffdc28ca225ddc1ae08aea8bd706b61fdc9602532dc8498",
+      "size_bytes": 101036
     },
     {
       "classification": "contract_or_governance_document",
@@ -1754,8 +1778,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "143ebe439c99ed48b2fb7f8b45f783fcac2830d7b621c13541a8d0c6616006e1",
-      "size_bytes": 3440
+      "sha256": "bf7e4e67794478277575a46f5ece3355f8b1ced901c7468664bdc7460af6678e",
+      "size_bytes": 3502
     },
     {
       "classification": "source_or_runtime_config",
@@ -1814,8 +1838,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "1daca79c6422c5ba2406f7a8cc1e57b87cb2fdc23cda12825b95ac45152af8ef",
-      "size_bytes": 30883
+      "sha256": "70eece9eddcd2f07d19ec6099a69a7e2685bf229d6a362fb24bb7675949677e7",
+      "size_bytes": 31786
     },
     {
       "classification": "source_or_runtime_config",
@@ -1928,8 +1952,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_forensics.py",
-      "sha256": "97c89faccd50e39bf10f2b94248d38dda785a7d509e257da7403766281018b27",
-      "size_bytes": 3199
+      "sha256": "6a18cf383dcf76fe7aea7b9b7fb4a02a08624dcec1b6985c5b5cdbaf9fa21978",
+      "size_bytes": 3426
     },
     {
       "classification": "source_or_runtime_config",
@@ -2227,6 +2251,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_wave2_integration_forensic_hardening.py",
+      "sha256": "15e536a3b11f41188b169d1558239a93a55c7a17063ae040d4668c003ae2decd",
+      "size_bytes": 4975
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave2_integration_forensic_phase_end_hardening.py",
+      "sha256": "18b9c45f121078c09ffd24ee77b40989f582d18544f531fde2a2d54cf2ec563c",
+      "size_bytes": 3383
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_wave_e_evidence.py",
       "sha256": "438b72ea7b748a5fac4d8d26b0efb1f447f35925df53f32646c16d2fc76a7a08",
       "size_bytes": 11821
@@ -2275,19 +2311,25 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "wave2_integration_forensic_readiness.py",
+      "sha256": "f2f85ff48faa31af679e8c2e9d3be0a36a3c23d2ae6fcc298ffcf006c81fdefa",
+      "size_bytes": 11485
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "wave_e_evidence_validation_runner.py",
       "sha256": "e829da3f584217269e8ecca7b58a5b7f79fba53cf2048a8ce5defca1ef3167f5",
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T18:56:54.799025+00:00",
+  "freeze_created_at_utc": "2026-08-20T19:44:05.600184+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "ba17a06e1f655601bd831d729b8e3e4f9b1a0c5f",
+  "origin_main_revision": "2f87923557282a196aaf8bc828246d62f4d22e41",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "ba17a06e1f655601bd831d729b8e3e4f9b1a0c5f"
+  "source_revision": "2f87923557282a196aaf8bc828246d62f4d22e41"
 }
