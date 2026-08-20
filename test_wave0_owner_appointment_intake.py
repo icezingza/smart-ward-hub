@@ -13,7 +13,12 @@ SCHEMA_PATH = ROOT / "evals/micro_rag/evidence/wave0-owner-appointment-intake-sc
 
 def test_blank_safe_template():
     result = validate_owner_appointment_intake(template(), template_only=True)
-    assert result == {"valid": True, "mode": "TEMPLATE_ONLY", "execution_ready": False}
+    assert result == {
+        "valid": True,
+        "mode": "TEMPLATE_ONLY",
+        "execution_ready": False,
+        "owner_appointment_ready": False,
+    }
 
 
 def test_template_rejects_unknown_field():
