@@ -32,7 +32,7 @@
 | P1-001 | Define encrypted backup/restore and retention | Reliability operator | Backup skill overlay | Strict manifest schema, size/hash/integrity checks, isolated successful restore transcript, approved encryption/destination/retention/RPO/RTO | In Progress |
 | P1-002 | Harden host and least-privilege deployment | Host operator + security auditor | P0 hardware/network observations | Strict 13-control software-preparation contract, target-host OS/firewall/account/patch/disk/service evidence and external readiness decision | In Progress |
 | P1-003 | Define Device Trust key custody/provisioning | Security auditor + registry manager | Device Trust baseline | KT-001–KT-007 software-preparation contract, adversarial lifecycle gate, manufacturer CA/HSM/secure-element or approved alternative design, rotation and lost-device drill | In Progress |
-| P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | Independent append-only/WORM verification and retention transcript | In Progress |
+| P1-004 | Define external forensic anchor adapter | Integration engineer + security auditor | Local forensic chain | AC-001–AC-007 software-preparation contract, adversarial/failure-injection gate, independent append-only/WORM verification and retention transcript | In Progress |
 | P1-005 | Approve clinical shadow-mode protocol | Clinical reviewer | `CLINICAL_SAFETY_SHADOW_MODE.md` | Human-factors review, stop conditions, alarm-fatigue review and sign-off record | In Progress |
 | P1-006 | Prepare clinical validation readiness package | Clinical reviewer + security auditor | P1-005 shadow-mode review, protocol and safety gates | Intended/excluded use, consent/waiver, owners, fallback, rollback, independent review and preflight evidence | In Progress |
 | P1-007 | Coordinate external validation and pilot readiness | Integration owner + clinical governance coordinator | P1-001–P1-006 evidence register | Ten named gates, owner assignments, evidence refs, blocker reasons and no-authorization boundary | In Progress |
@@ -67,7 +67,7 @@
 
 ### P1-004 external anchor status note
 
-`external_anchor.py` defines an independent-provider adapter boundary with request/receipt identity checks, deterministic idempotency, fail-closed client configuration and explicit `EXTERNAL_PROVIDER_RECEIPT_UNVERIFIED` evidence class. `test_external_anchor_contract.py` and `test_external_anchor_fault_injection.py` pass accepted receipt, replay, deletion refusal, tamper detection and receipt mutation scenarios. The provider is a software stub; external append-only/WORM service, authenticated transport, trusted timestamp, retention and cross-boundary verification remain open.
+`external_anchor.py` defines an independent-provider adapter boundary with strict provider identity, request/receipt binding, deterministic idempotency, fail-closed publish/verify outage handling and explicit `EXTERNAL_PROVIDER_RECEIPT_UNVERIFIED` evidence class. `p1_004_external_anchor_readiness.py` and its template/schema define AC-001–AC-007 as software-preparation tracks with all external evidence pending. The phase-end gate adds anchor/timestamp/provider mutations, type confusion, digest boundary, replay, delete refusal, provider-record tamper, false verification and outage cases. The provider is a software stub; external append-only/WORM service, authenticated transport, trusted timestamp, retention and cross-boundary verification remain open.
 
 ### P1 Device Trust status note
 

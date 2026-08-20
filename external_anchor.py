@@ -53,7 +53,7 @@ class ExternalAnchorAdapter:
     """Fail-closed adapter boundary for an independently operated anchor service."""
 
     def __init__(self, client: ExternalAnchorClient | None, *, provider_id: str) -> None:
-        if not provider_id.strip() or provider_id.strip().lower() in {"local", "filesystem", "none"}:
+        if not isinstance(provider_id, str) or not provider_id.strip() or provider_id.strip().lower() in {"local", "filesystem", "none"}:
             raise ExternalAnchorError("independent_provider_id_required")
         self.client = client
         self.provider_id = provider_id.strip()
@@ -65,9 +65,16 @@ class ExternalAnchorAdapter:
         request = self._validate_request(block_hash=block_hash, chain_tip=chain_tip, package_id=package_id)
         if self.client is None:
             raise ExternalAnchorError("external_anchor_client_unconfigured")
-        receipt = self.client.publish(request)
+        try:
+            receipt = self.client.publish(request)
+        except Exception as exc:
+            raise ExternalAnchorError("external_anchor_publish_failed") from exc
         self._validate_receipt(request, receipt)
-        if not self.client.verify(receipt):
+        try:
+            verified = self.client.verify(receipt)
+        except Exception as exc:
+            raise ExternalAnchorError("external_receipt_verification_failed") from exc
+        if verified is not True:
             raise ExternalAnchorError("external_receipt_verification_failed")
         self.last_receipt = receipt
         return receipt
@@ -77,9 +84,18 @@ class ExternalAnchorAdapter:
         return True
 
     def verify_receipt(self, receipt: AnchorReceipt) -> bool:
-        if self.client is None:
+        if self.client is None or not isinstance(receipt, AnchorReceipt):
             return False
-        return self.client.verify(receipt)
+        try:
+            request = self._validate_request(
+                block_hash=receipt.block_hash,
+                chain_tip=receipt.chain_tip,
+                package_id=receipt.package_id,
+            )
+            self._validate_receipt(request, receipt)
+            return self.client.verify(receipt) is True
+        except (ExternalAnchorError, Exception):
+            return False
 
     @staticmethod
     def _validate_request(*, block_hash: str, chain_tip: str, package_id: int) -> AnchorRequest:
@@ -93,6 +109,16 @@ class ExternalAnchorAdapter:
 
     def _validate_receipt(self, request: AnchorRequest, receipt: AnchorReceipt) -> None:
         if not isinstance(receipt, AnchorReceipt):
+            raise ExternalAnchorError("invalid_external_receipt")
+        if not isinstance(receipt.anchor_id, str) or not receipt.anchor_id.strip():
+            raise ExternalAnchorError("invalid_external_receipt")
+        if not isinstance(receipt.accepted_at_utc, str):
+            raise ExternalAnchorError("invalid_external_receipt")
+        try:
+            accepted_at = datetime.fromisoformat(receipt.accepted_at_utc.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ExternalAnchorError("invalid_external_receipt") from exc
+        if accepted_at.tzinfo is None:
             raise ExternalAnchorError("invalid_external_receipt")
         if receipt.provider_id != self.provider_id:
             raise ExternalAnchorError("receipt_provider_mismatch")

@@ -1,0 +1,102 @@
+{
+  "anchor_execution": "NOT_STARTED",
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_validation": "PENDING",
+  "common_controls": {
+    "delete_refusal_required": true,
+    "evidence_class": "EXTERNAL_PROVIDER_RECEIPT_UNVERIFIED",
+    "idempotency_formula": "sha256(package_id|block_hash|chain_tip)",
+    "provider_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "receipt_verification_required": true,
+    "retention_and_access": "EXTERNAL_PENDING",
+    "rollback_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+    "stop_rule": "Stop on provider identity mismatch, receipt mutation, idempotency/replay failure, delete acceptance, verification/readback failure, unbounded retry or any local-to-external claim escalation.",
+    "trusted_time": "EXTERNAL_PENDING",
+    "window_ref": "PENDING_EXTERNAL_APPOINTMENT"
+  },
+  "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+  "external_worm_verified": false,
+  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "independent_provider_validation": "UNVERIFIED",
+  "independent_verification_required": true,
+  "local_anchor_claim": "TAMPER_EVIDENT_WITHIN_EDGE_TRUST_BOUNDARY",
+  "package_id": "PENDING_EXTERNAL_APPOINTMENT",
+  "project": "smart-ward-hub",
+  "schema_version": "p1-004-external-anchor-readiness-v1",
+  "software_evidence_only": true,
+  "software_provider_identity": "software-anchor-stub",
+  "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
+  "status": "EXTERNAL_ANCHOR_SOFTWARE_PREPARATION_READY",
+  "tracks": {
+    "AC-001": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "provider_identity_and_service_ownership_record",
+      "external_required": true,
+      "required_state": "non_local_provider_id_explicitly_bound",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if provider identity is local/filesystem/none, unowned or mismatched with client identity.",
+      "title": "independent provider identity"
+    },
+    "AC-002": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "redacted_request_receipt_transcript",
+      "external_required": true,
+      "required_state": "package_block_chain_and_receipt_fields_match",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if any request/receipt package, block, chain, provider or status field mismatches.",
+      "title": "request receipt binding"
+    },
+    "AC-003": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "duplicate_replay_transcript",
+      "external_required": true,
+      "required_state": "deterministic_key_and_single_receipt_per_request",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if idempotency key is unstable, duplicate publish creates a second receipt or replay changes receipt identity.",
+      "title": "stable idempotency and replay"
+    },
+    "AC-004": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "retention_immutability_and_delete_refusal_record",
+      "external_required": true,
+      "required_state": "provider_record_delete_is_rejected",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if a provider record can be deleted or retention immutability is only asserted locally.",
+      "title": "append-only delete refusal"
+    },
+    "AC-005": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "independent_readback_and_receipt_verification",
+      "external_required": true,
+      "required_state": "provider_verification_required_before_success",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if receipt verification/readback is skipped, malformed or performed only inside the same trust boundary.",
+      "title": "receipt verification and readback"
+    },
+    "AC-006": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "outage_retry_duplicate_and_recovery_transcript",
+      "external_required": true,
+      "required_state": "rejected_mutation_outage_and_malformed_receipt_fail_closed",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop on provider outage, rejected/mutated receipt, retry ambiguity or unbounded retry behavior.",
+      "title": "failure and retry boundary"
+    },
+    "AC-007": {
+      "evidence_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "evidence_required": "external_worm_trusted_time_retention_and_custody_record",
+      "external_required": true,
+      "required_state": "trusted_time_retention_access_and_external_custody_are_not_local_claims",
+      "status": "SOFTWARE_PASS_EXTERNAL_PENDING",
+      "stop_condition": "Stop if local stub evidence is labeled external WORM, trusted-time, tamper-proof or production evidence.",
+      "title": "external trust boundary"
+    }
+  }
+}

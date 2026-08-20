@@ -27,6 +27,7 @@ TESTS = [
     "test_p1_003_phase_end_hardening_gate.py",
     "test_external_anchor_contract.py",
     "test_external_anchor_fault_injection.py",
+    "test_p1_004_phase_end_hardening_gate.py",
     "test_file_anchor_store.py",
     "test_clinical_shadow_mode.py",
     "test_clinical_shadow_mode_negative.py",
