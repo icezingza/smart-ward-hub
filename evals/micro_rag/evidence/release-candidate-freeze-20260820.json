@@ -620,8 +620,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "bb0cdc92b02ed234127d886d38a348d9ad974fcba05468a0cb4837495bbbdd0d",
-      "size_bytes": 30949
+      "sha256": "3e864fea741f2a7233a1cb5042426cf95308958ba105b718de20a4d8112c3202",
+      "size_bytes": 31816
     },
     {
       "classification": "contract_or_governance_document",
@@ -736,6 +736,18 @@
       "path": "WAVE_2_INTEGRATION_FORENSIC_READINESS_REPORT_20260821.md",
       "sha256": "d1d97794daf0603b0b4ae7fef86a243a0e3f599f3b89cae0755f0b2b4fe27f54",
       "size_bytes": 5632
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_3_BASELINE_GAP_ANALYSIS_20260821.md",
+      "sha256": "b9b2054f93ed5c1367b64e719f61c113aafb7e719e76ad33fc6080d4a2526fd3",
+      "size_bytes": 5522
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE_3_GOVERNANCE_HOST_CLINICAL_READINESS_REPORT_20260821.md",
+      "sha256": "abd1c05776d01a55b9085fe1e6e49592b56e765bce3d4d1a15695a92174fc429",
+      "size_bytes": 5762
     },
     {
       "classification": "contract_or_governance_document",
@@ -1225,6 +1237,18 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave3-governance-host-clinical-readiness-schema-v1.json",
+      "sha256": "663e76c48c879e1b122f84e71ae41650421e6d804bb8ac8c335621096d0e7083",
+      "size_bytes": 6864
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave3-governance-host-clinical-readiness-template-20260821.json",
+      "sha256": "6b49b969d897c848fbe007331250181da362068434e750076f818a26dc7e87e9",
+      "size_bytes": 5528
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/fixtures.json",
       "sha256": "b6709ce3d664024c3ea6d86c656d1636d4aaec54b45ef73214bb469fcd68add0",
       "size_bytes": 3827
@@ -1336,6 +1360,12 @@
       "path": "export_wave2_integration_forensic_readiness.py",
       "sha256": "82dd5f7798a2ff023d7bca6b1a3327959a6c8df0e92ab6766ea7456ce41b0b12",
       "size_bytes": 4036
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave3_governance_host_clinical_readiness.py",
+      "sha256": "33862375547b1bb6505f124b115ef7dbeeaf07c12231330d9515eab7fcb056f7",
+      "size_bytes": 4361
     },
     {
       "classification": "source_or_runtime_config",
@@ -1778,8 +1808,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "bf7e4e67794478277575a46f5ece3355f8b1ced901c7468664bdc7460af6678e",
-      "size_bytes": 3502
+      "sha256": "408cb48bebede6ea985254bca22c40fca2a760af91c70f6392bb52fc62815c13",
+      "size_bytes": 3568
     },
     {
       "classification": "source_or_runtime_config",
@@ -1838,8 +1868,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "70eece9eddcd2f07d19ec6099a69a7e2685bf229d6a362fb24bb7675949677e7",
-      "size_bytes": 31786
+      "sha256": "dae4ac5052f78a72e976378ff05da0abae336395ecba941067c843125a259d1e",
+      "size_bytes": 32605
     },
     {
       "classification": "source_or_runtime_config",
@@ -2263,6 +2293,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_wave3_governance_host_clinical_hardening.py",
+      "sha256": "67a2de86a558112c5131a92f741d42ad4e71c35da85409bd1e3ac0cb17eef7dc",
+      "size_bytes": 4216
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave3_governance_host_clinical_phase_end_hardening.py",
+      "sha256": "0f9a02202ffd42566291cd92487d3829b611370fa3826a64e5cceac35222af6e",
+      "size_bytes": 3150
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_wave_e_evidence.py",
       "sha256": "438b72ea7b748a5fac4d8d26b0efb1f447f35925df53f32646c16d2fc76a7a08",
       "size_bytes": 11821
@@ -2317,19 +2359,25 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "wave3_governance_host_clinical_readiness.py",
+      "sha256": "c5f61e3d0c11bce61dcc276fa8b746e558fd21e6ca2b78124b4ab3cb358ca6d9",
+      "size_bytes": 12523
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "wave_e_evidence_validation_runner.py",
       "sha256": "e829da3f584217269e8ecca7b58a5b7f79fba53cf2048a8ce5defca1ef3167f5",
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T19:44:05.600184+00:00",
+  "freeze_created_at_utc": "2026-08-20T20:11:17.355337+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "2f87923557282a196aaf8bc828246d62f4d22e41",
+  "origin_main_revision": "72f78ebcc19e88765e1b90d90f31f85481b0373a",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "2f87923557282a196aaf8bc828246d62f4d22e41"
+  "source_revision": "72f78ebcc19e88765e1b90d90f31f85481b0373a"
 }
