@@ -1,0 +1,61 @@
+{
+  "clinical_validation_authorized": false,
+  "external_authority": "NONE",
+  "external_verification_status": "PENDING_EXTERNAL_VERIFICATION",
+  "freeze": {
+    "change_policy": "APPEND_ONLY_NEW_VERSION_WITH_REASON",
+    "custody_ref": "local://wave0/freeze-simulation",
+    "external_authority": "NONE",
+    "external_verification_required": true,
+    "freeze_id": "wave0-governance-20260820-freeze-1",
+    "frozen_at": "2026-08-20 08:00:00+00:00",
+    "frozen_by_role": "evidence_custodian",
+    "manifest_sha256": "12d14f928a701bc2d1148cab48282c8cd71d305ff97624a8d580d5545c311b3a",
+    "manifest_version": 1,
+    "previous_manifest_sha256": null,
+    "scope_id": "wave0-scope-20260820",
+    "window_id": "wave0-window-20260820"
+  },
+  "generated_at": "2026-08-20T08:00:00+00:00",
+  "governance_state": "GOVERNANCE_PACKAGE_READY_FOR_EXTERNAL_REVIEW",
+  "next_external_actions": [
+    "appoint named external clinical owner and independent reviewer",
+    "approve and sign scope with expiry and rollback",
+    "approve isolated test window and stop authority",
+    "verify evidence custodian and freeze record outside this baseline"
+  ],
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "prefreeze_state": "READY_TO_FREEZE",
+  "production_authorized": false,
+  "report_type": "WAVE_0_GOVERNANCE_HANDOFF",
+  "required_roles": [
+    "clinical_owner",
+    "independent_reviewer",
+    "stop_authority",
+    "evidence_custodian"
+  ],
+  "role_count": 5,
+  "runtime_authority": "NONE",
+  "source_boundary": "repository software baseline and deterministic local simulation",
+  "validation": {
+    "checks": {
+      "appointments_schema": true,
+      "authorization_locked": true,
+      "external_verification_pending": true,
+      "freeze_schema": true,
+      "local_ready_for_external_review": true,
+      "package_timestamp": true,
+      "required_roles_present": true,
+      "scope_schema": true,
+      "stop_authority_schema": true,
+      "test_window_schema": true
+    },
+    "clinical_validation_authorized": false,
+    "errors": [],
+    "external_authority": "NONE",
+    "package_id": "wave0-governance-20260820",
+    "production_authorized": false,
+    "runtime_authority": "NONE",
+    "state": "GOVERNANCE_PACKAGE_READY_FOR_EXTERNAL_REVIEW"
+  }
+}

@@ -32,6 +32,8 @@
 | R-045 | External-review coordination package ถูกตีความเป็น controlled-pilot authorization | Critical | P2-004 controlled pilot handoff | handoff ใช้ `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`, 7 blocked/3 open gates และตรึง authorization false | ต้องมี independent review, clinical governance, external gate evidence และ authorization decision แยกจาก software package |
 | R-046 | Local SHA-256 manifest หรือ signed-style receipt ถูกตีความเป็น external WORM, trusted timestamp หรือ cryptographic signature | High | Controlled-pilot operations manifest simulation | manifest ตรวจ artifact hash, chain field และ receipt simulation ที่ระบุ `external_authority=NONE` | ต้องมี external receipt, trusted timestamp, independent custody และ real key custody evidence ข้าม trust boundary |
 | R-047 | Blocker analysis และ 5-wave plan ถูกใช้แทน external owner appointment, signed scope หรือ authorization decision | Critical | `analyze_controlled_pilot_blockers.py`, `EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md` | analysis ตรวจ 7 blockers และจัดลำดับ owner/evidence/stop condition แต่คง authorization false | ต้องมี named external owners, explicit approval, test-window record, signed scope, expiry, rollback และ independent decision |
+| R-048 | Local Wave 0 governance record ถูก self-attest ว่าเป็น appointment/signature/custody จริง | Critical | `WAVE_0_GOVERNANCE_CONTRACT.md`, `wave0_governance.py` | validator บังคับ `PENDING_EXTERNAL_VERIFICATION`, `external_authority=NONE` และเปิดสูงสุดเพียง review-ready | ต้องมี external directory/appointment evidence, signed scope, independent custody และ reviewer verification นอก baseline |
+| R-049 | Test window หมดอายุหรือ scope เปลี่ยน แต่ยังใช้ manifest/freeze เดิม | High | `wave0_governance.py`, `WAVE_0_GOVERNANCE_REVIEW_CHECKLIST.md` | ตรวจ timezone-aware expiry, freeze version และ append-only policy | ต้องสร้าง window/manifest version ใหม่พร้อม previous hash, reason และ external notification |
 
 Severity สะท้อน potential impact ไม่ใช่ probability. คำว่า “Implemented” หมายถึงมี code/test evidence สำหรับ control ที่ระบุเท่านั้น ไม่ได้หมายความว่า risk โดยรวมถูกกำจัด และคำว่า “pilot-ready foundation” ไม่ได้หมายความว่า clinical validation เสร็จแล้ว.
 
@@ -89,6 +91,8 @@ Severity สะท้อน potential impact ไม่ใช่ probability. ค
 | `controlled_pilot_operations.py` | Blocker, manifest and operational gate validation |
 | `analyze_controlled_pilot_blockers.py` | Seven-blocker evidence-bounded status analysis |
 | `EXTERNAL_AUTHORIZATION_UNBLOCK_PLAN.md` | Five-wave plan for external evidence and authorization |
+| `WAVE_0_GOVERNANCE_CONTRACT.md` | Role, scope, test-window, stop-authority and freeze contract |
+| `wave0_governance.py` | Wave 0 local validator and freeze simulation |
 
 
 ## Device Trust and provisioning roadmap risks

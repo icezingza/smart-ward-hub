@@ -39,6 +39,7 @@ TESTS = [
     "test_p2_004_review_and_handoff.py",
     "test_controlled_pilot_operations.py",
     "test_controlled_pilot_blocker_analysis.py",
+    "test_wave0_governance.py",
     "evals/micro_rag/test_hallucination_suite.py",
     "evals/micro_rag/test_response_adapter.py",
     "evals/micro_rag/test_registry_index.py",
