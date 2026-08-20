@@ -1,0 +1,51 @@
+{
+  "schema_version": "wave1-preflight-evidence-v1",
+  "prepared_at_utc": "2026-08-20T12:00:03Z",
+  "repository": "icezingza/smart-ward-hub",
+  "current_repository_revision": "f2f9bf0280928248dde93d2d85d667b56ba142d7",
+  "release_freeze_source_revision": "0da6a381e4004ea31537383a351bce9846418ec1",
+  "release_freeze_manifest_sha256": "8985cf0e83017515f1c4a9faf8b9b70fd1cb447808d384de3d2ec6b69f8e7995",
+  "environment": "LOCAL_SOFTWARE_PREFLIGHT_ONLY",
+  "host_platform": "Linux 6.1.102 x86_64",
+  "python_version": "3.12.3",
+  "external_execution": "NOT_STARTED",
+  "physical_execution": "NOT_STARTED",
+  "patient_data_used": false,
+  "production_network_used": false,
+  "authorization_boundary": {
+    "external_authority": "NONE",
+    "clinical_validation_authorized": false,
+    "production_authorized": false,
+    "runtime_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+  },
+  "test_results": [
+    {"track": "GV-04", "test": "test_p0_oidc_config.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "shape/fail-closed contract only; no live IdP"},
+    {"track": "GV-04", "test": "test_p0_mtls_config.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "local file hygiene/fail-closed contract only; no handshake"},
+    {"track": "GV-08", "test": "test_key_custody_contract.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "software registry/fixture only; no manufacturer custody"},
+    {"track": "GV-08", "test": "test_key_custody_contract_negative.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "negative contract cases only"},
+    {"track": "GV-04/GV-05", "test": "test_auth_fail_closed.py + test_deployment_readiness.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "synthetic environment; no target host/IdP"},
+    {"track": "GV-06", "test": "serial_bench_runner.py --list-ports", "status": "PASS_WITH_BLOCKER", "classification": "SOFTWARE_OBSERVATION", "detail": "inventory_status=pyserial_unavailable; ports=[]"},
+    {"track": "GV-06", "test": "serial_bench_runner.py --dry-run", "status": "PASS_WITH_BLOCKER", "classification": "SOFTWARE_VERIFIED", "detail": "DRY_RUN_ONLY; codec PASS; physical_hardware_validation=PENDING"},
+    {"track": "GV-06", "test": "test_serial_framing.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "no physical transport"},
+    {"track": "GV-06", "test": "test_serial_bench_runner.py", "status": "PASS", "classification": "SOFTWARE_VERIFIED", "limitation": "physical path safety only"}
+  ],
+  "external_blockers": [
+    {"gate": "GV-04", "status": "UNVERIFIED", "missing": "real IdP/JWKS, claims/audience, mTLS handshake, rotation/revocation and network ACL transcript"},
+    {"gate": "GV-08", "status": "UNVERIFIED", "missing": "manufacturer provenance, secure element/HSM custody, dual-control ceremony and real revocation distribution"},
+    {"gate": "GV-06", "status": "BLOCKED", "missing": "enumerated COM port, isolated loopback fixture, physical S-001..S-015 evidence, power-loss and disk-full drill"},
+    {"gate": "Wave 0", "status": "PENDING_EXTERNAL_VERIFICATION", "missing": "named roles, signed scope, approved test window, stop authority, external custody and independent verifier"}
+  ],
+  "artifact_hashes": {
+    "WAVE_1_TECHNICAL_VALIDATION_PACKAGE_20260820.md": "cc915d23c5ae286dcae478ccbf22bf4b1c05795229c731280ca3c4bc3be43cb9",
+    "WAVE_0_OWNER_APPROVAL_GAP_REPORT_20260820.md": "0d0f40e5c0b32b0fc3a0f05cc4dc69a0598d19c6bfc8a2c45c874e429bf7d3f9",
+    "PRODUCTION_READINESS_ROADMAP_20260820.md": "4fe56f35a524dc207dfec17da56f558ac70c3a8f8b659f6c9362276b326a63e0"
+  },
+  "evidence_integrity": {
+    "working_tree_clean_before_evidence": true,
+    "independent_verification_required": true,
+    "redaction": "PASS",
+    "raw_identity_present": false
+  },
+  "decision": "WAVE_1_LOCAL_PREFLIGHT_PASS_EXTERNAL_EXECUTION_BLOCKED"
+}
