@@ -1,13 +1,13 @@
 # Release Freeze Refresh Report
 
 **Refresh status:** `PASS`
-**Current source revision:** `d2c3f40002470d12bce30b611f457ec5d631ca7d`
+**Current source revision:** `ef2eec369b4fb2fa24b34c03558b37fef7b5f194`
 **Freeze manifest:** `evals/micro_rag/evidence/release-candidate-freeze-20260820.json`
 **Execution class:** repository/software evidence only
 
 ## Decision
 
-The release-candidate freeze was regenerated after the Wave 1 software-preparation package and release-freeze regression were published. The refreshed manifest reports `freeze_status=PASS`, `head_matches_origin_main=true`, `working_tree_clean_before_manifest=true`, `secret_marker_scan_pass=true`, `runtime_artifact_scan_pass=true` and `tracked_file_hashes_generated=true`. It covers 317 tracked files and excludes its own hash by design.
+The release-candidate freeze was regenerated after the Wave 1 software-preparation package, release-freeze regression and handoff documentation were published. The refreshed manifest reports `freeze_status=PASS`, `head_matches_origin_main=true`, `working_tree_clean_before_manifest=true`, `secret_marker_scan_pass=true`, `runtime_artifact_scan_pass=true` and `tracked_file_hashes_generated=true`. It covers 318 tracked files and excludes its own hash by design.
 
 The earlier freeze references in historical Wave 0/Wave 1 reports remain historical evidence for their respective source revisions. They must not be read as the current release candidate. The handoff and task documents now point to this refreshed freeze boundary.
 
