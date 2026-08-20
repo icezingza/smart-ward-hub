@@ -529,6 +529,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "P2_005_WORKER_CONTROL_PLANE_READINESS_REPORT_20260821.md",
+      "sha256": "19230092836ff1469d69f9888d0269b0df0bfc106a49b26fa2b87ccea83beeed",
+      "size_bytes": 5857
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "P2_EDGE_IOT_ADAPTER_ARCHITECTURE.md",
       "sha256": "ed0056a2ddc2e5e0834640cf19da887fc4423a4c3567f95ce8cc0b884f2c79e4",
       "size_bytes": 11175
@@ -1886,8 +1892,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "e5228c859d31ec4846e33352b0782b20b1d6d66facd5ffc9dfe2e8a022316d6c",
-      "size_bytes": 3763
+      "sha256": "d7e24579a1bcd7515ca9fb43890c65722eeb5f4fcb917b5175cd8f587b4ab59f",
+      "size_bytes": 3848
     },
     {
       "classification": "source_or_runtime_config",
@@ -1946,8 +1952,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "9f08f38a08ebefb478f03b6d552daa2d87a7eaebb0858e02c93fe9bc57764d71",
-      "size_bytes": 34365
+      "sha256": "66112109d54f8c9f89b424dc03ed32cb34b51b1037c478b7eef0bc5338b54c1f",
+      "size_bytes": 35574
     },
     {
       "classification": "source_or_runtime_config",
@@ -2233,6 +2239,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_p2_005_worker_phase_end_hardening.py",
+      "sha256": "aa71d9977c4b4ac1a7de06042fd9393c5f0ed941fd0863d231c4c9a92c246b8d",
+      "size_bytes": 3310
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_p2_edge_iot_adapters.py",
       "sha256": "6004ab5bedba12c265a40e020b4d49f2c627b0d83ef2ae1ef6962a38fd06d7be",
       "size_bytes": 6762
@@ -2419,6 +2431,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_worker_control_plane.py",
+      "sha256": "e80529255d01d4de01266064f3860cbf206dc44f8f8edd5fddf6cc0b982c5e2e",
+      "size_bytes": 9449
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "validate_mtls_config.py",
       "sha256": "d2ee638fe7adf1811b33c25aa187005991f22c4ab9233ddd05cd278f02a089ad",
       "size_bytes": 1588
@@ -2482,16 +2500,22 @@
       "path": "wave_e_evidence_validation_runner.py",
       "sha256": "e829da3f584217269e8ecca7b58a5b7f79fba53cf2048a8ce5defca1ef3167f5",
       "size_bytes": 3853
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "worker_control_plane.py",
+      "sha256": "b6f5eea0b3ee75de680a1a1ba485acb144490dd44bcd69f54a478b6674a3245a",
+      "size_bytes": 19330
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T21:22:42.915020+00:00",
+  "freeze_created_at_utc": "2026-08-20T21:31:52.678335+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "ebaa3316adf09976c469f79497edf86ef5b54118",
+  "origin_main_revision": "1e2e6b3dbc33cebcb31228ac9344fee990a8f618",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "ebaa3316adf09976c469f79497edf86ef5b54118"
+  "source_revision": "1e2e6b3dbc33cebcb31228ac9344fee990a8f618"
 }
