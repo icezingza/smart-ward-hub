@@ -8,7 +8,7 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from wave4_independent_review_package import LOCKED_AUTHORIZATION, PENDING, build_local_package, validate_package
+from wave4_independent_review_package import LOCKED_AUTHORIZATION, PENDING, TOP_LEVEL_FREEZE_REFERENCE, build_local_package, validate_package
 
 SCHEMA_VERSION = "independent-reviewer-readiness-preflight-v1"
 PROJECT = "smart-ward-hub"
@@ -83,12 +83,12 @@ def validate_preflight(payload: dict[str, Any], *, template_only: bool = False) 
     if template_only:
         _require(payload.get("preflight_id") == PENDING, "template preflight_id must be pending")
         _require(payload.get("source_revision") == PENDING, "template source_revision must be pending")
-        _require(payload.get("freeze_manifest_sha256") == ZERO_HASH, "template freeze hash must be blank")
+        _require(payload.get("freeze_manifest_sha256") == TOP_LEVEL_FREEZE_REFERENCE, "template freeze binding must remain top-level")
         _require(payload.get("local_index_sha256") == ZERO_HASH, "template index hash must be blank")
     else:
         _require(isinstance(payload.get("preflight_id"), str) and payload["preflight_id"].startswith("reviewer-preflight-"), "preflight_id must be reviewer-preflight scoped")
         _require(REVISION_RE.fullmatch(payload.get("source_revision", "")) is not None, "source_revision must be git SHA-1")
-        _require(SHA256_RE.fullmatch(payload.get("freeze_manifest_sha256", "")) is not None, "freeze hash must be lowercase SHA-256")
+        _require(payload.get("freeze_manifest_sha256") == TOP_LEVEL_FREEZE_REFERENCE, "freeze binding must remain top-level")
         _require(SHA256_RE.fullmatch(payload.get("local_index_sha256", "")) is not None, "local index hash must be lowercase SHA-256")
     _require(payload.get("status") == "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT", "status must remain reviewer precheck ready")
     _require(payload.get("submission_status") == "NOT_SUBMITTED", "submission_status must remain NOT_SUBMITTED")
@@ -134,7 +134,7 @@ def template() -> dict[str, Any]:
     checklist = []
     for check_id, spec in CHECKS.items():
         checklist.append({"check_id": check_id, "title": spec["title"], "owner_role": spec["owner_role"], "required_status": spec["required_status"], "status": spec["required_status"], "external_action": "Independent reviewer or named external owner must perform this check and record a signed/read-back result; local preflight cannot complete it."})
-    return {"schema_version": SCHEMA_VERSION, "project": PROJECT, "preflight_id": PENDING, "source_revision": PENDING, "freeze_manifest_sha256": ZERO_HASH, "local_index_sha256": ZERO_HASH, "status": "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT", "submission_status": "NOT_SUBMITTED", "reviewer_appointment": PENDING, "external_decision": "NOT_ISSUED", "package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT", "wave_e_bundle_state": "NOT_EXECUTED", "independent_review_status": "NOT_STARTED", "mapping_count": 12, "artifact_count": 22, "reviewer_checklist": checklist, "external_inputs_pending": list(EXTERNAL_INPUTS), "authorization_boundary": deepcopy(LOCKED_AUTHORIZATION), "software_evidence_only": True, "independent_verification_required": True, "redaction": "PASS", "raw_identity_present": False}
+    return {"schema_version": SCHEMA_VERSION, "project": PROJECT, "preflight_id": PENDING, "source_revision": PENDING, "freeze_manifest_sha256": TOP_LEVEL_FREEZE_REFERENCE, "local_index_sha256": ZERO_HASH, "status": "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT", "submission_status": "NOT_SUBMITTED", "reviewer_appointment": PENDING, "external_decision": "NOT_ISSUED", "package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT", "wave_e_bundle_state": "NOT_EXECUTED", "independent_review_status": "NOT_STARTED", "mapping_count": 12, "artifact_count": 22, "reviewer_checklist": checklist, "external_inputs_pending": list(EXTERNAL_INPUTS), "authorization_boundary": deepcopy(LOCKED_AUTHORIZATION), "software_evidence_only": True, "independent_verification_required": True, "redaction": "PASS", "raw_identity_present": False}
 
 
 def build_preflight(root: Path) -> dict[str, Any]:
@@ -154,7 +154,7 @@ def build_preflight(root: Path) -> dict[str, Any]:
     package = template()
     package["preflight_id"] = f"reviewer-preflight-{revision[:12]}"
     package["source_revision"] = revision
-    package["freeze_manifest_sha256"] = _sha256(freeze_path)
+    package["freeze_manifest_sha256"] = TOP_LEVEL_FREEZE_REFERENCE
     package["local_index_sha256"] = _sha256(index_path)
     validate_preflight(package)
     return package

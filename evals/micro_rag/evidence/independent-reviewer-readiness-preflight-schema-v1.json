@@ -42,8 +42,7 @@
       "type": "string"
     },
     "freeze_manifest_sha256": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "const": "TOP_LEVEL_RELEASE_FREEZE"
     },
     "local_index_sha256": {
       "type": "string",

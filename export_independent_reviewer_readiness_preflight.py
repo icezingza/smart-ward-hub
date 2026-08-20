@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from independent_reviewer_readiness_preflight import CHECKS, EXTERNAL_INPUTS, SCHEMA_VERSION, template, template_sha256, build_preflight
+from wave4_independent_review_package import TOP_LEVEL_FREEZE_REFERENCE
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "evals/micro_rag/evidence"
@@ -38,7 +39,7 @@ def schema() -> dict:
             "project": {"const": "smart-ward-hub"},
             "preflight_id": {"type": "string"},
             "source_revision": {"type": "string"},
-            "freeze_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "freeze_manifest_sha256": {"const": TOP_LEVEL_FREEZE_REFERENCE},
             "local_index_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
             "status": {"const": "REVIEWER_PRECHECK_READY_FOR_EXTERNAL_APPOINTMENT"},
             "submission_status": {"const": "NOT_SUBMITTED"},

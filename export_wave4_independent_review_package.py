@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from wave4_independent_review_package import ARTIFACT_PATHS, SCHEMA_VERSION, TEST_SPECS, build_local_package, template, template_sha256
+from wave4_independent_review_package import ARTIFACT_PATHS, SCHEMA_VERSION, TEST_SPECS, TOP_LEVEL_FREEZE_REFERENCE, build_local_package, template, template_sha256
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "evals/micro_rag/evidence"
@@ -55,7 +55,7 @@ def schema() -> dict:
             "project": {"const": "smart-ward-hub"},
             "package_id": {"type": "string"},
             "source_revision": {"type": "string"},
-            "freeze_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "freeze_manifest_sha256": {"const": TOP_LEVEL_FREEZE_REFERENCE},
             "package_state": {"const": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT"},
             "evidence_class": {"const": "SOFTWARE_COORDINATION_ONLY"},
             "wave_e_bundle_state": {"const": "NOT_EXECUTED"},

@@ -3,7 +3,7 @@
   "project": "smart-ward-hub",
   "package_id": "PENDING_EXTERNAL_APPOINTMENT",
   "source_revision": "PENDING_EXTERNAL_APPOINTMENT",
-  "freeze_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "freeze_manifest_sha256": "TOP_LEVEL_RELEASE_FREEZE",
   "package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
   "evidence_class": "SOFTWARE_COORDINATION_ONLY",
   "wave_e_bundle_state": "NOT_EXECUTED",

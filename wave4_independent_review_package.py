@@ -12,6 +12,7 @@ SCHEMA_VERSION = "wave4-independent-review-package-v1"
 PROJECT = "smart-ward-hub"
 PENDING = "PENDING_EXTERNAL_APPOINTMENT"
 ZERO_HASH = "0" * 64
+TOP_LEVEL_FREEZE_REFERENCE = "TOP_LEVEL_RELEASE_FREEZE"
 SHA256_RE = re.compile(r"^[a-f0-9]{64}$")
 REVISION_RE = re.compile(r"^[0-9a-f]{40}$")
 RAW_ID = re.compile(r"\b(?:HN|AN|MRN|NATIONAL_ID)\s*[-_:]\s*[A-Z0-9-]+\b", re.IGNORECASE)
@@ -122,10 +123,10 @@ def validate_package(payload: dict[str, Any], *, template_only: bool = False) ->
     _opaque(payload.get("package_id"), "package_id", pending=template_only)
     if template_only:
         _require(payload.get("source_revision") == PENDING, "template source revision must be pending")
-        _require(payload.get("freeze_manifest_sha256") == ZERO_HASH, "template freeze hash must be blank")
+        _require(payload.get("freeze_manifest_sha256") == TOP_LEVEL_FREEZE_REFERENCE, "template freeze binding must remain top-level")
     else:
         _require(REVISION_RE.fullmatch(payload.get("source_revision", "")) is not None, "source_revision must be a git SHA-1")
-        _require(SHA256_RE.fullmatch(payload.get("freeze_manifest_sha256", "")) is not None, "freeze_manifest_sha256 must be lowercase SHA-256")
+        _require(payload.get("freeze_manifest_sha256") == TOP_LEVEL_FREEZE_REFERENCE, "freeze binding must remain top-level")
     _require(payload.get("package_state") == "READY_FOR_EXTERNAL_OWNER_APPOINTMENT", "package_state must remain owner-appointment ready")
     _require(payload.get("evidence_class") == "SOFTWARE_COORDINATION_ONLY", "package evidence class mismatch")
     _require(payload.get("wave_e_bundle_state") == "NOT_EXECUTED", "Wave E bundle state must remain not executed")
@@ -178,7 +179,7 @@ def template() -> dict[str, Any]:
     artifacts = []
     for ref, path in ARTIFACT_PATHS.items():
         artifacts.append({"artifact_ref": ref, "repo_path": path, "artifact_type": Path(path).suffix.lstrip(".") or "file", "artifact_sha256": ZERO_HASH, "source_revision": PENDING, "evidence_class": "SOFTWARE_REPOSITORY", "prepared_by_role": "evidence_custodian", "redaction": "PASS", "raw_identity_present": False, "external_verification_status": "PENDING_EXTERNAL"})
-    return {"schema_version": SCHEMA_VERSION, "project": PROJECT, "package_id": PENDING, "source_revision": PENDING, "freeze_manifest_sha256": ZERO_HASH, "package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT", "evidence_class": "SOFTWARE_COORDINATION_ONLY", "wave_e_bundle_state": "NOT_EXECUTED", "independent_review_status": "NOT_STARTED", "external_owner_appointment": PENDING, "mapping": mapping, "artifacts": artifacts, "review_contract": "wave-e-evidence-bundle-v1", "authorization_boundary": deepcopy(LOCKED_AUTHORIZATION), "independent_verification_required": True, "redaction": "PASS", "raw_identity_present": False}
+    return {"schema_version": SCHEMA_VERSION, "project": PROJECT, "package_id": PENDING, "source_revision": PENDING, "freeze_manifest_sha256": TOP_LEVEL_FREEZE_REFERENCE, "package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT", "evidence_class": "SOFTWARE_COORDINATION_ONLY", "wave_e_bundle_state": "NOT_EXECUTED", "independent_review_status": "NOT_STARTED", "external_owner_appointment": PENDING, "mapping": mapping, "artifacts": artifacts, "review_contract": "wave-e-evidence-bundle-v1", "authorization_boundary": deepcopy(LOCKED_AUTHORIZATION), "independent_verification_required": True, "redaction": "PASS", "raw_identity_present": False}
 
 
 def _sha256(path: Path) -> str:
@@ -195,7 +196,7 @@ def build_local_package(root: Path) -> dict[str, Any]:
     package = template()
     package["package_id"] = f"wave4-index-{revision[:12]}"
     package["source_revision"] = revision
-    package["freeze_manifest_sha256"] = _sha256(freeze_path)
+    package["freeze_manifest_sha256"] = TOP_LEVEL_FREEZE_REFERENCE
     for artifact in package["artifacts"]:
         path = root / artifact["repo_path"]
         _require(path.is_file(), f"missing local artifact: {artifact['repo_path']}")

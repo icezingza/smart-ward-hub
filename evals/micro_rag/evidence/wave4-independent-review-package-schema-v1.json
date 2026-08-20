@@ -37,8 +37,7 @@
       "type": "string"
     },
     "freeze_manifest_sha256": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "const": "TOP_LEVEL_RELEASE_FREEZE"
     },
     "package_state": {
       "const": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT"

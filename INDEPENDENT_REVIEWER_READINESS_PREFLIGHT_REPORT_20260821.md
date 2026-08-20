@@ -30,7 +30,7 @@ The preflight rejects `SUBMITTED`, `AUTHORIZED_BY_EXTERNAL_OWNER`, `READY_FOR_IN
 
 ## 2. Wave 4 Evidence Mapping recheck
 
-The Wave 4 exporter and package validator were rerun from the current repository. The mapping covers exactly 12 cases, T-01 through T-12, and the local index covers 22 repository artifacts. Artifact hashes are bound to the current source revision and the release-freeze manifest hash. The release-freeze file is intentionally a top-level binding and is excluded from its own artifact list to avoid circular self-hashing.
+The Wave 4 exporter and package validator were rerun from the current repository. The mapping covers exactly 12 cases, T-01 through T-12, and the local index covers 22 repository artifacts. Artifact hashes are bound to a recorded source revision and the package carries a top-level release-freeze binding. The release-freeze file is intentionally excluded from its own artifact list and is not embedded as a self-referential hash, avoiding circular self-hashing.
 
 | Recheck | Result |
 |---|---|
