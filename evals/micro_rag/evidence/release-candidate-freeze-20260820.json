@@ -469,6 +469,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "P1_008_INDEPENDENT_REVIEW_READINESS_REPORT.md",
+      "sha256": "d2d12bb2dddbf25f83f060493067ae768e2a05cae691d434793a230551d3369c",
+      "size_bytes": 6508
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "P1_DEVICE_TRUST_HANDOFF.md",
       "sha256": "e3b9718c67deee7872edb90791d971efbc12e1ea32aabb11ff33cd61a4a9ce80",
       "size_bytes": 3166
@@ -614,8 +620,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "f083eb5338d9a04e53fb27872052f92820d8a43ff2d5e93b4f6101ff0ecce4f0",
-      "size_bytes": 28098
+      "sha256": "d38b317ce79de3e7280642e99edaa61166dc0a3cf47ca9ad4d66576840b05f0f",
+      "size_bytes": 28966
     },
     {
       "classification": "contract_or_governance_document",
@@ -1111,6 +1117,18 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p1-008-independent-review-readiness-schema-v1.json",
+      "sha256": "05c178d6a24d269a8333c46a9bb5ce6e6f66fb9443b87f1214477c76c5293a05",
+      "size_bytes": 5540
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p1-008-independent-review-readiness-template-20260821.json",
+      "sha256": "b9b23e3c20677f998b01eb1a3b629f1381bea08391225477d9270e0dbeca1bb8",
+      "size_bytes": 4602
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/p2-004-external-review-handoff-20260820.json",
       "sha256": "7429b689d26eae08858fc216d70ce141e63dbec481b33a35e662b8f069bf7d82",
       "size_bytes": 7617
@@ -1258,6 +1276,12 @@
       "path": "export_p1_007_external_validation_readiness.py",
       "sha256": "223225f5f806e237c07807ddb6226ffac55657b72d12a4fe4b1551fb9128f25f",
       "size_bytes": 3712
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_p1_008_independent_review_readiness.py",
+      "sha256": "3b949dfa66c484bd747a90bc8e195242a0e9bf94d7c96e8a8ff466557d0b5890",
+      "size_bytes": 4413
     },
     {
       "classification": "source_or_runtime_config",
@@ -1418,8 +1442,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "independent_review_operations.py",
-      "sha256": "e54eb31d52293fbe9edeab4451c3d76db1f705811421327188c9cbd24239b6a4",
-      "size_bytes": 9057
+      "sha256": "eb71e209b2a29caba8e37568fc70d017638006ab93dc4367f87e9a8739365e40",
+      "size_bytes": 14438
     },
     {
       "classification": "source_or_runtime_config",
@@ -1492,6 +1516,12 @@
       "path": "p1_007_external_validation_readiness.py",
       "sha256": "cfe65ae29dd908a347974a6701ae0de2b917339b93c91466aa95e67fbb1eeac0",
       "size_bytes": 11837
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "p1_008_independent_review_readiness.py",
+      "sha256": "8b25e40fcdb086da2ea3a72258fd8e88a6855bd57aa420dc28e16a322945cf68",
+      "size_bytes": 11899
     },
     {
       "classification": "repository_asset",
@@ -1706,8 +1736,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "b4ecee0223b7968212e7319f04b4905014a8b42fc229e04701612c2dd6fb280e",
-      "size_bytes": 3272
+      "sha256": "a187a91310337e716b2735c2ccefa08e4cd39531b89d79f1ea45d6b6833da85a",
+      "size_bytes": 3319
     },
     {
       "classification": "source_or_runtime_config",
@@ -1766,8 +1796,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "9a220788dfa0c506d39230943e1c3f8a123a12019c73fb97d065a8118d2e608d",
-      "size_bytes": 28895
+      "sha256": "6f82c35e4b2103d02752521200f6174140e48991429a89956afd2fc58f5ea2bf",
+      "size_bytes": 29526
     },
     {
       "classification": "source_or_runtime_config",
@@ -1892,8 +1922,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_independent_review_operations.py",
-      "sha256": "77aa1689314f8c5813ae6ef2802e262ef5318d104992b7d1eed7f993e03631e9",
-      "size_bytes": 4665
+      "sha256": "44564f16b0541a03d4b48f0026147e72808086fa115bf54e5dff2a5031dca6d6",
+      "size_bytes": 4761
     },
     {
       "classification": "source_or_runtime_config",
@@ -2014,6 +2044,18 @@
       "path": "test_p1_007_phase_end_hardening_gate.py",
       "sha256": "0c5c38c60656c63c155f54ad5b67d747d473a38f21deb52958c5bd0cfc78d451",
       "size_bytes": 3330
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p1_008_independent_review_hardening.py",
+      "sha256": "6cf5c35572a544cfd276d12e146bb5680b4d30a35e9c99cc99bc42c684f91c4d",
+      "size_bytes": 9723
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p1_008_phase_end_hardening_gate.py",
+      "sha256": "35982cec756cce062ae68b4d1637e80169e36094741e3dd6399ceb8af25d999b",
+      "size_bytes": 3506
     },
     {
       "classification": "source_or_runtime_config",
@@ -2196,14 +2238,14 @@
       "size_bytes": 3853
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T17:28:43.081320+00:00",
+  "freeze_created_at_utc": "2026-08-20T17:45:19.390323+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "27997c58cc52905a93e8177c9de9b766f04643d8",
+  "origin_main_revision": "95555976fd0219dbfd9b417796e1b3bfc32b1ae5",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "27997c58cc52905a93e8177c9de9b766f04643d8"
+  "source_revision": "95555976fd0219dbfd9b417796e1b3bfc32b1ae5"
 }
