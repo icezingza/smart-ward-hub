@@ -221,3 +221,12 @@ Focused และ phase-end gates ผ่านแล้ว; master regression in
 `test_worker_recovery_transcript.py` ครอบคลุม 4 focused/adversarial cases รวม lifecycle completeness, tamper detection, raw reference rejection, unsafe role rejection และ secret marker rejection. `export_worker_recovery_transcript.py` สร้าง machine-readable evidence พร้อม source revision, redaction flag และ locked authorization boundary. `test_worker_recovery_transcript_phase_end_hardening.py` เพิ่ม AST no-network/provider/scheduler scan, no-self-authorization, private-key/redaction scan, exporter round-trip และ `git diff --check`. Master regression integration เพิ่มแล้ว; ยังต้องรัน master suite, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream.
 
 หลักฐานนี้เป็น local software simulation และไม่ยืนยัน human operator sign-off, production worker behavior, distributed queue, encrypted backup custody, clinical action หรือ independent review. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Operator Approval / Read-back Contract status note — 22 สิงหาคม 2026
+
+`worker_recovery_approval.py` เพิ่ม exact read-back schema สำหรับ worker recovery transcript โดยบังคับ requester/approver/readback role separation, explicit `I_UNDERSTAND_SOFTWARE_REHEARSAL_RESUME` confirmation, timezone-aware ordered timestamps, transcript SHA-256 binding, queue-backup reference/hash binding, `SOFTWARE_REHEARSAL_ONLY` scope และ `replay_execution_requested=false`/`replay_executed=false`. Boundary mutation, actor collision, transcript/queue tamper, wrong confirmation, timestamp order, unknown field และ raw marker fail closed.
+
+`test_worker_recovery_approval.py` ครอบคลุม 7 focused/adversarial cases. `export_worker_recovery_approval.py` สร้าง redacted machine-readable evidence พร้อม validation, source revision และ locked authorization claim. `test_worker_recovery_approval_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, exporter round-trip, no-self-authorization, private-key/redaction scan และ `git diff --check`. Master regression integration เพิ่มแล้ว; ยังต้องรัน master suite, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream.
+
+นี่เป็น local software simulation/read-back artifact เท่านั้น ไม่ใช่ human sign-off จริง, external signature, independent reviewer decision, production approval, clinical action หรือ external authorization. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.

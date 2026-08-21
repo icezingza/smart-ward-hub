@@ -169,8 +169,11 @@ def build_worker_recovery_transcript() -> dict[str, Any]:
     lease_job_ref = _hash_ref("job-lease-opaque-001", "job")
     lease_owner_ref = _hash_ref("worker-opaque-a", "worker")
     reconciliation_ref = _hash_ref("reconcile-opaque-lease-001", "reconciliation")
-    backup_id = report["backup_restore"]["restore_result"]["source_backup_id"]
-    backup_ref = _hash_ref(backup_id, "backup")
+    # The real backup identifier is intentionally not copied into the
+    # operator transcript. This stable fixture reference keeps the transcript
+    # reproducible across process boundaries while the rehearsal report still
+    # carries the independent binding_verified/restore checks.
+    backup_ref = _hash_ref("queue-backup-binding-fixture-001", "backup")
     source_revision_ref = _hash_ref(report["backup_restore"]["restore_result"]["source_revision"], "source")
 
     transcript.append(

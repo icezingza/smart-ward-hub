@@ -96,6 +96,8 @@ TESTS = [
     "test_durable_worker_replay_contract_phase_end_hardening.py",
     "test_worker_recovery_transcript.py",
     "test_worker_recovery_transcript_phase_end_hardening.py",
+    "test_worker_recovery_approval.py",
+    "test_worker_recovery_approval_phase_end_hardening.py",
     "test_software_rollback_rehearsal.py",
     "test_software_rollback_rehearsal_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
