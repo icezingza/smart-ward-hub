@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from copy import deepcopy
+from datetime import datetime, timedelta
 import hashlib
 import json
 from pathlib import Path
@@ -9,11 +10,13 @@ import shutil
 import sqlite3
 import tempfile
 from typing import Any
+from unittest.mock import patch
 
-from backup_restore import RESTORE_CONFIRMATION, create_backup_bundle, restore_backup_bundle
+from backup_restore import RESTORE_CONFIRMATION, BackupRestoreError, create_backup_bundle, restore_backup_bundle
 from durable_worker_store import DurableWorkerStore
 from edge_controls import AuditSink, FileAnchorStore, reset_request_id, set_request_id
 from edge_runtime import EdgeTelemetryStore
+from operational_thresholds import evaluate_thresholds
 from worker_queue_backup import create_worker_queue_backup, restore_worker_queue_backup
 
 
@@ -44,6 +47,7 @@ def _seed_database(path: Path) -> None:
     with sqlite3.connect(path) as connection:
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("PRAGMA foreign_keys=ON")
+        connection.execute("PRAGMA user_version=7")
         connection.execute("CREATE TABLE ward_state (id INTEGER PRIMARY KEY, opaque_state TEXT NOT NULL)")
         connection.execute("INSERT INTO ward_state(id, opaque_state) VALUES (1, 'baseline-state')")
         connection.commit()
@@ -82,15 +86,17 @@ def _seed_anchor(path: Path, source_root: Path) -> dict[str, Any]:
 
 def _seed_worker(path: Path) -> None:
     store = DurableWorkerStore(str(path), lease_seconds=10)
-    store.submit(
-        job_id="rollback-worker-001",
-        job_type="BACKUP_REPORT",
-        args={"report_kind": "daily", "format": "json", "scope_ref": "ward-04"},
-        idempotency_key="rollback-worker-idem-001",
-        requester_role="reliability_operator",
-        approver_role="security_auditor",
-        approval_ref="rollback-approval-001",
-    )
+    common = {
+        "job_type": "BACKUP_REPORT",
+        "args": {"report_kind": "daily", "format": "json", "scope_ref": "ward-04"},
+        "requester_role": "reliability_operator",
+        "approver_role": "security_auditor",
+        "approval_ref": "rollback-approval-001",
+    }
+    store.submit(job_id="rollback-worker-001", idempotency_key="rollback-worker-idem-001", **common)
+    store.submit(job_id="rollback-worker-stale", idempotency_key="rollback-worker-idem-stale", **common)
+    claimed = store.claim(job_id="rollback-worker-stale", worker_id="worker-pre-restore")
+    assert claimed["status"] == "RUNNING"
     assert store.health()["audit_chain_valid"] is True
     store.close()
 
@@ -100,11 +106,14 @@ def _verify_database(path: Path) -> dict[str, Any]:
         integrity = str(connection.execute("PRAGMA integrity_check").fetchone()[0]).lower()
         value = connection.execute("SELECT opaque_state FROM ward_state WHERE id=1").fetchone()
         journal_mode = str(connection.execute("PRAGMA journal_mode").fetchone()[0]).lower()
+        user_version = int(connection.execute("PRAGMA user_version").fetchone()[0])
     return {
         "integrity_check": integrity,
         "opaque_state_matches": value == ("baseline-state",),
         "journal_mode": journal_mode,
-        "passed": integrity == "ok" and value == ("baseline-state",) and journal_mode == "wal",
+        "user_version": user_version,
+        "schema_revision_matches": user_version == 7,
+        "passed": integrity == "ok" and value == ("baseline-state",) and journal_mode == "wal" and user_version == 7,
     }
 
 
@@ -135,11 +144,136 @@ def _verify_anchor(path: Path, receipt: dict[str, Any], source_root: Path) -> di
 def _verify_worker(path: Path) -> dict[str, Any]:
     store = DurableWorkerStore(str(path), lease_seconds=10)
     job = store.get("rollback-worker-001")
+    stale_job = store.get("rollback-worker-stale")
     health = store.health()
-    result = {"status": job["status"], "audit_chain_valid": health["audit_chain_valid"]}
-    result["passed"] = job["status"] == "QUEUED" and health["audit_chain_valid"] is True
+    result = {
+        "status": job["status"],
+        "stale_status_before_reconciliation": stale_job["status"],
+        "audit_chain_valid": health["audit_chain_valid"],
+    }
+    result["passed"] = job["status"] == "QUEUED" and stale_job["status"] == "RUNNING" and health["audit_chain_valid"] is True
     store.close()
     return result
+
+
+def _recover_worker_stale_lease(path: Path) -> dict[str, Any]:
+    store = DurableWorkerStore(str(path), lease_seconds=10)
+    stale_job = store.get("rollback-worker-stale")
+    assert stale_job["lease_expires_at"] is not None
+    expired_at = datetime.fromisoformat(stale_job["lease_expires_at"]) + timedelta(seconds=1)
+    blocked = store.recover_expired_leases(
+        actor_role="control_room_coordinator",
+        reconciliation_ref="rollback-stale-lease-001",
+        now=expired_at,
+    )
+    assert blocked == ["rollback-worker-stale"]
+    reconciled = store.reconcile(
+        job_id="rollback-worker-stale",
+        decision="FAIL",
+        actor_role="control_room_coordinator",
+        reconciliation_ref="rollback-stale-lease-002",
+        now=expired_at,
+    )
+    result = {
+        "blocked_jobs": blocked,
+        "reconciled_status": reconciled["status"],
+        "audit_chain_valid": store.health()["audit_chain_valid"],
+    }
+    result["passed"] = blocked == ["rollback-worker-stale"] and reconciled["status"] == "FAILED" and result["audit_chain_valid"] is True
+    store.close()
+    return result
+
+
+def _probe_interrupted_checkpoint_promotion(bundle: Path, target_root: Path) -> dict[str, Any]:
+    target_root.mkdir(parents=True, exist_ok=True)
+    target_db = target_root / "interrupted.db"
+    target_checkpoint = target_root / "interrupted-checkpoint.json"
+    with sqlite3.connect(target_db) as connection:
+        connection.execute("CREATE TABLE ward_state (id INTEGER PRIMARY KEY, opaque_state TEXT NOT NULL)")
+        connection.execute("INSERT INTO ward_state(id, opaque_state) VALUES (1, 'pre-restore-state')")
+        connection.commit()
+    target_checkpoint.write_text('{"state_version":1,"buffers":{"before":true}}\n', encoding="utf-8")
+    original_db = _sha256(target_db)
+    original_checkpoint = target_checkpoint.read_text(encoding="utf-8")
+    try:
+        with patch("backup_restore.shutil.copy2", side_effect=OSError("simulated interrupted checkpoint promotion")):
+            restore_backup_bundle(
+                bundle_dir=bundle,
+                target_database=target_db,
+                target_checkpoint=target_checkpoint,
+                confirmation=RESTORE_CONFIRMATION,
+            )
+    except OSError as exc:
+        assert str(exc) == "simulated interrupted checkpoint promotion"
+    else:
+        raise AssertionError("interrupted checkpoint promotion was accepted")
+    with sqlite3.connect(target_db) as connection:
+        preserved = connection.execute("SELECT opaque_state FROM ward_state WHERE id=1").fetchone() == ("pre-restore-state",)
+    clean = not any(target_root.glob("interrupted*restore-tmp")) and not any(target_root.glob("interrupted*restore-prev"))
+    return {
+        "passed": preserved and _sha256(target_db) == original_db and target_checkpoint.read_text(encoding="utf-8") == original_checkpoint and clean,
+        "resume_permitted": False,
+        "recovery_decision": "RECONCILIATION_REQUIRED",
+    }
+
+
+def _probe_partial_audit_write(audit_path: Path, root: Path) -> dict[str, Any]:
+    root.mkdir(parents=True, exist_ok=True)
+    partial = root / "partial-audit.jsonl"
+    shutil.copyfile(audit_path, partial)
+    with partial.open("a", encoding="utf-8") as handle:
+        handle.write('{"event_type":"PARTIAL')
+    valid_lines = 0
+    invalid_lines = 0
+    for line in partial.read_text(encoding="utf-8").splitlines():
+        try:
+            json.loads(line)
+            valid_lines += 1
+        except json.JSONDecodeError:
+            invalid_lines += 1
+    return {
+        "passed": valid_lines >= 1 and invalid_lines == 1,
+        "partial_write_detected": invalid_lines == 1,
+        "resume_permitted": False,
+        "recovery_decision": "RECONCILIATION_REQUIRED",
+    }
+
+
+def _probe_backup_freshness_breach() -> dict[str, Any]:
+    snapshot = {
+        "preflight_status": "PASS",
+        "runtime": {
+            "database": {"status": "PASS"},
+            "checkpoint": {"status": "PRESENT", "age_seconds": 10},
+            "backup": {"status": "PRESENT", "age_seconds": 86_401},
+            "audit": {"status": "PRESENT", "age_seconds": 10},
+            "anchor": {"status": "PRESENT", "age_seconds": 10},
+            "disk": {"status": "PASS", "free_ratio": 0.90},
+        },
+    }
+    evaluated = evaluate_thresholds(snapshot, metrics={"sync_backlog": 0, "worker_queue_backlog": 0, "unresolved_alerts": 0})
+    return {
+        "passed": evaluated["status"] == "BLOCKED_REQUIRES_RECONCILIATION" and "BACKUP_STALE" in evaluated["remediation_codes"],
+        "remediation_codes": evaluated["remediation_codes"],
+        "resume_permitted": evaluated["resume_permitted"],
+        "recovery_decision": "RECONCILIATION_REQUIRED",
+    }
+
+
+def _probe_schema_mismatch(database: Path, root: Path) -> dict[str, Any]:
+    root.mkdir(parents=True, exist_ok=True)
+    mismatch = root / "schema-mismatch.db"
+    shutil.copy2(database, mismatch)
+    with sqlite3.connect(mismatch) as connection:
+        connection.execute("PRAGMA user_version=8")
+        connection.commit()
+    verification = _verify_database(mismatch)
+    return {
+        "passed": verification["schema_revision_matches"] is False and verification["passed"] is False,
+        "observed_user_version": verification["user_version"],
+        "resume_permitted": False,
+        "recovery_decision": "RECONCILIATION_REQUIRED",
+    }
 
 
 def run_rehearsal(output: Path | None = None) -> dict[str, Any]:
@@ -230,8 +364,15 @@ def run_rehearsal(output: Path | None = None) -> dict[str, Any]:
             "anchor": _verify_anchor(target_root / "external-anchor.jsonl", receipt, target_root / "source"),
             "anchor_export_hash_matches": _sha256(target_root / "external-anchor.jsonl") == anchor_export_hash,
             "worker_queue": _verify_worker(target_worker),
+            "worker_stale_lease_recovery": _recover_worker_stale_lease(target_worker),
             "restore_status": restored["restore_status"] == "SOFTWARE_RESTORE_VERIFIED",
             "worker_restore_status": worker_restored["worker_queue_restore_status"] == "SOFTWARE_RESTORE_VERIFIED",
+        }
+        fault_injection_results = {
+            "interrupted_checkpoint_promotion": _probe_interrupted_checkpoint_promotion(main_bundle, root / "fault-probes"),
+            "partial_audit_write": _probe_partial_audit_write(source_audit, root / "fault-probes"),
+            "backup_freshness_breach": _probe_backup_freshness_breach(),
+            "schema_migration_mismatch": _probe_schema_mismatch(target_db, root / "fault-probes"),
         }
         checks["all_post_restore_checks_passed"] = all(
             item is True if isinstance(item, bool) else item.get("passed") is True
@@ -251,6 +392,7 @@ def run_rehearsal(output: Path | None = None) -> dict[str, Any]:
             "audit_exported_before_restore": True,
             "anchor_exported_before_restore": True,
             "checks": checks,
+            "fault_injection_results": fault_injection_results,
             "decision": "ROLLBACK_VERIFIED_IN_ISOLATED_TARGET" if checks["all_post_restore_checks_passed"] else "ROLLBACK_BLOCKED_RECONCILIATION_REQUIRED",
             "patient_data_used": False,
             "raw_frames_recorded": False,

@@ -22,12 +22,16 @@ rehearsal นี้จำลองขั้นตอน rollback แบบแย
 | Telemetry checkpoint last sequence restored | PASS (`2`) |
 | Audit exported before restore, hash and redaction shape | PASS |
 | Local anchor export/readback and hash | PASS |
-| Durable worker queue restore and audit chain | PASS |
+| Durable worker queue restore, audit chain and stale-lease reconciliation | PASS |
 | Post-restore aggregate verification | PASS |
+| Interrupted checkpoint promotion with previous target preservation | PASS |
+| Partial audit write detection | PASS; resume blocked |
+| Backup freshness breach | PASS; `BACKUP_STALE` remediation code |
+| Schema/migration mismatch detection | PASS; `user_version=8` blocked |
 | Resume in verified software rehearsal target | `true` |
 | Production/external resume permission | `false` |
 
-ผล machine-readable ระบุ `decision=ROLLBACK_VERIFIED_IN_ISOLATED_TARGET`, `all_post_restore_checks_passed=true`, `production_resume_permitted=false` และ `external_resume_permitted=false`
+ผล machine-readable ระบุ `decision=ROLLBACK_VERIFIED_IN_ISOLATED_TARGET`, `all_post_restore_checks_passed=true`, `production_resume_permitted=false` และ `external_resume_permitted=false` ขณะเดียวกัน intensive fault probes ทั้งหมดรายงาน `passed=true` และ `resume_permitted=false` เมื่อพบ interrupted promotion, partial audit, stale backup หรือ schema mismatch
 
 ## 3. Operational threshold integration
 
@@ -47,7 +51,7 @@ Default threshold เป็น policy สำหรับ operator/software evide
 
 ## 6. งานต่อภายใน
 
-ควรต่อด้วย rollback rehearsal แบบ interrupted restore, partial audit write, migration/schema mismatch, backup freshness breach, stale worker lease ใน restored target, unresolved alert/sync backlog และ operator remediation transcript. ทุก scenario ต้องรักษา no-production-resume lock และมี exact rollback target/owner
+ควรต่อด้วย rollback rehearsal แบบ filesystem/disk-full จริง, interrupted process boundary, unresolved alert/sync backlog และ operator remediation transcript. ทุก scenario ต้องรักษา no-production-resume lock และมี exact rollback target/owner
 
 ## 7. Evidence paths
 

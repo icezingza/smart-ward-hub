@@ -37,7 +37,7 @@ The database artifact must be bound to `database.sqlite3`, contain a lowercase 6
 
 `test_backup_restore.py` covers successful isolated restore plus strict mutations for unknown fields, missing database, size mismatch, database path substitution, naive timestamp, tampered artifact, missing confirmation and secret-like artifact rejection. The test result is software evidence only.
 
-The current software regression proves successful restore to an isolated temporary target and verifies a durable fixture row. It does not prove restore to an encrypted Acer volume, a production filesystem, a real backup destination, a real service supervisor or a clinically approved recovery point.
+The current software regression proves successful restore to an isolated temporary target and verifies a durable fixture row. Restore stages database and optional checkpoint artifacts before promotion, uses temporary files, and restores pre-existing targets if a later promotion step is interrupted; leftover `.restore-tmp`/`.restore-prev` files are not accepted as a clean recovery result. This does not prove restore to an encrypted Acer volume, a production filesystem, a real backup destination, a real service supervisor or a clinically approved recovery point.
 
 ## Retention and recovery boundaries
 

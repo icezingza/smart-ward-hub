@@ -4,6 +4,7 @@ import json
 import sqlite3
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 from backup_restore import (
     RESTORE_CONFIRMATION,
@@ -53,6 +54,41 @@ def run() -> None:
             assert connection.execute("SELECT value FROM probe WHERE id=1").fetchone()[0] == "durable-fixture"
         assert restored_checkpoint.read_text(encoding="utf-8").startswith("{\"state_version\"")
         print("[P1-001] Separate-target restore and row verification: PASSED")
+
+        interrupted_db = root / "interrupted-target.db"
+        interrupted_checkpoint = root / "interrupted-target-checkpoint.json"
+        with sqlite3.connect(interrupted_db) as connection:
+            connection.execute("CREATE TABLE probe (id INTEGER PRIMARY KEY, value TEXT NOT NULL)")
+            connection.execute("INSERT INTO probe(value) VALUES (?)", ("pre-restore-state",))
+            connection.commit()
+        interrupted_checkpoint.write_text('{"state_version":1,"buffers":{"before":true}}\n', encoding="utf-8")
+        original_replace = Path.replace
+
+        def fail_checkpoint_promotion(source: Path, target: Path):
+            if source == interrupted_checkpoint.with_suffix(interrupted_checkpoint.suffix + ".restore-tmp") and target == interrupted_checkpoint:
+                raise OSError("simulated interrupted checkpoint promotion")
+            return original_replace(source, target)
+
+        try:
+            with patch.object(Path, "replace", new=fail_checkpoint_promotion):
+                restore_backup_bundle(
+                    bundle_dir=bundle,
+                    target_database=interrupted_db,
+                    target_checkpoint=interrupted_checkpoint,
+                    confirmation=RESTORE_CONFIRMATION,
+                )
+        except OSError as exc:
+            assert str(exc) == "simulated interrupted checkpoint promotion"
+        else:
+            raise AssertionError("interrupted checkpoint promotion was accepted")
+        with sqlite3.connect(interrupted_db) as connection:
+            assert connection.execute("SELECT value FROM probe WHERE id=1").fetchone()[0] == "pre-restore-state"
+        assert interrupted_checkpoint.read_text(encoding="utf-8") == '{"state_version":1,"buffers":{"before":true}}\n'
+        assert not interrupted_db.with_suffix(interrupted_db.suffix + ".restore-tmp").exists()
+        assert not interrupted_db.with_suffix(interrupted_db.suffix + ".restore-prev").exists()
+        assert not interrupted_checkpoint.with_suffix(interrupted_checkpoint.suffix + ".restore-tmp").exists()
+        assert not interrupted_checkpoint.with_suffix(interrupted_checkpoint.suffix + ".restore-prev").exists()
+        print("[P1-001] Interrupted checkpoint promotion restores previous targets and cleans staging: PASSED")
 
         manifest_path = bundle / "manifest.json"
         original_manifest_text = manifest_path.read_text(encoding="utf-8")

@@ -263,25 +263,57 @@ def restore_backup_bundle(
     source_database = bundle / str(database_artifact.get("path"))
     target_database.parent.mkdir(parents=True, exist_ok=True)
     temporary_target = target_database.with_suffix(target_database.suffix + ".restore-tmp")
-    if temporary_target.exists():
-        temporary_target.unlink()
-    metadata = _sqlite_backup(source_database, temporary_target)
-    if metadata["integrity_check"] != "ok":
+    temporary_target.unlink(missing_ok=True)
+    temporary_checkpoint: Path | None = None
+    previous_database = target_database.with_suffix(target_database.suffix + ".restore-prev")
+    previous_checkpoint: Path | None = None
+    promoted_database = False
+    promoted_checkpoint = False
+    try:
+        metadata = _sqlite_backup(source_database, temporary_target)
+        if metadata["integrity_check"] != "ok":
+            raise BackupRestoreError("restore_integrity_check_failed")
+        restored_checkpoint = None
+        if target_checkpoint is not None:
+            checkpoint_artifact = manifest.get("artifacts", {}).get("telemetry_checkpoint")
+            if not checkpoint_artifact:
+                raise BackupRestoreError("checkpoint_artifact_missing")
+            source_checkpoint = bundle / str(checkpoint_artifact["path"])
+            target_checkpoint = target_checkpoint.expanduser().resolve()
+            target_checkpoint.parent.mkdir(parents=True, exist_ok=True)
+            temporary_checkpoint = target_checkpoint.with_suffix(target_checkpoint.suffix + ".restore-tmp")
+            previous_checkpoint = target_checkpoint.with_suffix(target_checkpoint.suffix + ".restore-prev")
+            temporary_checkpoint.unlink(missing_ok=True)
+            previous_checkpoint.unlink(missing_ok=True)
+            shutil.copy2(source_checkpoint, temporary_checkpoint)
+            restored_checkpoint = str(target_checkpoint)
+
+        previous_database.unlink(missing_ok=True)
+        if target_database.exists():
+            target_database.replace(previous_database)
+        if target_checkpoint is not None and target_checkpoint.exists() and previous_checkpoint is not None:
+            target_checkpoint.replace(previous_checkpoint)
+        temporary_target.replace(target_database)
+        promoted_database = True
+        if temporary_checkpoint is not None and target_checkpoint is not None:
+            temporary_checkpoint.replace(target_checkpoint)
+            promoted_checkpoint = True
+        previous_database.unlink(missing_ok=True)
+        if previous_checkpoint is not None:
+            previous_checkpoint.unlink(missing_ok=True)
+    except Exception:
         temporary_target.unlink(missing_ok=True)
-        raise BackupRestoreError("restore_integrity_check_failed")
-    temporary_target.replace(target_database)
-    restored_checkpoint = None
-    if target_checkpoint is not None:
-        checkpoint_artifact = manifest.get("artifacts", {}).get("telemetry_checkpoint")
-        if not checkpoint_artifact:
-            raise BackupRestoreError("checkpoint_artifact_missing")
-        source_checkpoint = bundle / str(checkpoint_artifact["path"])
-        target_checkpoint = target_checkpoint.expanduser().resolve()
-        target_checkpoint.parent.mkdir(parents=True, exist_ok=True)
-        temporary_checkpoint = target_checkpoint.with_suffix(target_checkpoint.suffix + ".restore-tmp")
-        shutil.copy2(source_checkpoint, temporary_checkpoint)
-        temporary_checkpoint.replace(target_checkpoint)
-        restored_checkpoint = str(target_checkpoint)
+        if temporary_checkpoint is not None:
+            temporary_checkpoint.unlink(missing_ok=True)
+        if promoted_checkpoint and target_checkpoint is not None:
+            target_checkpoint.unlink(missing_ok=True)
+        if promoted_database:
+            target_database.unlink(missing_ok=True)
+        if previous_database.exists():
+            previous_database.replace(target_database)
+        if previous_checkpoint is not None and previous_checkpoint.exists() and target_checkpoint is not None:
+            previous_checkpoint.replace(target_checkpoint)
+        raise
     return {
         "restore_status": "SOFTWARE_RESTORE_VERIFIED",
         "target_database": str(target_database),

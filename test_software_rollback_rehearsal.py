@@ -34,6 +34,16 @@ def run() -> None:
     assert report["checks"]["audit_export"]["redaction_shape_valid"] is True
     assert report["checks"]["anchor"]["receipt_readback_valid"] is True
     assert report["checks"]["worker_queue"]["status"] == "QUEUED"
+    assert report["checks"]["worker_queue"]["stale_status_before_reconciliation"] == "RUNNING"
+    assert report["checks"]["worker_stale_lease_recovery"]["blocked_jobs"] == ["rollback-worker-stale"]
+    assert report["checks"]["worker_stale_lease_recovery"]["reconciled_status"] == "FAILED"
+    assert report["checks"]["worker_stale_lease_recovery"]["audit_chain_valid"] is True
+    fault_results = report["fault_injection_results"]
+    assert all(item["passed"] is True for item in fault_results.values())
+    assert all(item["resume_permitted"] is False for item in fault_results.values())
+    assert fault_results["partial_audit_write"]["partial_write_detected"] is True
+    assert "BACKUP_STALE" in fault_results["backup_freshness_breach"]["remediation_codes"]
+    assert fault_results["schema_migration_mismatch"]["observed_user_version"] == 8
     assert report["patient_data_used"] is False
     assert report["raw_frames_recorded"] is False
     assert report["external_authority"] == "NONE"
