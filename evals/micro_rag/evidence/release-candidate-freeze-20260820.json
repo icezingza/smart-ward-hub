@@ -169,6 +169,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "CROSS_COMPONENT_RECOVERY_MATRIX_READINESS_REPORT_20260822.md",
+      "sha256": "6411d27471d26ebff5a2899c9de5abc62218a30fe544d5c8a6fe13743e6a4bdf",
+      "size_bytes": 5456
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "DEVICE_TRUST_BASELINE_REPORT.md",
       "sha256": "ab560bc9a591a99b533585992373cbd536c51d3f2558e3824c50cf2a61b66b70",
       "size_bytes": 7918
@@ -1009,6 +1015,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "cross_component_recovery_matrix.py",
+      "sha256": "1f125399ccb853216b0cbb5bdf5eccbd3446de4d631189d4e8a45eb93022d9b1",
+      "size_bytes": 9908
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "database.py",
       "sha256": "841c128596dcf4f846b17ffe70fe17c5c3d2c7ca4091daab86373c454d504407",
       "size_bytes": 1307
@@ -1114,6 +1126,12 @@
       "path": "evals/micro_rag/evidence/controlled-pilot-operations-report-20260820.json",
       "sha256": "b2aaccb18a4844371f5a3781fca8bb467a38eee85f094e4a3708f68fed7b226c",
       "size_bytes": 5844
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/cross-component-recovery-matrix-local-20260822.json",
+      "sha256": "ab157d704b06d87723ae135f61e57cf106edfa20ad6c2aa85146a7cb18557c19",
+      "size_bytes": 1656
     },
     {
       "classification": "evidence_or_machine_record",
@@ -2048,8 +2066,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "d65be5ac9fd2b867f005fed0f00e9a866e2a3123f522715311c53f4b46d3d89d",
-      "size_bytes": 5497
+      "sha256": "c2d6931ad07d48299c97b31e489643fc2568c1a1d84fd610fd378e3278416fd6",
+      "size_bytes": 5611
     },
     {
       "classification": "source_or_runtime_config",
@@ -2158,6 +2176,18 @@
       "path": "test_controlled_pilot_operations.py",
       "sha256": "50c88dfb7130653d3f3c2cdd842f3b0f08443ea30c911c7a05f1d52fc0db5d27",
       "size_bytes": 4715
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_cross_component_recovery_matrix.py",
+      "sha256": "af097e854a4ce7592018592596dc4e61645dcd3d4f3bfc56933adb27254abd88",
+      "size_bytes": 2075
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_cross_component_recovery_matrix_phase_end_hardening.py",
+      "sha256": "ce390a3cd18956c5bbcf0f3994c2335e95c14886a3418aedc237073f31429f6d",
+      "size_bytes": 3401
     },
     {
       "classification": "source_or_runtime_config",
@@ -2796,14 +2826,14 @@
       "size_bytes": 8057
     }
   ],
-  "freeze_created_at_utc": "2026-08-21T21:12:05.351601+00:00",
+  "freeze_created_at_utc": "2026-08-21T21:28:16.670376+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "947621a077d092e7f8008faf9ad89e002d470a70",
+  "origin_main_revision": "2db27b2cfd18bb7ad79d2582d968215ba414bea3",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "947621a077d092e7f8008faf9ad89e002d470a70"
+  "source_revision": "2db27b2cfd18bb7ad79d2582d968215ba414bea3"
 }
