@@ -88,6 +88,8 @@ TESTS = [
     "test_operational_thresholds_phase_end_hardening.py",
     "test_operational_remediation_rehearsal.py",
     "test_operational_remediation_phase_end_hardening.py",
+    "test_alert_sync_reconciliation_matrix.py",
+    "test_alert_sync_reconciliation_matrix_phase_end_hardening.py",
     "test_software_rollback_rehearsal.py",
     "test_software_rollback_rehearsal_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
