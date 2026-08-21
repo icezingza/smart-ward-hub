@@ -94,5 +94,6 @@ Rollback ทำได้โดย revert `wave1_external_evidence_intake.py`, `e
 - `test_wave1_external_evidence_intake.py`
 - `test_wave1_external_evidence_intake_phase_end_hardening.py`
 - `WAVE_1_EXTERNAL_EVIDENCE_INTAKE_READINESS_REPORT_20260821.md`
+- `evals/micro_rag/evidence/wave1-external-evidence-intake-local-20260821.json`
 - `WAVE_1_EXTERNAL_EVIDENCE_PREPARATION_MATRIX_20260821.md`
 - `evals/micro_rag/evidence/wave1-external-execution-readiness-20260820.json`

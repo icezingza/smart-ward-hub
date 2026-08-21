@@ -1,0 +1,48 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_validation_authorized": false,
+  "evidence_class": "SOFTWARE_VERIFIED/SIMULATION_ONLY",
+  "execution_status": "NOT_STARTED",
+  "external_execution_authorized": false,
+  "independent_verification_required": true,
+  "missing_external_prerequisites": [
+    "wave0_signed_scope",
+    "wave0_approved_test_window",
+    "wave0_named_stop_authority",
+    "wave0_rollback_owner",
+    "wave0_independent_verifier",
+    "gv04_nonproduction_idp",
+    "gv04_certificate_owner",
+    "gv04_network_acl",
+    "gv08_custody_owner",
+    "gv08_dual_control_ceremony",
+    "gv08_revocation_distribution",
+    "gv06_acer_fixture",
+    "gv06_loopback_fixture",
+    "gv06_operator_confirmation",
+    "gv06_physical_witness"
+  ],
+  "package_id": "PENDING_EXTERNAL_APPOINTMENT",
+  "prerequisite_count": 15,
+  "production_authorized": false,
+  "project": "smart-ward-hub",
+  "readiness": "READY_FOR_OWNER_APPOINTMENT",
+  "repository": "icezingza/smart-ward-hub",
+  "schema_version": "wave1-external-evidence-intake-v1",
+  "submission_status": "NOT_SUBMITTED",
+  "template_sha256": "a77a731437f954040f253cdc1f6f62a42496e51cc6fbeb6d76e07e01e755ade9",
+  "validation": {
+    "execution_ready": false,
+    "external_execution_authorized": false,
+    "missing_count": 15,
+    "mode": "TEMPLATE_ONLY",
+    "readiness": "READY_FOR_OWNER_APPOINTMENT",
+    "valid": true
+  }
+}
