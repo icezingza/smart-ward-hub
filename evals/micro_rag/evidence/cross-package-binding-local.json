@@ -1,0 +1,68 @@
+{
+  "artifact_hashes": {
+    "approval": "2c57bbc1088b1def591c046a85aa7aef43567162302bdae357134c5c9a4161ac",
+    "durable": "097b8c4e78da9badb4deedf2020d5adec5c90759c671c6e2da07f8c4f58e89d4",
+    "transcript": "95dad31494f4e3fbdc3017cfd1c2faedef5eb7b82051255d72c0bfa7d0197ac5"
+  },
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "checks": {
+    "all_packages_read_only": true,
+    "approval_queue_hash_matches": true,
+    "approval_queue_ref_matches": true,
+    "approval_source_revision_ancestor": true,
+    "approval_source_revision_present": true,
+    "approval_transcript_hash_matches": true,
+    "approval_transcript_ref_matches": true,
+    "durable_replay_boundary_locked": true,
+    "durable_source_revision_ancestor": true,
+    "durable_source_revision_present": true,
+    "freeze_boundary_locked": true,
+    "freeze_hash_matches_approval": true,
+    "freeze_hash_matches_durable": true,
+    "freeze_hash_matches_transcript": true,
+    "freeze_lists_approval": true,
+    "freeze_lists_durable": true,
+    "freeze_lists_transcript": true,
+    "freeze_source_revision_valid": true,
+    "no_external_transmission": true,
+    "transcript_integrity_valid": true,
+    "transcript_schema_valid": true,
+    "transcript_source_revision_ancestor": true,
+    "transcript_source_revision_present": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "BOUND",
+  "evidence_type": "CROSS_PACKAGE_EVIDENCE_BINDING",
+  "external_transmission_performed": false,
+  "freeze_source_revision": "3ab3f19ad2b01778d0539b0348d21b05da7d6a35",
+  "generated_at_utc": "2026-08-21T22:59:48.345520+00:00",
+  "read_only": true,
+  "redaction_verified": true,
+  "refs": {
+    "approval_queue_backup_ref": "backup:a0fce0992f0018e916e8",
+    "approval_transcript_ref": "worker-recovery-transcript-001",
+    "transcript_queue_backup_ref": "backup:a0fce0992f0018e916e8",
+    "transcript_ref": "worker-recovery-transcript-001"
+  },
+  "remediation_codes": [
+    "EVIDENCE_PACKAGES_BOUND"
+  ],
+  "schema_version": "smart-ward-cross-package-binding-v1",
+  "source_revision": "8961702b47ba8d21423c99aee9e6d29ec255b48e",
+  "source_revisions": {
+    "approval": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
+    "durable": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
+    "transcript": "0781e6985b3b1b9a99793ee023ad024857b5fadc"
+  }
+}
