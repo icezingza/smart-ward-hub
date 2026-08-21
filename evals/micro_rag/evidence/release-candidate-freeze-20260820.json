@@ -181,6 +181,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "EVIDENCE_RECONCILIATION_READINESS_REPORT_20260821.md",
+      "sha256": "1629bbc31a4d0f4fbf85adf98939cbfca32d80637f2a6dfcb7d5e3673050c590",
+      "size_bytes": 6678
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "EXTERNAL_AUTHORIZATION_API_DECISION_LIFECYCLE.md",
       "sha256": "9a27cb723205a0667ba75c53c7e7ffedaa4d7ae4635d253f28aa3d6721abecb4",
       "size_bytes": 12688
@@ -1087,6 +1093,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/evidence-reconciliation-local-20260821.json",
+      "sha256": "64be41946f77f0afb7614e382a5d7c473f890c59874308ecf0119bcc165984c8",
+      "size_bytes": 4508
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/external-authorization-api-simulation-20260820.json",
       "sha256": "05ec280bb9ef9efaeab68fde250222ed68cf4466e84445d876fe50cacd38eb27",
       "size_bytes": 13311
@@ -1402,6 +1414,18 @@
       "path": "evals/micro_rag/test_response_adapter.py",
       "sha256": "36d98b949821f467f2bc602021400d014b6cd0267f5de50c9269748f6b172f42",
       "size_bytes": 8266
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "evidence_reconciliation.py",
+      "sha256": "bd1a3af7f658987f5efd70fa2d79f1879eb877053efd81c586a1deb10fd8d22e",
+      "size_bytes": 17592
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_evidence_reconciliation.py",
+      "sha256": "305be35ad84d588d6b057ca439df7518814eac7286ffe63c7f35ffcdfc1351bb",
+      "size_bytes": 2054
     },
     {
       "classification": "source_or_runtime_config",
@@ -1934,8 +1958,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "8b791c605d498007e2908d91d1fec25eb1c81b9fd85b0c27ff0809e997f25fbd",
-      "size_bytes": 4240
+      "sha256": "9feb303e3e3b7f432d66b78d324cf5b80edb9e39c110314f0ba1ffee38016177",
+      "size_bytes": 4338
     },
     {
       "classification": "source_or_runtime_config",
@@ -2000,8 +2024,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "cdd9a3b653d3ef8ed8fac4e7d87f176130b0d42c005726dbeaad012e46f39b3d",
-      "size_bytes": 37884
+      "sha256": "ab5c381ad1c42b7e88a4aa5bc88b90746b2653ce074848cc1fa548febf0fc8a2",
+      "size_bytes": 38819
     },
     {
       "classification": "source_or_runtime_config",
@@ -2074,6 +2098,18 @@
       "path": "test_edge_runtime.py",
       "sha256": "d7a29abcf912f47ce9dfc8460d4dd55af9974d505f372a1073f8f38db199c9b3",
       "size_bytes": 1828
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_evidence_reconciliation.py",
+      "sha256": "f313fcad20fa58910f66beee25d1f69f0d0d4e64bdf96d1fc5aefc6cfdd2c68a",
+      "size_bytes": 4295
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_evidence_reconciliation_phase_end_hardening.py",
+      "sha256": "612d6a443e1aa6474ac658545f56d0933a1fddb7af178a1ae7fad28f22e4346a",
+      "size_bytes": 4187
     },
     {
       "classification": "source_or_runtime_config",
@@ -2616,14 +2652,14 @@
       "size_bytes": 8057
     }
   ],
-  "freeze_created_at_utc": "2026-08-21T16:51:11.252683+00:00",
+  "freeze_created_at_utc": "2026-08-21T17:35:02.217713+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "bc25c59ed3833cd10ccd5d483dc8627be599e2c0",
+  "origin_main_revision": "cbb505388f31c40c42c54e64bff7f8d155caf268",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "bc25c59ed3833cd10ccd5d483dc8627be599e2c0"
+  "source_revision": "cbb505388f31c40c42c54e64bff7f8d155caf268"
 }
