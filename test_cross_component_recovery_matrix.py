@@ -38,16 +38,31 @@ def run() -> None:
         "anchor_tamper_requires_reconciliation",
         "checkpoint_corruption_isolated",
         "combined_faults_block_resume",
+        "worker_restart_stale_lease_reconcile",
+        "worker_audit_corruption_fails_closed",
+        "worker_queue_schema_binding_mismatch",
+        "wal_busy_locked_fails_closed",
+        "checkpoint_disk_full_rolls_back",
     }
     actual = {item["scenario"] for item in report["results"]}
     assert actual == expected
+    assert report["scenario_count"] == 11
+    assert report["component_coverage"] == [
+        "sqlite_wal",
+        "telemetry_checkpoint",
+        "backup_restore",
+        "forensic_anchor",
+        "durable_worker",
+        "worker_queue_backup",
+        "audit_chain",
+    ]
     assert all(item["status"] == "PASS" for item in report["results"])
     assert all(
         item.get("recovery_decision") == "RECONCILIATION_REQUIRED"
         for item in report["results"]
         if item["scenario"] != "backup_restore_roundtrip"
     )
-    print("[Recovery Matrix] six cross-component scenarios and decision boundary: PASSED")
+    print("[Recovery Matrix] eleven cross-component scenarios and decision boundary: PASSED")
     print("CROSS_COMPONENT_RECOVERY_MATRIX_TESTS_PASSED")
 
 

@@ -1,6 +1,15 @@
 {
   "all_passed": true,
   "clinical_validation_authorized": false,
+  "component_coverage": [
+    "sqlite_wal",
+    "telemetry_checkpoint",
+    "backup_restore",
+    "forensic_anchor",
+    "durable_worker",
+    "worker_queue_backup",
+    "audit_chain"
+  ],
   "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
   "external_authority": "NONE",
   "mode": "software_fault_injection",
@@ -43,9 +52,36 @@
       "resume_permitted": false,
       "scenario": "combined_faults_block_resume",
       "status": "PASS"
+    },
+    {
+      "idempotency_replay_preserved": true,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "worker_restart_stale_lease_reconcile",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "worker_audit_corruption_fails_closed",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "worker_queue_schema_binding_mismatch",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "wal_busy_locked_fails_closed",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "checkpoint_disk_full_rolls_back",
+      "status": "PASS"
     }
   ],
   "resume_permitted_after_unresolved_fault": false,
+  "scenario_count": 11,
   "schema_version": "smart-ward-recovery-matrix-v1",
   "suite": "smart-ward-cross-component-recovery-matrix",
   "target_host_validation": "UNVERIFIED"

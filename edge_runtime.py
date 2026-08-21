@@ -168,6 +168,10 @@ class EdgeTelemetryStore:
                 return self._result(device_id, accepted=False, reason="duplicate_or_out_of_order_sequence")
 
             buffer = self._buffer(device_id)
+            previous_buffer = list(buffer)
+            previous_last_sequence = self._last_sequence.get(device_id)
+            previous_dropped_samples = self._dropped_samples.get(device_id, 0)
+            previous_append_count = self._append_count
             was_full = len(buffer) == buffer.maxlen
             buffer.append(dict(sample))
             if was_full:
@@ -175,7 +179,21 @@ class EdgeTelemetryStore:
             self._last_sequence[device_id] = sequence
             self._append_count += 1
             if self.state_path and self._append_count % self.checkpoint_every == 0:
-                self._persist_locked()
+                try:
+                    self._persist_locked()
+                except OSError:
+                    buffer.clear()
+                    buffer.extend(previous_buffer)
+                    if previous_last_sequence is None:
+                        self._last_sequence.pop(device_id, None)
+                    else:
+                        self._last_sequence[device_id] = previous_last_sequence
+                    if previous_dropped_samples:
+                        self._dropped_samples[device_id] = previous_dropped_samples
+                    else:
+                        self._dropped_samples.pop(device_id, None)
+                    self._append_count = previous_append_count
+                    return self._result(device_id, accepted=False, reason="checkpoint_persist_failed", sequence=previous_last_sequence)
             return self._result(device_id, accepted=True, reason=None, sequence=sequence)
 
     def ensure(self, device_id: str) -> None:

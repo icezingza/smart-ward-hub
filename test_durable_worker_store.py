@@ -179,6 +179,9 @@ def test_expired_completion_fails_closed_and_concurrent_claim_serializes() -> No
         assert owner_store.verify_audit_chain() is True
         owner_store._connection.execute("UPDATE worker_audit SET details_json = '{\"tampered\":true}' WHERE event_seq = 1")
         assert owner_store.verify_audit_chain() is False
+        owner_store._connection.execute("UPDATE worker_audit SET details_json = '{broken' WHERE event_seq = 1")
+        assert owner_store.verify_audit_chain() is False
+        assert owner_store.health()["audit_chain_valid"] is False
         first.close()
         second.close()
     print("[Durable Worker] Concurrent claim serialization, expired completion stop and audit tamper detection: PASSED")

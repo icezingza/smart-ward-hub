@@ -1,5 +1,6 @@
 from pathlib import Path
 import tempfile
+from unittest.mock import patch
 
 from edge_runtime import EdgeTelemetryStore
 
@@ -61,6 +62,15 @@ def run() -> None:
         assert bounded.append("device-1", {"sequence": 3, "payload": "x" * 300}, 3).reason == "sample_too_large"
         assert bounded.append("device-1", sample(3), True).reason == "invalid_sequence"
         print("[Edge] Invalid identifier, oversized sample and boolean sequence rejection: PASSED")
+
+        disk_full = EdgeTelemetryStore(max_samples=2, state_path=Path("/tmp/edge-disk-full-state.json"), checkpoint_every=1)
+        with patch.object(disk_full, "_persist_locked", side_effect=OSError(28, "simulated disk full")):
+            failed = disk_full.append("device-disk", sample(1), 1)
+        assert failed.accepted is False
+        assert failed.reason == "checkpoint_persist_failed"
+        assert disk_full.snapshot("device-disk") == []
+        assert disk_full.last_sequence("device-disk") is None
+        print("[Edge] Checkpoint persistence failure rolls back accepted state: PASSED")
 
     print("\nEDGE RUNTIME TESTS PASSED")
 

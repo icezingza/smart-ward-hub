@@ -20,8 +20,13 @@
 | Local forensic anchor tamper | receipt readback ต้อง fail และต้อง reconcile | PASS |
 | Corrupt checkpoint JSON | recover เป็น empty/untrusted state ไม่ประกาศ green | PASS |
 | Combined database + anchor faults | `resume_permitted=false`, decision `RECONCILIATION_REQUIRED` | PASS |
+| Worker restart with stale lease | idempotency replay preserved; stale lease blocks until explicit reconciliation | PASS |
+| Durable worker audit corruption | `health.audit_chain_valid=false` without crash | PASS |
+| Worker queue binding schema mismatch | restore rejected before target promotion | PASS |
+| WAL busy/locked writer contention | contender write rejected while owner holds transaction | PASS |
+| Checkpoint disk-full failure | append rolls back buffer/sequence state | PASS |
 
-สรุปคือ scenario ทั้ง 6 ผ่านใน software fault-injection suite และ machine-readable report ระบุ `all_passed=true`, `normal_resume_after_verified_roundtrip=true`, `resume_permitted_after_unresolved_fault=false` และ `recovery_decision_on_unverified_component=RECONCILIATION_REQUIRED`
+สรุปคือ scenario ทั้ง 11 ผ่านใน software fault-injection suite และ machine-readable report ระบุ `scenario_count=11`, `all_passed=true`, `normal_resume_after_verified_roundtrip=true`, `resume_permitted_after_unresolved_fault=false` และ `recovery_decision_on_unverified_component=RECONCILIATION_REQUIRED`
 
 ## 3. Controls ที่ยืนยันได้
 
@@ -39,7 +44,7 @@
 
 ## 6. งานถัดไปที่ยังทำได้ภายใน
 
-ควรขยาย matrix ไปยัง audit log partial write, idempotency store restart, worker lease recovery, WAL busy/locked behavior, disk-full simulation, schema/migration mismatch, forensic chain/readback mismatch และ cross-component reconciliation report ที่ระบุ owner, stop reason, required operator action และ rollback target โดยทุกกรณีต้องคง `resume_permitted=false` เมื่อมี unverified component
+ควรขยาย matrix ต่อไปยัง audit log partial write, worker lease fencing, idempotency store concurrent restart, schema/migration mismatch ระดับ database, forensic chain/readback mismatch และ cross-component reconciliation report ที่ระบุ owner, stop reason, required operator action และ rollback target โดยทุกกรณีต้องคง `resume_permitted=false` เมื่อมี unverified component
 
 ## 7. งานที่ต้องรอ external/physical evidence
 

@@ -2,15 +2,20 @@ from __future__ import annotations
 
 import argparse
 from copy import deepcopy
+from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 from pathlib import Path
 import sqlite3
 import tempfile
 from typing import Any, Callable
+from unittest.mock import patch
 
 from backup_restore import BackupRestoreError, create_backup_bundle, restore_backup_bundle
+from durable_worker_store import DurableWorkerStore, DurableWorkerStateError
 from edge_controls import FileAnchorStore
 from edge_runtime import EdgeTelemetryStore
+from worker_queue_backup import WorkerQueueBackupError, create_worker_queue_backup, restore_worker_queue_backup
 
 
 SCHEMA_VERSION = "smart-ward-recovery-matrix-v1"
@@ -40,6 +45,38 @@ def _create_checkpoint(path: Path) -> None:
     assert store.append("device-recovery", _sample(1), 1).accepted
     assert store.append("device-recovery", _sample(2), 2).accepted
     store.persist()
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+class FixedClock:
+    def __init__(self) -> None:
+        self.value = datetime(2026, 8, 22, 12, 0, tzinfo=timezone.utc)
+
+    def __call__(self) -> datetime:
+        return self.value
+
+    def advance(self, seconds: int) -> None:
+        self.value += timedelta(seconds=seconds)
+
+
+def _submit_worker(store: DurableWorkerStore, job_id: str, idempotency_key: str) -> dict[str, Any]:
+    return store.submit(
+        job_id=job_id,
+        job_type="BACKUP_REPORT",
+        args={"report_kind": "daily", "format": "json", "scope_ref": "ward-04"},
+        idempotency_key=idempotency_key,
+        requester_role="reliability_operator",
+        approver_role="security_auditor",
+        approval_ref="approval-ref-001",
+        max_attempts=3,
+    )
 
 
 def _create_forensic_manifest(path: Path) -> None:
@@ -188,6 +225,120 @@ def _case_combined_faults_block_resume(root: Path) -> dict[str, Any]:
     }
 
 
+def _case_worker_restart_stale_lease_reconcile(root: Path) -> dict[str, Any]:
+    clock = FixedClock()
+    database = root / "worker-restart.db"
+    store = DurableWorkerStore(str(database), lease_seconds=10, clock=clock)
+    first = _submit_worker(store, "worker-recovery-001", "worker-idem-001")
+    store.close()
+
+    reopened = DurableWorkerStore(str(database), lease_seconds=10, clock=clock)
+    replay = _submit_worker(reopened, "worker-recovery-001", "worker-idem-001")
+    assert replay["fingerprint"] == first["fingerprint"]
+    claimed = reopened.claim(job_id="worker-recovery-001", worker_id="worker-a", now=clock())
+    assert claimed["status"] == "RUNNING"
+    clock.advance(11)
+    blocked = reopened.recover_expired_leases(
+        actor_role="control_room_coordinator",
+        reconciliation_ref="worker-reconcile-001",
+        now=clock(),
+    )
+    assert blocked == ["worker-recovery-001"]
+    reopened.close()
+
+    restarted = DurableWorkerStore(str(database), lease_seconds=10, clock=clock)
+    assert restarted.get("worker-recovery-001")["status"] == "BLOCKED"
+    failed = restarted.reconcile(
+        job_id="worker-recovery-001",
+        decision="FAIL",
+        actor_role="control_room_coordinator",
+        reconciliation_ref="worker-reconcile-002",
+        now=clock(),
+    )
+    assert failed["status"] == "FAILED"
+    assert restarted.health()["audit_chain_valid"] is True
+    restarted.close()
+    return {
+        "scenario": "worker_restart_stale_lease_reconcile",
+        "status": "PASS",
+        "recovery_decision": "RECONCILIATION_REQUIRED",
+        "idempotency_replay_preserved": True,
+    }
+
+
+def _case_worker_audit_corruption_fails_closed(root: Path) -> dict[str, Any]:
+    database = root / "worker-audit-corrupt.db"
+    store = DurableWorkerStore(str(database), clock=FixedClock())
+    _submit_worker(store, "worker-audit-001", "worker-audit-idem-001")
+    store.close()
+    with sqlite3.connect(database) as connection:
+        connection.execute("UPDATE worker_audit SET details_json = '{broken' WHERE event_seq = 1")
+        connection.commit()
+    reopened = DurableWorkerStore(str(database), clock=FixedClock())
+    assert reopened.verify_audit_chain() is False
+    assert reopened.health()["audit_chain_valid"] is False
+    reopened.close()
+    return {"scenario": "worker_audit_corruption_fails_closed", "status": "PASS", "recovery_decision": "RECONCILIATION_REQUIRED"}
+
+
+def _case_worker_queue_schema_binding_mismatch(root: Path) -> dict[str, Any]:
+    database = root / "worker-queue.db"
+    store = DurableWorkerStore(str(database), clock=FixedClock())
+    _submit_worker(store, "worker-queue-001", "worker-queue-idem-001")
+    store.close()
+    bundle = create_worker_queue_backup(database_path=database, output_dir=root / "worker-queue-backups", source_revision="worker-queue-revision")
+    binding_path = bundle / "worker_queue_binding.json"
+    original = binding_path.read_text(encoding="utf-8")
+    binding = json.loads(original)
+    binding["store_schema_version"] = "unknown-worker-schema"
+    binding_path.write_text(json.dumps(binding, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    try:
+        restore_worker_queue_backup(
+            bundle_dir=bundle,
+            target_database=root / "worker-queue-restored.db",
+            confirmation=RESTORE_CONFIRMATION,
+        )
+    except WorkerQueueBackupError as exc:
+        assert str(exc) in {"worker_queue_binding_store_schema_invalid", "worker_queue_binding_checksum_failed"}
+    else:
+        raise AssertionError("schema-mismatched worker queue was restored")
+    binding_path.write_text(original, encoding="utf-8")
+    return {"scenario": "worker_queue_schema_binding_mismatch", "status": "PASS", "recovery_decision": "RECONCILIATION_REQUIRED"}
+
+
+def _case_wal_busy_locked_fails_closed(root: Path) -> dict[str, Any]:
+    database = root / "wal-busy.db"
+    with sqlite3.connect(database, timeout=1.0) as owner:
+        owner.execute("PRAGMA journal_mode=WAL")
+        owner.execute("CREATE TABLE lock_fixture (id INTEGER PRIMARY KEY, value TEXT)")
+        owner.commit()
+        owner.execute("BEGIN IMMEDIATE")
+        owner.execute("INSERT INTO lock_fixture(value) VALUES ('owner')")
+        with sqlite3.connect(database, timeout=0.05) as contender:
+            contender.execute("PRAGMA busy_timeout=50")
+            try:
+                contender.execute("INSERT INTO lock_fixture(value) VALUES ('contender')")
+                contender.commit()
+            except sqlite3.OperationalError as exc:
+                assert "locked" in str(exc).lower()
+            else:
+                raise AssertionError("contender write bypassed WAL lock boundary")
+        owner.rollback()
+    return {"scenario": "wal_busy_locked_fails_closed", "status": "PASS", "recovery_decision": "RECONCILIATION_REQUIRED"}
+
+
+def _case_checkpoint_disk_full_rolls_back(root: Path) -> dict[str, Any]:
+    checkpoint = root / "disk-full-checkpoint.json"
+    store = EdgeTelemetryStore(max_samples=4, state_path=checkpoint, checkpoint_every=1)
+    with patch.object(store, "_persist_locked", side_effect=OSError(28, "simulated disk full")):
+        result = store.append("device-disk-full", _sample(1), 1)
+    assert result.accepted is False
+    assert result.reason == "checkpoint_persist_failed"
+    assert store.snapshot("device-disk-full") == []
+    assert store.last_sequence("device-disk-full") is None
+    return {"scenario": "checkpoint_disk_full_rolls_back", "status": "PASS", "recovery_decision": "RECONCILIATION_REQUIRED"}
+
+
 def run_matrix(output: Path | None = None) -> dict[str, Any]:
     cases: tuple[Callable[[Path], dict[str, Any]], ...] = (
         _case_backup_restore_roundtrip,
@@ -196,6 +347,11 @@ def run_matrix(output: Path | None = None) -> dict[str, Any]:
         _case_anchor_tamper_requires_reconciliation,
         _case_checkpoint_corruption_isolated,
         _case_combined_faults_block_resume,
+        _case_worker_restart_stale_lease_reconcile,
+        _case_worker_audit_corruption_fails_closed,
+        _case_worker_queue_schema_binding_mismatch,
+        _case_wal_busy_locked_fails_closed,
+        _case_checkpoint_disk_full_rolls_back,
     )
     with tempfile.TemporaryDirectory(prefix="smart-ward-recovery-matrix-") as directory:
         root = Path(directory)
@@ -206,6 +362,8 @@ def run_matrix(output: Path | None = None) -> dict[str, Any]:
         "mode": "software_fault_injection",
         "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
         "results": results,
+        "scenario_count": len(results),
+        "component_coverage": ["sqlite_wal", "telemetry_checkpoint", "backup_restore", "forensic_anchor", "durable_worker", "worker_queue_backup", "audit_chain"],
         "all_passed": all(item["status"] == "PASS" for item in results),
         "normal_resume_after_verified_roundtrip": next(item for item in results if item["scenario"] == "backup_restore_roundtrip")["normal_resume_after_integrity_checks"],
         "resume_permitted_after_unresolved_fault": False,

@@ -447,7 +447,10 @@ class DurableWorkerStore:
             previous: str | None = None
             rows = self._connection.execute("SELECT * FROM worker_audit ORDER BY event_seq").fetchall()
             for expected_seq, row in enumerate(rows, start=1):
-                details = json.loads(row["details_json"])
+                try:
+                    details = json.loads(row["details_json"])
+                except (TypeError, json.JSONDecodeError):
+                    return False
                 payload = {
                     "event_seq": expected_seq,
                     "timestamp": row["timestamp"],
