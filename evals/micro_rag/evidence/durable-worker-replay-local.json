@@ -1,0 +1,94 @@
+{
+  "authorization_boundary": {
+    "external_authority": false,
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "backup_restore": {
+    "restore_result": {
+      "binding_verified": true,
+      "external_authority": false,
+      "patient_data_used": false,
+      "physical_storage_validation": "UNVERIFIED",
+      "restore_status": "SOFTWARE_RESTORE_VERIFIED",
+      "secret_material_restored": false,
+      "source_backup_id": "backup-20260821T224014Z-75e76d0a",
+      "source_revision": "fixture-source-revision-001",
+      "worker_queue_restore_status": "SOFTWARE_RESTORE_VERIFIED",
+      "worker_store_schema_version": "p2-005-durable-worker-v1"
+    },
+    "restored_dead_letter_classification": "RETRY_LIMIT_EXCEEDED_DEAD_LETTER",
+    "restored_health": {
+      "audit_chain_valid": true,
+      "integrity_check": "ok",
+      "journal_mode": "wal",
+      "mode": "software_fixture",
+      "schema_version": "p2-005-durable-worker-v1",
+      "synchronous": 2
+    },
+    "restored_lease_status": "QUEUED"
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "clinical_state_mutation_performed": false,
+  "contract": "DURABLE_WORKER_REPLAY_CONTRACT_V1",
+  "dead_letter": {
+    "classification": "RETRY_LIMIT_EXCEEDED_DEAD_LETTER",
+    "confirmation_required": {
+      "decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "external_authority": false,
+      "opaque_refs": {
+        "job_ref": "job:09bca8ba661fb655cb88"
+      },
+      "production_authorized": false,
+      "reason": "Explicit operator confirmation is required before software replay eligibility.",
+      "remediation_code": "DEAD_LETTER_REPLAY_CONFIRMATION_REQUIRED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "dead_letter_replay_confirmation_required"
+    },
+    "queue_health_before_backup": {
+      "audit_chain_valid": true,
+      "integrity_check": "ok",
+      "journal_mode": "wal",
+      "mode": "software_fixture",
+      "schema_version": "p2-005-durable-worker-v1",
+      "synchronous": 2
+    },
+    "replay_eligible": {
+      "decision": "SOFTWARE_REPLAY_ELIGIBLE",
+      "external_authority": false,
+      "opaque_refs": {
+        "job_ref": "job:09bca8ba661fb655cb88"
+      },
+      "production_authorized": false,
+      "reason": "The isolated fixture records replay eligibility but does not claim or execute a worker.",
+      "remediation_code": "DEAD_LETTER_REPLAY_ELIGIBLE",
+      "replay_executed": false,
+      "replay_permitted": true,
+      "resume_permitted": true,
+      "scenario_id": "dead_letter_replay_software_eligible"
+    }
+  },
+  "external_transmission_performed": false,
+  "lease_recovery": {
+    "blocked_classification": "LEASE_EXPIRED_REQUIRES_RECONCILIATION",
+    "requeued_status": "QUEUED",
+    "restart_health": {
+      "audit_chain_valid": true,
+      "integrity_check": "ok",
+      "journal_mode": "wal",
+      "mode": "software_fixture",
+      "schema_version": "p2-005-durable-worker-v1",
+      "synchronous": 2
+    }
+  },
+  "mode": "SOFTWARE_FIXTURE",
+  "read_only_external_boundary": true,
+  "runtime_replay_executed": false
+}
