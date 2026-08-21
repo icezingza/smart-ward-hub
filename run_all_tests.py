@@ -60,6 +60,8 @@ TESTS = [
     "test_evidence_reconciliation.py",
     "test_evidence_reconciliation_phase_end_hardening.py",
     "test_wave1_external_execution_readiness.py",
+    "test_wave1_external_evidence_intake.py",
+    "test_wave1_external_evidence_intake_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
     "test_wave1_software_preparation.py",
     "test_wave1_software_preparation_phase_end_hardening.py",
