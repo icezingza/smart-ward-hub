@@ -23,7 +23,9 @@
       "integrity_check": "ok",
       "journal_mode": "wal",
       "opaque_state_matches": true,
-      "passed": true
+      "passed": true,
+      "schema_revision_matches": true,
+      "user_version": 7
     },
     "external_resume_permitted": false,
     "production_resume_permitted": false,
@@ -32,15 +34,51 @@
     "worker_queue": {
       "audit_chain_valid": true,
       "passed": true,
+      "stale_status_before_reconciliation": "RUNNING",
       "status": "QUEUED"
     },
-    "worker_restore_status": true
+    "worker_restore_status": true,
+    "worker_stale_lease_recovery": {
+      "audit_chain_valid": true,
+      "blocked_jobs": [
+        "rollback-worker-stale"
+      ],
+      "passed": true,
+      "reconciled_status": "FAILED"
+    }
   },
   "clinical_validation_authorized": false,
   "decision": "ROLLBACK_VERIFIED_IN_ISOLATED_TARGET",
   "drift_simulated_after_backup": true,
   "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
   "external_authority": "NONE",
+  "fault_injection_results": {
+    "backup_freshness_breach": {
+      "passed": true,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_codes": [
+        "BACKUP_STALE"
+      ],
+      "resume_permitted": false
+    },
+    "interrupted_checkpoint_promotion": {
+      "passed": true,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "resume_permitted": false
+    },
+    "partial_audit_write": {
+      "partial_write_detected": true,
+      "passed": true,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "resume_permitted": false
+    },
+    "schema_migration_mismatch": {
+      "observed_user_version": 8,
+      "passed": true,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "resume_permitted": false
+    }
+  },
   "mode": "isolated_nonproduction_targets",
   "patient_data_used": false,
   "physical_power_cut": "UNVERIFIED",
