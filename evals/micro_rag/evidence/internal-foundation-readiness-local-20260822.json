@@ -1,0 +1,148 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "checks": [
+    {
+      "check": "environment",
+      "detail": "SW_ENVIRONMENT=pilot",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_AUTO_CREATE_DB",
+      "detail": "SW_AUTO_CREATE_DB=false",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_SEED_DATA",
+      "detail": "SW_SEED_DATA=false",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_ENABLE_DOCS",
+      "detail": "SW_ENABLE_DOCS=false",
+      "status": "PASS"
+    },
+    {
+      "check": "loopback_binding",
+      "detail": "127.0.0.1:8080",
+      "status": "PASS"
+    },
+    {
+      "check": "allowed_hosts",
+      "detail": "no wildcard or all-interface host entry",
+      "status": "PASS"
+    },
+    {
+      "check": "auth_mode",
+      "detail": "OIDC selected for pilot",
+      "status": "PASS"
+    },
+    {
+      "check": "oidc_shape",
+      "detail": "issuer, audience and HTTPS JWKS shape present",
+      "status": "PASS"
+    },
+    {
+      "check": "path:SW_DATABASE_PATH",
+      "detail": "outside source tree: /var/lib/smart-ward-hub/ward_hub.db",
+      "status": "PASS"
+    },
+    {
+      "check": "path:SW_TELEMETRY_STATE_PATH",
+      "detail": "outside source tree: /var/lib/smart-ward-hub/edge_telemetry_state.json",
+      "status": "PASS"
+    },
+    {
+      "check": "path:SW_AUDIT_LOG_PATH",
+      "detail": "outside source tree: /var/log/smart-ward-hub/audit_events.jsonl",
+      "status": "PASS"
+    },
+    {
+      "check": "secret_source",
+      "detail": "no static token material found in validator input",
+      "status": "PASS"
+    },
+    {
+      "check": "device_trust_stage",
+      "detail": "Device Trust staged as observe",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_TELEMETRY_CHECKPOINT_EVERY",
+      "detail": "128 within [1, 100000]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_TELEMETRY_BUFFER_MAX_SAMPLES",
+      "detail": "90000 within [1, 500000]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_TELEMETRY_MAX_DEVICES",
+      "detail": "256 within [1, 10000]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_TELEMETRY_MAX_SAMPLE_BYTES",
+      "detail": "16384 within [256, 1048576]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_SQLITE_BUSY_TIMEOUT_MS",
+      "detail": "5000 within [100, 120000]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_RATE_LIMIT_PER_MINUTE",
+      "detail": "6000 within [1, 1000000]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_IDEMPOTENCY_TTL_SECONDS",
+      "detail": "86400 within [60, 604800]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_DEVICE_TRUST_CLOCK_SKEW_SECONDS",
+      "detail": "30 within [0, 3600]",
+      "status": "PASS"
+    },
+    {
+      "check": "SW_TELEMETRY_MEMORY_ALARM_RATIO",
+      "detail": "0.9 within [0.5, 1.0]",
+      "status": "PASS"
+    },
+    {
+      "check": "runtime_artifact_hygiene",
+      "detail": "known runtime artifacts absent from source tree",
+      "status": "PASS"
+    },
+    {
+      "check": "private_material_scan",
+      "detail": "no private-key marker found in repository text artifacts",
+      "status": "PASS"
+    },
+    {
+      "check": "authorization_boundary",
+      "detail": "locked NONE/false boundary is unchanged",
+      "status": "PASS"
+    }
+  ],
+  "clinical_validation": "PENDING",
+  "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+  "external_authority": "NONE",
+  "next_action": "Resolve any FAIL/ADVISORY checks locally; obtain target-host and external evidence separately before any production decision.",
+  "physical_validation": "UNVERIFIED",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "runtime_authority": "NONE",
+  "schema_version": "smart-ward-hub-internal-foundation-v1",
+  "snapshot_kind": "INTERNAL_FOUNDATION_READINESS",
+  "software_only": true,
+  "source_root": "/home/ubuntu/smart-ward-hub-reconcile",
+  "status": "PASS"
+}

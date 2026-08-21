@@ -43,6 +43,25 @@ def run() -> None:
         assert recovered.last_sequence("device-1") == 3
         print("[Edge] Checkpoint restart recovery: PASSED")
 
+        bounded = EdgeTelemetryStore(max_samples=2, max_devices=1, max_sample_bytes=256, memory_alarm_ratio=0.5)
+        assert bounded.append("device-1", sample(1), 1).accepted
+        pressure = bounded.append("device-1", sample(2), 2)
+        assert pressure.accepted is True
+        assert pressure.memory_pressure is True
+        assert pressure.buffer_fill_ratio == 1.0
+        assert bounded.stats()["memory_pressure"] is True
+        assert bounded.append("device-2", sample(1), 1).reason == "device_capacity_reached"
+        print("[Edge] Global device bound and memory-pressure signal: PASSED")
+
+        before_devices = len(bounded)
+        assert bounded.snapshot("unknown-device") == []
+        assert bounded.snapshot(" ") == []
+        assert len(bounded) == before_devices
+        assert bounded.append(" ", sample(3), 3).reason == "invalid_device_id"
+        assert bounded.append("device-1", {"sequence": 3, "payload": "x" * 300}, 3).reason == "sample_too_large"
+        assert bounded.append("device-1", sample(3), True).reason == "invalid_sequence"
+        print("[Edge] Invalid identifier, oversized sample and boolean sequence rejection: PASSED")
+
     print("\nEDGE RUNTIME TESTS PASSED")
 
 

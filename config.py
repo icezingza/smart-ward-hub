@@ -43,6 +43,9 @@ class Settings:
     telemetry_state_path: Path
     telemetry_checkpoint_every: int
     telemetry_buffer_max_samples: int
+    telemetry_max_devices: int
+    telemetry_max_sample_bytes: int
+    telemetry_memory_alarm_ratio: float
     sqlite_busy_timeout_ms: int
     sqlite_synchronous: str
     enable_docs: bool
@@ -88,6 +91,9 @@ def load_settings() -> Settings:
         telemetry_state_path=state_path,
         telemetry_checkpoint_every=int(os.getenv("SW_TELEMETRY_CHECKPOINT_EVERY", "128")),
         telemetry_buffer_max_samples=int(os.getenv("SW_TELEMETRY_BUFFER_MAX_SAMPLES", "90000")),
+        telemetry_max_devices=int(os.getenv("SW_TELEMETRY_MAX_DEVICES", "256")),
+        telemetry_max_sample_bytes=int(os.getenv("SW_TELEMETRY_MAX_SAMPLE_BYTES", "16384")),
+        telemetry_memory_alarm_ratio=float(os.getenv("SW_TELEMETRY_MEMORY_ALARM_RATIO", "0.90")),
         sqlite_busy_timeout_ms=int(os.getenv("SW_SQLITE_BUSY_TIMEOUT_MS", "5000")),
         sqlite_synchronous=synchronous,
         enable_docs=_bool_env("SW_ENABLE_DOCS", False),

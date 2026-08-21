@@ -5,10 +5,13 @@ import re
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 
+DEVICE_ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+
+
 class PairingRequest(BaseModel):
     patient_token: str = Field(..., min_length=16, max_length=128, description="Pseudonymized HIS patient reference")
     bed_no: str = Field(..., min_length=1, max_length=32, description="Ward bed number")
-    device_id: str = Field(..., min_length=1, max_length=64, description="Registered wristband identifier")
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN, description="Registered wristband identifier")
     risk_level: str = Field(default="Low", pattern="^(High|Medium|Low)$")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -32,7 +35,7 @@ class PairingRequest(BaseModel):
 
 
 class UnbindRequest(BaseModel):
-    device_id: str = Field(..., min_length=1, max_length=64, description="Wristband identifier")
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN, description="Wristband identifier")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     @field_validator("device_id")
@@ -52,7 +55,7 @@ class BaseResponse(BaseModel):
 
 class TelemetryPacket(BaseModel):
     schema_version: Literal["1.0"] = "1.0"
-    device_id: str = Field(..., min_length=1, max_length=64)
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
     sequence: int = Field(..., ge=0, description="Monotonic per-device packet sequence")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     ppg: float = Field(..., ge=0)
@@ -74,7 +77,7 @@ class TelemetryPacket(BaseModel):
 
 
 class DeviceTrustEnrollmentRequest(BaseModel):
-    device_id: str = Field(..., min_length=1, max_length=64)
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
     key_id: str = Field(..., min_length=1, max_length=128)
     algorithm: Literal["Ed25519"] = "Ed25519"
     public_key_b64: str = Field(..., min_length=40, max_length=128)
@@ -97,7 +100,7 @@ class DeviceTrustLifecycleRequest(BaseModel):
 
 class NfcPointerEnrollmentRequest(BaseModel):
     nfc_uid: str = Field(..., min_length=4, max_length=128)
-    device_id: str = Field(..., min_length=1, max_length=64)
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
     key_id: str | None = Field(default=None, max_length=128)
 
     @field_validator("nfc_uid", "device_id", "key_id")
@@ -169,7 +172,7 @@ class AdmissionPreparationRequest(BaseModel):
 
 
 class HotSwapRequest(BaseModel):
-    new_device_id: str = Field(..., min_length=1, max_length=64)
+    new_device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
     new_key_id: str | None = Field(default=None, max_length=128)
     handover_id: str = Field(..., min_length=8, max_length=128)
 

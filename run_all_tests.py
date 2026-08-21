@@ -4,6 +4,18 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
+RUNTIME_ARTIFACTS = (
+    "ward_hub.db",
+    "ward_hub.db-shm",
+    "ward_hub.db-wal",
+    "audit_events.jsonl",
+    "edge_telemetry_state.json",
+    "forensic_anchors.jsonl",
+    "reliability_validation_result.json",
+    "pilot_simulation_result.json",
+    "telemetry.jsonl",
+    "serial_bench_evidence.json",
+)
 TESTS = [
     "test_pairing.py",
     "test_telemetry.py",
@@ -66,6 +78,8 @@ TESTS = [
     "test_external_decision_record_phase_end_hardening.py",
     "test_external_decision_lifecycle.py",
     "test_external_decision_lifecycle_phase_end_hardening.py",
+    "test_internal_foundation_readiness.py",
+    "test_internal_foundation_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
     "test_wave1_software_preparation.py",
     "test_wave1_software_preparation_phase_end_hardening.py",
@@ -98,11 +112,23 @@ TESTS = [
 ]
 
 
+def clean_runtime_artifacts() -> None:
+    for name in RUNTIME_ARTIFACTS:
+        path = ROOT / name
+        if path.is_file():
+            path.unlink()
+    for path in ROOT.rglob("*.tmp"):
+        if path.is_file() and ".git" not in path.parts:
+            path.unlink()
+
+
 def run() -> None:
     print("=" * 72)
     print("SMART WARD HUB MASTER REGRESSION SUITE")
     print("=" * 72)
     for script in TESTS:
+        if script in {"test_internal_foundation_readiness.py", "test_internal_foundation_phase_end_hardening.py"}:
+            clean_runtime_artifacts()
         print(f"\n[MASTER] Running {script}")
         completed = subprocess.run([sys.executable, str(ROOT / script)], cwd=ROOT)
         if completed.returncode != 0:

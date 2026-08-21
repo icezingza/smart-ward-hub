@@ -115,6 +115,9 @@ TELEMETRY_STORE = EdgeTelemetryStore(
     max_samples=RING_BUFFER_MAX_SAMPLES,
     state_path=settings.telemetry_state_path,
     checkpoint_every=settings.telemetry_checkpoint_every,
+    max_devices=settings.telemetry_max_devices,
+    max_sample_bytes=settings.telemetry_max_sample_bytes,
+    memory_alarm_ratio=settings.telemetry_memory_alarm_ratio,
 )
 
 

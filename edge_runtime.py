@@ -6,6 +6,7 @@ from datetime import datetime
 import json
 import os
 from pathlib import Path
+import re
 from threading import RLock
 from typing import Any
 
@@ -17,6 +18,8 @@ class AppendResult:
     buffered_samples: int
     dropped_samples: int
     last_sequence: int | None
+    buffer_fill_ratio: float = 0.0
+    memory_pressure: bool = False
 
 
 class EdgeTelemetryStore:
@@ -28,6 +31,11 @@ class EdgeTelemetryStore:
     """
 
     STATE_VERSION = 1
+    DEFAULT_MAX_DEVICES = 256
+    DEFAULT_MAX_SAMPLE_BYTES = 16_384
+    DEFAULT_MEMORY_ALARM_RATIO = 0.90
+    MAX_DEVICE_ID_LENGTH = 128
+    DEVICE_ID_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,127}\Z")
     FORBIDDEN_PII_KEYS = {"name", "patient_id", "patient_name", "patient_token", "hn", "hospital_number"}
 
     def __init__(
@@ -35,13 +43,25 @@ class EdgeTelemetryStore:
         max_samples: int,
         state_path: str | os.PathLike[str] | None = None,
         checkpoint_every: int = 128,
+        max_devices: int = DEFAULT_MAX_DEVICES,
+        max_sample_bytes: int = DEFAULT_MAX_SAMPLE_BYTES,
+        memory_alarm_ratio: float = DEFAULT_MEMORY_ALARM_RATIO,
     ) -> None:
-        if max_samples <= 0:
+        if isinstance(max_samples, bool) or max_samples <= 0:
             raise ValueError("max_samples must be positive")
-        if checkpoint_every <= 0:
+        if isinstance(checkpoint_every, bool) or checkpoint_every <= 0:
             raise ValueError("checkpoint_every must be positive")
+        if isinstance(max_devices, bool) or max_devices <= 0:
+            raise ValueError("max_devices must be positive")
+        if isinstance(max_sample_bytes, bool) or max_sample_bytes <= 0:
+            raise ValueError("max_sample_bytes must be positive")
+        if isinstance(memory_alarm_ratio, bool) or not 0.5 <= memory_alarm_ratio <= 1.0:
+            raise ValueError("memory_alarm_ratio must be between 0.5 and 1.0")
         self.max_samples = max_samples
         self.checkpoint_every = checkpoint_every
+        self.max_devices = max_devices
+        self.max_sample_bytes = max_sample_bytes
+        self.memory_alarm_ratio = memory_alarm_ratio
         self.state_path = Path(state_path) if state_path else None
         self._buffers: dict[str, deque[dict[str, Any]]] = {}
         self._last_sequence: dict[str, int] = {}
@@ -50,8 +70,26 @@ class EdgeTelemetryStore:
         self._append_count = 0
         self.restore()
 
+    @classmethod
+    def _valid_device_id(cls, device_id: Any) -> bool:
+        return isinstance(device_id, str) and cls.DEVICE_ID_PATTERN.fullmatch(device_id) is not None
+
     def _buffer(self, device_id: str) -> deque[dict[str, Any]]:
         return self._buffers.setdefault(device_id, deque(maxlen=self.max_samples))
+
+    def _result(self, device_id: str, *, accepted: bool, reason: str | None, sequence: int | None = None) -> AppendResult:
+        buffer = self._buffers.get(device_id)
+        buffered_samples = len(buffer) if buffer is not None else 0
+        ratio = buffered_samples / self.max_samples
+        return AppendResult(
+            accepted=accepted,
+            reason=reason,
+            buffered_samples=buffered_samples,
+            dropped_samples=self._dropped_samples.get(device_id, 0),
+            last_sequence=self._last_sequence.get(device_id) if sequence is None else sequence,
+            buffer_fill_ratio=ratio,
+            memory_pressure=ratio >= self.memory_alarm_ratio,
+        )
 
     @staticmethod
     def _serialize(value: Any) -> Any:
@@ -63,8 +101,14 @@ class EdgeTelemetryStore:
             return [EdgeTelemetryStore._serialize(item) for item in value]
         return value
 
-    @classmethod
-    def _restored_samples_are_safe(cls, samples: list[Any]) -> bool:
+    def _sample_size(self, sample: dict[str, Any]) -> int | None:
+        try:
+            encoded = json.dumps(self._serialize(sample), separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+        except (TypeError, ValueError, OverflowError):
+            return None
+        return len(encoded)
+
+    def _restored_samples_are_safe(self, samples: list[Any]) -> bool:
         """Reject a device checkpoint when its persisted sample invariants fail.
 
         A checkpoint is untrusted input: it may be stale, partially written, or
@@ -75,7 +119,9 @@ class EdgeTelemetryStore:
         for sample in samples:
             if not isinstance(sample, dict):
                 return False
-            if cls.FORBIDDEN_PII_KEYS.intersection(sample.keys()):
+            if self.FORBIDDEN_PII_KEYS.intersection(sample.keys()):
+                return False
+            if self._sample_size(sample) is None or self._sample_size(sample) > self.max_sample_bytes:
                 return False
             sequence = sample.get("sequence")
             if sequence is not None:
@@ -101,24 +147,25 @@ class EdgeTelemetryStore:
 
     def append(self, device_id: str, sample: dict[str, Any], sequence: int) -> AppendResult:
         with self._lock:
+            if not self._valid_device_id(device_id):
+                return self._result(device_id if isinstance(device_id, str) else "", accepted=False, reason="invalid_device_id")
+            if not isinstance(sample, dict):
+                return self._result(device_id, accepted=False, reason="invalid_sample")
+            if isinstance(sequence, bool) or not isinstance(sequence, int) or sequence < 0:
+                return self._result(device_id, accepted=False, reason="invalid_sequence")
             forbidden_keys = self.FORBIDDEN_PII_KEYS.intersection(sample.keys())
             if forbidden_keys:
-                return AppendResult(
-                    accepted=False,
-                    reason="pii_field_not_allowed",
-                    buffered_samples=len(self._buffer(device_id)),
-                    dropped_samples=self._dropped_samples.get(device_id, 0),
-                    last_sequence=self._last_sequence.get(device_id),
-                )
+                return self._result(device_id, accepted=False, reason="pii_field_not_allowed")
+            sample_size = self._sample_size(sample)
+            if sample_size is None:
+                return self._result(device_id, accepted=False, reason="sample_not_serializable")
+            if sample_size > self.max_sample_bytes:
+                return self._result(device_id, accepted=False, reason="sample_too_large")
+            if device_id not in self._buffers and len(self._buffers) >= self.max_devices:
+                return self._result(device_id, accepted=False, reason="device_capacity_reached")
             last_sequence = self._last_sequence.get(device_id)
             if last_sequence is not None and sequence <= last_sequence:
-                return AppendResult(
-                    accepted=False,
-                    reason="duplicate_or_out_of_order_sequence",
-                    buffered_samples=len(self._buffer(device_id)),
-                    dropped_samples=self._dropped_samples.get(device_id, 0),
-                    last_sequence=last_sequence,
-                )
+                return self._result(device_id, accepted=False, reason="duplicate_or_out_of_order_sequence")
 
             buffer = self._buffer(device_id)
             was_full = len(buffer) == buffer.maxlen
@@ -129,21 +176,22 @@ class EdgeTelemetryStore:
             self._append_count += 1
             if self.state_path and self._append_count % self.checkpoint_every == 0:
                 self._persist_locked()
-            return AppendResult(
-                accepted=True,
-                reason=None,
-                buffered_samples=len(buffer),
-                dropped_samples=self._dropped_samples.get(device_id, 0),
-                last_sequence=sequence,
-            )
+            return self._result(device_id, accepted=True, reason=None, sequence=sequence)
 
     def ensure(self, device_id: str) -> None:
         with self._lock:
+            if not self._valid_device_id(device_id):
+                raise ValueError("invalid_device_id")
+            if device_id not in self._buffers and len(self._buffers) >= self.max_devices:
+                raise ValueError("device_capacity_reached")
             self._buffer(device_id)
 
     def snapshot(self, device_id: str) -> list[dict[str, Any]]:
         with self._lock:
-            return [dict(item) for item in self._buffer(device_id)]
+            if not self._valid_device_id(device_id):
+                return []
+            buffer = self._buffers.get(device_id)
+            return [dict(item) for item in buffer] if buffer is not None else []
 
     def clear_device(self, device_id: str, *, reset_sequence: bool = False) -> int:
         with self._lock:
@@ -178,11 +226,18 @@ class EdgeTelemetryStore:
 
     def stats(self) -> dict[str, Any]:
         with self._lock:
+            buffered_samples = sum(len(buffer) for buffer in self._buffers.values())
+            per_device_ratio = max((len(buffer) / self.max_samples for buffer in self._buffers.values()), default=0.0)
             return {
                 "device_count": len(self._buffers),
-                "buffered_samples": sum(len(buffer) for buffer in self._buffers.values()),
+                "max_devices": self.max_devices,
+                "device_capacity_used_ratio": len(self._buffers) / self.max_devices,
+                "buffered_samples": buffered_samples,
                 "dropped_samples": sum(self._dropped_samples.values()),
                 "max_samples_per_device": self.max_samples,
+                "max_sample_bytes": self.max_sample_bytes,
+                "max_buffer_fill_ratio": per_device_ratio,
+                "memory_pressure": per_device_ratio >= self.memory_alarm_ratio,
                 "checkpoint_enabled": self.state_path is not None,
             }
 
@@ -205,7 +260,10 @@ class EdgeTelemetryStore:
             },
         }
         temp_path = self.state_path.with_suffix(self.state_path.suffix + ".tmp")
-        temp_path.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
+        with temp_path.open("w", encoding="utf-8") as handle:
+            json.dump(payload, handle, separators=(",", ":"), ensure_ascii=False)
+            handle.flush()
+            os.fsync(handle.fileno())
         os.replace(temp_path, self.state_path)
 
     def persist(self) -> None:
@@ -226,8 +284,10 @@ class EdgeTelemetryStore:
             if not isinstance(buffers, dict):
                 return
             for device_id, state in buffers.items():
-                if not isinstance(device_id, str) or not isinstance(state, dict):
+                if not self._valid_device_id(device_id) or not isinstance(state, dict):
                     continue
+                if device_id not in self._buffers and len(self._buffers) >= self.max_devices:
+                    break
                 samples = state.get("samples", [])
                 if not isinstance(samples, list):
                     continue
