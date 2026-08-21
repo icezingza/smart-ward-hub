@@ -1,0 +1,91 @@
+from __future__ import annotations
+
+import io
+import json
+from pathlib import Path
+import subprocess
+import tarfile
+import tempfile
+
+from evidence_reconciliation import EvidenceReconciliationError, default_paths, reconcile_packages
+from export_evidence_reconciliation import export
+
+
+ROOT = Path(__file__).resolve().parent
+
+
+def expect_error(callback) -> None:
+    try:
+        callback()
+    except EvidenceReconciliationError:
+        return
+    raise AssertionError("expected EvidenceReconciliationError")
+
+
+def copied_fixture_root(tmp: Path) -> Path:
+    freeze_path = default_paths(ROOT)["freeze_path"]
+    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+    revision = freeze.get("source_revision")
+    assert isinstance(revision, str) and revision
+    tmp.mkdir(parents=True, exist_ok=True)
+    archive = subprocess.run(["git", "archive", revision], cwd=ROOT, check=True, stdout=subprocess.PIPE).stdout
+    with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
+        tar.extractall(tmp, filter="data")
+    archived_freeze = tmp / freeze_path.relative_to(ROOT)
+    archived_freeze.write_bytes(freeze_path.read_bytes())
+    return tmp
+
+
+def run() -> None:
+    with tempfile.TemporaryDirectory() as directory:
+        root = copied_fixture_root(Path(directory))
+        paths = default_paths(root)
+        result = reconcile_packages(**paths)
+        assert result["reconciliation_status"] == "RECONCILED_WITH_EXTERNAL_BLOCKERS"
+        assert result["gate_decision"] == "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+        assert result["execution_permitted"] is False
+        assert result["submission_permitted"] is False
+        assert result["external_gate_snapshot"] == {"blocked": 7, "open": 3, "evidence_submitted": 0, "passed": 0}
+        assert result["authorization_boundary"]["external_authority"] == "NONE"
+        assert result["states"]["wave_e_execution_permitted"] is False
+        assert result["states"]["wave_e_external_validation_started"] is False
+        assert any(finding["finding_id"] == "SOURCE_NONIDENTICAL_WAVE4" for finding in result["findings"])
+        print("[Reconciliation] Current package set reconciles with explicit external blockers: PASSED")
+
+        reviewer_path = paths["reviewer_path"]
+        reviewer = json.loads(reviewer_path.read_text(encoding="utf-8"))
+        reviewer["authorization_boundary"]["production_authorized"] = True
+        reviewer_path.write_text(json.dumps(reviewer, indent=2) + "\n", encoding="utf-8")
+        expect_error(lambda: reconcile_packages(**paths))
+        print("[Reconciliation] Authorization mutation is rejected: PASSED")
+
+        reviewer["authorization_boundary"]["production_authorized"] = False
+        reviewer_path.write_text(json.dumps(reviewer, indent=2) + "\n", encoding="utf-8")
+        freeze = json.loads(paths["freeze_path"].read_text(encoding="utf-8"))
+        freeze["files"][0]["sha256"] = "0" * 64
+        paths["freeze_path"].write_text(json.dumps(freeze, indent=2) + "\n", encoding="utf-8")
+        expect_error(lambda: reconcile_packages(**paths))
+        print("[Reconciliation] Release-freeze artifact hash mismatch is rejected: PASSED")
+
+        root = copied_fixture_root(Path(directory) / "state-drift")
+        paths = default_paths(root)
+        wave_e_path = paths["wave_e_path"]
+        wave_e = json.loads(wave_e_path.read_text(encoding="utf-8"))
+        wave_e["packet_status"] = "READY_FOR_EXTERNAL_EXECUTION"
+        wave_e_path.write_text(json.dumps(wave_e, indent=2) + "\n", encoding="utf-8")
+        expect_error(lambda: reconcile_packages(**paths))
+        print("[Reconciliation] Wave E execution escalation is rejected: PASSED")
+
+        exported_path = Path(directory) / "reconciliation-export.json"
+        exported = export(root=ROOT, output=exported_path)
+        exported_payload = json.loads(exported_path.read_text(encoding="utf-8"))
+        assert exported["gate_decision"] == "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
+        assert exported_payload["execution_permitted"] is False
+        assert exported_payload["submission_permitted"] is False
+        print("[Reconciliation] Frozen-source exporter produces locked consolidated snapshot: PASSED")
+
+    print("EVIDENCE_RECONCILIATION_TESTS_PASSED")
+
+
+if __name__ == "__main__":
+    run()

@@ -57,6 +57,8 @@ TESTS = [
     "test_wave_e_evidence.py",
     "test_wave_e_execution_preflight.py",
     "test_wave_e_execution_preflight_phase_end_hardening.py",
+    "test_evidence_reconciliation.py",
+    "test_evidence_reconciliation_phase_end_hardening.py",
     "test_wave1_external_execution_readiness.py",
     "test_wave0_owner_appointment_intake.py",
     "test_wave1_software_preparation.py",
