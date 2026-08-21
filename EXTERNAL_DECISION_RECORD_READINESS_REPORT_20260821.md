@@ -99,6 +99,7 @@ Rollback ทำได้โดย revert module, tests, phase-end gate, exporter
 ## 9. Evidence paths
 
 - `external_decision_record.py`
+- `evals/micro_rag/evidence/external-decision-record-local-20260821.json`
 - `export_external_decision_record.py`
 - `test_external_decision_record.py`
 - `test_external_decision_record_phase_end_hardening.py`

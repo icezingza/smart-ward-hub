@@ -1,0 +1,29 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "clinical_validation_authorized": false,
+  "decision": "PENDING_EXTERNAL_APPOINTMENT",
+  "evidence_class": "LOCAL_TEMPLATE",
+  "external_decision_verified": false,
+  "external_execution_authorized": false,
+  "next_action": "Await an externally appointed authority and independently verified decision record; do not authorize locally.",
+  "production_authorized": false,
+  "project": "smart-ward-hub",
+  "repository": "icezingza/smart-ward-hub",
+  "schema_version": "external-decision-record-v1",
+  "status": "DECISION_RECORD_TEMPLATE",
+  "template_sha256": "3fd133212e1261b14a38a2d0c3690d28d26c6f6c4b3f713f84d0df38278a9f0c",
+  "validation": {
+    "authorization_promoted": false,
+    "decision_record_ready": false,
+    "external_decision_verified": false,
+    "mode": "TEMPLATE_ONLY",
+    "valid": true
+  }
+}
