@@ -1,0 +1,451 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "real_his_emr_execution": false,
+    "real_ward_execution": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "contract": "SYNC_ALERT_REPLAY_HARNESS_V1",
+  "evidence_type": "SYNC_ALERT_REPLAY_HARNESS",
+  "execution_performed": false,
+  "external_transmission_performed": false,
+  "generated_at_utc": "2026-08-21T22:34:40.604183+00:00",
+  "mode": "FIXTURE_ONLY_SOFTWARE_SIMULATION",
+  "read_only": true,
+  "redaction_verified": true,
+  "row_count": 10,
+  "rows": [
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:b276214368b8c47b2a10"
+      },
+      "operation": "SYNC_ATTEMPT",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Remote acknowledgment is absent or non-success; retain local data for bounded retry.",
+      "recovery_decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "SYNC_RETAINED_FOR_RETRY",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "sync_retained_for_retry",
+      "state": "RETAINED_FOR_RETRY"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:ff93dc85efa7e2bfa016"
+      },
+      "operation": "SYNC_ATTEMPT",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Bounded retry budget is exhausted; classify the bundle as dead-letter.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "SYNC_DEAD_LETTER",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "retry_limit_to_dead_letter",
+      "state": "DEAD_LETTER"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:dcf675ac872db7be5de6"
+      },
+      "operation": "DEAD_LETTER_REPLAY",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Dead-letter replay requires explicit operator confirmation; execution remains disabled.",
+      "recovery_decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "DEAD_LETTER_REPLAY_CONFIRMATION_REQUIRED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "dead_letter_replay_confirmation_required",
+      "state": "DEAD_LETTER"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:15d65ac4867d0aa5e509"
+      },
+      "operation": "DEAD_LETTER_REPLAY",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Software rehearsal records replay eligibility only; no external replay or runtime mutation is executed.",
+      "recovery_decision": "SOFTWARE_REPLAY_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "DEAD_LETTER_REPLAY_ELIGIBLE",
+      "replay_executed": false,
+      "replay_permitted": true,
+      "resume_permitted": true,
+      "scenario_id": "dead_letter_replay_software_eligible",
+      "state": "DEAD_LETTER"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:dcf04318d264ecb28581"
+      },
+      "operation": "SYNC_ATTEMPT",
+      "purge_executed": false,
+      "purge_permitted": true,
+      "reason": "Structured acknowledgment and local committed marker agree; no purge is executed by the harness.",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "ACKNOWLEDGMENT_COMMITTED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": true,
+      "scenario_id": "acknowledgment_committed",
+      "state": "ACKNOWLEDGED"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": true,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:e74abface0eb2e48a192"
+      },
+      "operation": "ACKNOWLEDGMENT_REPLAY",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Acknowledgment is already committed; replay is idempotent and does not permit a second purge.",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "IDEMPOTENT_ACK_REPLAY",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": true,
+      "scenario_id": "duplicate_acknowledgment_replay",
+      "state": "ACKNOWLEDGED"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:75fcf18fa7d58030864a"
+      },
+      "operation": "ACKNOWLEDGMENT_REPLAY",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Acknowledgment identity does not match the local bundle; reject before state mutation.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "ACK_BUNDLE_ID_MISMATCH",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "acknowledgment_bundle_identity_mismatch",
+      "state": "RECONCILIATION_REQUIRED"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:0af695d94a4aee152021"
+      },
+      "operation": "ACKNOWLEDGMENT_REPLAY",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Local aggregate purge is visible without a committed synced marker; block replay and reconcile.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "PARTIAL_SYNC_WRITE_DETECTED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "partial_sync_write_detected",
+      "state": "PARTIAL_WRITE_DETECTED"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "snapshot_ref": "snapshot:9cd45ff68f93c1b2e7e8"
+      },
+      "operation": "SNAPSHOT_REFRESH",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Client cursor is stale; refresh from the authoritative Fixed Hub snapshot before mutation.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": true,
+      "remediation_code": "STALE_SNAPSHOT_REFRESH_REQUIRED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "stale_snapshot_requires_refresh",
+      "state": "STALE_SNAPSHOT"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "duplicate_safe": false,
+      "mutation_performed": false,
+      "opaque_refs": {
+        "snapshot_ref": "snapshot:8709aa025d26be22aac2"
+      },
+      "operation": "SNAPSHOT_REFRESH",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "reason": "Client cursor matches the authoritative revision; no refresh mutation is needed.",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "SNAPSHOT_CURRENT",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": true,
+      "scenario_id": "snapshot_revision_current",
+      "state": "NOT_STARTED"
+    }
+  ],
+  "schema_version": "1",
+  "source_revision": "fb3cda1d464335227e641c1f472aa74fd7bc838d",
+  "transcript": [
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "ab532c138ea4c0a636ab709b8994d836787b9bdc1d079ed1ef4548237ab78923",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:b276214368b8c47b2a10"
+      },
+      "operation": "SYNC_ATTEMPT",
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "SYNC_RETAINED_FOR_RETRY",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "sync_retained_for_retry",
+      "sequence": 1,
+      "state": "RETAINED_FOR_RETRY"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "2f11c2d1cc37e303b99b73c51d9b4d65f29e4ec3d37f0b4555e3d130261aa58d",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:ff93dc85efa7e2bfa016"
+      },
+      "operation": "SYNC_ATTEMPT",
+      "previous_hash": "ab532c138ea4c0a636ab709b8994d836787b9bdc1d079ed1ef4548237ab78923",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "SYNC_DEAD_LETTER",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "retry_limit_to_dead_letter",
+      "sequence": 2,
+      "state": "DEAD_LETTER"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "4c6fd0a5aa6e806f4357814b79f3662324132d6ef8853d2ecc9c4da37717ffa0",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:dcf675ac872db7be5de6"
+      },
+      "operation": "DEAD_LETTER_REPLAY",
+      "previous_hash": "2f11c2d1cc37e303b99b73c51d9b4d65f29e4ec3d37f0b4555e3d130261aa58d",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "DEAD_LETTER_REPLAY_CONFIRMATION_REQUIRED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "dead_letter_replay_confirmation_required",
+      "sequence": 3,
+      "state": "DEAD_LETTER"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "c785c020e6e43527209338308d901274c903a0f7eb5a9e61c485aef61ae6e4b3",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:15d65ac4867d0aa5e509"
+      },
+      "operation": "DEAD_LETTER_REPLAY",
+      "previous_hash": "4c6fd0a5aa6e806f4357814b79f3662324132d6ef8853d2ecc9c4da37717ffa0",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "SOFTWARE_REPLAY_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "DEAD_LETTER_REPLAY_ELIGIBLE",
+      "replay_executed": false,
+      "replay_permitted": true,
+      "resume_permitted": true,
+      "scenario_id": "dead_letter_replay_software_eligible",
+      "sequence": 4,
+      "state": "DEAD_LETTER"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "1f6dcba1efbf24e5aa62e68f973b32f5d1ba764f136760fa1cf1ecbad22c57c6",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:dcf04318d264ecb28581"
+      },
+      "operation": "SYNC_ATTEMPT",
+      "previous_hash": "c785c020e6e43527209338308d901274c903a0f7eb5a9e61c485aef61ae6e4b3",
+      "purge_executed": false,
+      "purge_permitted": true,
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "ACKNOWLEDGMENT_COMMITTED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": true,
+      "scenario_id": "acknowledgment_committed",
+      "sequence": 5,
+      "state": "ACKNOWLEDGED"
+    },
+    {
+      "duplicate_safe": true,
+      "event": "REPLAY_DECISION",
+      "event_hash": "b46add695e32812c44407c484b2322ddb924fe99713531646296a6b39a9303ea",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:e74abface0eb2e48a192"
+      },
+      "operation": "ACKNOWLEDGMENT_REPLAY",
+      "previous_hash": "1f6dcba1efbf24e5aa62e68f973b32f5d1ba764f136760fa1cf1ecbad22c57c6",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "IDEMPOTENT_ACK_REPLAY",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": true,
+      "scenario_id": "duplicate_acknowledgment_replay",
+      "sequence": 6,
+      "state": "ACKNOWLEDGED"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "dee4e4763f2b10cb91f719cfdc4801b1d9c9514975e9adcb898adf8f19b0d5d6",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:75fcf18fa7d58030864a"
+      },
+      "operation": "ACKNOWLEDGMENT_REPLAY",
+      "previous_hash": "b46add695e32812c44407c484b2322ddb924fe99713531646296a6b39a9303ea",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "ACK_BUNDLE_ID_MISMATCH",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "acknowledgment_bundle_identity_mismatch",
+      "sequence": 7,
+      "state": "RECONCILIATION_REQUIRED"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "aa34cde205a8e1756a5952e184366d091dbdebb742790ca30ce42da241283338",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "bundle_ref": "bundle:0af695d94a4aee152021"
+      },
+      "operation": "ACKNOWLEDGMENT_REPLAY",
+      "previous_hash": "dee4e4763f2b10cb91f719cfdc4801b1d9c9514975e9adcb898adf8f19b0d5d6",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": false,
+      "remediation_code": "PARTIAL_SYNC_WRITE_DETECTED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "partial_sync_write_detected",
+      "sequence": 8,
+      "state": "PARTIAL_WRITE_DETECTED"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "3e74b5917f782797d25ef0f17123a534562dc86494d7e11c097c4d4dfbd247ec",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "snapshot_ref": "snapshot:9cd45ff68f93c1b2e7e8"
+      },
+      "operation": "SNAPSHOT_REFRESH",
+      "previous_hash": "aa34cde205a8e1756a5952e184366d091dbdebb742790ca30ce42da241283338",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "refresh_required": true,
+      "remediation_code": "STALE_SNAPSHOT_REFRESH_REQUIRED",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": false,
+      "scenario_id": "stale_snapshot_requires_refresh",
+      "sequence": 9,
+      "state": "STALE_SNAPSHOT"
+    },
+    {
+      "duplicate_safe": false,
+      "event": "REPLAY_DECISION",
+      "event_hash": "bc7f1a534053fec0c3d476263074574fcbd4437bb5ad322d96b47404a517d21a",
+      "mutation_performed": false,
+      "opaque_refs": {
+        "snapshot_ref": "snapshot:8709aa025d26be22aac2"
+      },
+      "operation": "SNAPSHOT_REFRESH",
+      "previous_hash": "3e74b5917f782797d25ef0f17123a534562dc86494d7e11c097c4d4dfbd247ec",
+      "purge_executed": false,
+      "purge_permitted": false,
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "refresh_required": false,
+      "remediation_code": "SNAPSHOT_CURRENT",
+      "replay_executed": false,
+      "replay_permitted": false,
+      "resume_permitted": true,
+      "scenario_id": "snapshot_revision_current",
+      "sequence": 10,
+      "state": "NOT_STARTED"
+    }
+  ],
+  "transcript_integrity_valid": true
+}
