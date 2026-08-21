@@ -1,0 +1,81 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "clinical_validation_authorized": false,
+  "expired_state": "DECISION_EXPIRED",
+  "external_authority": "NONE",
+  "external_decision_verified": false,
+  "external_execution_authorized": false,
+  "independent_reviewer": "NOT_STARTED",
+  "initial_state_for_nonexpired_received_record": "DECISION_PENDING_EXTERNAL_VERIFICATION",
+  "lifecycle_instantiated": false,
+  "lifecycle_state": "LIFECYCLE_TEMPLATE_PENDING_EXTERNAL_RECORD",
+  "next_action": "Await externally appointed authority and independent reviewer; receive and verify a decision record before any authorization decision.",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "project": "smart-ward-hub",
+  "record_template_evidence_class": "LOCAL_TEMPLATE",
+  "record_template_sha256": "3fd133212e1261b14a38a2d0c3690d28d26c6f6c4b3f713f84d0df38278a9f0c",
+  "record_template_status": "DECISION_RECORD_TEMPLATE",
+  "record_template_validation": {
+    "authorization_promoted": false,
+    "decision_record_ready": false,
+    "external_decision_verified": false,
+    "mode": "TEMPLATE_ONLY",
+    "valid": true
+  },
+  "repository": "icezingza/smart-ward-hub",
+  "revoked_state": "DECISION_REVOKED",
+  "schema_version": "external-decision-lifecycle-v1",
+  "simulation_states": [
+    "BLOCKED_SIMULATION",
+    "REOPENED_WITH_REASON",
+    "RECEIVED_FOR_SIMULATION",
+    "RESUBMISSION_REQUIRED",
+    "REQUIRES_CLARIFICATION"
+  ],
+  "snapshot_kind": "EXTERNAL_DECISION_LIFECYCLE_TEMPLATE",
+  "software_simulation_only": true,
+  "state_registry": {
+    "BLOCKED_SIMULATION": [
+      "REOPENED_WITH_REASON"
+    ],
+    "DECISION_EXPIRED": [
+      "BLOCKED_SIMULATION",
+      "RESUBMISSION_REQUIRED"
+    ],
+    "DECISION_PENDING_EXTERNAL_VERIFICATION": [
+      "BLOCKED_SIMULATION",
+      "DECISION_EXPIRED",
+      "DECISION_REVOKED",
+      "REQUIRES_CLARIFICATION"
+    ],
+    "DECISION_REVOKED": [
+      "BLOCKED_SIMULATION",
+      "RESUBMISSION_REQUIRED"
+    ],
+    "RECEIVED_FOR_SIMULATION": [
+      "BLOCKED_SIMULATION",
+      "DECISION_PENDING_EXTERNAL_VERIFICATION"
+    ],
+    "REOPENED_WITH_REASON": [
+      "BLOCKED_SIMULATION",
+      "RECEIVED_FOR_SIMULATION"
+    ],
+    "REQUIRES_CLARIFICATION": [
+      "BLOCKED_SIMULATION",
+      "DECISION_EXPIRED",
+      "DECISION_PENDING_EXTERNAL_VERIFICATION",
+      "DECISION_REVOKED"
+    ],
+    "RESUBMISSION_REQUIRED": [
+      "RECEIVED_FOR_SIMULATION"
+    ]
+  }
+}
