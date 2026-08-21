@@ -1,0 +1,125 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "correlation_ref": "worker-recovery-transcript-001",
+  "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+  "evidence_type": "OPERATOR_WORKER_RECOVERY_TRANSCRIPT",
+  "execution_performed": false,
+  "generated_at_utc": "2026-08-21T22:45:43.202398+00:00",
+  "operator_role": "control_room_coordinator",
+  "patient_data_used": false,
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "raw_worker_identifiers_exported": false,
+  "read_only": true,
+  "redaction_verified": true,
+  "replay_executed": false,
+  "schema_version": "smart-ward-worker-recovery-transcript-v1",
+  "source_revision": "abc4f2cf97ad55cbe04b6955a85caad7e40bc6c6",
+  "transcript": [
+    {
+      "correlation_ref": "worker-recovery-transcript-001",
+      "decision": "RECONCILIATION_REQUIRED",
+      "details": {
+        "execution_performed": false,
+        "job_ref": "job:e4d04f33641f597d3b6c",
+        "lease_owner_ref": "worker:6c38840fe06194e8037d",
+        "reconciliation_ref": "reconciliation:b546a1e766669015a7d3",
+        "runtime_replay_executed": false
+      },
+      "event_hash": "8bdb0c2b9c918e96c3e9d4584d686a648f2f02891e68f8c33f2df6c1672db606",
+      "event_seq": 1,
+      "event_type": "LEASE_EXPIRY_OBSERVED",
+      "occurred_at": "2026-08-22T00:00:00Z",
+      "operator_role": "control_room_coordinator",
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "remediation_code": "LEASE_EXPIRED_REQUIRES_RECONCILIATION",
+      "schema_version": "smart-ward-worker-recovery-transcript-v1"
+    },
+    {
+      "correlation_ref": "worker-recovery-transcript-001",
+      "decision": "SOFTWARE_REPLAY_ELIGIBLE",
+      "details": {
+        "execution_performed": false,
+        "job_ref": "job:e4d04f33641f597d3b6c",
+        "operator_confirmation": "ROLE_BOUND_CONFIRMATION_RECORDED",
+        "reconciliation_ref": "reconciliation:b546a1e766669015a7d3",
+        "resulting_state": "QUEUED"
+      },
+      "event_hash": "9a7429004c65351cb5f9b237da8dce8d66e43dda028626635601402fab93a4ef",
+      "event_seq": 2,
+      "event_type": "LEASE_RECONCILIATION_RECORDED",
+      "occurred_at": "2026-08-22T00:00:00Z",
+      "operator_role": "control_room_coordinator",
+      "previous_hash": "8bdb0c2b9c918e96c3e9d4584d686a648f2f02891e68f8c33f2df6c1672db606",
+      "remediation_code": "LEASE_REQUEUED_AFTER_RECONCILIATION",
+      "schema_version": "smart-ward-worker-recovery-transcript-v1"
+    },
+    {
+      "correlation_ref": "worker-recovery-transcript-001",
+      "decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "details": {
+        "job_ref": "job:09bca8ba661fb655cb88",
+        "production_authorized": false,
+        "replay_executed": false,
+        "retry_classification": "RETRY_LIMIT_EXCEEDED_DEAD_LETTER"
+      },
+      "event_hash": "0f8d79af8cd45e05bbdc030a277c2f27cca0b2c326cc65f29e54c9f911e721f8",
+      "event_seq": 3,
+      "event_type": "DEAD_LETTER_OBSERVED",
+      "occurred_at": "2026-08-22T00:00:00Z",
+      "operator_role": "control_room_coordinator",
+      "previous_hash": "9a7429004c65351cb5f9b237da8dce8d66e43dda028626635601402fab93a4ef",
+      "remediation_code": "DEAD_LETTER_REPLAY_CONFIRMATION_REQUIRED",
+      "schema_version": "smart-ward-worker-recovery-transcript-v1"
+    },
+    {
+      "correlation_ref": "worker-recovery-transcript-001",
+      "decision": "SOFTWARE_REPLAY_ELIGIBLE",
+      "details": {
+        "job_ref": "job:09bca8ba661fb655cb88",
+        "replay_executed": false,
+        "replay_permitted": true,
+        "runtime_authority": "NONE"
+      },
+      "event_hash": "373e94c1deb1de2f6bee15b3b41c3d76f9cfb2a9e92155f1c59599f687e72485",
+      "event_seq": 4,
+      "event_type": "DEAD_LETTER_REPLAY_ELIGIBILITY_RECORDED",
+      "occurred_at": "2026-08-22T00:00:00Z",
+      "operator_role": "control_room_coordinator",
+      "previous_hash": "0f8d79af8cd45e05bbdc030a277c2f27cca0b2c326cc65f29e54c9f911e721f8",
+      "remediation_code": "DEAD_LETTER_REPLAY_ELIGIBLE",
+      "schema_version": "smart-ward-worker-recovery-transcript-v1"
+    },
+    {
+      "correlation_ref": "worker-recovery-transcript-001",
+      "decision": "SOFTWARE_REPLAY_ELIGIBLE",
+      "details": {
+        "audit_chain_valid": true,
+        "backup_ref": "backup:d58f13b8f457824607f0",
+        "binding_verified": true,
+        "external_transmission_performed": false,
+        "restore_status": "SOFTWARE_RESTORE_VERIFIED",
+        "source_revision_ref": "source:163efc45551ea9bf3667"
+      },
+      "event_hash": "79934a9c25949e93c97d6a1e9f1a643202eb2c83fa5842e067513647eaa9fe04",
+      "event_seq": 5,
+      "event_type": "QUEUE_BACKUP_BINDING_VERIFIED",
+      "occurred_at": "2026-08-22T00:00:00Z",
+      "operator_role": "control_room_coordinator",
+      "previous_hash": "373e94c1deb1de2f6bee15b3b41c3d76f9cfb2a9e92155f1c59599f687e72485",
+      "remediation_code": "QUEUE_BACKUP_RESTORED",
+      "schema_version": "smart-ward-worker-recovery-transcript-v1"
+    }
+  ],
+  "transcript_integrity_valid": true
+}
