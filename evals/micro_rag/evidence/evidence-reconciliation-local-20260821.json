@@ -1,0 +1,99 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": "EXTERNAL_UNVERIFIED_PENDING_OWNER_APPOINTMENT",
+  "created_at_utc": "2026-08-21T17:34:09Z",
+  "evidence_class": "SOFTWARE_COORDINATION_ONLY",
+  "execution_permitted": false,
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_inputs_pending": [
+    "independent reviewer appointment and conflict declaration",
+    "external authority appointment with decision scope",
+    "signed scope/intended-use/expiry/rollback/stop record",
+    "independent read-back channel and evidence custody path",
+    "real endpoint/IdP/mTLS/ACL evidence where T-01..T-04 apply",
+    "external API version and uncertain-commit transcript for T-05/T-07/T-11",
+    "external revocation/response-authenticity evidence for T-08/T-09",
+    "independent WORM/trusted-timestamp/custody evidence for T-10",
+    "named stop authority and recovery approver with incident channel",
+    "clinical governance/protocol/consent and human-factors decisions",
+    "review findings, residual-risk acceptance or rejection record",
+    "signed external decision or explicit closed-no-authorization record"
+  ],
+  "findings": [
+    {
+      "finding_id": "SOURCE_NONIDENTICAL_WAVE4",
+      "message": "wave4 source revision is not byte-identical to the top-level freeze source.",
+      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "severity": "MEDIUM",
+      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+    },
+    {
+      "finding_id": "SOURCE_NONIDENTICAL_REVIEWER",
+      "message": "reviewer source revision is not byte-identical to the top-level freeze source.",
+      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "severity": "MEDIUM",
+      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+    },
+    {
+      "finding_id": "SOURCE_NONIDENTICAL_WAVE_E",
+      "message": "wave_e source revision is not byte-identical to the top-level freeze source.",
+      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "severity": "MEDIUM",
+      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+    },
+    {
+      "finding_id": "SOURCE_NONIDENTICAL_WAVE0",
+      "message": "wave0 source revision is not byte-identical to the top-level freeze source.",
+      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "severity": "MEDIUM",
+      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+    }
+  ],
+  "gate_decision": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "independent_verification_required": true,
+  "package_checks": {
+    "release_freeze": "PASS",
+    "reviewer_preflight": "PASS",
+    "wave0_template": "PASS",
+    "wave4": "PASS",
+    "wave_e_preflight": "PASS"
+  },
+  "reconciliation_id": "evidence-reconciliation-20260821",
+  "reconciliation_status": "RECONCILED_WITH_EXTERNAL_BLOCKERS",
+  "schema_version": "smart-ward-evidence-reconciliation-v1",
+  "software_evidence_only": true,
+  "source_revision_alignment": "NONIDENTICAL_REQUIRES_ANCESTOR_OR_REGENERATION_CHECK",
+  "source_revisions": {
+    "freeze": "bc25c59ed3833cd10ccd5d483dc8627be599e2c0",
+    "reviewer": "899e9423412ac91276340b0e13cf0998ec10aec7",
+    "wave0": "PENDING_EXTERNAL_APPOINTMENT",
+    "wave4": "899e9423412ac91276340b0e13cf0998ec10aec7",
+    "wave_e": "0dbd9d407a227605b5c35afca798c69e7db62ba0"
+  },
+  "states": {
+    "reviewer_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+    "reviewer_external_decision": "NOT_ISSUED",
+    "reviewer_package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+    "reviewer_review_status": "NOT_STARTED",
+    "reviewer_submission_status": "NOT_SUBMITTED",
+    "reviewer_wave_e_state": "NOT_EXECUTED",
+    "wave4_bundle_state": "NOT_EXECUTED",
+    "wave4_package_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+    "wave4_review_status": "NOT_STARTED",
+    "wave_e_execution_permitted": false,
+    "wave_e_external_validation_started": false,
+    "wave_e_packet_status": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT"
+  },
+  "submission_permitted": false
+}

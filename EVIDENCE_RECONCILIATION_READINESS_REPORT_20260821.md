@@ -86,7 +86,8 @@ Rollback ทำได้โดย revert `evidence_reconciliation.py`, tests, ph
 
 ## 9. Evidence paths
 
-- `evidence_reconciliation.py`
+- `export_evidence_reconciliation.py`
+- `evals/micro_rag/evidence/evidence-reconciliation-local-20260821.json`
 - `test_evidence_reconciliation.py`
 - `test_evidence_reconciliation_phase_end_hardening.py`
 - `EVIDENCE_RECONCILIATION_READINESS_REPORT_20260821.md`
