@@ -710,8 +710,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "8dc2ec283428477ab935b61747da21622a8ce70e35240bb6ee51b7790ca6ed42",
-      "size_bytes": 46182
+      "sha256": "3edf2885180fb824f22abfa4b2dab39301107c5bf5d47c1066b2e466d47e60cf",
+      "size_bytes": 48109
     },
     {
       "classification": "contract_or_governance_document",
@@ -874,6 +874,12 @@
       "path": "WAVE_E_EXECUTION_PREFLIGHT_READINESS_REPORT_20260821.md",
       "sha256": "6a85f96cd284e3753f9c8486f8b811c5d94ef8a31d62dde223814c89c2549c73",
       "size_bytes": 6618
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WORKER_RECOVERY_APPROVAL_READBACK_READINESS_REPORT_20260822.md",
+      "sha256": "ed3b71d4e3f64b339a08227c1ae8dde81eda4124d9637492fed4776b5666c1ec",
+      "size_bytes": 6061
     },
     {
       "classification": "contract_or_governance_document",
@@ -1519,6 +1525,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/worker-recovery-approval-local.json",
+      "sha256": "d206a734dc180c127d5d88fb0f61d2185c3c172062a7ffbd25bd2378e7032f54",
+      "size_bytes": 3153
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/worker-recovery-transcript-local.json",
       "sha256": "000547e9db6450df5b19e3c4fbed2d86113d17ac2585a80d81d012782a57b6f7",
       "size_bytes": 5338
@@ -1720,6 +1732,12 @@
       "path": "export_wave_e_execution_preflight.py",
       "sha256": "803dcd0141ca7116d02921b2fb53ac877afe0c6fa7173cc6e87abd6073226876",
       "size_bytes": 1341
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_worker_recovery_approval.py",
+      "sha256": "b42c87412fea7bba6b3e02d51574af747dcef1c98e0297144753dbe340d68df4",
+      "size_bytes": 2623
     },
     {
       "classification": "source_or_runtime_config",
@@ -2204,8 +2222,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "842eb6f2c79843c567d888121a7d4bcfbe697c1afa5aa18dbae8f22c9a27dc36",
-      "size_bytes": 6461
+      "sha256": "acdedb7ecb8d4896e6b3353b11c10268789f92e3fab4f42328cb209acf67bbe2",
+      "size_bytes": 6561
     },
     {
       "classification": "source_or_runtime_config",
@@ -2282,8 +2300,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "b874d44cfa429cb42513fe01453e2b89e587d9d671f3162b189c921de1dd7b34",
-      "size_bytes": 53761
+      "sha256": "8638f7243562bd0f2b1cbab2212172ce66e96c18e33cbf1d9bb42bccfb83cb43",
+      "size_bytes": 55487
     },
     {
       "classification": "source_or_runtime_config",
@@ -2971,6 +2989,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_worker_recovery_approval.py",
+      "sha256": "e8de0080c7f450dda98b10ba909395b24d50e743977c29822ae786841711a39a",
+      "size_bytes": 5657
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_worker_recovery_approval_phase_end_hardening.py",
+      "sha256": "f16245b82e8337ff046586a66ba64303d95a04820cb39e8e8ee113373e08ab6f",
+      "size_bytes": 4676
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_worker_recovery_transcript.py",
       "sha256": "97a1ea8b7f7d938e32589ee4306a68b3055062bdd74e7662ebbd8be324a04f0c",
       "size_bytes": 3670
@@ -3073,19 +3103,25 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "worker_recovery_approval.py",
+      "sha256": "13af3e42310b6519ddda3458084b86a8cf9a0b32d430ccec3a1878bf970d6576",
+      "size_bytes": 12096
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "worker_recovery_transcript.py",
-      "sha256": "35008989169823b6577f4485b0fb32eaec4fb7c0706cfe3408c251b48a2d978b",
-      "size_bytes": 10890
+      "sha256": "85cf52a5a61e322247b9bc3af29c5d828a9e23101457797625d600426544ffbe",
+      "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-21T22:46:00.573705+00:00",
+  "freeze_created_at_utc": "2026-08-21T22:52:28.004229+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "6f07b5c22492f027fa6a6b8e2c8c0aa218b97dae",
+  "origin_main_revision": "91ca77367da9ace85df808e45ba6cf11b3ee20aa",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "6f07b5c22492f027fa6a6b8e2c8c0aa218b97dae"
+  "source_revision": "91ca77367da9ace85df808e45ba6cf11b3ee20aa"
 }
