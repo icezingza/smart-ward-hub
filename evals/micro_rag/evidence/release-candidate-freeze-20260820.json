@@ -799,6 +799,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "WAVE_E_EXECUTION_PREFLIGHT_READINESS_REPORT_20260821.md",
+      "sha256": "6a85f96cd284e3753f9c8486f8b811c5d94ef8a31d62dde223814c89c2549c73",
+      "size_bytes": 6618
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "ZERO_TRUST_TRUST_BOUNDARIES.md",
       "sha256": "5eb1327e25f2df579006cc3b536ad1ab6ac5b6b1dd7008c83394199c3ac49c95",
       "size_bytes": 11749
@@ -1255,6 +1261,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave-e-execution-preflight-local-20260821.json",
+      "sha256": "d4005e607276b024f490556aac2f7f288d3d9665eef8e11500c0d7ff42ffecf2",
+      "size_bytes": 1795
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/wave0-governance-handoff-20260820.json",
       "sha256": "f78f85dfc84676f4ee59bbad8ea52f21dc8eedf1ca0cf51a8c936b33eec0b4fd",
       "size_bytes": 2268
@@ -1474,6 +1486,12 @@
       "path": "export_wave_e_evidence_schema.py",
       "sha256": "fe01ca33f00470671cf1b0755cc129eb55e746c2126ebfc7fed503020abc19c8",
       "size_bytes": 1669
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave_e_execution_preflight.py",
+      "sha256": "803dcd0141ca7116d02921b2fb53ac877afe0c6fa7173cc6e87abd6073226876",
+      "size_bytes": 1341
     },
     {
       "classification": "source_or_runtime_config",
@@ -1916,8 +1934,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "f7456b42386c63581d29dcc902b05f964b6780715afce3dba67c8e074a945ab5",
-      "size_bytes": 4136
+      "sha256": "8b791c605d498007e2908d91d1fec25eb1c81b9fd85b0c27ff0809e997f25fbd",
+      "size_bytes": 4240
     },
     {
       "classification": "source_or_runtime_config",
@@ -1982,8 +2000,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "c98ced2037a510c5c0e95f57f3f76180ab93f54f68725d9c9c8ada16ff5dac2d",
-      "size_bytes": 37021
+      "sha256": "cdd9a3b653d3ef8ed8fac4e7d87f176130b0d42c005726dbeaad012e46f39b3d",
+      "size_bytes": 37884
     },
     {
       "classification": "source_or_runtime_config",
@@ -2491,6 +2509,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_wave_e_execution_preflight.py",
+      "sha256": "bab84163f488a810d7965e36fb9d5bc6e0fbee27899d83aa8e45fbecc61c36e8",
+      "size_bytes": 3338
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave_e_execution_preflight_phase_end_hardening.py",
+      "sha256": "7e39b72036b1a9e37b52de65d526267870ab658654963b7ef1abaf3feb9b593f",
+      "size_bytes": 3425
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_worker_control_plane.py",
       "sha256": "e80529255d01d4de01266064f3860cbf206dc44f8f8edd5fddf6cc0b982c5e2e",
       "size_bytes": 9449
@@ -2569,6 +2599,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "wave_e_execution_preflight.py",
+      "sha256": "ea780f165bf1c51896278ebadcd63d0d95cce9e94e066ec0a788d151734117aa",
+      "size_bytes": 11036
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "worker_control_plane.py",
       "sha256": "b6f5eea0b3ee75de680a1a1ba485acb144490dd44bcd69f54a478b6674a3245a",
       "size_bytes": 19330
@@ -2580,14 +2616,14 @@
       "size_bytes": 8057
     }
   ],
-  "freeze_created_at_utc": "2026-08-20T22:07:47.334505+00:00",
+  "freeze_created_at_utc": "2026-08-21T16:51:11.252683+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "1b6511a9d387fc405e3fcc75ae4993c0ab8c8e8f",
+  "origin_main_revision": "bc25c59ed3833cd10ccd5d483dc8627be599e2c0",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "1b6511a9d387fc405e3fcc75ae4993c0ab8c8e8f"
+  "source_revision": "bc25c59ed3833cd10ccd5d483dc8627be599e2c0"
 }
