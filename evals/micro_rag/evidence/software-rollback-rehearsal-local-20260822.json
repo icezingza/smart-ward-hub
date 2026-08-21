@@ -1,0 +1,54 @@
+{
+  "anchor_exported_before_restore": true,
+  "audit_exported_before_restore": true,
+  "checks": {
+    "all_post_restore_checks_passed": true,
+    "anchor": {
+      "passed": true,
+      "receipt_readback_valid": true
+    },
+    "anchor_export_hash_matches": true,
+    "audit_export": {
+      "hash_matches_export": true,
+      "line_count": 1,
+      "passed": true,
+      "redaction_shape_valid": true
+    },
+    "checkpoint": {
+      "last_sequence": 2,
+      "passed": true,
+      "sequence_matches": true
+    },
+    "database": {
+      "integrity_check": "ok",
+      "journal_mode": "wal",
+      "opaque_state_matches": true,
+      "passed": true
+    },
+    "external_resume_permitted": false,
+    "production_resume_permitted": false,
+    "restore_status": true,
+    "resume_permitted_in_software_rehearsal": true,
+    "worker_queue": {
+      "audit_chain_valid": true,
+      "passed": true,
+      "status": "QUEUED"
+    },
+    "worker_restore_status": true
+  },
+  "clinical_validation_authorized": false,
+  "decision": "ROLLBACK_VERIFIED_IN_ISOLATED_TARGET",
+  "drift_simulated_after_backup": true,
+  "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+  "external_authority": "NONE",
+  "mode": "isolated_nonproduction_targets",
+  "patient_data_used": false,
+  "physical_power_cut": "UNVERIFIED",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "raw_frames_recorded": false,
+  "rehearsal": "software_rollback_rehearsal",
+  "schema_version": "smart-ward-software-rollback-v1",
+  "source_revision": "rollback-rehearsal-fixture-revision",
+  "target_host_validation": "UNVERIFIED"
+}

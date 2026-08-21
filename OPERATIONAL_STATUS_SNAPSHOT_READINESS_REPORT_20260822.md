@@ -20,6 +20,7 @@
 | Runtime state | DB/checkpoint/audit/anchor/backup/disk | รายงาน presence/integrity/age แบบไม่เผย patient token หรือ raw logs |
 | Recovery | `rollback` | ระบุว่าต้องมี operator confirmation และ rollback command; ไม่ execute เอง |
 | Authorization | `authorization_boundary`, `pilot_gate_status` | `external_authority=NONE`, production/clinical authorization=false, pilot blocked |
+| Thresholds | `threshold_evaluation`, `optional_metrics`, `remediation_codes` | Missing/stale/over-limit evidence yields `BLOCKED_REQUIRES_RECONCILIATION` and `resume_permitted=false` |
 
 ## 3. ผลการทดสอบ
 
@@ -30,6 +31,9 @@
 | SQLite WAL, integrity check and foreign-key verification | PASS |
 | Checkpoint, audit, anchor and backup bundle directory status | PASS |
 | Unsafe wildcard host remains `preflight_status=FAIL` despite healthy database | PASS |
+| Healthy synthetic snapshot with zero backlog and fresh artifacts | PASS |
+| Missing/stale/over-limit metrics generate remediation codes and block resume | PASS |
+| Invalid threshold policy values are rejected by bounded parser | PASS |
 | Deterministic snapshot with fixed clock input | PASS |
 | No network/provider/scheduler import | PASS |
 | Fixed local Git read only | PASS |
@@ -43,7 +47,7 @@ Snapshot ไม่ execute rollback, ไม่ส่งข้อมูลไป 
 
 ## 5. งานที่ควรต่อจากภายใน
 
-ควรผูก snapshot กับ health/readiness endpoint แบบไม่เผย secret, เพิ่ม backup freshness/RPO threshold, WAL/checkpoint age threshold, audit-chain verification result, anchor readback status, sync backlog, unresolved-alert count, migration/schema revision และ explicit operator remediation codes โดยทุก field ต้องมี evidence class และ redaction test
+snapshot มี threshold evaluator แล้วสำหรับ backup/checkpoint/audit/anchor freshness, disk headroom, sync backlog, worker queue backlog และ unresolved alerts โดย default policy อยู่ใน `operational_thresholds.py`; เมื่อข้อมูลไม่ถูกเก็บ, ผิดรูปแบบ, stale หรือเกิน limit จะออก remediation code และ block resume. ควรผูก snapshot กับ health/readiness endpoint แบบไม่เผย secret, เพิ่ม RPO/RTO owner, migration/schema revision และ explicit operator remediation workflow โดยทุก field ต้องมี evidence class และ redaction test
 
 ควรทำ scheduled collection ได้ต่อเมื่อมี operational owner, retention, access control และ failure handling ที่กำหนดชัดเจน งาน snapshot ปัจจุบันเป็น command แบบ read-only และไม่สร้าง scheduler/background side effect
 

@@ -21,6 +21,9 @@ def _configure_environment(runtime_root: Path) -> dict[str, str]:
             "SW_AUDIT_LOG_PATH": str(runtime_root / "audit_events.jsonl"),
             "SW_FORENSIC_ANCHOR_PATH": str(runtime_root / "forensic_anchors.jsonl"),
             "SW_BACKUP_BUNDLE_PATH": str(runtime_root / "backup-bundle"),
+            "SW_SYNC_BACKLOG": "0",
+            "SW_WORKER_QUEUE_BACKLOG": "0",
+            "SW_UNRESOLVED_ALERTS": "0",
         }
     )
     return env
@@ -40,6 +43,9 @@ def run() -> None:
         assert snapshot["clinical_validation"] == "PENDING"
         assert snapshot["runtime"]["database"]["status"] == "NOT_PRESENT_UNVERIFIED"
         assert snapshot["runtime"]["backup"]["status"] == "NOT_PRESENT_UNVERIFIED"
+        assert snapshot["threshold_evaluation"]["status"] == "BLOCKED_REQUIRES_RECONCILIATION"
+        assert snapshot["threshold_evaluation"]["resume_permitted"] is False
+        assert "DATABASE_NOT_VERIFIED" in snapshot["threshold_evaluation"]["remediation_codes"]
         redaction_env = dict(env)
         redaction_env["SW_AUTH_TOKENS_JSON"] = '{"secret-token":["admin"]}'
         redacted_snapshot = collect_operational_snapshot(redaction_env, project_root=ROOT, now=2_000_000_000)
@@ -76,6 +82,9 @@ def run() -> None:
         assert snapshot["runtime"]["audit"]["status"] == "PRESENT"
         assert snapshot["runtime"]["anchor"]["status"] == "PRESENT"
         assert snapshot["runtime"]["backup"]["status"] == "PRESENT"
+        assert snapshot["threshold_evaluation"]["status"] == "PASS"
+        assert snapshot["threshold_evaluation"]["resume_permitted"] is True
+        assert snapshot["threshold_evaluation"]["remediation_codes"] == []
         assert snapshot["rollback"]["source_revision_available"] is True
         print("[Operational] WAL, integrity, checkpoint/audit/anchor/backup status: PASSED")
 

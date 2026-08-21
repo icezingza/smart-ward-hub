@@ -12,6 +12,7 @@ import subprocess
 from typing import Mapping
 
 from internal_foundation_readiness import AUTHORIZATION_BOUNDARY, evaluate_internal_foundation
+from operational_thresholds import collect_optional_metrics, evaluate_thresholds, load_thresholds
 
 
 SCHEMA_VERSION = "smart-ward-operational-status-v1"
@@ -163,8 +164,14 @@ def collect_operational_snapshot(
         },
         "authorization_boundary": dict(AUTHORIZATION_BOUNDARY),
         "pilot_gate_status": AUTHORIZATION_BOUNDARY["pilot_gate_status"],
+        "optional_metrics": collect_optional_metrics(env),
         "next_action": "Review FAIL/ADVISORY or NOT_PRESENT_UNVERIFIED components; reconcile before resuming runtime. Obtain physical and external evidence separately.",
     }
+    snapshot["threshold_evaluation"] = evaluate_thresholds(
+        snapshot,
+        metrics=snapshot["optional_metrics"],
+        thresholds=load_thresholds(env),
+    )
     return snapshot
 
 
