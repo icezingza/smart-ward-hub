@@ -134,8 +134,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "BACKUP_RESTORE_CONTRACT.md",
-      "sha256": "b8906afbe0d4725f4d95a015ddc4ca81f10c4d0d2b8ece07f665fc3c87abdeed",
-      "size_bytes": 5011
+      "sha256": "5ad4ea29339de55702a3b5f4442872ac2a15fb2b045f3cafcd898ee498bc1d32",
+      "size_bytes": 5278
     },
     {
       "classification": "contract_or_governance_document",
@@ -710,8 +710,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SOFTWARE_ROLLBACK_REHEARSAL_READINESS_REPORT_20260822.md",
-      "sha256": "794a6af2f125c4314fc2c01f0bd8581ce909e64a6e5f519b46f5491be0388617",
-      "size_bytes": 4898
+      "sha256": "d3940939d76f4db8771d0dd1ffd1564ca7a4cde1ebda9ca0e3e02ba8690a2b98",
+      "size_bytes": 5378
     },
     {
       "classification": "contract_or_governance_document",
@@ -926,8 +926,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "backup_restore.py",
-      "sha256": "5d89aeabfc0c9f9289563d1f48c150c90d4b003bd38d92a74d275596973441bb",
-      "size_bytes": 14961
+      "sha256": "6c60689b6cbae19b0c3f8cd493bba2a0f57712862975cd015a8b5fc735b6ff0f",
+      "size_bytes": 16693
     },
     {
       "classification": "source_or_runtime_config",
@@ -1340,8 +1340,8 @@
     {
       "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/software-rollback-rehearsal-local-20260822.json",
-      "sha256": "1f8ef75fef127142c87cd0dad36bfb39e218fda1b700cd0e3c29ac3afd234453",
-      "size_bytes": 1633
+      "sha256": "e27961f9364064ab7c54f146df75cab23019d9ea06c4e56e355cdf849a159d70",
+      "size_bytes": 2719
     },
     {
       "classification": "evidence_or_machine_record",
@@ -2168,8 +2168,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "software_rollback_rehearsal.py",
-      "sha256": "ab365aeb8a74202b7425b1ae22d619485e22bcb578e00ce593dd512a39ac549f",
-      "size_bytes": 12177
+      "sha256": "664bf7b741e778dd6de0e22838fe51f996be50d001cb6a5e3249197da868080d",
+      "size_bytes": 19000
     },
     {
       "classification": "contract_or_governance_document",
@@ -2186,8 +2186,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_backup_restore.py",
-      "sha256": "701abc5c7e27418b0359e602c6603c53086d5134501d3a06f83b84eb0ae93288",
-      "size_bytes": 5802
+      "sha256": "34323f27f65166793cfe5fae80472abf19a7dd22546d8bd72e245ba12332b4d6",
+      "size_bytes": 8125
     },
     {
       "classification": "source_or_runtime_config",
@@ -2666,14 +2666,14 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_software_rollback_rehearsal.py",
-      "sha256": "8aa4cfc6841978845d7a3cd43f579803a188995ec1f3dc342d5597b360345825",
-      "size_bytes": 2308
+      "sha256": "fc63439eafef3902bae7bc0d38ff5285b970e7f96117a2b28ef1047c7d330057",
+      "size_bytes": 3157
     },
     {
       "classification": "source_or_runtime_config",
       "path": "test_software_rollback_rehearsal_phase_end_hardening.py",
-      "sha256": "5a1ab1134d3672bb5337bce34f35b0cf35e674fe3c3763ef2a190f787e4f1e62",
-      "size_bytes": 3678
+      "sha256": "7d6c3b8c5cbb0bcf575c575a14e25cb4e3571557348c642e3027d1cebba6e65c",
+      "size_bytes": 4026
     },
     {
       "classification": "source_or_runtime_config",
@@ -2904,14 +2904,14 @@
       "size_bytes": 8057
     }
   ],
-  "freeze_created_at_utc": "2026-08-21T21:55:37.703476+00:00",
+  "freeze_created_at_utc": "2026-08-21T22:05:32.541205+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "5be16461cde8e577ef4bcc83cab45b967df7b5fe",
+  "origin_main_revision": "2e54ee65e4921743ce92cf8d675a02c1b9082299",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "5be16461cde8e577ef4bcc83cab45b967df7b5fe"
+  "source_revision": "2e54ee65e4921743ce92cf8d675a02c1b9082299"
 }
