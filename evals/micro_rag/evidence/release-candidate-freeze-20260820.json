@@ -361,6 +361,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "OPERATIONAL_REMEDIATION_REHEARSAL_READINESS_REPORT_20260822.md",
+      "sha256": "a99e1726a4990d14016e199e3fb0b6ed6be7def3a587c6396a2da8cfec3001da",
+      "size_bytes": 4793
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "OPERATIONAL_STATUS_SNAPSHOT_READINESS_REPORT_20260822.md",
       "sha256": "3ed1873bd6f771b49006718b9b9b1c411254cf4e76cd487c711f07fd2ad90fd0",
       "size_bytes": 6565
@@ -692,8 +698,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "3873f4ed6320ea972c371fdf2af9604a967551ddfe0b818386d7efb8322566ab",
-      "size_bytes": 37552
+      "sha256": "f9957001c4621ce9bc77b3d236fb62f93dff5a8d23bf9fb051dacbb8a70aad04",
+      "size_bytes": 38403
     },
     {
       "classification": "contract_or_governance_document",
@@ -1243,6 +1249,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/operational-remediation-rehearsal-local-20260822.json",
+      "sha256": "6f6279a2f64405a20288941e21fd4fa42b787741b2b92b084d784e0e19f257b9",
+      "size_bytes": 5763
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/operational-status-snapshot-local-20260822.json",
       "sha256": "23279b9e0c26a2cd23eb3ab37d2749070b59bbc5d19da25be6ca277dc437119c",
       "size_bytes": 3398
@@ -1543,6 +1555,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "export_operational_remediation.py",
+      "sha256": "478980065d355c772f59df39a32b966669e28d290c9e6c2f03606823a8d6c281",
+      "size_bytes": 2444
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "export_p1_002_host_hardening_readiness.py",
       "sha256": "d31bbace9a19b3f832c0de20a1a3d9613a0f2ef9451de5d7303be01ba38a64de",
       "size_bytes": 3194
@@ -1837,6 +1855,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "operational_remediation_rehearsal.py",
+      "sha256": "eec0731e2f6f59838ffdccfa549aa3b2f09b42010cb114004723ab827c95c0bb",
+      "size_bytes": 11998
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "operational_status_snapshot.py",
       "sha256": "1f62fd9556d0f6f2d472a0209b43992444ea2295c719b8f8eae51326d0520e00",
       "size_bytes": 8163
@@ -2102,8 +2126,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "44775f86761e906275d4c3c71404f213d111cb0d85285de22444adc6ccad54bf",
-      "size_bytes": 5919
+      "sha256": "ec9fc538b0bc142bd004be7c8a3d394332aea098bb88581b201b6693ac7b35fa",
+      "size_bytes": 6027
     },
     {
       "classification": "source_or_runtime_config",
@@ -2174,8 +2198,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "f5ef1a9abb3bfaf5b947082509212d22bc9074b0ed3f143ce92831933beb94ca",
-      "size_bytes": 45552
+      "sha256": "23e58a3215c7a4f7ef4cbb0af631463256310857d82f4083048d392543d5910b",
+      "size_bytes": 46304
     },
     {
       "classification": "source_or_runtime_config",
@@ -2398,6 +2422,18 @@
       "path": "test_network_pressure_simulation.py",
       "sha256": "68cd981da1533fce40a9bbb3719f2cf3638a6cdc0afd554c685974e9739066bb",
       "size_bytes": 2432
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_operational_remediation_phase_end_hardening.py",
+      "sha256": "8cb87b4f8231311d151b0aae750e270144e5936f513ea4f0e79051355f5ca232",
+      "size_bytes": 4124
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_operational_remediation_rehearsal.py",
+      "sha256": "27cb4b28ce52bf76d2a3401cd1eca93915f4673a8b8d532f55f0da1ca988f24c",
+      "size_bytes": 4301
     },
     {
       "classification": "source_or_runtime_config",
@@ -2904,14 +2940,14 @@
       "size_bytes": 8057
     }
   ],
-  "freeze_created_at_utc": "2026-08-21T22:05:32.541205+00:00",
+  "freeze_created_at_utc": "2026-08-21T22:12:02.213659+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "2e54ee65e4921743ce92cf8d675a02c1b9082299",
+  "origin_main_revision": "c71b668bee57a8db05c5f155e86465b90a6d2654",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "2e54ee65e4921743ce92cf8d675a02c1b9082299"
+  "source_revision": "c71b668bee57a8db05c5f155e86465b90a6d2654"
 }
