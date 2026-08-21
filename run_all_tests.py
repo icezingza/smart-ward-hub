@@ -82,6 +82,8 @@ TESTS = [
     "test_external_decision_lifecycle_phase_end_hardening.py",
     "test_internal_foundation_readiness.py",
     "test_internal_foundation_phase_end_hardening.py",
+    "test_operational_status_snapshot.py",
+    "test_operational_status_snapshot_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
     "test_wave1_software_preparation.py",
     "test_wave1_software_preparation_phase_end_hardening.py",
