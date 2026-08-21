@@ -230,3 +230,12 @@ Focused และ phase-end gates ผ่านแล้ว; master regression in
 `test_worker_recovery_approval.py` ครอบคลุม 7 focused/adversarial cases. `export_worker_recovery_approval.py` สร้าง redacted machine-readable evidence พร้อม validation, source revision และ locked authorization claim. `test_worker_recovery_approval_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, exporter round-trip, no-self-authorization, private-key/redaction scan และ `git diff --check`. Master regression integration เพิ่มแล้ว; ยังต้องรัน master suite, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream.
 
 นี่เป็น local software simulation/read-back artifact เท่านั้น ไม่ใช่ human sign-off จริง, external signature, independent reviewer decision, production approval, clinical action หรือ external authorization. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Cross-Package Evidence Binding Check status note — 22 สิงหาคม 2026
+
+`cross_package_evidence_binding.py` เพิ่ม read-only checker สำหรับผูก worker recovery transcript, operator approval/read-back, durable worker replay evidence และ release-freeze manifest. ตรวจ freeze-listed artifact bytes/hash, transcript integrity, approval transcript/queue refs and hashes, durable software-only boundary, source revisions และ locked authorization. Mismatch จะคืน `RECONCILIATION_REQUIRED` พร้อม remediation code; ไม่เขียนไฟล์/ฐานข้อมูล ไม่ส่งข้อมูล และไม่ promote authorization.
+
+`export_durable_worker_replay.py` เพิ่ม source_revision ให้ durable evidence package สำหรับ cross-package lineage. `test_cross_package_evidence_binding.py` ครอบคลุม synthetic bound fixture, transcript hash mismatch, queue ref mismatch, durable boundary mutation, freeze hash mismatch และ repository binding; `test_cross_package_evidence_binding_phase_end_hardening.py` จะเป็น phase-end gate สำหรับ no side effect, redaction/private-key, no-self-authorization และ exporter round-trip. Workstream อยู่ระหว่าง reconcile/regenerate evidence ให้ artifact hashes และ source revisions สอดคล้อง ก่อน commit/push, refresh freeze และ master regression.
+
+ขอบเขตยังเป็น internal software evidence binding เท่านั้น; `BOUND` ไม่ใช่ production-ready, clinical validation หรือ external authorization. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.

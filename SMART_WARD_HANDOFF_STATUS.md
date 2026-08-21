@@ -210,3 +210,12 @@ Added `operational_remediation_rehearsal.py` and `export_operational_remediation
 `test_worker_recovery_approval.py` ผ่าน 7 focused/adversarial cases รวม transcript/queue tamper, actor collision, wrong confirmation, out-of-order timestamp, authorization mutation, execution request mutation และ unknown fields. `export_worker_recovery_approval.py` และ `test_worker_recovery_approval_phase_end_hardening.py` เพิ่ม redacted round-trip evidence, no-network/provider/scheduler scan, no-self-authorization, private-key/redaction และ `git diff --check` gates. Master regression integration เพิ่มแล้ว; workstream รอ master regression, commit/push และ release-freeze refresh.
 
 ผลนี้เป็น local software simulation/read-back artifact เท่านั้น ไม่ใช่ human sign-off, external signature, independent reviewer decision, production approval, clinical action หรือ external authorization. Product ยังคง `NOT_PRODUCTION_READY`; pilot ยังคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates ยังคง `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary ยังคง `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`.
+
+
+## Cross-Package Evidence Binding Check — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `cross_package_evidence_binding.py` สำหรับตรวจความสอดคล้องระหว่าง worker recovery transcript, operator approval/read-back, durable worker replay evidence และ release-freeze manifest แบบ read-only. Checker ตรวจ artifact hash ที่ freeze ไว้, transcript integrity, approval transcript/queue bindings, durable replay boundary, source revision lineage และ authorization boundary. Mismatch ใด ๆ คืน `RECONCILIATION_REQUIRED` พร้อม remediation code; ไม่เขียน runtime state, ไม่ส่งข้อมูล และไม่ promote authorization.
+
+เพิ่ม `export_durable_worker_replay.py` เพื่อเติม source revision ให้ durable evidence package, พร้อม focused/adversarial tests และ phase-end hardening gate. ระหว่าง initial check ตรวจพบ evidence ที่สร้างก่อน transcript deterministic fix ยังมี approval transcript/queue binding mismatch และ durable source revision missing ซึ่งถูกจับได้ตาม contract; ขั้นต่อไปคือ regenerate packages ตาม source ล่าสุด, commit/push, refresh freeze และรัน master regression จน `BOUND`.
+
+สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`.
