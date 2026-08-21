@@ -1,0 +1,52 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "clinical_validation": "PENDING",
+  "config_digest": "035b61eb954042df032781fc52c057e089811bd13cdd6c6f0a81c700667f2e2b",
+  "evidence_class": "LOCAL_SOFTWARE_SNAPSHOT",
+  "next_action": "Review FAIL/ADVISORY or NOT_PRESENT_UNVERIFIED components; reconcile before resuming runtime. Obtain physical and external evidence separately.",
+  "physical_validation": "UNVERIFIED",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "preflight_status": "PASS",
+  "rollback": {
+    "operator_confirmation_required": true,
+    "rollback_command_required": true,
+    "source_revision_available": true
+  },
+  "runtime": {
+    "anchor": {
+      "path_present": false,
+      "status": "NOT_PRESENT_UNVERIFIED"
+    },
+    "audit": {
+      "path_present": false,
+      "status": "NOT_PRESENT_UNVERIFIED"
+    },
+    "backup": {
+      "path_present": false,
+      "status": "NOT_PRESENT_UNVERIFIED"
+    },
+    "checkpoint": {
+      "path_present": false,
+      "status": "NOT_PRESENT_UNVERIFIED"
+    },
+    "database": {
+      "status": "NOT_PRESENT_UNVERIFIED"
+    },
+    "disk": {
+      "free_bytes": 32781660160,
+      "free_ratio": 0.773413,
+      "status": "PASS",
+      "total_bytes": 42385690624
+    }
+  },
+  "schema_version": "smart-ward-operational-status-v1",
+  "snapshot_kind": "OPERATIONAL_STATUS",
+  "software_only": true,
+  "source_revision": "c7cd2d38032425bf73cbfaacbc10bab93b0ae0b9"
+}
