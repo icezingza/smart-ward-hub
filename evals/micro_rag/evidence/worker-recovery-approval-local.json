@@ -45,12 +45,12 @@
     "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
   },
   "evidence_type": "WORKER_RECOVERY_OPERATOR_APPROVAL_READBACK",
-  "generated_at_utc": "2026-08-21T22:52:19.831792+00:00",
+  "generated_at_utc": "2026-08-21T22:59:08.729033+00:00",
   "read_only": true,
   "redaction_verified": true,
   "replay_executed": false,
   "schema_version": "smart-ward-worker-recovery-approval-v1",
-  "source_revision": "7b5e6c4c29f2ce531cedb9a9c1b6cc71322e9283",
+  "source_revision": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
   "transcript_integrity_valid": true,
   "validation": {
     "actor_separation_valid": true,

@@ -12,7 +12,7 @@
       "physical_storage_validation": "UNVERIFIED",
       "restore_status": "SOFTWARE_RESTORE_VERIFIED",
       "secret_material_restored": false,
-      "source_backup_id": "backup-20260821T224014Z-75e76d0a",
+      "source_backup_id": "backup-20260821T225908Z-016a2009",
       "source_revision": "fixture-source-revision-001",
       "worker_queue_restore_status": "SOFTWARE_RESTORE_VERIFIED",
       "worker_store_schema_version": "p2-005-durable-worker-v1"
@@ -75,7 +75,9 @@
       "scenario_id": "dead_letter_replay_software_eligible"
     }
   },
+  "evidence_type": "DURABLE_WORKER_REPLAY",
   "external_transmission_performed": false,
+  "generated_at_utc": "2026-08-21T22:59:08.815986+00:00",
   "lease_recovery": {
     "blocked_classification": "LEASE_EXPIRED_REQUIRES_RECONCILIATION",
     "requeued_status": "QUEUED",
@@ -90,5 +92,7 @@
   },
   "mode": "SOFTWARE_FIXTURE",
   "read_only_external_boundary": true,
-  "runtime_replay_executed": false
+  "runtime_replay_executed": false,
+  "schema_version": "durable-worker-replay-evidence-v1",
+  "source_revision": "0781e6985b3b1b9a99793ee023ad024857b5fadc"
 }

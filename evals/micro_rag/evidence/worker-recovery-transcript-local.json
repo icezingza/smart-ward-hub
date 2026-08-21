@@ -15,7 +15,7 @@
   "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
   "evidence_type": "OPERATOR_WORKER_RECOVERY_TRANSCRIPT",
   "execution_performed": false,
-  "generated_at_utc": "2026-08-21T22:45:43.202398+00:00",
+  "generated_at_utc": "2026-08-21T22:59:08.622813+00:00",
   "operator_role": "control_room_coordinator",
   "patient_data_used": false,
   "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
@@ -24,7 +24,7 @@
   "redaction_verified": true,
   "replay_executed": false,
   "schema_version": "smart-ward-worker-recovery-transcript-v1",
-  "source_revision": "abc4f2cf97ad55cbe04b6955a85caad7e40bc6c6",
+  "source_revision": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
   "transcript": [
     {
       "correlation_ref": "worker-recovery-transcript-001",
@@ -105,13 +105,13 @@
       "decision": "SOFTWARE_REPLAY_ELIGIBLE",
       "details": {
         "audit_chain_valid": true,
-        "backup_ref": "backup:d58f13b8f457824607f0",
+        "backup_ref": "backup:a0fce0992f0018e916e8",
         "binding_verified": true,
         "external_transmission_performed": false,
         "restore_status": "SOFTWARE_RESTORE_VERIFIED",
         "source_revision_ref": "source:163efc45551ea9bf3667"
       },
-      "event_hash": "79934a9c25949e93c97d6a1e9f1a643202eb2c83fa5842e067513647eaa9fe04",
+      "event_hash": "686b9a0923072283537a33039d028c459fe3f408c9d9e98cc00f69079d3f329d",
       "event_seq": 5,
       "event_type": "QUEUE_BACKUP_BINDING_VERIFIED",
       "occurred_at": "2026-08-22T00:00:00Z",
