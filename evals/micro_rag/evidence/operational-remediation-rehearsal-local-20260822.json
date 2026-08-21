@@ -1,0 +1,146 @@
+{
+  "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+  "execution_performed": false,
+  "export_kind": "OPERATIONAL_REMEDIATION_TRANSCRIPT",
+  "export_schema_version": "smart-ward-operational-remediation-evidence-v1",
+  "read_only": true,
+  "redaction_verified": true,
+  "report": {
+    "clinical_validation_authorized": false,
+    "correlation_id": "remediation-rehearsal-001",
+    "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+    "external_authority": "NONE",
+    "initial_decision": {
+      "correlation_id": "remediation-rehearsal-001",
+      "decision": "RECONCILIATION_REQUIRED",
+      "external_resume_permitted": false,
+      "next_actions": [
+        "pause_resume_and_create_verified_backup",
+        "reconcile_sync_queue_before_resume",
+        "route_alerts_to_manual_clinical_workflow"
+      ],
+      "operator_role": "control_room_coordinator",
+      "production_resume_permitted": false,
+      "remediation_codes": [
+        "BACKUP_STALE",
+        "SYNC_BACKLOG_OVER_LIMIT",
+        "UNRESOLVED_ALERTS_OVER_LIMIT"
+      ],
+      "resume_executed": false,
+      "resume_permitted": false,
+      "schema_version": "smart-ward-operational-remediation-v1"
+    },
+    "patient_data_used": false,
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "post_remediation_decision": {
+      "correlation_id": "remediation-rehearsal-001",
+      "decision": "OPERATOR_CONFIRMATION_REQUIRED",
+      "external_resume_permitted": false,
+      "next_actions": [
+        "obtain_explicit_operator_confirmation_for_software_rehearsal_only"
+      ],
+      "operator_role": "control_room_coordinator",
+      "production_resume_permitted": false,
+      "remediation_codes": [],
+      "resume_executed": false,
+      "resume_permitted": false,
+      "schema_version": "smart-ward-operational-remediation-v1"
+    },
+    "production_authorized": false,
+    "raw_frames_recorded": false,
+    "rehearsal": "operational_remediation_rehearsal",
+    "resume_executed": false,
+    "scenario_time": "2026-08-22T00:00:00Z",
+    "schema_version": "smart-ward-operational-remediation-v1",
+    "software_eligibility_decision": {
+      "correlation_id": "remediation-rehearsal-001",
+      "decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "external_resume_permitted": false,
+      "next_actions": [
+        "do_not_execute_automatically; require_runtime_owner_action"
+      ],
+      "operator_role": "control_room_coordinator",
+      "production_resume_permitted": false,
+      "remediation_codes": [],
+      "resume_executed": false,
+      "resume_permitted": true,
+      "schema_version": "smart-ward-operational-remediation-v1"
+    },
+    "transcript": [
+      {
+        "actor_role": "control_room_coordinator",
+        "correlation_id": "remediation-rehearsal-001",
+        "decision": "RECONCILIATION_REQUIRED",
+        "details": {
+          "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+          "resume_permitted": false
+        },
+        "event_hash": "86e84b52785da6da102b4da89fdbafa2c1467ca53094405d64b1d0587cccb3a0",
+        "event_seq": 1,
+        "event_type": "STATUS_OBSERVED",
+        "occurred_at": "2026-08-22T00:00:00Z",
+        "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "remediation_codes": [
+          "BACKUP_STALE",
+          "SYNC_BACKLOG_OVER_LIMIT",
+          "UNRESOLVED_ALERTS_OVER_LIMIT"
+        ],
+        "schema_version": "smart-ward-operational-remediation-v1"
+      },
+      {
+        "actor_role": "control_room_coordinator",
+        "correlation_id": "remediation-rehearsal-001",
+        "decision": "RECONCILIATION_REQUIRED",
+        "details": {
+          "execution_performed": false,
+          "manual_workflow_required": true
+        },
+        "event_hash": "d37ac4bf9e898c5dc8e5f9d24997b16e67e86ab880cf898f1e249c624a4ac324",
+        "event_seq": 2,
+        "event_type": "INGESTION_PAUSE_RECOMMENDED",
+        "occurred_at": "2026-08-22T00:00:00Z",
+        "previous_hash": "86e84b52785da6da102b4da89fdbafa2c1467ca53094405d64b1d0587cccb3a0",
+        "remediation_codes": [
+          "BACKUP_STALE",
+          "SYNC_BACKLOG_OVER_LIMIT",
+          "UNRESOLVED_ALERTS_OVER_LIMIT"
+        ],
+        "schema_version": "smart-ward-operational-remediation-v1"
+      },
+      {
+        "actor_role": "control_room_coordinator",
+        "correlation_id": "remediation-rehearsal-001",
+        "decision": "OPERATOR_CONFIRMATION_REQUIRED",
+        "details": {
+          "resume_permitted": false,
+          "threshold_status": "PASS"
+        },
+        "event_hash": "2a3976af0f6bdd76e88cc2dec21ea4f424becdbc29ce0c5952a292155d960777",
+        "event_seq": 3,
+        "event_type": "REMEDIATION_EVIDENCE_RECHECKED",
+        "occurred_at": "2026-08-22T00:00:00Z",
+        "previous_hash": "d37ac4bf9e898c5dc8e5f9d24997b16e67e86ab880cf898f1e249c624a4ac324",
+        "remediation_codes": [],
+        "schema_version": "smart-ward-operational-remediation-v1"
+      },
+      {
+        "actor_role": "control_room_coordinator",
+        "correlation_id": "remediation-rehearsal-001",
+        "decision": "SOFTWARE_RESUME_ELIGIBLE",
+        "details": {
+          "production_resume_permitted": false,
+          "resume_executed": false
+        },
+        "event_hash": "6858a3995bb61ef04de6beb240ae7112bc5a1ac9523c2b2341cd49485846829d",
+        "event_seq": 4,
+        "event_type": "SOFTWARE_RESUME_ELIGIBILITY_RECORDED",
+        "occurred_at": "2026-08-22T00:00:00Z",
+        "previous_hash": "2a3976af0f6bdd76e88cc2dec21ea4f424becdbc29ce0c5952a292155d960777",
+        "remediation_codes": [],
+        "schema_version": "smart-ward-operational-remediation-v1"
+      }
+    ],
+    "transcript_integrity_valid": true
+  },
+  "source_revision": "d283807d8a6dc539350793daf142a79a9b0fe76d"
+}
