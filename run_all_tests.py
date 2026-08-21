@@ -92,6 +92,8 @@ TESTS = [
     "test_alert_sync_reconciliation_matrix_phase_end_hardening.py",
     "test_sync_alert_replay_harness.py",
     "test_sync_alert_replay_harness_phase_end_hardening.py",
+    "test_durable_worker_replay_contract.py",
+    "test_durable_worker_replay_contract_phase_end_hardening.py",
     "test_software_rollback_rehearsal.py",
     "test_software_rollback_rehearsal_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",

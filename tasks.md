@@ -203,3 +203,12 @@ Focused suite และ phase-end hardening gate ผ่าน. Master regression
 `test_sync_alert_replay_harness.py` ครอบคลุม 12 focused/adversarial cases. `test_sync_alert_replay_harness_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, fixture-only read-only contract, redaction/private-key scan, no-self-authorization boundary, hash-chained transcript และ `git diff --check`. `export_sync_alert_replay.py` สร้าง redacted machine-readable evidence พร้อม source revision และ transcript integrity.
 
 Focused และ phase-end gates ผ่านแล้ว; master regression integration เพิ่มแล้ว. ยังต้องรัน master regression, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream. หลักฐานเป็น software simulation/functional verification เท่านั้น; HIS/EMR จริง, SQLite/WAL transaction recovery บน target host, durable external dead-letter execution, clinical escalation, BMAX execution และ external authorization ยังคง unverified/pending.
+
+
+### Durable Worker Replay Contract status note — 22 สิงหาคม 2026
+
+`durable_worker_replay_contract.py` เชื่อม `DurableWorkerStore` กับ lease expiry, restart reconciliation, retry-limit/dead-letter classification และ `worker_queue_backup` isolated restore บน SQLite `software_fixture` target. Lease ที่หมดอายุถูก block เป็น `LEASE_EXPIRED_REQUIRES_RECONCILIATION` ก่อน requeue; retry limit ที่หมดถูกจัดเป็น `RETRY_LIMIT_EXCEEDED_DEAD_LETTER`; dead-letter replay ต้องมี explicit operator confirmation และคืนได้สูงสุดเพียง `SOFTWARE_REPLAY_ELIGIBLE` โดย `replay_executed=false`.
+
+`test_durable_worker_replay_contract.py` ครอบคลุม 4 focused/adversarial scenarios และตรวจ WAL, synchronous=FULL, integrity, audit chain, queue backup binding, restored state, redaction และ no-authorization boundary. `test_durable_worker_replay_contract_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, no-self-authorization, private-key/redaction scan และ `git diff --check`. Master regression integration เพิ่มแล้ว; ยังต้องรัน master suite, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream.
+
+หลักฐานเป็น SQLite fixture/software simulation เท่านั้น; distributed worker, scheduler, encrypted backup custody, external dead-letter broker, Windows service recovery, clinical mutation และ external authorization ยังคง unverified/pending. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
