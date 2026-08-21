@@ -1,0 +1,244 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "pilot_foundation": "PILOT_READY_FOUNDATION",
+    "real_ward_execution": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "contract": "ALERT_SYNC_RECONCILIATION_MATRIX_V1",
+  "evidence_type": "ALERT_SYNC_RECONCILIATION_MATRIX",
+  "execution_performed": false,
+  "generated_at_utc": "2026-08-21T22:28:37.369455+00:00",
+  "matrix_row_count": 8,
+  "read_only": true,
+  "redaction_verified": true,
+  "rows": [
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "alert_ref": "alert:a4ca3f8bab0c4f5571df",
+        "session_ref": "session:4e9bb9f661912a4696dd"
+      },
+      "operation": "MONITORING_RESUME",
+      "reason": "Acknowledged alert may resume monitoring in the software rehearsal; clinical action remains external.",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "remediation_code": "ACKNOWLEDGED_ALERT_MONITORING_RESUME",
+      "resume_permitted": true,
+      "scenario_id": "acknowledged_alert_monitoring_resume"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "alert_ref": "alert:b90ea26704aab94907d6",
+        "session_ref": "session:28933bca65963d2d4352"
+      },
+      "operation": "RESET",
+      "reason": "An unresolved alert blocks destructive reset/discharge even when acknowledged.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "UNRESOLVED_ALERT_BLOCKS_RESET",
+      "resume_permitted": false,
+      "scenario_id": "unresolved_alert_blocks_reset_or_discharge"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "alert_ref": "alert:787eec282746b7523937",
+        "session_ref": "session:fe0b6d4120776b2a1c13"
+      },
+      "operation": "RESET",
+      "reason": "Incident-frozen session cannot reset or discharge without a forensic package.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "FORENSIC_PACKAGE_REQUIRED",
+      "resume_permitted": false,
+      "scenario_id": "unresolved_incident_without_forensic_package"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "bundle_ref": "bundle:b08fed96f5b5666382fa"
+      },
+      "operation": "SYNC_RETRY",
+      "reason": "Structured 200 acknowledgment is authoritative for the sync bundle.",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "remediation_code": "SYNC_ACKNOWLEDGED",
+      "resume_permitted": true,
+      "scenario_id": "sync_acknowledged_idempotent_or_first_success"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "bundle_ref": "bundle:cc79894c1dc4370447d8"
+      },
+      "operation": "SYNC_RETRY",
+      "reason": "Retry limit is exceeded; classify the bundle as dead-letter and require reconciliation.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "SYNC_DEAD_LETTER",
+      "resume_permitted": false,
+      "scenario_id": "sync_retry_limit_exceeded"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "bundle_ref": "bundle:a0e6a800ba7dc7247663"
+      },
+      "operation": "SYNC_RETRY",
+      "reason": "Stale revision is a conflict, not a retryable transport failure; refresh authoritative state first.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "STALE_REVISION_409",
+      "resume_permitted": false,
+      "scenario_id": "sync_stale_revision"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "command_ref": "command:543e5f9080d14515eb2a"
+      },
+      "operation": "ROAMING_COMMAND",
+      "reason": "Roaming command must be rejected with a 409-style stale revision conflict.",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "STALE_REVISION_409",
+      "resume_permitted": false,
+      "scenario_id": "roaming_command_stale_revision"
+    },
+    {
+      "authorization_boundary_locked": true,
+      "opaque_refs": {
+        "command_ref": "command:474ca1a8fa52c3aa60c0"
+      },
+      "operation": "ROAMING_COMMAND",
+      "reason": "Expected revision matches authoritative revision; command remains subject to endpoint authorization.",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "remediation_code": "ROAMING_COMMAND_ELIGIBLE",
+      "resume_permitted": true,
+      "scenario_id": "roaming_command_revision_current"
+    }
+  ],
+  "schema_version": "1",
+  "software_simulation_only": true,
+  "source_revision": "20cde51ddadc6b7d22f2b76305f47a4fbc8dd503",
+  "transcript": [
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "307043c501df110bc1f841b792e9c77d5a9dea2e1ae03b840a500227a3d54c54",
+      "opaque_refs": {
+        "alert_ref": "alert:a4ca3f8bab0c4f5571df",
+        "session_ref": "session:4e9bb9f661912a4696dd"
+      },
+      "operation": "MONITORING_RESUME",
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "remediation_code": "ACKNOWLEDGED_ALERT_MONITORING_RESUME",
+      "resume_permitted": true,
+      "scenario_id": "acknowledged_alert_monitoring_resume",
+      "sequence": 1
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "24d1b9b0291454aa9516c05f4fa7916485bd4c0a3563a816260602b745c10cea",
+      "opaque_refs": {
+        "alert_ref": "alert:b90ea26704aab94907d6",
+        "session_ref": "session:28933bca65963d2d4352"
+      },
+      "operation": "RESET",
+      "previous_hash": "307043c501df110bc1f841b792e9c77d5a9dea2e1ae03b840a500227a3d54c54",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "UNRESOLVED_ALERT_BLOCKS_RESET",
+      "resume_permitted": false,
+      "scenario_id": "unresolved_alert_blocks_reset_or_discharge",
+      "sequence": 2
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "e9ffe3d897cc242e500c689c466765cdcb853c9ca05dd6ee8214153ba491139e",
+      "opaque_refs": {
+        "alert_ref": "alert:787eec282746b7523937",
+        "session_ref": "session:fe0b6d4120776b2a1c13"
+      },
+      "operation": "RESET",
+      "previous_hash": "24d1b9b0291454aa9516c05f4fa7916485bd4c0a3563a816260602b745c10cea",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "FORENSIC_PACKAGE_REQUIRED",
+      "resume_permitted": false,
+      "scenario_id": "unresolved_incident_without_forensic_package",
+      "sequence": 3
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "2d665086f9e94ead537f4d1119716b81862498e0274a33a7ea6a655b37dc3fbd",
+      "opaque_refs": {
+        "bundle_ref": "bundle:b08fed96f5b5666382fa"
+      },
+      "operation": "SYNC_RETRY",
+      "previous_hash": "e9ffe3d897cc242e500c689c466765cdcb853c9ca05dd6ee8214153ba491139e",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "remediation_code": "SYNC_ACKNOWLEDGED",
+      "resume_permitted": true,
+      "scenario_id": "sync_acknowledged_idempotent_or_first_success",
+      "sequence": 4
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "77e6a6eddd56030698b9546bd2e64e700aee90d793e4f9a113bc04e3438ffecb",
+      "opaque_refs": {
+        "bundle_ref": "bundle:cc79894c1dc4370447d8"
+      },
+      "operation": "SYNC_RETRY",
+      "previous_hash": "2d665086f9e94ead537f4d1119716b81862498e0274a33a7ea6a655b37dc3fbd",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "SYNC_DEAD_LETTER",
+      "resume_permitted": false,
+      "scenario_id": "sync_retry_limit_exceeded",
+      "sequence": 5
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "eb30247a440b59921d4b7eb2259bed79c1cb4d6b519fcde693dcc7f5a388826f",
+      "opaque_refs": {
+        "bundle_ref": "bundle:a0e6a800ba7dc7247663"
+      },
+      "operation": "SYNC_RETRY",
+      "previous_hash": "77e6a6eddd56030698b9546bd2e64e700aee90d793e4f9a113bc04e3438ffecb",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "STALE_REVISION_409",
+      "resume_permitted": false,
+      "scenario_id": "sync_stale_revision",
+      "sequence": 6
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "45c0676181191314badf483f35860d5da31585f48ce98c79473756f8d2b2970d",
+      "opaque_refs": {
+        "command_ref": "command:543e5f9080d14515eb2a"
+      },
+      "operation": "ROAMING_COMMAND",
+      "previous_hash": "eb30247a440b59921d4b7eb2259bed79c1cb4d6b519fcde693dcc7f5a388826f",
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "remediation_code": "STALE_REVISION_409",
+      "resume_permitted": false,
+      "scenario_id": "roaming_command_stale_revision",
+      "sequence": 7
+    },
+    {
+      "event": "RECONCILIATION_DECISION",
+      "event_hash": "ff8c6a9a231e9b1b03a807641a2f84cc7f54bf8d7742003f610786b9fc20c827",
+      "opaque_refs": {
+        "command_ref": "command:474ca1a8fa52c3aa60c0"
+      },
+      "operation": "ROAMING_COMMAND",
+      "previous_hash": "45c0676181191314badf483f35860d5da31585f48ce98c79473756f8d2b2970d",
+      "recovery_decision": "SOFTWARE_RESUME_ELIGIBLE",
+      "remediation_code": "ROAMING_COMMAND_ELIGIBLE",
+      "resume_permitted": true,
+      "scenario_id": "roaming_command_revision_current",
+      "sequence": 8
+    }
+  ],
+  "transcript_integrity_valid": true
+}
