@@ -192,3 +192,12 @@ Added `operational_remediation_rehearsal.py` and `export_operational_remediation
 `test_durable_worker_replay_contract.py` และ `test_durable_worker_replay_contract_phase_end_hardening.py` ผ่าน focused/adversarial, lease/restart/dead-letter/backup binding, SQLite WAL/FULL/integrity, audit-chain, no-network/provider/scheduler, redaction/private-key และ no-self-authorization checks. Master regression integration เพิ่มแล้ว; workstream รอ master regression, commit/push และ release-freeze refresh.
 
 ผลนี้เป็น SQLite fixture/software simulation เท่านั้น ไม่ใช่ distributed worker, production queue, encrypted backup custody, Windows service recovery, clinical mutation หรือ external authorization evidence. Product ยังคง `NOT_PRODUCTION_READY`; pilot ยังคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates ยังคง `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary ยังคง `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`.
+
+
+## Operator Worker Recovery Transcript — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `worker_recovery_transcript.py` สำหรับสร้าง operator-facing transcript แบบ redacted ที่สรุป `LEASE_EXPIRY_OBSERVED`, `LEASE_RECONCILIATION_RECORDED`, `DEAD_LETTER_OBSERVED`, `DEAD_LETTER_REPLAY_ELIGIBILITY_RECORDED` และ `QUEUE_BACKUP_BINDING_VERIFIED`. ทุก event มี sequence, previous hash, event hash, operator role, correlation ref, decision, remediation code และ bounded details. Raw job/worker/reconciliation/backup identifiers ถูกแปลงเป็น opaque digest references.
+
+`test_worker_recovery_transcript.py` และ `test_worker_recovery_transcript_phase_end_hardening.py` ผ่าน lifecycle, tamper detection, raw-reference/unsafe-role rejection, secret-marker rejection, no-network/provider/scheduler scan, no-self-authorization, private-key/redaction scan, exporter round-trip และ `git diff --check`. `export_worker_recovery_transcript.py` เพิ่ม machine-readable evidence พร้อม source revision และ locked claim boundary; master regression integration เพิ่มแล้ว.
+
+นี่เป็น local software simulation/evidence artifact เท่านั้น ไม่ใช่ human operator sign-off, production worker/service evidence, distributed queue, encrypted custody, clinical action หรือ independent review. Product ยังคง `NOT_PRODUCTION_READY`; pilot ยังคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates ยังคง `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary ยังคง `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`.

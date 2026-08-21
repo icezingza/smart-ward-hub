@@ -212,3 +212,12 @@ Focused และ phase-end gates ผ่านแล้ว; master regression in
 `test_durable_worker_replay_contract.py` ครอบคลุม 4 focused/adversarial scenarios และตรวจ WAL, synchronous=FULL, integrity, audit chain, queue backup binding, restored state, redaction และ no-authorization boundary. `test_durable_worker_replay_contract_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, no-self-authorization, private-key/redaction scan และ `git diff --check`. Master regression integration เพิ่มแล้ว; ยังต้องรัน master suite, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream.
 
 หลักฐานเป็น SQLite fixture/software simulation เท่านั้น; distributed worker, scheduler, encrypted backup custody, external dead-letter broker, Windows service recovery, clinical mutation และ external authorization ยังคง unverified/pending. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Operator Worker Recovery Transcript status note — 22 สิงหาคม 2026
+
+`worker_recovery_transcript.py` เพิ่ม redacted, hash-chained operator-facing transcript สำหรับ lease expiry, lease reconciliation, dead-letter observation, dead-letter replay eligibility และ queue-backup binding. Raw job/worker/reconciliation/backup references ถูกแทนด้วย opaque digests; transcript บังคับ role allowlist, timezone-aware event time, bounded details, marker scan และ sequence/hash verification.
+
+`test_worker_recovery_transcript.py` ครอบคลุม 4 focused/adversarial cases รวม lifecycle completeness, tamper detection, raw reference rejection, unsafe role rejection และ secret marker rejection. `export_worker_recovery_transcript.py` สร้าง machine-readable evidence พร้อม source revision, redaction flag และ locked authorization boundary. `test_worker_recovery_transcript_phase_end_hardening.py` เพิ่ม AST no-network/provider/scheduler scan, no-self-authorization, private-key/redaction scan, exporter round-trip และ `git diff --check`. Master regression integration เพิ่มแล้ว; ยังต้องรัน master suite, hygiene cleanup, commit/push และ refresh release-freeze ก่อนปิด workstream.
+
+หลักฐานนี้เป็น local software simulation และไม่ยืนยัน human operator sign-off, production worker behavior, distributed queue, encrypted backup custody, clinical action หรือ independent review. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
