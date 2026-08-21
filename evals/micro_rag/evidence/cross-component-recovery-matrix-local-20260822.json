@@ -1,0 +1,52 @@
+{
+  "all_passed": true,
+  "clinical_validation_authorized": false,
+  "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+  "external_authority": "NONE",
+  "mode": "software_fault_injection",
+  "normal_resume_after_verified_roundtrip": true,
+  "patient_data_used": false,
+  "physical_power_cut": "UNVERIFIED",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "raw_frames_recorded": false,
+  "recovery_decision_on_unverified_component": "RECONCILIATION_REQUIRED",
+  "results": [
+    {
+      "normal_resume_after_integrity_checks": true,
+      "physical_validation": "UNVERIFIED",
+      "scenario": "backup_restore_roundtrip",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "database_tamper_fails_closed",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "checkpoint_tamper_fails_closed",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "anchor_tamper_requires_reconciliation",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "scenario": "checkpoint_corruption_isolated",
+      "status": "PASS"
+    },
+    {
+      "recovery_decision": "RECONCILIATION_REQUIRED",
+      "resume_permitted": false,
+      "scenario": "combined_faults_block_resume",
+      "status": "PASS"
+    }
+  ],
+  "resume_permitted_after_unresolved_fault": false,
+  "schema_version": "smart-ward-recovery-matrix-v1",
+  "suite": "smart-ward-cross-component-recovery-matrix",
+  "target_host_validation": "UNVERIFIED"
+}
