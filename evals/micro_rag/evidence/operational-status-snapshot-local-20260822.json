@@ -7,9 +7,14 @@
     "runtime_authority": "NONE"
   },
   "clinical_validation": "PENDING",
-  "config_digest": "035b61eb954042df032781fc52c057e089811bd13cdd6c6f0a81c700667f2e2b",
+  "config_digest": "ca56c6718593282234630734a3c5ff746a9729d1456971dc641fd292f4711518",
   "evidence_class": "LOCAL_SOFTWARE_SNAPSHOT",
   "next_action": "Review FAIL/ADVISORY or NOT_PRESENT_UNVERIFIED components; reconcile before resuming runtime. Obtain physical and external evidence separately.",
+  "optional_metrics": {
+    "sync_backlog": 0,
+    "unresolved_alerts": 0,
+    "worker_queue_backlog": 0
+  },
   "physical_validation": "UNVERIFIED",
   "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
   "preflight_status": "PASS",
@@ -39,8 +44,8 @@
       "status": "NOT_PRESENT_UNVERIFIED"
     },
     "disk": {
-      "free_bytes": 32781660160,
-      "free_ratio": 0.773413,
+      "free_bytes": 32778194944,
+      "free_ratio": 0.773332,
       "status": "PASS",
       "total_bytes": 42385690624
     }
@@ -48,5 +53,64 @@
   "schema_version": "smart-ward-operational-status-v1",
   "snapshot_kind": "OPERATIONAL_STATUS",
   "software_only": true,
-  "source_revision": "c7cd2d38032425bf73cbfaacbc10bab93b0ae0b9"
+  "source_revision": "4f99c5685d88c15e42c3cc3fbdb64e3632bd0284",
+  "threshold_evaluation": {
+    "checks": [
+      {
+        "code": "DATABASE_NOT_VERIFIED",
+        "observed": "NOT_PRESENT_UNVERIFIED",
+        "severity": "BLOCK",
+        "status": "FAIL"
+      },
+      {
+        "code": "CHECKPOINT_NOT_VERIFIED",
+        "limit": 300,
+        "observed": "NOT_PRESENT_UNVERIFIED",
+        "severity": "BLOCK",
+        "status": "FAIL"
+      },
+      {
+        "code": "BACKUP_NOT_VERIFIED",
+        "limit": 86400,
+        "observed": "NOT_PRESENT_UNVERIFIED",
+        "severity": "BLOCK",
+        "status": "FAIL"
+      },
+      {
+        "code": "AUDIT_NOT_VERIFIED",
+        "limit": 86400,
+        "observed": "NOT_PRESENT_UNVERIFIED",
+        "severity": "BLOCK",
+        "status": "FAIL"
+      },
+      {
+        "code": "ANCHOR_NOT_VERIFIED",
+        "limit": 86400,
+        "observed": "NOT_PRESENT_UNVERIFIED",
+        "severity": "BLOCK",
+        "status": "FAIL"
+      }
+    ],
+    "policy_class": "OPERATOR_DEFAULT_NOT_CLINICAL_THRESHOLD",
+    "remediation_codes": [
+      "ANCHOR_NOT_VERIFIED",
+      "AUDIT_NOT_VERIFIED",
+      "BACKUP_NOT_VERIFIED",
+      "CHECKPOINT_NOT_VERIFIED",
+      "DATABASE_NOT_VERIFIED"
+    ],
+    "resume_permitted": false,
+    "schema_version": "smart-ward-operational-thresholds-v1",
+    "status": "BLOCKED_REQUIRES_RECONCILIATION",
+    "thresholds": {
+      "max_anchor_age_seconds": 86400,
+      "max_audit_age_seconds": 86400,
+      "max_backup_age_seconds": 86400,
+      "max_checkpoint_age_seconds": 300,
+      "max_sync_backlog": 0,
+      "max_unresolved_alerts": 0,
+      "max_worker_queue_backlog": 0,
+      "min_disk_free_ratio": 0.1
+    }
+  }
 }
