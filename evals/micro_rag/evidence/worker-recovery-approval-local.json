@@ -1,0 +1,76 @@
+{
+  "approval": {
+    "approval_confirmation": "I_UNDERSTAND_SOFTWARE_REHEARSAL_RESUME",
+    "approval_id": "approval:worker-recovery-001",
+    "approval_summary": "Approve software rehearsal evidence read-back only; do not execute replay or production resume.",
+    "approval_timestamp_utc": "2026-08-22T00:00:05Z",
+    "approver_role": "control_room_coordinator",
+    "authorization_boundary": {
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE"
+    },
+    "clinical_validation_authorized": false,
+    "decision": "APPROVED_FOR_SOFTWARE_REHEARSAL",
+    "evidence_class": "LOCAL_SOFTWARE_SIMULATION",
+    "external_execution_authorized": false,
+    "production_authorized": false,
+    "queue_backup_ref": "backup:a0fce0992f0018e916e8",
+    "queue_binding_sha256": "30260e5a1cb8dafc2f9159f624197576b59954822cf8e4899d53c0090f143c7b",
+    "readback_confirmation": "I_UNDERSTAND_SOFTWARE_REHEARSAL_RESUME",
+    "readback_role": "security_auditor",
+    "readback_timestamp_utc": "2026-08-22T00:00:10Z",
+    "reconciliation_ref": "reconciliation:b546a1e766669015a7d3",
+    "replay_executed": false,
+    "replay_execution_requested": false,
+    "requester_role": "reliability_operator",
+    "schema_version": "smart-ward-worker-recovery-approval-v1",
+    "scope": "SOFTWARE_REHEARSAL_ONLY",
+    "transcript_ref": "worker-recovery-transcript-001",
+    "transcript_sha256": "d2213990cbece29985c6cc6b048dd4e5f79649ac494ca54575e244dc816c5c6f"
+  },
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "evidence_type": "WORKER_RECOVERY_OPERATOR_APPROVAL_READBACK",
+  "generated_at_utc": "2026-08-21T22:52:19.831792+00:00",
+  "read_only": true,
+  "redaction_verified": true,
+  "replay_executed": false,
+  "schema_version": "smart-ward-worker-recovery-approval-v1",
+  "source_revision": "7b5e6c4c29f2ce531cedb9a9c1b6cc71322e9283",
+  "transcript_integrity_valid": true,
+  "validation": {
+    "actor_separation_valid": true,
+    "authorization_boundary": {
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE"
+    },
+    "authorization_promoted": false,
+    "clinical_validation_authorized": false,
+    "decision": "APPROVED_FOR_SOFTWARE_REHEARSAL",
+    "external_execution_authorized": false,
+    "production_authorized": false,
+    "queue_binding_format_valid": true,
+    "replay_executed": false,
+    "replay_execution_requested": false,
+    "software_rehearsal_only": true,
+    "transcript_binding_valid": true,
+    "valid": true
+  }
+}
