@@ -1,0 +1,50 @@
+{
+  "execution_prohibited_until": [
+    "external_owner_appointment_is_signed",
+    "test_window_and_scope_are_signed",
+    "endpoint_identity_transport_acl_and_custody_are_independently verified",
+    "no_authorization_snapshot_is_rechecked"
+  ],
+  "package_hash": "1211dc9d26ab46d830548e859b5229bb8ee80195ec69b2cc90c709944a9d0956",
+  "packet_schema": "wave-e-owner-appointment-handoff-v1",
+  "packet_status": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+  "preflight": {
+    "asserted_criteria": [],
+    "authorization_snapshot": {
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE"
+    },
+    "claim_boundary": "EXTERNAL_UNVERIFIED_PENDING_OWNER_APPOINTMENT",
+    "coordination_state": "READY_FOR_EXTERNAL_OWNER_APPOINTMENT",
+    "evidence_class": "EXTERNAL_UNVERIFIED",
+    "execution_permitted": false,
+    "external_execution_preconditions_present": false,
+    "external_validation_started": false,
+    "missing_criteria": [
+      "E-01",
+      "E-02",
+      "E-03",
+      "E-04",
+      "E-05",
+      "E-06",
+      "E-07",
+      "E-08",
+      "E-09",
+      "E-10"
+    ],
+    "package_revision": "wave-e-preflight-20260821",
+    "schema_version": "wave-e-execution-preflight-v1",
+    "source_revision": "0dbd9d407a227605b5c35afca798c69e7db62ba0"
+  },
+  "required_external_actions": [
+    "appoint_external_authorization_service_owner",
+    "appoint_identity_and_transport_owners",
+    "appoint_independent_verifier_and_evidence_custodian",
+    "sign_scope_window_expiry_rollback_and_stop_record",
+    "provision_isolated_nonproduction_endpoint_and_test_identity",
+    "provide_independent_custody_and_readback_path"
+  ]
+}

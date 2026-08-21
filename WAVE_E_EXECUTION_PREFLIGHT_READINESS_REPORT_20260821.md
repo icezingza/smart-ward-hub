@@ -84,6 +84,7 @@ Rollback ทำได้โดย revert `wave_e_execution_preflight.py`, `test_
 - `test_wave_e_execution_preflight.py`
 - `test_wave_e_execution_preflight_phase_end_hardening.py`
 - `export_wave_e_execution_preflight.py`
+- `evals/micro_rag/evidence/wave-e-execution-preflight-local-20260821.json`
 - `EXTERNAL_AUTHORIZATION_API_WAVE_E_EXTERNAL_VALIDATION_DOSSIER.md`
 - `EXTERNAL_AUTHORIZATION_API_FAIL_CLOSED_GAP_REGISTER.md`
 - `tasks.md`
