@@ -64,6 +64,8 @@ TESTS = [
     "test_wave1_external_evidence_intake_phase_end_hardening.py",
     "test_external_decision_record.py",
     "test_external_decision_record_phase_end_hardening.py",
+    "test_external_decision_lifecycle.py",
+    "test_external_decision_lifecycle_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
     "test_wave1_software_preparation.py",
     "test_wave1_software_preparation_phase_end_hardening.py",
