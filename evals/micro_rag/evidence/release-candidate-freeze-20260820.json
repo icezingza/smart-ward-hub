@@ -331,6 +331,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "INTERNAL_HANDOFF_CHAIN_INTEGRITY_READINESS_REPORT_20260822.md",
+      "sha256": "de9bfeb6a4f8109db73a497220e37209cbffc4b074c63ba55f9af2e02d06fe4f",
+      "size_bytes": 4364
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "KEY_CUSTODY_PROVISIONING_CONTRACT.md",
       "sha256": "80c2b4fbc94b037bfe2469e06438d43f18e62fba5f3ad182ddd00f3208a1d79c",
       "size_bytes": 3330
@@ -764,8 +770,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "03ce5c99d59c99d3a97939c143ed6db91b624a1ec60999b19e4f2fc6b10141de",
-      "size_bytes": 63211
+      "sha256": "a69f45092ffd35487af65164731e2cf404be2860295c2aa999342e004b3f32e1",
+      "size_bytes": 64857
     },
     {
       "classification": "contract_or_governance_document",
@@ -2510,8 +2516,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "8a6f30725ebe7e9dd1c1e3b4bea21bd2fb0b61be4e5ee83ee3663162a9666567",
-      "size_bytes": 70869
+      "sha256": "e8acf4b9402bb89ab88683316f9f4ebddedd5cf14899bf5c5b6505571fd309cb",
+      "size_bytes": 72297
     },
     {
       "classification": "source_or_runtime_config",
@@ -3432,14 +3438,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T09:43:45.890887+00:00",
+  "freeze_created_at_utc": "2026-08-22T09:44:37.563879+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0bba5ebb546787ac3613096b8d1fef7575013e5d",
+  "origin_main_revision": "096a9892cc364523b15579152b2878b337867e78",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "0bba5ebb546787ac3613096b8d1fef7575013e5d"
+  "source_revision": "096a9892cc364523b15579152b2878b337867e78"
 }
