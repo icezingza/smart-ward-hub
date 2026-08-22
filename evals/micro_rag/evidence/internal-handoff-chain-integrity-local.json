@@ -11,7 +11,7 @@
     "boundaries_equal": true,
     "claim_boundaries_locked": true,
     "exposure_artifact_frozen": true,
-    "exposure_clear": false,
+    "exposure_clear": true,
     "exposure_output_locked": true,
     "external_gate_snapshot_equal": true,
     "external_gate_snapshot_locked": true,
@@ -32,12 +32,10 @@
     "production_ready": false,
     "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
   },
-  "decision": "INTERNAL_HANDOFF_CHAIN_BLOCKED",
+  "decision": "INTERNAL_HANDOFF_CHAIN_BOUND",
   "evidence_type": "INTERNAL_HANDOFF_CHAIN_INTEGRITY",
-  "exposure_decision": "PUBLIC_EXPOSURE_QUARANTINED",
-  "exposure_remediation_codes": [
-    "PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED"
-  ],
+  "exposure_decision": "PUBLIC_EXPOSURE_CLEAR",
+  "exposure_remediation_codes": [],
   "external_gate_snapshot": {
     "blocked": 7,
     "evidence_submitted": 0,
@@ -46,27 +44,25 @@
   },
   "external_submission_allowed": false,
   "external_transmission_performed": false,
-  "freeze_source_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
-  "generated_at_utc": "2026-08-22T14:57:55.525144+00:00",
-  "origin_main_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
+  "freeze_source_revision": "a6ba00454a36024e50cd4a7c1db9baad70ccd2a5",
+  "generated_at_utc": "2026-08-22T15:52:21.719074+00:00",
+  "origin_main_revision": "a6ba00454a36024e50cd4a7c1db9baad70ccd2a5",
   "read_only": true,
   "redaction_verified": true,
-  "remediation_codes": [
-    "EXPOSURE_QUARANTINED"
-  ],
+  "remediation_codes": [],
   "runtime_mutation_performed": false,
   "schema_version": "smart-ward-internal-handoff-chain-v1",
   "source_revision_lineage": {
     "exposure": {
       "ancestor_verified": true,
       "relation": "ANCESTOR",
-      "revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
+      "revision": "ee61d73676f7ddf66ba2f8b74917aff865f70ea9",
       "valid": true
     },
     "freeze": {
       "ancestor_verified": true,
       "relation": "MATCH",
-      "revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
+      "revision": "a6ba00454a36024e50cd4a7c1db9baad70ccd2a5",
       "valid": true
     },
     "handoff": {
