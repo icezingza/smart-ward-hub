@@ -41,13 +41,13 @@ def _evaluate(**mutations):
     return evaluate_chain(**fixtures, root=ROOT)
 
 
-def test_repository_is_quarantined_by_public_exposure():
+def test_repository_is_bound_after_private_visibility():
     result = check_repository(ROOT)
-    assert result["decision"] == ChainDecision.INTERNAL_HANDOFF_CHAIN_BLOCKED
-    assert ChainCode.EXPOSURE_QUARANTINED in result["remediation_codes"]
-    assert result["exposure_decision"] == "PUBLIC_EXPOSURE_QUARANTINED"
-    assert result["checks"]["exposure_clear"] is False
-    assert all(value is True for key, value in result["checks"].items() if key != "exposure_clear")
+    assert result["decision"] == ChainDecision.INTERNAL_HANDOFF_CHAIN_BOUND
+    assert result["remediation_codes"] == []
+    assert result["exposure_decision"] == "PUBLIC_EXPOSURE_CLEAR"
+    assert result["checks"]["exposure_clear"] is True
+    assert all(result["checks"].values())
     assert result["read_only"] is True
     assert result["external_submission_allowed"] is False
     assert result["authorization_promoted"] is False
@@ -131,8 +131,8 @@ def test_input_mutation_isolated():
     fixtures = _fixtures()
     before = deepcopy(fixtures)
     result = evaluate_chain(**fixtures, root=ROOT)
-    assert result.decision == ChainDecision.INTERNAL_HANDOFF_CHAIN_BLOCKED
-    assert ChainCode.EXPOSURE_QUARANTINED in result.remediation_codes
+    assert result.decision == ChainDecision.INTERNAL_HANDOFF_CHAIN_BOUND
+    assert result.remediation_codes == ()
     assert fixtures == before
 
 
