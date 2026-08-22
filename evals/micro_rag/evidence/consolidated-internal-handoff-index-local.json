@@ -1,0 +1,110 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "BOUND",
+  "evidence_type": "CONSOLIDATED_INTERNAL_HANDOFF_INDEX",
+  "external_submission_allowed": false,
+  "generated_at_utc": "2026-08-22T03:17:13.287339+00:00",
+  "index": {
+    "authorization_boundary": {
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE"
+    },
+    "authorization_promoted": false,
+    "binding_snapshot": {
+      "artifact_ref": "binding:cross-package-001",
+      "artifact_sha256": "134bae6221fa9d77eb82d630fd7491c98f32ef87d51f53b62e135c247c4a78fc",
+      "binding_codes": [
+        "EVIDENCE_PACKAGES_BOUND"
+      ],
+      "decision": "BOUND",
+      "freeze_source_revision": "3ab3f19ad2b01778d0539b0348d21b05da7d6a35"
+    },
+    "claim_boundary": {
+      "clinical_validation": "PENDING",
+      "functional_verification": "PASSED",
+      "production_ready": false,
+      "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+    },
+    "decision": "BOUND",
+    "evidence_navigation": [
+      {
+        "artifact_path": "evals/micro_rag/evidence/worker-recovery-transcript-local.json",
+        "artifact_ref": "artifact:worker_recovery_transcript",
+        "artifact_sha256": "95dad31494f4e3fbdc3017cfd1c2faedef5eb7b82051255d72c0bfa7d0197ac5",
+        "package_id": "worker_recovery_transcript",
+        "source_revision": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
+        "status": "BOUND"
+      },
+      {
+        "artifact_path": "evals/micro_rag/evidence/worker-recovery-approval-local.json",
+        "artifact_ref": "artifact:worker_recovery_approval_readback",
+        "artifact_sha256": "2c57bbc1088b1def591c046a85aa7aef43567162302bdae357134c5c9a4161ac",
+        "package_id": "worker_recovery_approval_readback",
+        "source_revision": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
+        "status": "BOUND"
+      },
+      {
+        "artifact_path": "evals/micro_rag/evidence/durable-worker-replay-local.json",
+        "artifact_ref": "artifact:durable_worker_replay",
+        "artifact_sha256": "097b8c4e78da9badb4deedf2020d5adec5c90759c671c6e2da07f8c4f58e89d4",
+        "package_id": "durable_worker_replay",
+        "source_revision": "0781e6985b3b1b9a99793ee023ad024857b5fadc",
+        "status": "BOUND"
+      },
+      {
+        "artifact_path": "evals/micro_rag/evidence/cross-package-binding-local.json",
+        "artifact_ref": "artifact:cross_package_binding",
+        "artifact_sha256": "285a09ff98eff04c9823885be4bbf1f6c35a023f603bee530887dfafb2604af6",
+        "package_id": "cross_package_binding",
+        "source_revision": "8961702b47ba8d21423c99aee9e6d29ec255b48e",
+        "status": "BOUND"
+      }
+    ],
+    "external_submission_allowed": false,
+    "freeze": {
+      "external_gate_snapshot": {
+        "blocked": 7,
+        "evidence_submitted": 0,
+        "open": 3,
+        "passed": 0
+      },
+      "freeze_status": "PASS",
+      "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
+      "origin_main_revision": "93d78f907ce2be66099b5b3b830b8a865bdc79f5",
+      "source_revision": "93d78f907ce2be66099b5b3b830b8a865bdc79f5",
+      "tracked_file_count": 520
+    },
+    "generated_at_utc": "2026-08-22T03:17:13.287199+00:00",
+    "index_ref": "handoff-index:worker-recovery-001",
+    "read_only": true,
+    "remediation_codes": [
+      "HANDOFF_INDEX_BOUND"
+    ],
+    "runtime_mutation_performed": false,
+    "schema_version": "smart-ward-consolidated-internal-handoff-v1"
+  },
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [
+    "HANDOFF_INDEX_BOUND"
+  ],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-consolidated-internal-handoff-v1",
+  "source_revision": "dec23f006a26f46a51a320b85e7cce1b1bfa77ed"
+}
