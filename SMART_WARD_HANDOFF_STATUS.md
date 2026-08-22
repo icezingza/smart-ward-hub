@@ -338,3 +338,10 @@ Correction ผ่าน focused selected-set/consistency/aggregate/chain suites 
 Remote observation จาก `gh repo view icezingza/smart-ward-hub --json nameWithOwner,isPrivate,defaultBranchRef` ยืนยัน repository identity และ default branch ถูกต้อง แต่รายงาน `private=false`. จึงเพิ่ม local-only governance gate ซึ่งคืน `REPOSITORY_VISIBILITY_BLOCKED` และ `REPOSITORY_NOT_PRIVATE` แบบ fail-closed. Focused 10 cases และ phase-end hardening gate ผ่าน; gate ไม่เรียก GitHub เอง ไม่เปลี่ยน visibility และไม่ promote authorization.
 
 ยังไม่เปลี่ยน external setting เนื่องจากต้องมี explicit authorization เฉพาะสำหรับ repository visibility operation. จนกว่าจะเปลี่ยนเป็น private และ rerun observation สำเร็จ ให้ถือเป็น security/governance blocker และห้ามเก็บ secrets, private keys หรือข้อมูลผู้ป่วยจริงใน repository. Product ยังคง `NOT_PRODUCTION_READY`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary ยังคง locked.
+
+
+## Public-Exposure Quarantine Audit — 22 สิงหาคม 2026
+
+เพิ่ม public-exposure quarantine audit, redacted evidence exporter และ phase-end gate. ผลคือ `PUBLIC_EXPOSURE_QUARANTINED` / `PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED` เนื่องจาก remote repository รายงาน `private=false`. Freeze/hash/secret scan และ locked execution boundary ผ่าน; raw identifiers นอก approved synthetic paths ไม่พบ และ synthetic fixture findings 26 รายการถูกจำแนกแยกจากข้อมูลผู้ป่วยจริง.
+
+Focused suite ผ่าน 12 cases, phase-end gate ผ่าน และ master regression ผ่าน. ห้ามเปลี่ยน visibility โดยอัตโนมัติ; ต้องมี explicit authorization สำหรับ external setting operation แล้ว rerun remote observation, exporter, freeze และ regression gates. External authorization/clinical validation/production boundary ไม่เปลี่ยน และ Product ยังคง `NOT_PRODUCTION_READY`.

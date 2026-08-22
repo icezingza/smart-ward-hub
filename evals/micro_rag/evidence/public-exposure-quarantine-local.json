@@ -1,0 +1,229 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "authorization_boundary_locked": true,
+    "execution_boundary_locked": true,
+    "freeze_manifest_present": true,
+    "freeze_pass": true,
+    "frozen_files_readable": true,
+    "frozen_hashes_match": true,
+    "identifier_patterns_absent": true,
+    "private_repository_confirmed": false,
+    "secret_markers_absent": true,
+    "synthetic_identifier_fixtures_classified": true,
+    "visibility_observation_valid": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "PUBLIC_EXPOSURE_QUARANTINED",
+  "evidence_type": "PUBLIC_EXPOSURE_QUARANTINE",
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "finding_count": 26,
+  "findings": [
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "gv10_presentation_deck/slide_05_simulation_results.html"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "simulate_gv10_submission.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_alert_sync_reconciliation_matrix.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_clinical_shadow_mode.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_clinical_shadow_mode_negative.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_external_decision_record.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_external_validation_package.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_gv10_evidence.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_independent_review_operations.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_independent_reviewer_readiness_preflight_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_operational_remediation_rehearsal.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_outside_admission.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_p1_005_clinical_shadow_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_p1_006_clinical_validation_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_p1_007_external_validation_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_p1_008_independent_review_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_public_exposure_quarantine.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_session_workflows.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_sync_alert_replay_harness.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_wave0_owner_appointment_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_wave1_external_evidence_intake.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_wave1_software_preparation_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_wave2_integration_forensic_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_wave3_governance_host_clinical_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_wave4_independent_review_package_hardening.py"
+    },
+    {
+      "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+      "markers": [
+        "RAW_HN_PATTERN"
+      ],
+      "path": "test_worker_recovery_transcript.py"
+    }
+  ],
+  "freeze_source_revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
+  "generated_at_utc": "2026-08-22T14:50:21.355835+00:00",
+  "origin_main_revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [
+    "PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED"
+  ],
+  "repository": "icezingza/smart-ward-hub",
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-public-exposure-quarantine-v1",
+  "visibility_decision": "REPOSITORY_VISIBILITY_BLOCKED"
+}
