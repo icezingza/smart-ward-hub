@@ -9,11 +9,15 @@ import re
 import subprocess
 import sys
 
+from export_p1_host_hardware_preparation_reconciliation import export_evidence
 from p1_host_hardware_preparation_reconciliation import evaluate_host_hardware_preparation
 
 
 ROOT = Path(__file__).resolve().parent
-TARGET = ROOT / "p1_host_hardware_preparation_reconciliation.py"
+TARGETS = [
+    ROOT / "p1_host_hardware_preparation_reconciliation.py",
+    ROOT / "export_p1_host_hardware_preparation_reconciliation.py",
+]
 FOCUSED = ROOT / "test_p1_host_hardware_preparation_reconciliation.py"
 FORBIDDEN_IMPORTS = {
     "requests", "httpx", "socket", "urllib", "serial", "bleak", "paho", "websockets",
@@ -43,23 +47,26 @@ def _assert_focused() -> None:
 
 
 def _assert_no_forbidden_imports() -> None:
-    tree = ast.parse(TARGET.read_text(encoding="utf-8"), filename=str(TARGET))
-    imported = set()
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Import):
-            imported.update(alias.name.split(".", 1)[0] for alias in node.names)
-        elif isinstance(node, ast.ImportFrom) and node.module:
-            imported.add(node.module.split(".", 1)[0])
-    assert not imported.intersection(FORBIDDEN_IMPORTS), imported.intersection(FORBIDDEN_IMPORTS)
+    for target in TARGETS:
+        tree = ast.parse(target.read_text(encoding="utf-8"), filename=str(target))
+        imported = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                imported.update(alias.name.split(".", 1)[0] for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imported.add(node.module.split(".", 1)[0])
+        assert not imported.intersection(FORBIDDEN_IMPORTS), (target, imported.intersection(FORBIDDEN_IMPORTS))
     print("[P1 Host-Hardware Gate] no network/provider/transport/scheduler side-effect imports: PASSED")
 
 
 def _assert_source_boundary() -> None:
-    source = TARGET.read_text(encoding="utf-8")
-    for literal in FORBIDDEN_POSITIVE_LITERALS:
-        assert literal not in source, literal
-    scan_lines = [line for line in source.splitlines() if "SECRET_MARKER" not in line]
-    assert SECRET_MARKERS.search("\n".join(scan_lines)) is None
+    for target in TARGETS:
+        source = target.read_text(encoding="utf-8")
+        for literal in FORBIDDEN_POSITIVE_LITERALS:
+            assert literal not in source, (target, literal)
+        scan_lines = [line for line in source.splitlines() if "SECRET_MARKER" not in line]
+        assert SECRET_MARKERS.search("\n".join(scan_lines)) is None
+    source = TARGETS[0].read_text(encoding="utf-8")
     assert "Acer Spin N17H2" in source
     assert "NOT_STARTED" in source
     assert "UNVERIFIED" in source
@@ -89,6 +96,28 @@ def _assert_runtime_boundary() -> None:
     assert report["pilot_gate_status"] == "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
     assert report["external_gate_snapshot"] == {"blocked": 7, "open": 3, "evidence_submitted": 0, "passed": 0}
     print("[P1 Host-Hardware Gate] runtime/cross-artifact boundary: PASSED")
+
+
+def _assert_export_round_trip() -> None:
+    import tempfile
+
+    with tempfile.TemporaryDirectory(prefix="p1-host-hardware-reconciliation-export-") as directory:
+        output = Path(directory) / "evidence.json"
+        evidence = export_evidence(output)
+        loaded = json.loads(output.read_text(encoding="utf-8"))
+    assert loaded == evidence
+    assert loaded["evidence_scope"] == "LOCAL_DETERMINISTIC_RECONCILIATION_ONLY"
+    assert loaded["all_passed"] is True
+    assert loaded["target_model"] == "Acer Spin N17H2"
+    assert loaded["host_execution_status"] == "NOT_STARTED"
+    assert loaded["physical_execution_performed"] is False
+    assert loaded["ready_for_target_host_execution"] is False
+    assert loaded["real_target_host_evidence"] == "UNVERIFIED"
+    assert loaded["external_submission_allowed"] is False
+    assert loaded["authorization_promoted"] is False
+    assert loaded["redaction_verified"] is True
+    assert loaded["external_gate_snapshot"] == {"blocked": 7, "open": 3, "evidence_submitted": 0, "passed": 0}
+    print("[P1 Host-Hardware Gate] exporter round-trip and no target-host claim: PASSED")
 
 
 def _assert_mutation_isolation() -> None:
@@ -129,6 +158,7 @@ def run() -> None:
     _assert_no_forbidden_imports()
     _assert_source_boundary()
     _assert_runtime_boundary()
+    _assert_export_round_trip()
     _assert_mutation_isolation()
     _assert_json_serializable()
     _assert_diff_check()
