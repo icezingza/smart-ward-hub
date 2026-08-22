@@ -324,3 +324,10 @@ Final chain check คืน `INTERNAL_HANDOFF_CHAIN_BOUND` หลังผูก
 ยืนยันว่า `internal_handoff_chain_integrity` เป็น meta-control ชั้นบน ไม่ใช่สมาชิกของ `SELECTED_SET` และไม่ถูกเพิ่มใน dependency order ของ selector. การแยกนี้ป้องกัน recursive self-hash/dependency cycle เพราะ chain gate ตรวจ selected handoff artifacts และ pre-handoff reconciliation อยู่แล้ว; ตัว gate ตรวจ artifact ของตัวเองผ่าน release-freeze hash โดยตรง.
 
 Selector คง 9 รายการตาม contract เดิม. Focused selected-set/consistency/aggregate/chain suites ผ่านตามลำดับ 8/8/10/11 cases และ phase-end gates ทั้งสี่ผ่านหลัง correction กับ freeze refresh. สถานะ chain ยังคง `INTERNAL_HANDOFF_CHAIN_BOUND`; external authorization boundary ไม่เปลี่ยน.
+
+
+## Internal Handoff Chain Integrity — non-recursive boundary finalization — 22 สิงหาคม 2026
+
+ตรวจ dependency graph เพิ่มเติมและยืนยันว่า `internal_handoff_chain_integrity` เป็น meta-control นอก `SELECTED_SET` และ dependency order เพื่อป้องกัน recursive self-hash/dependency cycle. Selector คง 9 artifacts เดิม; chain gate ตรวจ selected handoff artifacts, pre-handoff reconciliation และ artifact hash ของตัวเองผ่าน release-freeze โดยตรง.
+
+Correction ผ่าน focused selected-set/consistency/aggregate/chain suites และ phase-end gates ครบ. Master regression ผ่านหลัง correction; final freeze `PASS`, selected set 9 รายการ และ chain decision `INTERNAL_HANDOFF_CHAIN_BOUND`. ผลยังเป็น software-only internal evidence; external gates และ authorization boundary ไม่เปลี่ยน.

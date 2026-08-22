@@ -52,7 +52,7 @@
 
 ## Final repository alignment
 
-หลัง final freeze cycle ยืนยัน `HEAD == origin/main`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision`, `freeze_status=PASS`, `file_count=567`, `git diff --check` ผ่าน และ working tree สะอาด. Final child decisions ได้แก่ `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY` และ chain `INTERNAL_HANDOFF_CHAIN_BOUND`.
+หลัง final freeze cycle ยืนยัน `HEAD == origin/main`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision`, `freeze_status=PASS`, `file_count=567`, `git diff --check` ผ่าน และ working tree สะอาด. Final child decisions ได้แก่ `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY` และ chain `INTERNAL_HANDOFF_CHAIN_BOUND`. Selector คง selected evidence set 9 รายการ; chain gate เป็น meta-control ชั้นบนเพื่อป้องกัน recursive self-hash.
 
 ## Evidence artifact
 

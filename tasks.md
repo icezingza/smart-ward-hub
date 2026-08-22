@@ -342,3 +342,10 @@ Chain bound เป็น internal software evidence เท่านั้น. Ex
 ตรวจพบจากการออกแบบว่าไม่ควรเพิ่ม `internal_handoff_chain_integrity` เข้า `SELECTED_SET`: meta-gate ตรวจ selected handoff artifacts และ pre-handoff reconciliation อยู่แล้ว หากรวม snapshot ของตัวเองเข้า selected set จะเกิด recursive self-hash/dependency cycle. จึงแก้กลับให้ selector คง 9 รายการและให้ chain-integrity อยู่เป็น control ชั้นบนที่ตรวจ artifact hash ผ่าน release-freeze โดยตรง.
 
 Focused selected-set, consistency, aggregate reconciliation และ chain suites ผ่าน รวม 8/8/10/11 cases ตามลำดับ. Phase-end gates ของทั้งสี่ชั้นผ่านหลัง correction และ freeze refresh; chain evidence ยังคง `INTERNAL_HANDOFF_CHAIN_BOUND` โดยไม่เปลี่ยน external authorization boundary.
+
+
+### Internal Handoff Chain Integrity — non-recursive boundary finalization — 22 สิงหาคม 2026
+
+จากการตรวจ dependency graph เพิ่มเติม ยืนยันว่า `internal_handoff_chain_integrity` ต้องอยู่นอก `SELECTED_SET` และ dependency order เพราะเป็น meta-control ที่ตรวจ selected handoff artifacts และ pre-handoff reconciliation อยู่แล้ว. การรวม snapshot ของตัวเองจะสร้าง recursive self-hash/dependency cycle. Selector จึงคง 9 artifacts ตาม contract เดิม ขณะที่ chain gate ตรวจ artifact ของตัวเองผ่าน freeze membership/hash โดยตรง.
+
+Correction ผ่าน focused selected-set/consistency/aggregate/chain suites และ phase-end gates ครบ. Master regression ผ่านหลัง correction; final freeze `PASS`, selected set กลับเป็น 9 รายการ และ chain decision ยังคง `INTERNAL_HANDOFF_CHAIN_BOUND`. ขอบเขตยังเป็น software-only internal evidence ไม่ใช่ external authorization หรือ production approval.
