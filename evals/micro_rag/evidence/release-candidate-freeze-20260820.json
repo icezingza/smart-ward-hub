@@ -211,6 +211,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "EVIDENCE_RECONCILIATION_LINEAGE_READINESS_REPORT_20260822.md",
+      "sha256": "6b269a7000c54b931893b66a13345a135056871d8f808662f3e2ebd71db0c9b9",
+      "size_bytes": 4591
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "EVIDENCE_RECONCILIATION_READINESS_REPORT_20260821.md",
       "sha256": "1629bbc31a4d0f4fbf85adf98939cbfca32d80637f2a6dfcb7d5e3673050c590",
       "size_bytes": 6678
@@ -758,8 +764,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "cd6947951a43a980a68a86607da6ad13d7e98bf227f39609488512e68ac529cb",
-      "size_bytes": 60484
+      "sha256": "83ed8de5dfdd2b8bbb536e790571f6cfa4f200e5e1ab0e6cedf82c1c95da8a82",
+      "size_bytes": 61887
     },
     {
       "classification": "contract_or_governance_document",
@@ -2486,8 +2492,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "5925bb517a20e4cf5097da41da12e603b67964ba81ce6267dd4a107776e81dff",
-      "size_bytes": 68385
+      "sha256": "5ad72c0f8ceedde187ed3b5e77ae8411ea5e40b05a356e50e260b9995fa92a14",
+      "size_bytes": 69771
     },
     {
       "classification": "source_or_runtime_config",
@@ -3396,14 +3402,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T08:47:33.070738+00:00",
+  "freeze_created_at_utc": "2026-08-22T08:48:23.167207+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0ef4eebf4ab6555c7279fea4711e8fcf7f8f4b34",
+  "origin_main_revision": "bdbeff73bee2ebdb842dadabd79149796a4f3bcb",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "0ef4eebf4ab6555c7279fea4711e8fcf7f8f4b34"
+  "source_revision": "bdbeff73bee2ebdb842dadabd79149796a4f3bcb"
 }
