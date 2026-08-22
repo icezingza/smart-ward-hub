@@ -655,6 +655,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "PRE_HANDOFF_EVIDENCE_SELECTION_READINESS_REPORT_20260822.md",
+      "sha256": "e0f5e75565202a8cdd91f8e4bc0273f31fa3fe8ceb1d541943ae87a392d45dec",
+      "size_bytes": 4521
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "PRE_HANDOFF_READINESS_CHECK_READINESS_REPORT_20260822.md",
       "sha256": "f7fdc4b198aba19d5ca8d854dd57b30e745c556dec322feef92958e2dd49e8a6",
       "size_bytes": 4197
@@ -740,8 +746,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "c4625bab6ac1584776509ecec543572a9738d097c39db3d7f266342da3dc8437",
-      "size_bytes": 57000
+      "sha256": "1523d0986c7d306eaf87b68b3762ec6172ba7828f0cd65e7c83b5bccf8c22e95",
+      "size_bytes": 58333
     },
     {
       "classification": "contract_or_governance_document",
@@ -1459,6 +1465,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/pre-handoff-manifest-validation-local.json",
+      "sha256": "4a3a95f3c9af28724ec804069f2d09b8c963625aa5e43fb3bede65bc552dfc0e",
+      "size_bytes": 1954
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/pre-handoff-readiness-local.json",
       "sha256": "10095f47bad98ad6bf4d331c79d0ac6555ba3c43ee9fa31477808af9d13bee14",
       "size_bytes": 1611
@@ -1756,6 +1768,12 @@
       "path": "export_p1_008_independent_review_readiness.py",
       "sha256": "3b949dfa66c484bd747a90bc8e195242a0e9bf94d7c96e8a8ff466557d0b5890",
       "size_bytes": 4413
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_pre_handoff_evidence_selection.py",
+      "sha256": "4eac2eec71484af475a25e15429e03103115754a890347bed698749ddbfc0211",
+      "size_bytes": 2105
     },
     {
       "classification": "source_or_runtime_config",
@@ -2197,6 +2215,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "pre_handoff_evidence_selection.py",
+      "sha256": "02ec7439945800e05fc8686882fb12fd2bffaf96c9afd7a3d6f8e4527240a75c",
+      "size_bytes": 11749
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "pre_handoff_manifest_validator.py",
       "sha256": "d9d725cd3aa5edb7fb90940caa63288bdb47984020e96f3e0a36d273e670a0e2",
       "size_bytes": 10791
@@ -2408,8 +2432,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "fd154b6a71299a7768e4079ed2afbf5969260f30a029878681980042fa65d781",
-      "size_bytes": 64699
+      "sha256": "db750b10992188adc61fa60a2bb83c11e734b49532b1699b1afc3bbffffb411b",
+      "size_bytes": 66076
     },
     {
       "classification": "source_or_runtime_config",
@@ -2905,6 +2929,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_pre_handoff_evidence_selection.py",
+      "sha256": "d6205c1f7d2f4f7244cc31e95a29cb6b660843df2f6115d7cd16f89381f66058",
+      "size_bytes": 5641
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_pre_handoff_evidence_selection_phase_end_hardening.py",
+      "sha256": "a3168f5db1d16d566cd849a75fb420e6be267c27f5c11bb4f0295f28585b1803",
+      "size_bytes": 4698
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_pre_handoff_manifest_validator.py",
       "sha256": "d63db474da20b8c0a7023990b08dcd3fde2842b978563be6771e1f3ce56d1d39",
       "size_bytes": 6701
@@ -3282,14 +3318,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T07:29:49.038588+00:00",
+  "freeze_created_at_utc": "2026-08-22T07:42:44.862590+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "579c2f4db3368db563968cc83c99fef68837bd40",
+  "origin_main_revision": "a9fe097056f27399f14095b1352094a46da1cc80",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "579c2f4db3368db563968cc83c99fef68837bd40"
+  "source_revision": "a9fe097056f27399f14095b1352094a46da1cc80"
 }
