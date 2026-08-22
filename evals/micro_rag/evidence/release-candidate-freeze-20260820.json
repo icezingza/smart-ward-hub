@@ -332,8 +332,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "INTERNAL_HANDOFF_CHAIN_INTEGRITY_READINESS_REPORT_20260822.md",
-      "sha256": "b13e67606fe64024408adc288b3b54700ccf193eea6e25147e44aa708f1fa21d",
-      "size_bytes": 6144
+      "sha256": "dee3d34d78a97c5bd621bd85204ffb23601058a353920666bbad3db8fe171722",
+      "size_bytes": 6317
     },
     {
       "classification": "contract_or_governance_document",
@@ -770,8 +770,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "a23b8ed998e1d348df077092dab26ab3a188919381d6801340a990dd4c81eee4",
-      "size_bytes": 67080
+      "sha256": "3dd41917d60363dcfbbb2270c6226a1582d2e5a39115e664a49cd0926cf45a09",
+      "size_bytes": 68121
     },
     {
       "classification": "contract_or_governance_document",
@@ -2516,8 +2516,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "b391421a61dd96d0d1fbb878a2c8590c6547b0e8a85262cc29517c9e89e18b87",
-      "size_bytes": 74392
+      "sha256": "6aba9e0242c6d5fc61bb33aeaae6f692135539dfe3ae7e8e024cf15e08890dd5",
+      "size_bytes": 75667
     },
     {
       "classification": "source_or_runtime_config",
@@ -3438,14 +3438,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T13:28:44.908987+00:00",
+  "freeze_created_at_utc": "2026-08-22T13:31:22.561203+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "a76612d900702a226b6be0b731fd339afeba2c01",
+  "origin_main_revision": "832c6d0f685329cc07328815eb028044abaf7428",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "a76612d900702a226b6be0b731fd339afeba2c01"
+  "source_revision": "832c6d0f685329cc07328815eb028044abaf7428"
 }
