@@ -307,3 +307,10 @@ Selection policy เป็น internal artifact navigation/selection เท่�
 เพิ่ม `pre_handoff_reconciliation_gate.py` สำหรับรวม child gates 4 ชั้น: freeze drift (`DRIFT_FREE`), manifest (`MANIFEST_VALID`), evidence selection (`SELECTED_SET_VALID`) และ selection-to-manifest consistency (`SELECTION_MANIFEST_CONSISTENT`). Aggregate decision เป็น `INTERNAL_HANDOFF_RECONCILIATION_READY` ได้เมื่อ child decisions/remediation codes/checks ผ่านทั้งหมดและ output locks ยังคงปิด.
 
 Focused/adversarial suite 8 cases ผ่าน. Phase-end gate พบว่าใน workspace ก่อน commit aggregate จะ fail closed ด้วย `DRIFT_GATE_FAILED` เพราะ source drift จากไฟล์ใหม่ ซึ่งเป็น expected stop rule; หลัง commit และ refresh freeze ต้องรัน gate ซ้ำจน ready. เพิ่ม redacted aggregate exporter และต้องผูก tests เข้า master regression, commit/push, snapshot/freeze refresh และ final hygiene.
+
+
+### Evidence Reconciliation Lineage Verification — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `freeze_integrity_monitor.revision_is_ancestor(...)` เป็น local Git ancestry helper แบบ read-only และปรับ `evidence_reconciliation.py` ให้แยก `MATCH`, `ANCESTOR_REQUIRES_REGENERATION` และ `NON_ANCESTOR_BLOCKED` ใน `source_revision_lineage`. `export_evidence_reconciliation.py` ใช้ frozen archive สำหรับ package bytes พร้อมส่ง repository root เป็น lineage context จึงไม่สูญเสีย ancestry evidence.
+
+Focused suite และ phase-end hardening gate ผ่าน: isolated ancestor/non-ancestor/invalid-path checks, existing hash/state/authorization fail-closed checks, frozen-archive exporter, AST no endpoint/network/provider side effect, private-key scan และ `git diff --check`. Current packages Wave 4/reviewer/Wave E เป็น `ANCESTOR_REQUIRES_REGENERATION`; Wave 0 template เป็น `NON_ANCESTOR_BLOCKED` เพราะยังใช้ placeholder source revision. Aggregate reconciliation ยังคง `RECONCILED_WITH_EXTERNAL_BLOCKERS` และ gate decision ยังคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; ancestry verification ไม่ลบ external blocker และไม่อนุญาต submission.

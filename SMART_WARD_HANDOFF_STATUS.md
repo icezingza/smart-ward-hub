@@ -287,3 +287,10 @@ Decision software-only ที่ตรวจได้คือ `INTERNAL_HANDOFF
 เพิ่ม aggregate gate สำหรับรวมผล freeze drift, pre-handoff manifest, evidence selection และ selection-to-manifest consistency เป็น decision เดียว. ผลที่ต้องผ่านคือ `INTERNAL_HANDOFF_RECONCILIATION_READY`; หาก child gate ใดล้มเหลวจะคืน `INTERNAL_HANDOFF_RECONCILIATION_BLOCKED` พร้อม composite remediation code และไม่เปลี่ยนสถานะ authorization.
 
 Gate เป็น read-only และตรวจ external submission/transmission disabled, runtime mutation absent, no-self-authorization และ claim boundary. Focused/adversarial suite 8 cases ผ่าน. สถานะภายนอกคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Evidence Reconciliation Lineage Verification — continuation — 22 สิงหาคม 2026
+
+เพิ่ม local Git ancestry verification ใน `freeze_integrity_monitor.py` และผูกเข้ากับ `evidence_reconciliation.py` โดย exporter ยังคงตรวจ package bytes จาก frozen archive แต่ใช้ repository Git context เพื่อตรวจ ancestry แบบ read-only. Current classification: Wave 4, independent reviewer preflight และ Wave E เป็น `ANCESTOR_REQUIRES_REGENERATION`; Wave 0 owner-appointment template เป็น `NON_ANCESTOR_BLOCKED` เนื่องจาก source revision เป็น placeholder.
+
+Focused และ phase-end hardening ผ่าน รวม isolated ancestry helper, frozen-archive exporter, hash/state tamper rejection, no endpoint/network/provider side effect, private-key scan และ `git diff --check`. ผลนี้ยืนยัน local lineage เท่านั้น ไม่ใช่ external custody, trusted timestamp, independent review หรือ authorization. สถานะคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
