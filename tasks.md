@@ -314,3 +314,10 @@ Focused/adversarial suite 8 cases ผ่าน. Phase-end gate พบว่า�
 เพิ่ม `freeze_integrity_monitor.revision_is_ancestor(...)` เป็น local Git ancestry helper แบบ read-only และปรับ `evidence_reconciliation.py` ให้แยก `MATCH`, `ANCESTOR_REQUIRES_REGENERATION` และ `NON_ANCESTOR_BLOCKED` ใน `source_revision_lineage`. `export_evidence_reconciliation.py` ใช้ frozen archive สำหรับ package bytes พร้อมส่ง repository root เป็น lineage context จึงไม่สูญเสีย ancestry evidence.
 
 Focused suite และ phase-end hardening gate ผ่าน: isolated ancestor/non-ancestor/invalid-path checks, existing hash/state/authorization fail-closed checks, frozen-archive exporter, AST no endpoint/network/provider side effect, private-key scan และ `git diff --check`. Current packages Wave 4/reviewer/Wave E เป็น `ANCESTOR_REQUIRES_REGENERATION`; Wave 0 template เป็น `NON_ANCESTOR_BLOCKED` เพราะยังใช้ placeholder source revision. Aggregate reconciliation ยังคง `RECONCILED_WITH_EXTERNAL_BLOCKERS` และ gate decision ยังคง `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; ancestry verification ไม่ลบ external blocker และไม่อนุญาต submission.
+
+
+### Evidence Reconciliation Lineage Verification — final closure note — 22 สิงหาคม 2026
+
+หลัง regenerate `evidence-reconciliation-local-20260821.json` และ refresh freeze แล้ว focused/adversarial suite, phase-end hardening gate และ master regression ผ่าน. Final checks ยืนยัน `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, `INTERNAL_HANDOFF_RECONCILIATION_READY`, `freeze_status=PASS`, `HEAD==origin/main`, `HEAD^==freeze.source_revision==freeze.origin_main_revision`, `git diff --check` ผ่าน และ clean working tree.
+
+Lineage result ยังคงแยกเป็น Wave 4/reviewer/Wave E `ANCESTOR_REQUIRES_REGENERATION` และ Wave 0 template `NON_ANCESTOR_BLOCKED`; aggregate evidence status ยังคง `RECONCILED_WITH_EXTERNAL_BLOCKERS` และ `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`. งานนี้ปิดเฉพาะ software-only lineage verification ไม่ปิด external gate, clinical validation หรือ production authorization.

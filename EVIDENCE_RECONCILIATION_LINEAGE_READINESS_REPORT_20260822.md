@@ -36,7 +36,11 @@ Aggregate status ยังคง `RECONCILED_WITH_EXTERNAL_BLOCKERS` และ `
 | Phase-end AST no endpoint/network/provider side effect | PASS |
 | Private-key marker scan | PASS |
 | `git diff --check` | PASS |
-| Master regression | Pending final docs/freeze cycle |
+| Master regression | PASS — complete repository suite |
+
+## Final repository alignment
+
+หลัง final freeze cycle ยืนยัน `HEAD == origin/main`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision`, `freeze_status=PASS`, `file_count=561`, `git diff --check` ผ่าน และ working tree สะอาด. Final child decisions ได้แก่ `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT` และ aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY`.
 
 ## Boundary and residual risk
 

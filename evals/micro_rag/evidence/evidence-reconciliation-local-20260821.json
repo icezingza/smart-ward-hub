@@ -7,7 +7,7 @@
     "runtime_authority": "NONE"
   },
   "claim_boundary": "EXTERNAL_UNVERIFIED_PENDING_OWNER_APPOINTMENT",
-  "created_at_utc": "2026-08-22T08:47:19Z",
+  "created_at_utc": "2026-08-22T08:50:05Z",
   "evidence_class": "SOFTWARE_COORDINATION_ONLY",
   "execution_permitted": false,
   "external_gate_snapshot": {
@@ -78,7 +78,7 @@
     "freeze": {
       "ancestor_verified": true,
       "relation": "FREEZE_SOURCE",
-      "revision": "c6cb14d80f00e13b6fee1f31532e37966688165c"
+      "revision": "bdbeff73bee2ebdb842dadabd79149796a4f3bcb"
     },
     "reviewer": {
       "ancestor_verified": true,
@@ -102,7 +102,7 @@
     }
   },
   "source_revisions": {
-    "freeze": "c6cb14d80f00e13b6fee1f31532e37966688165c",
+    "freeze": "bdbeff73bee2ebdb842dadabd79149796a4f3bcb",
     "reviewer": "899e9423412ac91276340b0e13cf0998ec10aec7",
     "wave0": "PENDING_EXTERNAL_APPOINTMENT",
     "wave4": "899e9423412ac91276340b0e13cf0998ec10aec7",
