@@ -709,6 +709,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "PUBLIC_EXPOSURE_QUARANTINE_READINESS_REPORT_20260822.md",
+      "sha256": "ca75c36c6f28e5b8e72ea260cff4ca2d4fb2da923df08dd71f6a9987d0ed7070",
+      "size_bytes": 4567
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "README.md",
       "sha256": "0573dd72bc9020d36889d9a1159f99b62a95b5bb9f4eae6b2756368469a2f927",
       "size_bytes": 9003
@@ -776,8 +782,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "5dd87bd06713e9341b2e50aee35e6605bd1e02f7b1f5f01b986c33ffce28104c",
-      "size_bytes": 69450
+      "sha256": "4bc7cd1523e22d31f3828ffc2d21b16b328ff8d2f684010f79ee7f5e0fc3c00a",
+      "size_bytes": 70606
     },
     {
       "classification": "contract_or_governance_document",
@@ -1528,6 +1534,12 @@
       "path": "evals/micro_rag/evidence/pre-handoff-selection-manifest-consistency-local.json",
       "sha256": "0de4c8449a4ac06377e26178ae1f5fbbd2a3fdd1438f0e903fac2db9cba8774f",
       "size_bytes": 2328
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/public-exposure-quarantine-local.json",
+      "sha256": "fff4f3a517622c457275fdcddda3bfeb4844e5c9ac0e0174ddbee90cb6f1af1b",
+      "size_bytes": 5979
     },
     {
       "classification": "evidence_or_machine_record",
@@ -2558,8 +2570,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "968e081644d5d122b6a353ca40685e995227c1419021e8e879f3a44acf5ae3d2",
-      "size_bytes": 76871
+      "sha256": "ad9567d827465b478282c1a00de83140247236c8f616037d79a2401cc096544f",
+      "size_bytes": 77960
     },
     {
       "classification": "source_or_runtime_config",
@@ -3504,14 +3516,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T14:48:43.549963+00:00",
+  "freeze_created_at_utc": "2026-08-22T14:51:16.826909+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
+  "origin_main_revision": "2ed08ad2cef56ce762786ec2ac8b91ebea3782ef",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9"
+  "source_revision": "2ed08ad2cef56ce762786ec2ac8b91ebea3782ef"
 }
