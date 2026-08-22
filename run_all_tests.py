@@ -30,6 +30,8 @@ TESTS = [
     "test_p0_mtls_config.py",
     "test_p0_recovery.py",
     "test_p0_his_admission_contract.py",
+    "test_p0_his_fhir_contract_readiness_guard.py",
+    "test_p0_his_fhir_contract_readiness_guard_phase_end_hardening.py",
     "test_power_loss_recovery_harness.py",
     "test_p0_004_recovery_phase_end_hardening.py",
     "test_cross_component_recovery_matrix.py",

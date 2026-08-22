@@ -1,0 +1,61 @@
+"""Export local-only P0 HIS/FHIR contract readiness evidence."""
+from __future__ import annotations
+
+from datetime import datetime, timezone
+import json
+from pathlib import Path
+
+from p0_his_fhir_contract_readiness_guard import evaluate_contract_readiness
+
+
+ROOT = Path(__file__).resolve().parent
+DEFAULT_OUTPUT = ROOT / "evals/micro_rag/evidence/p0-his-fhir-contract-readiness-local.json"
+EXPORT_SCHEMA_VERSION = "p0-his-fhir-contract-readiness-evidence-v1"
+
+
+def export_evidence(output: Path = DEFAULT_OUTPUT) -> dict:
+    report = evaluate_contract_readiness()
+    if not report["all_passed"]:
+        raise RuntimeError("cannot export failed HIS/FHIR contract readiness")
+    evidence = {
+        "schema_version": EXPORT_SCHEMA_VERSION,
+        "evidence_type": "P0_HIS_FHIR_CONTRACT_READINESS",
+        "decision": report["decision"],
+        "evidence_scope": report["mode"],
+        "source_module": "p0_his_fhir_contract_readiness_guard.py",
+        "generated_at_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "checks": report["checks"],
+        "all_passed": report["all_passed"],
+        "external_decisions_pending": report["external_decisions_pending"],
+        "external_decision_count": report["external_decision_count"],
+        "envelope_result": report["envelope_result"],
+        "failure_ack_result": report["failure_ack_result"],
+        "success_ack_result": report["success_ack_result"],
+        "external_submission_allowed": False,
+        "external_transmission_performed": False,
+        "external_verification_performed": False,
+        "runtime_mutation_performed": False,
+        "purge_executed": False,
+        "authorization_promoted": False,
+        "authorization_boundary": report["authorization_boundary"],
+        "clinical_validation_authorized": False,
+        "production_authorized": False,
+        "runtime_authority": "NONE",
+        "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+        "external_gate_snapshot": {"blocked": 7, "open": 3, "evidence_submitted": 0, "passed": 0},
+        "real_his_evidence": "UNVERIFIED",
+        "real_mtls_oidc_evidence": "UNVERIFIED",
+        "physical_hardware_evidence": "UNVERIFIED",
+        "patient_data_used": False,
+        "raw_frames_recorded": False,
+        "redaction_verified": True,
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(evidence, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return evidence
+
+
+if __name__ == "__main__":
+    evidence = export_evidence()
+    print(json.dumps(evidence, ensure_ascii=True, sort_keys=True))
+    print(f"P0_HIS_FHIR_CONTRACT_READINESS_EVIDENCE_EXPORTED={DEFAULT_OUTPUT}")
