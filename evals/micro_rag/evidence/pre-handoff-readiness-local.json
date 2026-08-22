@@ -13,7 +13,7 @@
     "external_gate_snapshot_preserved": true,
     "external_submission_disabled": true,
     "external_transmission_absent": true,
-    "freeze_drift_free": false,
+    "freeze_drift_free": true,
     "handoff_index_bound": true,
     "read_only": true,
     "runtime_mutation_absent": true
@@ -24,8 +24,8 @@
     "production_ready": false,
     "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
   },
-  "decision": "INTERNAL_HANDOFF_BLOCKED",
-  "drift_decision": "DRIFT_DETECTED",
+  "decision": "INTERNAL_HANDOFF_READY",
+  "drift_decision": "DRIFT_FREE",
   "evidence_type": "PRE_HANDOFF_READINESS_CHECK",
   "external_gate_snapshot": {
     "blocked": 7,
@@ -35,16 +35,14 @@
   },
   "external_submission_allowed": false,
   "external_transmission_performed": false,
-  "freeze_source_revision": "840e2d93f544507c99e25746141d35102197fc04",
-  "generated_at_utc": "2026-08-22T07:26:16.261961+00:00",
+  "freeze_source_revision": "681808abe3a8904bf58f023779ca718166bbe30e",
+  "generated_at_utc": "2026-08-22T07:29:40.368449+00:00",
   "handoff_index_decision": "BOUND",
-  "origin_main_revision": "840e2d93f544507c99e25746141d35102197fc04",
+  "origin_main_revision": "681808abe3a8904bf58f023779ca718166bbe30e",
   "read_only": true,
   "redaction_verified": true,
-  "remediation_codes": [
-    "FREEZE_DRIFT_DETECTED"
-  ],
+  "remediation_codes": [],
   "runtime_mutation_performed": false,
   "schema_version": "smart-ward-pre-handoff-v1",
-  "source_revision": "75ad94bfa72ebd70c44decdb0c30cc9674ab575b"
+  "source_revision": "11a12f9fe689a5844c2abcde01072a93579d0564"
 }
