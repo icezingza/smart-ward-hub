@@ -1,0 +1,42 @@
+{
+  "authorization_promoted": false,
+  "candidate_transports": [
+    "mqtt",
+    "websocket",
+    "serial",
+    "ble"
+  ],
+  "checks": {
+    "all_candidates_conform": true,
+    "authorization_boundary_locked": true,
+    "conformance_decision_verified": true,
+    "conformance_evidence_redacted": true,
+    "fixture_and_execution_boundary_locked": true,
+    "hardware_evidence_unverified": true,
+    "hardware_gate_not_promoted": true,
+    "selected_transport_allowlisted": true,
+    "selected_transport_in_conformance": true,
+    "serial_selected_as_first_profile": true
+  },
+  "claim_boundary": "CONTROLLED_PRODUCTION_PROTOTYPE",
+  "clinical_validation": "PENDING",
+  "conformance_decision": "P2_002_ADAPTER_CONFORMANCE_VERIFIED",
+  "decision": "P2_002_TRANSPORT_SELECTION_VERIFIED",
+  "evidence_type": "P2_002_TRANSPORT_SELECTION",
+  "external_authority": "NONE",
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "fixture_only": true,
+  "freeze_binding_required": true,
+  "generated_at_utc": "2026-08-22T17:05:08.712816+00:00",
+  "hardware_evidence": "UNVERIFIED",
+  "physical_gate_status": "NOT_STARTED",
+  "production_ready": false,
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "p2-002-transport-selection-v1",
+  "selected_software_transport": "serial"
+}
