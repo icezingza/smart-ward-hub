@@ -1,0 +1,19 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "default_branch": "main",
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "is_private": false,
+  "observation_status": "OBSERVED",
+  "redaction_verified": true,
+  "repository": "icezingza/smart-ward-hub",
+  "runtime_mutation_performed": false,
+  "source": "GH_REPO_VIEW"
+}
