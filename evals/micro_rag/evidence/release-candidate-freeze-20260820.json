@@ -1460,8 +1460,8 @@
     {
       "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/pre-handoff-readiness-local.json",
-      "sha256": "8945c81a6f7ef757a97aad6ebe36c21d55b0b72c7c44c902dbaee8c425053bc7",
-      "size_bytes": 1649
+      "sha256": "10095f47bad98ad6bf4d331c79d0ac6555ba3c43ee9fa31477808af9d13bee14",
+      "size_bytes": 1611
     },
     {
       "classification": "evidence_or_machine_record",
@@ -3282,14 +3282,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T07:29:06.922111+00:00",
+  "freeze_created_at_utc": "2026-08-22T07:29:49.038588+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "681808abe3a8904bf58f023779ca718166bbe30e",
+  "origin_main_revision": "579c2f4db3368db563968cc83c99fef68837bd40",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "681808abe3a8904bf58f023779ca718166bbe30e"
+  "source_revision": "579c2f4db3368db563968cc83c99fef68837bd40"
 }
