@@ -133,6 +133,8 @@ TESTS = [
     "test_p2_004_evidence_sufficiency_phase_end_hardening.py",
     "test_p3_external_gate_status_reconciliation.py",
     "test_p3_external_gate_status_reconciliation_phase_end_hardening.py",
+    "test_p3_external_gate_transition_guard.py",
+    "test_p3_external_gate_transition_guard_phase_end_hardening.py",
     "test_p2_edge_iot_adapters.py",
     "test_p2_002_adapter_conformance.py",
     "test_p2_002_adapter_conformance_phase_end_hardening.py",
