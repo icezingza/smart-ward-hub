@@ -264,3 +264,12 @@ Decision software-only ที่ตรวจได้คือ `INTERNAL_HANDOFF
 เพิ่ม focused test สำหรับ ancestor path และคง stop rules สำหรับ hash mismatch, path mismatch, decision/check mismatch, claim/authorization/gate mutation และ external/runtime/transmission mutation.
 
 สถานะภายนอกคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Pre-Handoff Evidence Selection Policy — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `pre_handoff_evidence_selection.py` สำหรับคัดเลือกชุด artifact ภายใน 9 รายการตาม dependency order เดียวกันทุกครั้ง ตั้งแต่ governance handoff จนถึง pre-handoff manifest validation. Policy ตรวจ freeze membership, current SHA-256, required package decisions, runtime artifact exclusion, locked claim/authorization/gate boundary และ external submission lock.
+
+เพิ่ม `export_pre_handoff_evidence_selection.py`, focused/adversarial tests 8 cases และ phase-end hardening gate สำหรับ no network/provider/scheduler side effect, read-only filesystem boundary, redaction/private-key และ no-self-authorization. ขั้นตอนต่อไปคือ commit/push, generate selected-set snapshot, refresh freeze, master regression และ final hygiene.
+
+สถานะภายนอกคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.

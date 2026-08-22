@@ -1,0 +1,54 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "freeze_pass": true,
+    "fresh_readiness_ready": true,
+    "snapshot_authorization_locked": true,
+    "snapshot_checks_match_fresh": true,
+    "snapshot_claim_locked": true,
+    "snapshot_decision_ready": true,
+    "snapshot_external_submission_disabled": true,
+    "snapshot_external_transmission_absent": true,
+    "snapshot_gate_locked": true,
+    "snapshot_hash_matches": true,
+    "snapshot_in_freeze": true,
+    "snapshot_origin_matches_freeze": true,
+    "snapshot_present": true,
+    "snapshot_read_only": true,
+    "snapshot_runtime_mutation_absent": true,
+    "snapshot_source_matches_freeze": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "MANIFEST_VALID",
+  "evidence_type": "PRE_HANDOFF_EVIDENCE_MANIFEST_VALIDATION",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "579c2f4db3368db563968cc83c99fef68837bd40",
+  "generated_at_utc": "2026-08-22T07:40:45.919473+00:00",
+  "origin_main_revision": "579c2f4db3368db563968cc83c99fef68837bd40",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-pre-handoff-manifest-v1",
+  "snapshot_relative": "evals/micro_rag/evidence/pre-handoff-readiness-local.json",
+  "snapshot_source_revision": "11a12f9fe689a5844c2abcde01072a93579d0564",
+  "source_revision": "bddd9a7dbdeef8d7d723d7cad5d0acff10602955"
+}

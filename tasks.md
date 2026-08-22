@@ -282,3 +282,12 @@ Validator เป็น internal manifest consistency check เท่านั้
 ### Pre-Handoff Manifest ancestor-binding correction — 22 สิงหาคม 2026
 
 พบจาก snapshot rehearsal ว่า snapshot ที่ export ก่อน commit ถูกต้องตาม lifecycle แต่หลัง freeze refresh แล้ว `source_revision` ของ snapshot จะเป็น ancestor ของ freeze source ไม่ใช่ค่าเท่ากัน. Validator เดิมจึงคืน `SNAPSHOT_SOURCE_REVISION_MISMATCH` และ `SNAPSHOT_ORIGIN_REVISION_MISMATCH` อย่างถูกต้องแบบ fail-closed. ปรับ contract ให้ตรวจ `git merge-base --is-ancestor` แบบ read-only และเพิ่ม focused test ยืนยัน ancestor path; exact mismatch ที่ไม่ใช่ ancestor ยังคงถูกบล็อก.
+
+
+### Pre-Handoff Evidence Selection Policy status note — 22 สิงหาคม 2026
+
+`pre_handoff_evidence_selection.py` เพิ่ม read-only selected-set evaluator สำหรับชุดหลักฐาน internal handoff 9 รายการตาม dependency order: governance handoff → external-review handoff → worker recovery transcript → operator approval/read-back → durable worker replay → cross-package binding → consolidated internal handoff → pre-handoff readiness → pre-handoff manifest validation.
+
+Policy ตรวจ freeze PASS, locked authorization/gate snapshot, required artifact presence, freeze membership, SHA-256, required package decisions, exact dependency order และ runtime artifact exclusion. `export_pre_handoff_evidence_selection.py` สร้าง redacted selected-set snapshot. Focused/adversarial suite 8 cases และ phase-end hardening gate ผ่านครบ. ยังต้อง commit/push, generate selection snapshot, refresh freeze, master regression และ final hygiene.
+
+Selection policy เป็น internal artifact navigation/selection เท่านั้น ไม่ใช่ external submission, reviewer acceptance, authorization record หรือ production approval. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
