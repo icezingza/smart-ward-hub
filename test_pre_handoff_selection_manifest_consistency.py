@@ -21,6 +21,9 @@ def _fixtures():
             "consolidated_internal_handoff": "BOUND",
             "pre_handoff_readiness": "INTERNAL_HANDOFF_READY",
             "pre_handoff_manifest_validation": "MANIFEST_VALID",
+            "pre_handoff_selection_manifest_consistency": "SELECTION_MANIFEST_CONSISTENT",
+            "pre_handoff_reconciliation": "INTERNAL_HANDOFF_RECONCILIATION_READY",
+            "internal_handoff_chain_integrity": "INTERNAL_HANDOFF_CHAIN_BOUND",
         }.get(package_id, "PRESENT")
         selected.append({"package_id": package_id, "path": path, "role": role, "sha256": digest, "status": status})
         freeze_files.append({"path": path, "sha256": digest})
@@ -148,6 +151,15 @@ def test_boundary_mutation_is_blocked():
     assert result.decision == ConsistencyDecision.INCONSISTENT
     assert ConsistencyCode.AUTHORIZATION_BOUNDARY_MISMATCH in result.remediation_codes
     assert ConsistencyCode.EXTERNAL_GATE_BOUNDARY_MISMATCH in result.remediation_codes
+
+
+def test_chain_integrity_status_drift_is_blocked():
+    selection, readiness, manifest, freeze, current = _fixtures()
+    selection["selected"][-1]["status"] = "INTERNAL_HANDOFF_CHAIN_BLOCKED"
+    current["selected"][-1]["status"] = "INTERNAL_HANDOFF_CHAIN_BLOCKED"
+    result = evaluate_consistency(selection=selection, readiness=readiness, manifest=manifest, freeze=freeze, current_selection=current, lineage_valid=True)
+    assert result.decision == ConsistencyDecision.INCONSISTENT
+    assert ConsistencyCode.PACKAGE_BOUNDARY_MISMATCH in result.remediation_codes
 
 
 def test_submission_runtime_transmission_mutations_are_blocked():

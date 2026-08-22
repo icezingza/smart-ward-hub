@@ -28,6 +28,12 @@ def _fixtures():
             payload = {"decision": "INTERNAL_HANDOFF_READY", "remediation_codes": []}
         elif package_id == "pre_handoff_manifest_validation":
             payload = {"decision": "MANIFEST_VALID", "remediation_codes": []}
+        elif package_id == "pre_handoff_selection_manifest_consistency":
+            payload = {"decision": "SELECTION_MANIFEST_CONSISTENT", "remediation_codes": []}
+        elif package_id == "pre_handoff_reconciliation":
+            payload = {"decision": "INTERNAL_HANDOFF_RECONCILIATION_READY", "remediation_codes": []}
+        elif package_id == "internal_handoff_chain_integrity":
+            payload = {"decision": "INTERNAL_HANDOFF_CHAIN_BOUND", "remediation_codes": []}
         else:
             payload = {"decision": "PRESENT"}
         packages[package_id] = payload
@@ -92,6 +98,14 @@ def test_dependency_order_mismatch_blocks_selection():
 def test_package_decision_mismatch_blocks_selection():
     freeze, packages, hashes = _fixtures()
     packages["pre_handoff_manifest_validation"] = {"decision": "MANIFEST_INVALID", "remediation_codes": ["SNAPSHOT_HASH_MISMATCH"]}
+    result = evaluate_selection(root=None, freeze=freeze, packages=packages, package_hashes=hashes, tracked_paths=set(), runtime_artifacts=set())
+    assert result.decision == SelectionDecision.SELECTION_BLOCKED
+    assert SelectionCode.PACKAGE_DECISION_INVALID in result.remediation_codes
+
+
+def test_chain_integrity_decision_mismatch_blocks_selection():
+    freeze, packages, hashes = _fixtures()
+    packages["internal_handoff_chain_integrity"] = {"decision": "INTERNAL_HANDOFF_CHAIN_BLOCKED", "remediation_codes": ["ARTIFACT_HASH_MISMATCH"]}
     result = evaluate_selection(root=None, freeze=freeze, packages=packages, package_hashes=hashes, tracked_paths=set(), runtime_artifacts=set())
     assert result.decision == SelectionDecision.SELECTION_BLOCKED
     assert SelectionCode.PACKAGE_DECISION_INVALID in result.remediation_codes

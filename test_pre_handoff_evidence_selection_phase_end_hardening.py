@@ -69,8 +69,8 @@ def run() -> None:
     print("[EvidenceSelection GATE] no network/provider/scheduler imports: PASSED")
 
     result = select_repository(ROOT)
-    # The selection policy is allowed to remain blocked while its new
-    # selected-set manifest is not yet freeze-listed. It must never silently
+    # The selection policy is allowed to remain blocked while a newly extended
+    # selected-set snapshot is not yet freeze-listed. It must never silently
     # select an incomplete set.
     assert result["decision"] in {
         SelectionDecision.SELECTED_SET_VALID,

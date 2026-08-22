@@ -69,7 +69,7 @@ def run() -> None:
     assert report["selected_set_decision"] == "SELECTED_SET_VALID"
     assert report["pre_handoff_decision"] == "INTERNAL_HANDOFF_READY"
     assert report["manifest_decision"] == "MANIFEST_VALID"
-    assert report["selected_count"] == 9
+    assert report["selected_count"] == 12
     assert report["read_only"] is True
     assert report["external_submission_allowed"] is False
     assert report["authorization_promoted"] is False

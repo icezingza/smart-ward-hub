@@ -30,6 +30,9 @@ SELECTED_SET = (
     ("consolidated_internal_handoff", "evals/micro_rag/evidence/consolidated-internal-handoff-index-local.json", "handoff"),
     ("pre_handoff_readiness", "evals/micro_rag/evidence/pre-handoff-readiness-local.json", "readiness"),
     ("pre_handoff_manifest_validation", "evals/micro_rag/evidence/pre-handoff-manifest-validation-local.json", "validation"),
+    ("pre_handoff_selection_manifest_consistency", "evals/micro_rag/evidence/pre-handoff-selection-manifest-consistency-local.json", "consistency"),
+    ("pre_handoff_reconciliation", "evals/micro_rag/evidence/pre-handoff-reconciliation-gate-local.json", "reconciliation"),
+    ("internal_handoff_chain_integrity", "evals/micro_rag/evidence/internal-handoff-chain-integrity-local.json", "chain_integrity"),
 )
 DEPENDENCY_ORDER = (
     "wave0_governance_handoff",
@@ -41,6 +44,9 @@ DEPENDENCY_ORDER = (
     "consolidated_internal_handoff",
     "pre_handoff_readiness",
     "pre_handoff_manifest_validation",
+    "pre_handoff_selection_manifest_consistency",
+    "pre_handoff_reconciliation",
+    "internal_handoff_chain_integrity",
 )
 EXCLUDED_RUNTIME_NAMES = {
     "ward_hub.db",
@@ -138,6 +144,12 @@ def _package_status(package_id: str, payload: Mapping[str, Any]) -> tuple[bool, 
         return payload.get("decision") == "INTERNAL_HANDOFF_READY" and payload.get("remediation_codes") == [], "INTERNAL_HANDOFF_READY"
     if package_id == "pre_handoff_manifest_validation":
         return payload.get("decision") == "MANIFEST_VALID" and payload.get("remediation_codes") == [], "MANIFEST_VALID"
+    if package_id == "pre_handoff_selection_manifest_consistency":
+        return payload.get("decision") == "SELECTION_MANIFEST_CONSISTENT" and payload.get("remediation_codes") == [], "SELECTION_MANIFEST_CONSISTENT"
+    if package_id == "pre_handoff_reconciliation":
+        return payload.get("decision") == "INTERNAL_HANDOFF_RECONCILIATION_READY" and payload.get("remediation_codes") == [], "INTERNAL_HANDOFF_RECONCILIATION_READY"
+    if package_id == "internal_handoff_chain_integrity":
+        return payload.get("decision") == "INTERNAL_HANDOFF_CHAIN_BOUND" and payload.get("remediation_codes") == [], "INTERNAL_HANDOFF_CHAIN_BOUND"
     return True, str(payload.get("decision", "PRESENT"))
 
 

@@ -203,6 +203,9 @@ def evaluate_consistency(
         "selection_statuses_bind_upstream": (
             next((row.get("status") for row in selected_rows if row.get("package_id") == "pre_handoff_readiness"), None) == "INTERNAL_HANDOFF_READY"
             and next((row.get("status") for row in selected_rows if row.get("package_id") == "pre_handoff_manifest_validation"), None) == "MANIFEST_VALID"
+            and next((row.get("status") for row in selected_rows if row.get("package_id") == "pre_handoff_selection_manifest_consistency"), None) == "SELECTION_MANIFEST_CONSISTENT"
+            and next((row.get("status") for row in selected_rows if row.get("package_id") == "pre_handoff_reconciliation"), None) == "INTERNAL_HANDOFF_RECONCILIATION_READY"
+            and next((row.get("status") for row in selected_rows if row.get("package_id") == "internal_handoff_chain_integrity"), None) == "INTERNAL_HANDOFF_CHAIN_BOUND"
         ),
         "authorization_boundary_locked": all_boundary_objects_locked,
         "claim_boundary_locked": all_claims_locked,
