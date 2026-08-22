@@ -73,6 +73,8 @@ TESTS = [
     "test_controlled_pilot_operations.py",
     "test_controlled_pilot_blocker_analysis.py",
     "test_wave0_governance.py",
+    "test_wave0_governance_reconciliation_guard.py",
+    "test_wave0_governance_reconciliation_guard_phase_end_hardening.py",
     "test_external_authorization_api_simulator.py",
     "test_wave_e_evidence.py",
     "test_wave_e_execution_preflight.py",
