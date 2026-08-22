@@ -301,3 +301,12 @@ Focused และ phase-end hardening ผ่าน รวม isolated ancestry h
 Final regeneration ของ `evidence-reconciliation-local-20260821.json` คืน `RECONCILED_WITH_EXTERNAL_BLOCKERS`, `gate_decision=BLOCKED_PENDING_EXTERNAL_AUTHORIZATION` และ `source_revision_alignment=ANCESTOR_VERIFIED_REQUIRES_REGENERATION`. Local Git ancestry แยกได้ว่า Wave 4/reviewer/Wave E เป็น `ANCESTOR_REQUIRES_REGENERATION`; Wave 0 owner-appointment template เป็น `NON_ANCESTOR_BLOCKED` เพราะยังเป็น placeholder.
 
 Focused/adversarial, phase-end hardening และ master regression ผ่าน. Final repository alignment ยืนยัน `HEAD==origin/main`, `HEAD^==freeze.source_revision==freeze.origin_main_revision`, `freeze_status=PASS`, `file_count=561`, clean working tree และ `git diff --check` ผ่าน. ผลนี้เป็น software-only lineage evidence ไม่ใช่ external submission, independent reviewer acceptance, clinical validation หรือ production approval. External Gates ยังคง `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary ยังคง `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`.
+
+
+## Internal Handoff Chain Integrity Gate — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `internal_handoff_chain_integrity.py` และ redacted exporter เพื่อผูก consolidated internal handoff index, pre-handoff reconciliation evidence และ release-freeze manifest เป็น chain เดียว. Current decision คือ `INTERNAL_HANDOFF_CHAIN_BOUND`; ตรวจ artifact freeze membership/hash, child reconciliation decision, source lineage, locked claim/authorization/external-gate snapshot และ read-only execution boundary.
+
+Focused/adversarial suite 11 cases และ phase-end hardening gate ผ่าน รวม hash/membership tamper, child drift, authorization/execution mutation, invalid/non-ancestor revision, caller-mutation isolation, exporter round-trip, redaction/private-key scan, no-network/provider/scheduler/subprocess scan และ `git diff --check`. Evidence snapshot คือ `evals/micro_rag/evidence/internal-handoff-chain-integrity-local.json`; master regression และ final freeze cycle อยู่ระหว่างดำเนินการ.
+
+ผลนี้เป็น internal software handoff binding เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical validation หรือ production approval. สถานะคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.

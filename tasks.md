@@ -321,3 +321,10 @@ Focused suite และ phase-end hardening gate ผ่าน: isolated ancestor
 หลัง regenerate `evidence-reconciliation-local-20260821.json` และ refresh freeze แล้ว focused/adversarial suite, phase-end hardening gate และ master regression ผ่าน. Final checks ยืนยัน `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, `INTERNAL_HANDOFF_RECONCILIATION_READY`, `freeze_status=PASS`, `HEAD==origin/main`, `HEAD^==freeze.source_revision==freeze.origin_main_revision`, `git diff --check` ผ่าน และ clean working tree.
 
 Lineage result ยังคงแยกเป็น Wave 4/reviewer/Wave E `ANCESTOR_REQUIRES_REGENERATION` และ Wave 0 template `NON_ANCESTOR_BLOCKED`; aggregate evidence status ยังคง `RECONCILED_WITH_EXTERNAL_BLOCKERS` และ `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`. งานนี้ปิดเฉพาะ software-only lineage verification ไม่ปิด external gate, clinical validation หรือ production authorization.
+
+
+### Internal Handoff Chain Integrity Gate — 22 สิงหาคม 2026
+
+เพิ่ม `internal_handoff_chain_integrity.py` เพื่อผูก `consolidated-internal-handoff-index-local.json`, `pre-handoff-reconciliation-gate-local.json` และ release-freeze manifest เป็น chain เดียวแบบ read-only/fail-closed. Gate ตรวจ freeze PASS, artifact membership/hash, handoff `BOUND`, reconciliation `INTERNAL_HANDOFF_RECONCILIATION_READY`, child decisions/checks, locked claim/authorization/external-gate boundary และ local source-revision lineage. Failure modes คืน `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม remediation codes; ไม่มี external submission, runtime mutation หรือ authorization promotion.
+
+เพิ่ม `export_internal_handoff_chain_integrity.py`, focused/adversarial suite 11 cases และ phase-end hardening gate. ผลผ่านครบ: hash/membership tamper, child drift, authorization/execution lock mutation, invalid/non-ancestor revision, caller-mutation isolation, exporter round-trip, redaction/private-key scan, no network/provider/scheduler/subprocess imports และ `git diff --check`. Evidence snapshot อยู่ที่ `evals/micro_rag/evidence/internal-handoff-chain-integrity-local.json`; master regression และ final freeze cycle ยังต้องทำก่อนปิด workstream.
