@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from freeze_integrity_monitor import revision_is_ancestor
+
 
 SCHEMA_VERSION = "smart-ward-evidence-reconciliation-v1"
 FREEZE_REFERENCE = "TOP_LEVEL_RELEASE_FREEZE"
@@ -261,17 +263,46 @@ def reconcile_packages(
         "wave0": wave0_summary["source_revision"],
     }
     findings: list[ReconciliationFinding] = []
+    source_revision_lineage: dict[str, dict[str, Any]] = {}
     for name, revision in source_revisions.items():
-        if name != "freeze" and revision != freeze_source:
-            findings.append(
-                ReconciliationFinding(
-                    finding_id=f"SOURCE_NONIDENTICAL_{name.upper()}",
-                    severity="MEDIUM",
-                    status="ANCESTOR_OR_STALE_UNVERIFIED",
-                    message=f"{name} source revision is not byte-identical to the top-level freeze source.",
-                    remediation="Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
-                )
+        if name == "freeze":
+            source_revision_lineage[name] = {
+                "revision": revision,
+                "relation": "FREEZE_SOURCE",
+                "ancestor_verified": True,
+            }
+            continue
+        if revision == freeze_source:
+            source_revision_lineage[name] = {
+                "revision": revision,
+                "relation": "MATCH",
+                "ancestor_verified": True,
+            }
+            continue
+        ancestor_verified = revision_is_ancestor(root, revision, freeze_source)
+        relation = "ANCESTOR_REQUIRES_REGENERATION" if ancestor_verified else "NON_ANCESTOR_BLOCKED"
+        source_revision_lineage[name] = {
+            "revision": revision,
+            "relation": relation,
+            "ancestor_verified": ancestor_verified,
+        }
+        findings.append(
+            ReconciliationFinding(
+                finding_id=f"SOURCE_NONIDENTICAL_{name.upper()}",
+                severity="MEDIUM" if ancestor_verified else "HIGH",
+                status="ANCESTOR_VERIFIED_REQUIRES_REGENERATION" if ancestor_verified else "NON_ANCESTOR_SOURCE_BLOCKED",
+                message=(
+                    f"{name} source revision is an ancestor of the top-level freeze source but is not byte-identical."
+                    if ancestor_verified
+                    else f"{name} source revision is not a verified ancestor of the top-level freeze source."
+                ),
+                remediation=(
+                    "Regenerate the package snapshot after the approved freeze source revision before external submission."
+                    if ancestor_verified
+                    else "Replace the package snapshot with one derived from an approved source revision and rerun reconciliation before external submission."
+                ),
             )
+        )
     if wave4_summary["mapping_count"] != 12 or wave4_summary["artifact_count"] != 22:
         findings.append(
             ReconciliationFinding(
@@ -326,7 +357,10 @@ def reconcile_packages(
         "gate_decision": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
         "evidence_class": "SOFTWARE_COORDINATION_ONLY",
         "source_revisions": source_revisions,
-        "source_revision_alignment": "NONIDENTICAL_REQUIRES_ANCESTOR_OR_REGENERATION_CHECK" if findings else "MATCH",
+        "source_revision_lineage": source_revision_lineage,
+        "source_revision_alignment": "ANCESTOR_VERIFIED_REQUIRES_REGENERATION" if any(
+            item["relation"] == "ANCESTOR_REQUIRES_REGENERATION" for item in source_revision_lineage.values()
+        ) else ("NON_ANCESTOR_BLOCKED" if findings else "MATCH"),
         "package_checks": {
             "release_freeze": "PASS",
             "wave4": "PASS",

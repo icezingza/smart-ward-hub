@@ -8,6 +8,7 @@ import tarfile
 import tempfile
 
 from evidence_reconciliation import EvidenceReconciliationError, default_paths, reconcile_packages
+from freeze_integrity_monitor import revision_is_ancestor
 from export_evidence_reconciliation import export
 
 
@@ -38,6 +39,25 @@ def copied_fixture_root(tmp: Path) -> Path:
 
 def run() -> None:
     with tempfile.TemporaryDirectory() as directory:
+        repository = Path(directory) / "git-lineage"
+        repository.mkdir()
+        subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
+        subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=repository, check=True)
+        subprocess.run(["git", "config", "user.name", "Test Runner"], cwd=repository, check=True)
+        (repository / "a.txt").write_text("a\n", encoding="utf-8")
+        subprocess.run(["git", "add", "a.txt"], cwd=repository, check=True)
+        subprocess.run(["git", "commit", "-q", "-m", "base"], cwd=repository, check=True)
+        base = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repository, text=True).strip()
+        (repository / "b.txt").write_text("b\n", encoding="utf-8")
+        subprocess.run(["git", "add", "b.txt"], cwd=repository, check=True)
+        subprocess.run(["git", "commit", "-q", "-m", "next"], cwd=repository, check=True)
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repository, text=True).strip()
+        assert revision_is_ancestor(repository, base, head) is True
+        assert revision_is_ancestor(repository, head, base) is False
+        assert revision_is_ancestor(repository, repository / "missing", head) is False
+    print("[Reconciliation] Isolated local Git ancestry helper is fail-closed: PASSED")
+
+    with tempfile.TemporaryDirectory() as directory:
         root = copied_fixture_root(Path(directory))
         paths = default_paths(root)
         result = reconcile_packages(**paths)
@@ -50,6 +70,8 @@ def run() -> None:
         assert result["states"]["wave_e_execution_permitted"] is False
         assert result["states"]["wave_e_external_validation_started"] is False
         assert any(finding["finding_id"] == "SOURCE_NONIDENTICAL_WAVE4" for finding in result["findings"])
+        assert result["source_revision_lineage"]["wave4"]["ancestor_verified"] is False
+        assert result["source_revision_lineage"]["wave4"]["relation"] == "NON_ANCESTOR_BLOCKED"
         print("[Reconciliation] Current package set reconciles with explicit external blockers: PASSED")
 
         reviewer_path = paths["reviewer_path"]

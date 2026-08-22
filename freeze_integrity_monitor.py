@@ -116,6 +116,13 @@ def _git(root: Path, *args: str) -> str | None:
         return None
 
 
+def revision_is_ancestor(root: Path, ancestor: Any, descendant: Any) -> bool:
+    """Return whether a valid local Git revision is an ancestor of another."""
+    if not _revision(ancestor) or not _revision(descendant):
+        return False
+    return _git(root, "merge-base", "--is-ancestor", str(ancestor), str(descendant)) is not None
+
+
 def _revision(value: Any) -> bool:
     return isinstance(value, str) and HEX40.fullmatch(value) is not None
 

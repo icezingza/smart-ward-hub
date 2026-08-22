@@ -75,7 +75,16 @@ def run() -> None:
     }
     assert result["states"]["wave_e_execution_permitted"] is False
     assert result["states"]["wave_e_external_validation_started"] is False
-    print("[Reconciliation GATE] Cross-package checks and no-authorization decision lock: PASSED")
+    live_result = reconcile_packages(**default_paths(ROOT))
+    assert live_result["source_revision_alignment"] == "ANCESTOR_VERIFIED_REQUIRES_REGENERATION"
+    for package in ("wave4", "reviewer", "wave_e"):
+        assert live_result["source_revision_lineage"][package]["ancestor_verified"] is True
+        assert live_result["source_revision_lineage"][package]["relation"] == "ANCESTOR_REQUIRES_REGENERATION"
+    assert live_result["source_revision_lineage"]["wave0"]["ancestor_verified"] is False
+    assert live_result["source_revision_lineage"]["wave0"]["relation"] == "NON_ANCESTOR_BLOCKED"
+    assert live_result["execution_permitted"] is False
+    assert live_result["submission_permitted"] is False
+    print("[Reconciliation GATE] Cross-package checks, live Git ancestry and no-authorization decision lock: PASSED")
 
     gate_path = Path(__file__).resolve()
     for path in ROOT.rglob("*"):
