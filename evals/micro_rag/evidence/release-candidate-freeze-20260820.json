@@ -1538,8 +1538,8 @@
     {
       "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/public-exposure-quarantine-local.json",
-      "sha256": "fff4f3a517622c457275fdcddda3bfeb4844e5c9ac0e0174ddbee90cb6f1af1b",
-      "size_bytes": 5979
+      "sha256": "a45b61a09f0da0c7fdd7637f36cab4240c274eb26671fa70dcca8b2718c8e825",
+      "size_bytes": 5923
     },
     {
       "classification": "evidence_or_machine_record",
@@ -3516,14 +3516,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T15:51:36.268955+00:00",
+  "freeze_created_at_utc": "2026-08-22T15:52:04.928032+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "ee61d73676f7ddf66ba2f8b74917aff865f70ea9",
+  "origin_main_revision": "a6ba00454a36024e50cd4a7c1db9baad70ccd2a5",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "ee61d73676f7ddf66ba2f8b74917aff865f70ea9"
+  "source_revision": "a6ba00454a36024e50cd4a7c1db9baad70ccd2a5"
 }
