@@ -137,6 +137,8 @@ TESTS = [
     "test_p3_external_gate_transition_guard_phase_end_hardening.py",
     "test_p4_blocked_gate_unblock_readiness.py",
     "test_p4_blocked_gate_unblock_readiness_phase_end_hardening.py",
+    "test_p4_independent_reviewer_handoff_readiness.py",
+    "test_p4_independent_reviewer_handoff_readiness_phase_end_hardening.py",
     "test_p2_edge_iot_adapters.py",
     "test_p2_002_adapter_conformance.py",
     "test_p2_002_adapter_conformance_phase_end_hardening.py",
