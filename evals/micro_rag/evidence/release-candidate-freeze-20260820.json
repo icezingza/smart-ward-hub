@@ -860,8 +860,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "854218e091d5b0be1cbad7a0b2f5990a49ad5f02e16db3de8e6abb08f2437b25",
-      "size_bytes": 101009
+      "sha256": "9f2b39d7dd9f602c8305a75147b0ee8337f53c698b40cb5e9e9744cb067c1503",
+      "size_bytes": 102888
     },
     {
       "classification": "contract_or_governance_document",
@@ -904,6 +904,12 @@
       "path": "WARD_WORKFLOW_CONTRACT.md",
       "sha256": "56a15c0d8394b175608c7c78b0b8446d6781d313a29389fdeb632ea569e3fcb9",
       "size_bytes": 8902
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "WAVE0_GOVERNANCE_RECONCILIATION_READINESS_REPORT_20260823.md",
+      "sha256": "f9023353dcb83836f688201e6c66fba4a251db356ed759da249e7d397a0d3f3f",
+      "size_bytes": 7919
     },
     {
       "classification": "contract_or_governance_document",
@@ -1747,6 +1753,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/wave0-governance-reconciliation-local.json",
+      "sha256": "9e8f6f98f3a7a6c5bd7b8ea31955bd153a6b5ee626cdd1293996ed47404aabab",
+      "size_bytes": 3466
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/wave0-owner-appointment-intake-schema-v1.json",
       "sha256": "5e03b5ad52c10635807e04b6fe80872d80a1cc75f2c34efac99e88c646e0c418",
       "size_bytes": 3341
@@ -2134,6 +2146,12 @@
       "path": "export_sync_alert_replay.py",
       "sha256": "e4fca8db6522d6d1d9c46feefbe9988f0a7f9e89cb5f7f5fc2b8ed258a011a50",
       "size_bytes": 4401
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "export_wave0_governance_reconciliation_guard.py",
+      "sha256": "a0f9ecc8550ca2f4c92298be97c7739a5b38566660aabbe7f9e5649b1939101c",
+      "size_bytes": 2776
     },
     {
       "classification": "source_or_runtime_config",
@@ -2804,8 +2822,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "c239d5c4a6b78f1c984c116e7512ab73d6bc87cb6693541aea4e679302850bbe",
-      "size_bytes": 9123
+      "sha256": "972b518bb1f03749e5518216a8a1ca5b9db2827fa7ba72c501c65aa9566967a6",
+      "size_bytes": 9249
     },
     {
       "classification": "source_or_runtime_config",
@@ -2882,8 +2900,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "8959e9acf053824e91c104e348a2f8e7ed3d38145726c047fde16e9ba3a864ab",
-      "size_bytes": 111303
+      "sha256": "403e8968fa99b23582e494dc2a53f87b40ef422c3e67ceabc0538d39a10fecb3",
+      "size_bytes": 113432
     },
     {
       "classification": "source_or_runtime_config",
@@ -3739,6 +3757,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_wave0_governance_reconciliation_guard.py",
+      "sha256": "0583773bfacf4abb9291affdc370dc155b8b41bb8f7e22d50a6f76c7c774876f",
+      "size_bytes": 7372
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_wave0_governance_reconciliation_guard_phase_end_hardening.py",
+      "sha256": "c7d25ef7887867174df840e6cd43a9bea9d45e1188716d534e57cf969870cc08",
+      "size_bytes": 7074
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_wave0_owner_appointment_hardening.py",
       "sha256": "4683718541ca268afee7cd24d952a8578af8c06f761082558db41048c6fc42de",
       "size_bytes": 8117
@@ -3907,6 +3937,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "wave0_governance_reconciliation_guard.py",
+      "sha256": "ea64abf84e47cac1bb37ba0f684759510cc9433accf55285bd8a22ac5d79b85c",
+      "size_bytes": 9671
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "wave0_owner_appointment_intake.py",
       "sha256": "7c6ca9bb6057d847bf413b925cf4430476fb72de1a7e19f8e206e58f46a01945",
       "size_bytes": 13386
@@ -3984,14 +4020,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T21:26:48.471327+00:00",
+  "freeze_created_at_utc": "2026-08-22T22:06:21.515258+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "2d97c8bbaf3b8c0a8561936d9bafb179a462b349",
+  "origin_main_revision": "28d1e9bb00d9e7649a0d1d6e24fa441d87327ed4",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "2d97c8bbaf3b8c0a8561936d9bafb179a462b349"
+  "source_revision": "28d1e9bb00d9e7649a0d1d6e24fa441d87327ed4"
 }
