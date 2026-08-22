@@ -131,6 +131,8 @@ TESTS = [
     "evals/micro_rag/test_registry_backed_evaluation.py",
     "test_p2_004_evidence_sufficiency.py",
     "test_p2_004_evidence_sufficiency_phase_end_hardening.py",
+    "test_p3_external_gate_status_reconciliation.py",
+    "test_p3_external_gate_status_reconciliation_phase_end_hardening.py",
     "test_p2_edge_iot_adapters.py",
     "test_p2_002_adapter_conformance.py",
     "test_p2_002_adapter_conformance_phase_end_hardening.py",
