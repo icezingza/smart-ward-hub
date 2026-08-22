@@ -29,7 +29,7 @@ Machine-readable decision คือ `REPOSITORY_VISIBILITY_BLOCKED` พร้อ
 
 Focused/adversarial suite ผ่าน 10 cases ครอบคลุม private confirmation, public block, repository identity mismatch, default branch mismatch, untrusted source, authorization/execution mutation, missing observation และ caller-mutation isolation. Phase-end hardening gate ผ่าน AST no network/provider/scheduler/subprocess imports, live fail-closed observation, exporter round-trip, redaction/private-key scan, no-self-authorization และ `git diff --check`. Master regression ผ่านหลังผูก visibility tests เข้า `run_all_tests.py`.
 
-Final repository alignment ยืนยัน `HEAD == origin/main == afc7c36f5d73c192dcf8ae509f5475d4a725a8a8`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision == 53e2fd177915d86b007ab8432725805175f62e9a`, `freeze_status=PASS`, coverage 574 files และ clean working tree หลังล้าง runtime artifacts.
+Final repository alignment ยืนยัน `HEAD == origin/main == af8b3f084b282dea0367287e9094204fc3e71f8f`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision == 11210ee5d1460a4d2ad9b475b5cea4ae40906d2e`, `freeze_status=PASS`, coverage 574 files และ clean working tree หลังล้าง runtime artifacts.
 
 ## Remediation boundary
 
