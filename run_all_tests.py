@@ -36,6 +36,8 @@ TESTS = [
     "test_p0_his_fhir_contract_readiness_guard_phase_end_hardening.py",
     "test_power_loss_recovery_harness.py",
     "test_p0_004_recovery_phase_end_hardening.py",
+    "test_p0_hardware_bench_evidence_readiness.py",
+    "test_p0_hardware_bench_evidence_readiness_phase_end_hardening.py",
     "test_cross_component_recovery_matrix.py",
     "test_cross_component_recovery_matrix_phase_end_hardening.py",
     "test_backup_restore.py",
