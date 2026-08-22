@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 
 from export_p0_his_fhir_contract_readiness_guard import DEFAULT_OUTPUT, export_evidence
 from p0_his_fhir_contract_readiness_guard import evaluate_contract_readiness
@@ -86,8 +87,10 @@ def _assert_runtime_boundary() -> None:
 
 
 def _assert_export_round_trip() -> None:
-    evidence = export_evidence(DEFAULT_OUTPUT)
-    loaded = json.loads(DEFAULT_OUTPUT.read_text(encoding="utf-8"))
+    with tempfile.TemporaryDirectory(prefix="p0-his-fhir-export-") as directory:
+        output = Path(directory) / "evidence.json"
+        evidence = export_evidence(output)
+        loaded = json.loads(output.read_text(encoding="utf-8"))
     assert loaded == evidence
     assert loaded["evidence_scope"] == "LOCAL_DETERMINISTIC_FIXTURE_ONLY"
     assert loaded["all_passed"] is True
