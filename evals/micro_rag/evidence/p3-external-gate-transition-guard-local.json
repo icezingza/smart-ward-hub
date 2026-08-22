@@ -1,0 +1,102 @@
+{
+  "authorization_promoted": false,
+  "checks": {
+    "blocked_gate_reason_present": true,
+    "blocked_gate_requires_reopen_before_submit": true,
+    "boundary_locked": true,
+    "current_status_reconciled": true,
+    "dry_run_transition_counts_bounded": true,
+    "evidence_submission_is_not_pass": true,
+    "lifecycle_text_redacted": true,
+    "reopen_requires_nonempty_reason": true,
+    "reopen_then_submit_is_explicit": true
+  },
+  "claim_boundary": "CONTROLLED_PRODUCTION_PROTOTYPE",
+  "clinical_validation": "PENDING",
+  "clinical_validation_authorized": false,
+  "current_external_blocked_gate_ids": [
+    "GV-01",
+    "GV-03",
+    "GV-04",
+    "GV-06",
+    "GV-07",
+    "GV-08",
+    "GV-09"
+  ],
+  "current_external_open_gate_ids": [
+    "GV-02",
+    "GV-05",
+    "GV-10"
+  ],
+  "current_external_status_counts": {
+    "BLOCKED": 7,
+    "EVIDENCE_SUBMITTED": 0,
+    "OPEN": 3,
+    "TOTAL": 10
+  },
+  "decision": "P3_EXTERNAL_GATE_TRANSITION_GUARD_VERIFIED",
+  "dry_run_transition": {
+    "blocked_submission_refused": true,
+    "clinical_governance_required": true,
+    "clinical_validation_authorized": false,
+    "empty_reopen_refused": true,
+    "evidence_submitted_is_not_passed": true,
+    "execution_status": "NOT_STARTED",
+    "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+    "gate_blockers": {
+      "GV-09": "Staff training and manual fallback evidence remain externally unverified"
+    },
+    "gate_statuses": {
+      "GV-01": "OPEN",
+      "GV-02": "EVIDENCE_SUBMITTED",
+      "GV-03": "OPEN",
+      "GV-04": "OPEN",
+      "GV-05": "OPEN",
+      "GV-06": "EVIDENCE_SUBMITTED",
+      "GV-07": "OPEN",
+      "GV-08": "OPEN",
+      "GV-09": "BLOCKED",
+      "GV-10": "OPEN"
+    },
+    "production_authorized": false,
+    "real_world_authorization": false,
+    "reopened_gate_submitted": true,
+    "runtime_authority": "NONE",
+    "summary": {
+      "clinical_governance_required": true,
+      "clinical_validation_authorized": false,
+      "evidence_class": "COORDINATION_ARTIFACT_UNVERIFIED",
+      "execution_status": "NOT_STARTED",
+      "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+      "gate_count": 10,
+      "package_id": "smart-ward-pilot-validation-v1",
+      "production_authorized": false,
+      "ready_for_external_review": false,
+      "real_world_authorization": false,
+      "runtime_authority": "NONE",
+      "scope": "Controlled non-interventional external validation coordination for Smart Ward Hub",
+      "status_counts": {
+        "BLOCKED": 1,
+        "EVIDENCE_SUBMITTED": 2,
+        "OPEN": 7
+      }
+    }
+  },
+  "evidence_type": "P3_EXTERNAL_GATE_TRANSITION_GUARD",
+  "external_authority": "NONE",
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "fixture_only": true,
+  "generated_at_utc": "2026-08-22T17:29:42.905374+00:00",
+  "hardware_evidence": "UNVERIFIED",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "production_ready": false,
+  "read_only": true,
+  "ready_for_external_review": false,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "p3-external-gate-transition-guard-v1"
+}
