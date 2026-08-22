@@ -134,6 +134,8 @@ TESTS = [
     "test_p2_edge_iot_adapters.py",
     "test_p2_002_adapter_conformance.py",
     "test_p2_002_adapter_conformance_phase_end_hardening.py",
+    "test_p2_002_transport_selection.py",
+    "test_p2_002_transport_selection_phase_end_hardening.py",
     "test_worker_control_plane.py",
     "test_p2_005_worker_phase_end_hardening.py",
     "test_durable_worker_store.py",
