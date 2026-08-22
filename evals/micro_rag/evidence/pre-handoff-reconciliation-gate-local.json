@@ -1,0 +1,51 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "authorization_boundary_locked": true,
+    "consistency_gate_passed": true,
+    "drift_gate_passed": true,
+    "external_submission_disabled": true,
+    "external_transmission_absent": true,
+    "manifest_gate_passed": true,
+    "read_only": true,
+    "runtime_mutation_absent": true,
+    "selection_gate_passed": true
+  },
+  "child_decisions": {
+    "consistency": "SELECTION_MANIFEST_CONSISTENT",
+    "drift": "DRIFT_FREE",
+    "manifest": "MANIFEST_VALID",
+    "selection": "SELECTED_SET_VALID"
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "INTERNAL_HANDOFF_RECONCILIATION_READY",
+  "evidence_type": "PRE_HANDOFF_RECONCILIATION_GATE",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "17e248f9bc704aece65e2c2bb1d706e90542a679",
+  "generated_at_utc": "2026-08-22T08:04:40.940428+00:00",
+  "origin_main_revision": "17e248f9bc704aece65e2c2bb1d706e90542a679",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-pre-handoff-reconciliation-v1",
+  "selected_count": 9
+}
