@@ -451,6 +451,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "P0_HIS_FHIR_CONTRACT_READINESS_GUARD_REPORT_20260823.md",
+      "sha256": "ce757352ea4c6ee5358781f164acfc347d710faff23970f4d6a986a4428eea0c",
+      "size_bytes": 9081
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "P0_PHASE_HANDOFF.md",
       "sha256": "2dbcfb3191d6a7a92dd396558595b65ea7546fd6fd807253304a6129ee1a5ed7",
       "size_bytes": 4982
@@ -842,8 +848,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "86b11c3ea8f4b88947bed9d3e5da72befa3e91bed840b3383e4ba3a338cd5a8f",
-      "size_bytes": 94221
+      "sha256": "53c0aa9d80e2925e3389ea3c6394d6ac19163204f75fc6df94d41ab63da9d057",
+      "size_bytes": 96395
     },
     {
       "classification": "contract_or_governance_document",
@@ -1477,6 +1483,12 @@
     },
     {
       "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p0-his-fhir-contract-readiness-local.json",
+      "sha256": "5172668483b4ec549cc62e8b71f8346c171995318eccc381bc510bb7a2526745",
+      "size_bytes": 2911
+    },
+    {
+      "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/p1-002-host-hardening-readiness-schema-v1.json",
       "sha256": "ec6ef9b82ef0aabfe5e08eea475e05222f70c8ee782183b8e8cc3caa8d81af5d",
       "size_bytes": 2928
@@ -1933,6 +1945,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "export_p0_his_fhir_contract_readiness_guard.py",
+      "sha256": "2a0413c02f098ec9b1ccfb9ddf48bd42ff244afaf1a1eff8714f83048677071f",
+      "size_bytes": 2727
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "export_p1_002_host_hardening_readiness.py",
       "sha256": "d31bbace9a19b3f832c0de20a1a3d9613a0f2ef9451de5d7303be01ba38a64de",
       "size_bytes": 3194
@@ -2377,6 +2395,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "p0_his_fhir_contract_readiness_guard.py",
+      "sha256": "8cef0cc2bdd978397641aaa1f3187f6f8d28546f215d6db47ed4aee98ef22370",
+      "size_bytes": 10389
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "p1_002_host_hardening_readiness.py",
       "sha256": "eb06ab3ee46088360fe8dc681322066fcf3f7de9ce5a561c6e84da3fc64adc71",
       "size_bytes": 13669
@@ -2732,8 +2756,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "d6fe2eeda5573d4a450c64da1cbfb21c36fc8b549c4b902f4f7401846d0af728",
-      "size_bytes": 8749
+      "sha256": "07868d0774b5344d66f3ceea30764f9634edc35ac39778a3d7d26089c44eff14",
+      "size_bytes": 8873
     },
     {
       "classification": "source_or_runtime_config",
@@ -2810,8 +2834,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "5122c1fa17f7d3dc627b9ea58a5ea7928654b3a566df5a3bdefda3502cdb8269",
-      "size_bytes": 104164
+      "sha256": "12d2cf89a779d689190f530ef150e3af25cd0bfe03a666a41c68d5659964d567",
+      "size_bytes": 106387
     },
     {
       "classification": "source_or_runtime_config",
@@ -3166,6 +3190,18 @@
       "path": "test_p0_his_admission_contract.py",
       "sha256": "0c5cc33dca846c97903fdee6ad1fbaa8ed2d7334741334c1eba1e06969800266",
       "size_bytes": 7641
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_his_fhir_contract_readiness_guard.py",
+      "sha256": "76c9abd6740e1adfad846660efa34711b5db6acdb6e900f9bb5ccefcffd1f35a",
+      "size_bytes": 6437
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_p0_his_fhir_contract_readiness_guard_phase_end_hardening.py",
+      "sha256": "0846d9d7cedd5c699f58a8f3e1d2fc8f038b758859f99dd426753a867932cdea",
+      "size_bytes": 5936
     },
     {
       "classification": "source_or_runtime_config",
@@ -3876,14 +3912,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T18:47:38.035604+00:00",
+  "freeze_created_at_utc": "2026-08-22T19:24:06.891200+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "4bc094ced26f6d4d65ede56004e8d8f26565387c",
+  "origin_main_revision": "3bf6e7847bf72348ac966b8d43cccf6e8ac8ab4f",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "4bc094ced26f6d4d65ede56004e8d8f26565387c"
+  "source_revision": "3bf6e7847bf72348ac966b8d43cccf6e8ac8ab4f"
 }
