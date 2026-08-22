@@ -1802,8 +1802,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "export_internal_handoff_chain_integrity.py",
-      "sha256": "1894f4d58e00540ba6d27bcbad48085b0bdfeec2454f2a7efb7b2b1d7624b383",
-      "size_bytes": 1988
+      "sha256": "f2d0f67b38a2d85b3bdd3fd0cfaa8d56227deed5c9a6bd98966552a97c38b168",
+      "size_bytes": 2122
     },
     {
       "classification": "source_or_runtime_config",
@@ -2138,8 +2138,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "internal_handoff_chain_integrity.py",
-      "sha256": "b329b38bbf99fddc5bb03f05f453f9f7a43b72379b8abb0c9e3b06283f4222de",
-      "size_bytes": 12034
+      "sha256": "51a99f4e7be38e22fe153a5116d34534d6291e5c6d918c4199c2e3d46f158b85",
+      "size_bytes": 14008
     },
     {
       "classification": "source_or_runtime_config",
@@ -2840,14 +2840,14 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_internal_handoff_chain_integrity.py",
-      "sha256": "a0ecadd41d4d48965228496f387a7142e76360b1ce83512ca51e78839d8f5770",
-      "size_bytes": 4932
+      "sha256": "ed0e2d025241810aaf6e60877279b52d316327185f55470bf2a023c19a57a042",
+      "size_bytes": 6083
     },
     {
       "classification": "source_or_runtime_config",
       "path": "test_internal_handoff_chain_integrity_phase_end_hardening.py",
-      "sha256": "e2b973f0cd84c18181e2c2c57db71ff7e8688e3c9f7c38df6be472d892e67f78",
-      "size_bytes": 4400
+      "sha256": "4cf34c92723e1dd81603a6af61708105a5a10919b87d9245a79e98b4c3098484",
+      "size_bytes": 4680
     },
     {
       "classification": "source_or_runtime_config",
@@ -3516,14 +3516,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T14:51:16.826909+00:00",
+  "freeze_created_at_utc": "2026-08-22T14:56:48.587465+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "2ed08ad2cef56ce762786ec2ac8b91ebea3782ef",
+  "origin_main_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "2ed08ad2cef56ce762786ec2ac8b91ebea3782ef"
+  "source_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016"
 }
