@@ -38,6 +38,8 @@ TESTS = [
     "test_p0_004_recovery_phase_end_hardening.py",
     "test_p0_hardware_bench_evidence_readiness.py",
     "test_p0_hardware_bench_evidence_readiness_phase_end_hardening.py",
+    "test_p1_host_hardware_preparation_reconciliation.py",
+    "test_p1_host_hardware_preparation_reconciliation_phase_end_hardening.py",
     "test_cross_component_recovery_matrix.py",
     "test_cross_component_recovery_matrix_phase_end_hardening.py",
     "test_backup_restore.py",
