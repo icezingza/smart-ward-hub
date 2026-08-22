@@ -363,3 +363,10 @@ Gate คืน `REPOSITORY_VISIBILITY_BLOCKED` พร้อม `REPOSITORY_NOT_P
 เพิ่ม `public_exposure_quarantine.py`, redacted exporter, evidence snapshot, focused/adversarial suite 12 cases และ phase-end hardening gate. Audit ตรวจ freeze manifest, frozen hashes, secret markers, raw HN/AN-like identifiers, synthetic fixture classification, repository visibility และ locked execution boundary.
 
 ผลล่าสุด `PUBLIC_EXPOSURE_QUARANTINED` พร้อม `PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED` เพราะ repository remote เป็น public (`private=false`). Secret scan และ raw identifier scan นอก approved synthetic paths ผ่าน; synthetic test/simulation/presentation identifiers 26 findings ถูกจัดประเภทแยก ไม่ถือเป็น real patient data. Master regression ผ่าน. ต้องรอ explicit authorization เพื่อเปลี่ยน repository visibility เป็น private แล้ว regenerate observation/evidence/freeze และ rerun all gates.
+
+
+### Exposure-aware Internal Handoff Chain — 22 สิงหาคม 2026
+
+ขยาย `internal_handoff_chain_integrity.py` ให้รับ `public_exposure_quarantine` เป็น independent child control. Chain จะคืน `INTERNAL_HANDOFF_CHAIN_BOUND` ได้ต่อเมื่อ exposure decision เป็น `PUBLIC_EXPOSURE_CLEAR`, remediation ว่าง, checks ผ่านครบ, snapshot ถูก hash-bind ใน freeze และ locked boundary ครบ. เมื่อ repository ยัง public ผลจึงถูก propagate เป็น `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม `EXPOSURE_QUARANTINED` โดยไม่เปลี่ยน authorization หรือ external settings.
+
+Focused chain suite ผ่าน 13 cases; chain phase-end และ public-exposure phase-end gates ผ่าน. Exporter เพิ่ม exposure decision/remediation fields แบบ redacted. การออกแบบยัง non-recursive: chain snapshot ไม่ถูกเพิ่มเข้า selected set.

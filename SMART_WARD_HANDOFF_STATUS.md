@@ -345,3 +345,10 @@ Remote observation จาก `gh repo view icezingza/smart-ward-hub --json nameW
 เพิ่ม public-exposure quarantine audit, redacted evidence exporter และ phase-end gate. ผลคือ `PUBLIC_EXPOSURE_QUARANTINED` / `PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED` เนื่องจาก remote repository รายงาน `private=false`. Freeze/hash/secret scan และ locked execution boundary ผ่าน; raw identifiers นอก approved synthetic paths ไม่พบ และ synthetic fixture findings 26 รายการถูกจำแนกแยกจากข้อมูลผู้ป่วยจริง.
 
 Focused suite ผ่าน 12 cases, phase-end gate ผ่าน และ master regression ผ่าน. ห้ามเปลี่ยน visibility โดยอัตโนมัติ; ต้องมี explicit authorization สำหรับ external setting operation แล้ว rerun remote observation, exporter, freeze และ regression gates. External authorization/clinical validation/production boundary ไม่เปลี่ยน และ Product ยังคง `NOT_PRODUCTION_READY`.
+
+
+## Exposure-aware Internal Handoff Chain — 22 สิงหาคม 2026
+
+ขยาย internal handoff chain ให้ตรวจ `PUBLIC_EXPOSURE_QUARANTINE` เป็น independent child. เมื่อ visibility governance รายงาน `REPOSITORY_VISIBILITY_BLOCKED` และ exposure audit รายงาน `PUBLIC_EXPOSURE_QUARANTINED`, chain จะไม่รายงาน `INTERNAL_HANDOFF_CHAIN_BOUND` แต่คืน `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม `EXPOSURE_QUARANTINED`. Focused chain 13 cases, chain phase-end และ exposure phase-end gates ผ่าน.
+
+การเปลี่ยนแปลงนี้เป็น software-only governance propagation และไม่เปลี่ยน GitHub visibility, external authorization, clinical validation หรือ production status. Selector ยังคง 9 artifacts; chain snapshot อยู่นอก selected set เพื่อป้องกัน recursive self-hash.

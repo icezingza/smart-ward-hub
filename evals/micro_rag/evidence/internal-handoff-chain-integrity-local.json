@@ -10,6 +10,9 @@
   "checks": {
     "boundaries_equal": true,
     "claim_boundaries_locked": true,
+    "exposure_artifact_frozen": true,
+    "exposure_clear": false,
+    "exposure_output_locked": true,
     "external_gate_snapshot_equal": true,
     "external_gate_snapshot_locked": true,
     "freeze_boundary_locked": true,
@@ -29,8 +32,12 @@
     "production_ready": false,
     "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
   },
-  "decision": "INTERNAL_HANDOFF_CHAIN_BOUND",
+  "decision": "INTERNAL_HANDOFF_CHAIN_BLOCKED",
   "evidence_type": "INTERNAL_HANDOFF_CHAIN_INTEGRITY",
+  "exposure_decision": "PUBLIC_EXPOSURE_QUARANTINED",
+  "exposure_remediation_codes": [
+    "PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED"
+  ],
   "external_gate_snapshot": {
     "blocked": 7,
     "evidence_submitted": 0,
@@ -39,19 +46,27 @@
   },
   "external_submission_allowed": false,
   "external_transmission_performed": false,
-  "freeze_source_revision": "e47e1a67512f3ace81fed434fe6d3add255edd93",
-  "generated_at_utc": "2026-08-22T09:43:27.893817+00:00",
-  "origin_main_revision": "e47e1a67512f3ace81fed434fe6d3add255edd93",
+  "freeze_source_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
+  "generated_at_utc": "2026-08-22T14:57:55.525144+00:00",
+  "origin_main_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
   "read_only": true,
   "redaction_verified": true,
-  "remediation_codes": [],
+  "remediation_codes": [
+    "EXPOSURE_QUARANTINED"
+  ],
   "runtime_mutation_performed": false,
   "schema_version": "smart-ward-internal-handoff-chain-v1",
   "source_revision_lineage": {
+    "exposure": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR",
+      "revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
+      "valid": true
+    },
     "freeze": {
       "ancestor_verified": true,
       "relation": "MATCH",
-      "revision": "e47e1a67512f3ace81fed434fe6d3add255edd93",
+      "revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
       "valid": true
     },
     "handoff": {

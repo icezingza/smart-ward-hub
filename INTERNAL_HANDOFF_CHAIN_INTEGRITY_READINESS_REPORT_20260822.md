@@ -2,13 +2,13 @@
 
 **วันที่:** 22 สิงหาคม 2026
 
-**สถานะ:** `SOFTWARE_VERIFIED` / `INTERNAL_HANDOFF_CHAIN_BOUND`
+**สถานะ:** `SOFTWARE_VERIFIED` / `INTERNAL_HANDOFF_CHAIN_BLOCKED`
 
 **Product status:** `NOT_PRODUCTION_READY`
 
 ## วัตถุประสงค์
 
-เพิ่ม gate แบบ fail-closed สำหรับตรวจสะพานระหว่าง `CONSOLIDATED_INTERNAL_HANDOFF_INDEX`, `PRE_HANDOFF_RECONCILIATION_GATE` และ release-freeze manifest ให้เป็น chain เดียวก่อน internal handoff. Gate นี้เป็น read-only และไม่มี external submission, runtime mutation, transmission หรือ authorization promotion
+เพิ่ม gate แบบ fail-closed สำหรับตรวจสะพานระหว่าง `CONSOLIDATED_INTERNAL_HANDOFF_INDEX`, `PRE_HANDOFF_RECONCILIATION_GATE`, `PUBLIC_EXPOSURE_QUARANTINE` และ release-freeze manifest ให้เป็น chain เดียวก่อน internal handoff. Gate นี้เป็น read-only และไม่มี external submission, runtime mutation, transmission หรือ authorization promotion
 
 ## Chain controls
 
@@ -17,7 +17,8 @@
 | Release freeze | `freeze_status=PASS`, boundary และ external snapshot ถูกล็อก | PASS |
 | Consolidated handoff index | `BOUND`, `HANDOFF_INDEX_BOUND`, artifact hash อยู่ใน freeze | PASS |
 | Pre-handoff reconciliation | `INTERNAL_HANDOFF_RECONCILIATION_READY`, remediation ว่าง, child decisions ครบ | PASS |
-| Artifact integrity | handoff index และ reconciliation snapshot มีอยู่และ SHA-256 ตรงกับ freeze | PASS |
+| Public-exposure quarantine | `PUBLIC_EXPOSURE_CLEAR` และ remediation ว่าง | **BLOCKED** — `REPOSITORY_VISIBILITY_BLOCKED` |
+| Artifact integrity | handoff index, reconciliation และ exposure snapshot มีอยู่และ SHA-256 ตรงกับ freeze | PASS |
 | Claim boundary | clinical validation `PENDING`, production ready `false` | PASS |
 | Authorization boundary | `external_authority=NONE`, clinical/production false, runtime `NONE` | PASS |
 | External gate snapshot | `7 BLOCKED / 3 OPEN / 0 PASSED` สอดคล้องทุก package | PASS |
@@ -25,7 +26,7 @@
 
 ## Decision semantics
 
-`INTERNAL_HANDOFF_CHAIN_BOUND` หมายถึง internal handoff index และ pre-handoff reconciliation evidence ถูกตรวจพบว่าสอดคล้องกับ freeze และ locked software boundary. หากพบ hash mismatch, missing freeze membership, stale/non-ancestor revision, child decision drift, authorization mutation หรือ execution lock เปลี่ยน จะคืน `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม remediation code
+`INTERNAL_HANDOFF_CHAIN_BOUND` จะหมายถึง internal handoff index, pre-handoff reconciliation และ public-exposure evidence ถูกตรวจพบว่าสอดคล้องกับ freeze, repository visibility และ locked software boundary. หาก repository public, exposure quarantine ไม่ clear, พบ hash mismatch, missing freeze membership, stale/non-ancestor revision, child decision drift, authorization mutation หรือ execution lock เปลี่ยน จะคืน `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม remediation code. สถานะปัจจุบันถูก block ด้วย `EXPOSURE_QUARANTINED` เพราะ visibility decision เป็น `REPOSITORY_VISIBILITY_BLOCKED`
 
 สถานะนี้ **ไม่ใช่** external submission, independent reviewer acceptance, clinical validation, pilot authorization หรือ production approval
 
@@ -39,9 +40,10 @@
 
 | Test | Result |
 |---|---|
-| Focused/adversarial chain suite | 11 PASSED |
+| Focused/adversarial chain suite | 13 PASSED |
 | Hash and freeze-membership mutation rejection | PASS |
 | Reconciliation child-decision drift rejection | PASS |
+| Public-exposure quarantine propagation | PASS — public state blocks chain |
 | Authorization/execution lock mutation rejection | PASS |
 | Source-revision invalid/non-ancestor rejection | PASS |
 | Caller-input mutation isolation | PASS |
@@ -52,7 +54,7 @@
 
 ## Final repository alignment
 
-หลัง final freeze cycle ยืนยัน `HEAD == origin/main`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision`, `freeze_status=PASS`, `file_count=567`, `git diff --check` ผ่าน และ working tree สะอาด. Final child decisions ได้แก่ `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY` และ chain `INTERNAL_HANDOFF_CHAIN_BOUND`. Selector คง selected evidence set 9 รายการ; chain gate เป็น meta-control ชั้นบนเพื่อป้องกัน recursive self-hash.
+หลัง final freeze cycle ยืนยัน invariant ของ `HEAD == origin/main`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision`, `freeze_status=PASS`, tracked-file hashes ตรงกัน, `git diff --check` ผ่าน และ working tree สะอาด. Final child decisions ได้แก่ `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY`, exposure `PUBLIC_EXPOSURE_QUARANTINED` และ chain `INTERNAL_HANDOFF_CHAIN_BLOCKED` ด้วย `EXPOSURE_QUARANTINED`. Selector คง selected evidence set 9 รายการ; chain gate เป็น meta-control ชั้นบนเพื่อป้องกัน recursive self-hash.
 
 ## Evidence artifact
 
