@@ -349,3 +349,10 @@ Focused selected-set, consistency, aggregate reconciliation และ chain suit
 จากการตรวจ dependency graph เพิ่มเติม ยืนยันว่า `internal_handoff_chain_integrity` ต้องอยู่นอก `SELECTED_SET` และ dependency order เพราะเป็น meta-control ที่ตรวจ selected handoff artifacts และ pre-handoff reconciliation อยู่แล้ว. การรวม snapshot ของตัวเองจะสร้าง recursive self-hash/dependency cycle. Selector จึงคง 9 artifacts ตาม contract เดิม ขณะที่ chain gate ตรวจ artifact ของตัวเองผ่าน freeze membership/hash โดยตรง.
 
 Correction ผ่าน focused selected-set/consistency/aggregate/chain suites และ phase-end gates ครบ. Master regression ผ่านหลัง correction; final freeze `PASS`, selected set กลับเป็น 9 รายการ และ chain decision ยังคง `INTERNAL_HANDOFF_CHAIN_BOUND`. ขอบเขตยังเป็น software-only internal evidence ไม่ใช่ external authorization หรือ production approval.
+
+
+### Repository Visibility Governance — 22 สิงหาคม 2026
+
+ตรวจ remote ด้วย `gh repo view icezingza/smart-ward-hub --json nameWithOwner,isPrivate,defaultBranchRef` แล้วพบ `nameWithOwner=icezingza/smart-ward-hub`, default branch `main` แต่ `private=false`. เพิ่ม `repository_visibility_governance.py`, redacted exporter, observation artifact, focused/adversarial suite 10 cases, phase-end gate และผูกเข้า `run_all_tests.py`.
+
+Gate คืน `REPOSITORY_VISIBILITY_BLOCKED` พร้อม `REPOSITORY_NOT_PRIVATE` แบบ fail-closed; identity/branch/source/authorization/execution checks ผ่าน แต่ public visibility เป็น blocker. ไม่เปลี่ยน GitHub setting เอง เพราะต้องมี explicit authorization สำหรับ external visibility operation. ต้องเปลี่ยนเป็น private โดยผู้มีอำนาจและ rerun remote observation ก่อนจึงจะปิด blocker ได้. งานนี้เป็น repository governance evidence ไม่ใช่ production/clinical/external authorization.

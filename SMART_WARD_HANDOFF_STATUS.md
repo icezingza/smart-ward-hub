@@ -331,3 +331,10 @@ Selector คง 9 รายการตาม contract เดิม. Focused sel
 ตรวจ dependency graph เพิ่มเติมและยืนยันว่า `internal_handoff_chain_integrity` เป็น meta-control นอก `SELECTED_SET` และ dependency order เพื่อป้องกัน recursive self-hash/dependency cycle. Selector คง 9 artifacts เดิม; chain gate ตรวจ selected handoff artifacts, pre-handoff reconciliation และ artifact hash ของตัวเองผ่าน release-freeze โดยตรง.
 
 Correction ผ่าน focused selected-set/consistency/aggregate/chain suites และ phase-end gates ครบ. Master regression ผ่านหลัง correction; final freeze `PASS`, selected set 9 รายการ และ chain decision `INTERNAL_HANDOFF_CHAIN_BOUND`. ผลยังเป็น software-only internal evidence; external gates และ authorization boundary ไม่เปลี่ยน.
+
+
+## Repository Visibility Governance — 22 สิงหาคม 2026
+
+Remote observation จาก `gh repo view icezingza/smart-ward-hub --json nameWithOwner,isPrivate,defaultBranchRef` ยืนยัน repository identity และ default branch ถูกต้อง แต่รายงาน `private=false`. จึงเพิ่ม local-only governance gate ซึ่งคืน `REPOSITORY_VISIBILITY_BLOCKED` และ `REPOSITORY_NOT_PRIVATE` แบบ fail-closed. Focused 10 cases และ phase-end hardening gate ผ่าน; gate ไม่เรียก GitHub เอง ไม่เปลี่ยน visibility และไม่ promote authorization.
+
+ยังไม่เปลี่ยน external setting เนื่องจากต้องมี explicit authorization เฉพาะสำหรับ repository visibility operation. จนกว่าจะเปลี่ยนเป็น private และ rerun observation สำเร็จ ให้ถือเป็น security/governance blocker และห้ามเก็บ secrets, private keys หรือข้อมูลผู้ป่วยจริงใน repository. Product ยังคง `NOT_PRODUCTION_READY`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary ยังคง locked.
