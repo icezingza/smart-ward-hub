@@ -248,3 +248,14 @@ Focused และ phase-end gates ผ่านแล้ว; master regression in
 `test_consolidated_internal_handoff_index.py` ผ่าน 7 focused/adversarial cases ครอบคลุม bound index, binding-not-bound, gate snapshot mutation, claim mutation, freeze hash mismatch, authorization mutation และ external-submission lock. `export_consolidated_internal_handoff_index.py` สร้าง redacted machine-readable snapshot. `test_consolidated_internal_handoff_index_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, round-trip, redaction/private-key, no-self-authorization และ diff hygiene. Workstream รอ master regression, commit/push และ freeze refresh.
 
 Index นี้เป็น internal handoff navigation artifact เท่านั้น ไม่ใช่ external submission, independent reviewer decision, authorization record หรือ production release approval. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Evidence Drift Detection / Freeze Integrity Monitor status note — 22 สิงหาคม 2026
+
+`freeze_integrity_monitor.py` เพิ่ม read-only monitor สำหรับตรวจ freeze manifest, source/origin/parent lineage, tracked-file set, SHA-256 ของ freeze-listed files, runtime artifacts, secret hits, locked authorization, external-gate snapshot, cross-package binding และ consolidated handoff index. เคารพ `manifest_self_hash_excluded=true` ของ freeze generator จึงไม่แจ้ง manifest ตัวเองเป็น unfrozen asset.
+
+ผลลัพธ์มี `DRIFT_FREE` หรือ `DRIFT_DETECTED`; drift จะคืน remediation codes เช่น `FREEZE_TRACKED_FILE_HASH_MISMATCH`, `UNFROZEN_TRACKED_FILE`, `HEAD_NOT_ALIGNED_TO_FREEZE`, `RUNTIME_ARTIFACT_PRESENT`, `FREEZE_BOUNDARY_MUTATED`, `EXTERNAL_GATE_SNAPSHOT_MUTATED`, `CROSS_PACKAGE_BINDING_DRIFTED` และ `HANDOFF_INDEX_DRIFTED`. Monitor ไม่แก้ไฟล์ ไม่เขียน runtime state ไม่ส่งข้อมูล และไม่ promote authorization.
+
+`test_freeze_integrity_monitor.py` ผ่าน 7 focused/adversarial cases. `test_freeze_integrity_monitor_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, drift-free baseline, manifest self-exclusion, handoff dependency, redaction/private-key และ no-self-authorization. Master integration เพิ่มแล้ว; ยังต้อง commit/push, refresh freeze, master regression และ final hygiene.
+
+ขอบเขตเป็น local software drift scan เท่านั้น ไม่ใช่ continuous production monitoring, remote attestation, clinical validation หรือ external authorization. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.

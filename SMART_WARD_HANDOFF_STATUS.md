@@ -228,3 +228,12 @@ Added `operational_remediation_rehearsal.py` and `export_operational_remediation
 เพิ่ม focused/adversarial tests 7 cases และ phase-end hardening gate สำหรับ no network/provider/scheduler side effect, redacted exporter round-trip, private-key scan, no-self-authorization และ diff hygiene. Index นี้เป็น internal handoff navigation artifact เท่านั้น ไม่ใช่ external submission, independent reviewer decision, authorization record หรือ production release approval.
 
 สถานะยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Evidence Drift Detection / Freeze Integrity Monitor — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `freeze_integrity_monitor.py` สำหรับตรวจ release-freeze manifest แบบ read-only ได้แก่ freeze status, source/origin/parent lineage, tracked-file set, freeze-listed SHA-256, runtime artifact presence, secret hits, locked authorization, external-gate snapshot, cross-package binding และ consolidated handoff index. Monitor คืน `DRIFT_FREE` เมื่อทุก control สอดคล้อง หรือ `DRIFT_DETECTED` พร้อม remediation codes เมื่อพบ drift. เคารพ manifest self-hash exclusion ตาม `freeze_release_candidate.py`.
+
+เพิ่ม focused/adversarial tests 7 cases และ phase-end hardening gate สำหรับ no network/provider/scheduler side effect, hash/track/runtime drift, boundary/gate mutation, binding/handoff drift, redaction/private-key และ diff hygiene. Initial run พบ false-positive จากการนับ freeze manifest ตัวเองเป็น unfrozen; แก้ให้ตรงกับ authoritative self-exclusion แล้ว baseline คืน `DRIFT_FREE`.
+
+Workstream รอ commit/push, freeze refresh และ master regression. สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
