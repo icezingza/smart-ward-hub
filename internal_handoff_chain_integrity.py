@@ -10,12 +10,14 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from freeze_integrity_monitor import revision_is_ancestor
+from public_exposure_quarantine import check_repository as check_exposure
 
 
 ROOT = Path(__file__).resolve().parent
 FREEZE_PATH = Path("evals/micro_rag/evidence/release-candidate-freeze-20260820.json")
 HANDOFF_PATH = Path("evals/micro_rag/evidence/consolidated-internal-handoff-index-local.json")
 RECONCILIATION_PATH = Path("evals/micro_rag/evidence/pre-handoff-reconciliation-gate-local.json")
+EXPOSURE_PATH = Path("evals/micro_rag/evidence/public-exposure-quarantine-local.json")
 LOCKED_BOUNDARY = {
     "external_authority": "NONE",
     "clinical_validation_authorized": False,
@@ -54,6 +56,10 @@ class ChainCode(StrEnum):
     SOURCE_REVISION_NOT_ANCESTOR = "SOURCE_REVISION_NOT_ANCESTOR"
     CHAIN_READ_ONLY_INVALID = "CHAIN_READ_ONLY_INVALID"
     CHAIN_EXTERNAL_LOCK_INVALID = "CHAIN_EXTERNAL_LOCK_INVALID"
+    EXPOSURE_QUARANTINED = "EXPOSURE_QUARANTINED"
+    EXPOSURE_ARTIFACT_NOT_FROZEN = "EXPOSURE_ARTIFACT_NOT_FROZEN"
+    EXPOSURE_ARTIFACT_HASH_MISMATCH = "EXPOSURE_ARTIFACT_HASH_MISMATCH"
+    EXPOSURE_BOUNDARY_INVALID = "EXPOSURE_BOUNDARY_INVALID"
 
 
 @dataclass(frozen=True, slots=True)
@@ -146,9 +152,11 @@ def evaluate_chain(
     freeze: Mapping[str, Any],
     handoff: Mapping[str, Any],
     reconciliation: Mapping[str, Any],
+    exposure: Mapping[str, Any],
 ) -> ChainResult:
     """Evaluate the complete internal chain without mutating any input."""
     root = root.expanduser().resolve()
+    exposure = dict(exposure)
     codes: list[str] = []
     freeze_files = _freeze_files(freeze)
     checks = {
@@ -174,21 +182,36 @@ def evaluate_chain(
         "reconciliation_artifact_frozen": _artifact_hash_matches(
             root=root, freeze_files=freeze_files, relative=RECONCILIATION_PATH
         ),
+        "exposure_clear": (
+            exposure.get("decision") == "PUBLIC_EXPOSURE_CLEAR"
+            and exposure.get("remediation_codes") == []
+            and isinstance(exposure.get("checks"), Mapping)
+            and bool(exposure.get("checks"))
+            and all(value is True for value in exposure["checks"].values())
+        ),
+        "exposure_artifact_frozen": _artifact_hash_matches(
+            root=root, freeze_files=freeze_files, relative=EXPOSURE_PATH
+        ),
+        "exposure_output_locked": _locked_output(exposure),
         "handoff_output_locked": _locked_output(handoff),
         "reconciliation_output_locked": _locked_output(reconciliation),
         "boundaries_equal": (
             handoff.get("authorization_boundary") == LOCKED_BOUNDARY
             and reconciliation.get("authorization_boundary") == LOCKED_BOUNDARY
+            and exposure.get("authorization_boundary") == LOCKED_BOUNDARY
         ),
         "claim_boundaries_locked": (
             handoff.get("claim_boundary", {}).get("production_ready") is False
             and handoff.get("claim_boundary", {}).get("clinical_validation") == "PENDING"
             and reconciliation.get("claim_boundary", {}).get("production_ready") is False
             and reconciliation.get("claim_boundary", {}).get("clinical_validation") == "PENDING"
+            and exposure.get("claim_boundary", {}).get("production_ready") is False
+            and exposure.get("claim_boundary", {}).get("clinical_validation") == "PENDING"
         ),
         "external_gate_snapshot_equal": (
             handoff.get("index", {}).get("freeze", {}).get("external_gate_snapshot") == LOCKED_EXTERNAL_GATE_SNAPSHOT
             and reconciliation.get("external_gate_snapshot") == LOCKED_EXTERNAL_GATE_SNAPSHOT
+            and exposure.get("external_gate_snapshot", LOCKED_EXTERNAL_GATE_SNAPSHOT) == LOCKED_EXTERNAL_GATE_SNAPSHOT
         ),
     }
     if not checks["freeze_pass"]:
@@ -207,7 +230,11 @@ def evaluate_chain(
         _add(codes, ChainCode.RECONCILIATION_CHILD_DRIFT)
     if not checks["reconciliation_artifact_frozen"]:
         _add(codes, ChainCode.ARTIFACT_HASH_MISMATCH if RECONCILIATION_PATH.as_posix() in freeze_files else ChainCode.ARTIFACT_NOT_FROZEN)
-    if not checks["handoff_output_locked"] or not checks["reconciliation_output_locked"] or not checks["boundaries_equal"]:
+    if not checks["exposure_clear"]:
+        _add(codes, ChainCode.EXPOSURE_QUARANTINED)
+    if not checks["exposure_artifact_frozen"]:
+        _add(codes, ChainCode.EXPOSURE_ARTIFACT_HASH_MISMATCH if EXPOSURE_PATH.as_posix() in freeze_files else ChainCode.EXPOSURE_ARTIFACT_NOT_FROZEN)
+    if not checks["exposure_output_locked"] or not checks["handoff_output_locked"] or not checks["reconciliation_output_locked"] or not checks["boundaries_equal"]:
         _add(codes, ChainCode.CHAIN_EXTERNAL_LOCK_INVALID)
     if not checks["claim_boundaries_locked"]:
         _add(codes, ChainCode.CHAIN_READ_ONLY_INVALID)
@@ -221,6 +248,7 @@ def evaluate_chain(
         ("handoff", handoff.get("source_revision")),
         ("handoff_index", handoff.get("index", {}).get("freeze", {}).get("source_revision")),
         ("reconciliation", reconciliation.get("freeze_source_revision")),
+        ("exposure", exposure.get("freeze_source_revision")),
     ):
         valid = _valid_revision(revision)
         ancestor = valid and _valid_revision(freeze_source) and revision_is_ancestor(root, revision, freeze_source)
@@ -251,7 +279,8 @@ def check_repository(root: Path = ROOT) -> dict[str, Any]:
     freeze = _load_json(root / FREEZE_PATH) or {}
     handoff = _load_json(root / HANDOFF_PATH) or {}
     reconciliation = _load_json(root / RECONCILIATION_PATH) or {}
-    result = evaluate_chain(root=root, freeze=freeze, handoff=handoff, reconciliation=reconciliation)
+    exposure = _load_json(root / EXPOSURE_PATH) or {}
+    result = evaluate_chain(root=root, freeze=freeze, handoff=handoff, reconciliation=reconciliation, exposure=exposure)
     return {
         "evidence_type": "INTERNAL_HANDOFF_CHAIN_INTEGRITY",
         "schema_version": "smart-ward-internal-handoff-chain-v1",
@@ -259,6 +288,8 @@ def check_repository(root: Path = ROOT) -> dict[str, Any]:
         "remediation_codes": list(result.remediation_codes),
         "checks": result.checks,
         "source_revision_lineage": result.source_revision_lineage,
+        "exposure_decision": exposure.get("decision"),
+        "exposure_remediation_codes": exposure.get("remediation_codes"),
         "freeze_source_revision": freeze.get("source_revision"),
         "origin_main_revision": freeze.get("origin_main_revision"),
         "external_gate_snapshot": LOCKED_EXTERNAL_GATE_SNAPSHOT,

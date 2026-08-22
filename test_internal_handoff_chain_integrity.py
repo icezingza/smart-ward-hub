@@ -9,6 +9,7 @@ from pathlib import Path
 from internal_handoff_chain_integrity import (
     ChainCode,
     ChainDecision,
+    EXPOSURE_PATH,
     FREEZE_PATH,
     HANDOFF_PATH,
     RECONCILIATION_PATH,
@@ -29,6 +30,7 @@ def _fixtures() -> dict:
         "freeze": _load(FREEZE_PATH),
         "handoff": _load(HANDOFF_PATH),
         "reconciliation": _load(RECONCILIATION_PATH),
+        "exposure": _load(EXPOSURE_PATH),
     }
 
 
@@ -39,15 +41,34 @@ def _evaluate(**mutations):
     return evaluate_chain(**fixtures, root=ROOT)
 
 
-def test_repository_is_bound():
+def test_repository_is_quarantined_by_public_exposure():
     result = check_repository(ROOT)
-    assert result["decision"] == ChainDecision.INTERNAL_HANDOFF_CHAIN_BOUND
-    assert result["remediation_codes"] == []
-    assert all(result["checks"].values())
+    assert result["decision"] == ChainDecision.INTERNAL_HANDOFF_CHAIN_BLOCKED
+    assert ChainCode.EXPOSURE_QUARANTINED in result["remediation_codes"]
+    assert result["exposure_decision"] == "PUBLIC_EXPOSURE_QUARANTINED"
+    assert result["checks"]["exposure_clear"] is False
+    assert all(value is True for key, value in result["checks"].items() if key != "exposure_clear")
     assert result["read_only"] is True
     assert result["external_submission_allowed"] is False
     assert result["authorization_promoted"] is False
     assert result["runtime_mutation_performed"] is False
+
+
+def test_public_exposure_quarantine_blocks_chain():
+    result = _evaluate(exposure=lambda payload: payload.update(decision="PUBLIC_EXPOSURE_QUARANTINED", remediation_codes=["PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED"]))
+    assert result.decision == ChainDecision.INTERNAL_HANDOFF_CHAIN_BLOCKED
+    assert ChainCode.EXPOSURE_QUARANTINED in result.remediation_codes
+
+
+def test_exposure_artifact_hash_mismatch_blocks():
+    def mutate(payload):
+        for entry in payload["files"]:
+            if entry["path"] == EXPOSURE_PATH.as_posix():
+                entry["sha256"] = "0" * 64
+
+    result = _evaluate(freeze=mutate)
+    assert result.decision == ChainDecision.INTERNAL_HANDOFF_CHAIN_BLOCKED
+    assert ChainCode.EXPOSURE_ARTIFACT_HASH_MISMATCH in result.remediation_codes
 
 
 def test_handoff_binding_failure_blocks():
@@ -110,7 +131,8 @@ def test_input_mutation_isolated():
     fixtures = _fixtures()
     before = deepcopy(fixtures)
     result = evaluate_chain(**fixtures, root=ROOT)
-    assert result.decision == ChainDecision.INTERNAL_HANDOFF_CHAIN_BOUND
+    assert result.decision == ChainDecision.INTERNAL_HANDOFF_CHAIN_BLOCKED
+    assert ChainCode.EXPOSURE_QUARANTINED in result.remediation_codes
     assert fixtures == before
 
 

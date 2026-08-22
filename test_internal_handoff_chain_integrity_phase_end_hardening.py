@@ -69,9 +69,11 @@ def run() -> None:
     print("[Chain GATE] no network/provider/scheduler/subprocess imports: PASSED")
 
     report = check_repository(ROOT)
-    assert report["decision"] == "INTERNAL_HANDOFF_CHAIN_BOUND"
-    assert report["remediation_codes"] == []
-    assert all(report["checks"].values())
+    assert report["decision"] == "INTERNAL_HANDOFF_CHAIN_BLOCKED"
+    assert "EXPOSURE_QUARANTINED" in report["remediation_codes"]
+    assert report["exposure_decision"] == "PUBLIC_EXPOSURE_QUARANTINED"
+    assert report["checks"]["exposure_clear"] is False
+    assert all(value is True for key, value in report["checks"].items() if key != "exposure_clear")
     assert report["read_only"] is True
     assert report["external_submission_allowed"] is False
     assert report["authorization_promoted"] is False
@@ -84,7 +86,8 @@ def run() -> None:
     with tempfile.TemporaryDirectory() as directory:
         output = Path(directory) / "chain.json"
         exported = export_chain(output=output, project_root=ROOT)
-        assert exported["decision"] == "INTERNAL_HANDOFF_CHAIN_BOUND"
+        assert exported["decision"] == "INTERNAL_HANDOFF_CHAIN_BLOCKED"
+        assert "EXPOSURE_QUARANTINED" in exported["remediation_codes"]
         assert exported["redaction_verified"] is True
         assert json.loads(output.read_text(encoding="utf-8")) == exported
     print("[Chain GATE] exporter round trip and read-only output: PASSED")

@@ -22,6 +22,8 @@ def export_chain(output: Path | None = None, project_root: Path = ROOT) -> dict:
         "remediation_codes": result["remediation_codes"],
         "checks": result["checks"],
         "source_revision_lineage": result["source_revision_lineage"],
+        "exposure_decision": result["exposure_decision"],
+        "exposure_remediation_codes": result["exposure_remediation_codes"],
         "freeze_source_revision": result["freeze_source_revision"],
         "origin_main_revision": result["origin_main_revision"],
         "external_gate_snapshot": result["external_gate_snapshot"],
