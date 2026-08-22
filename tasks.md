@@ -239,3 +239,12 @@ Focused และ phase-end gates ผ่านแล้ว; master regression in
 `export_durable_worker_replay.py` เพิ่ม source_revision ให้ durable evidence package สำหรับ cross-package lineage. `test_cross_package_evidence_binding.py` ครอบคลุม synthetic bound fixture, transcript hash mismatch, queue ref mismatch, durable boundary mutation, freeze hash mismatch และ repository binding; `test_cross_package_evidence_binding_phase_end_hardening.py` จะเป็น phase-end gate สำหรับ no side effect, redaction/private-key, no-self-authorization และ exporter round-trip. Workstream อยู่ระหว่าง reconcile/regenerate evidence ให้ artifact hashes และ source revisions สอดคล้อง ก่อน commit/push, refresh freeze และ master regression.
 
 ขอบเขตยังเป็น internal software evidence binding เท่านั้น; `BOUND` ไม่ใช่ production-ready, clinical validation หรือ external authorization. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Consolidated Internal Handoff Index status note — 22 สิงหาคม 2026
+
+`consolidated_internal_handoff_index.py` เพิ่ม read-only internal navigation index ที่อ้างอิง worker recovery transcript, operator approval/read-back, durable worker replay, cross-package binding snapshot และ release-freeze manifest. ตรวจ binding decision/codes, all binding checks, freeze PASS, source/origin equality, tracked artifact hashes, locked external-gate snapshot (7 blocked/3 open/0 passed), claim boundary และ authorization boundary.
+
+`test_consolidated_internal_handoff_index.py` ผ่าน 7 focused/adversarial cases ครอบคลุม bound index, binding-not-bound, gate snapshot mutation, claim mutation, freeze hash mismatch, authorization mutation และ external-submission lock. `export_consolidated_internal_handoff_index.py` สร้าง redacted machine-readable snapshot. `test_consolidated_internal_handoff_index_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, round-trip, redaction/private-key, no-self-authorization และ diff hygiene. Workstream รอ master regression, commit/push และ freeze refresh.
+
+Index นี้เป็น internal handoff navigation artifact เท่านั้น ไม่ใช่ external submission, independent reviewer decision, authorization record หรือ production release approval. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.

@@ -219,3 +219,12 @@ Added `operational_remediation_rehearsal.py` and `export_operational_remediation
 เพิ่ม `export_durable_worker_replay.py` เพื่อเติม source revision ให้ durable evidence package, พร้อม focused/adversarial tests และ phase-end hardening gate. ระหว่าง initial check ตรวจพบ evidence ที่สร้างก่อน transcript deterministic fix ยังมี approval transcript/queue binding mismatch และ durable source revision missing ซึ่งถูกจับได้ตาม contract; ขั้นต่อไปคือ regenerate packages ตาม source ล่าสุด, commit/push, refresh freeze และรัน master regression จน `BOUND`.
 
 สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; authorization boundary `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`.
+
+
+## Consolidated Internal Handoff Index — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `consolidated_internal_handoff_index.py` และ `export_consolidated_internal_handoff_index.py` สำหรับสร้าง read-only internal navigation index ที่อ้างอิง cross-package binding snapshot, worker recovery transcript, operator approval/read-back, durable worker replay evidence และ release-freeze manifest. Index ตรวจ `BOUND`, freeze `PASS`, freeze-listed artifact hashes, source/origin revision equality, external-gate snapshot `7 BLOCKED / 3 OPEN / 0 PASSED`, claim boundary และ authorization lock ก่อนคืนผล `BOUND`.
+
+เพิ่ม focused/adversarial tests 7 cases และ phase-end hardening gate สำหรับ no network/provider/scheduler side effect, redacted exporter round-trip, private-key scan, no-self-authorization และ diff hygiene. Index นี้เป็น internal handoff navigation artifact เท่านั้น ไม่ใช่ external submission, independent reviewer decision, authorization record หรือ production release approval.
+
+สถานะยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
