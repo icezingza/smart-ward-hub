@@ -1,0 +1,69 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "authorization_boundary_locked": true,
+    "claim_boundary_locked": true,
+    "dependency_order_matches": true,
+    "external_gate_boundary_locked": true,
+    "external_submission_disabled": true,
+    "external_transmission_absent": true,
+    "freeze_lineage_valid": true,
+    "freeze_pass": true,
+    "manifest_binds_readiness": true,
+    "manifest_valid": true,
+    "read_only": true,
+    "readiness_valid": true,
+    "runtime_mutation_absent": true,
+    "selected_artifacts_complete": true,
+    "selected_artifacts_match_current": true,
+    "selected_artifacts_match_freeze": true,
+    "selection_statuses_bind_upstream": true,
+    "selection_valid": true,
+    "snapshots_present": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "SELECTION_MANIFEST_CONSISTENT",
+  "dependency_order": [
+    "wave0_governance_handoff",
+    "p2_external_review_handoff",
+    "worker_recovery_transcript",
+    "worker_recovery_approval_readback",
+    "durable_worker_replay",
+    "cross_package_binding",
+    "consolidated_internal_handoff",
+    "pre_handoff_readiness",
+    "pre_handoff_manifest_validation"
+  ],
+  "evidence_type": "PRE_HANDOFF_SELECTION_MANIFEST_CONSISTENCY",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "919af56e3c4ee4943f31d813459f677f1d60ee59",
+  "generated_at_utc": "2026-08-22T07:50:30.518774+00:00",
+  "manifest_decision": "MANIFEST_VALID",
+  "origin_main_revision": "919af56e3c4ee4943f31d813459f677f1d60ee59",
+  "pre_handoff_decision": "INTERNAL_HANDOFF_READY",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-pre-handoff-consistency-v1",
+  "selected_count": 9,
+  "selected_set_decision": "SELECTED_SET_VALID"
+}
