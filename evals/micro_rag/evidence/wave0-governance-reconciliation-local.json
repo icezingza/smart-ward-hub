@@ -1,0 +1,109 @@
+{
+  "all_passed": true,
+  "appointment_confirmed": false,
+  "appointment_plan_dependency": {
+    "appointment_confirmed": false,
+    "decision": "P4_INDEPENDENT_REVIEWER_APPOINTMENT_PLAN_READY",
+    "ready_for_external_appointment": true,
+    "ready_for_external_review": false,
+    "submission_allowed": false
+  },
+  "appointment_templates": {
+    "appointment_decision": "NOT_ISSUED",
+    "owner_appointment_ready": false,
+    "owner_template_valid": true,
+    "review_scope_gate_count": 10,
+    "review_scope_test_count": 12,
+    "reviewer_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+    "reviewer_plan_redacted": true,
+    "reviewer_plan_valid": true,
+    "submission_allowed": false
+  },
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "all_packages_redacted": true,
+    "appointment_plan_evaluator_ready_for_appointment_only": true,
+    "authorization_boundary_locked": true,
+    "blocked_gate_set_preserved": true,
+    "external_gate_reconciliation_passed": true,
+    "owner_appointment_template_pending": true,
+    "review_scope_covers_all_gates_and_tests": true,
+    "reviewer_appointment_plan_pending": true,
+    "wave0_package_ready_to_freeze_without_self_freeze": true
+  },
+  "clinical_validation": "PENDING",
+  "clinical_validation_authorized": false,
+  "decision": "WAVE0_GOVERNANCE_RECONCILED_READY_FOR_EXTERNAL_APPOINTMENT_ONLY",
+  "evidence_scope": "LOCAL_DETERMINISTIC_RECONCILIATION_ONLY",
+  "evidence_type": "WAVE0_GOVERNANCE_RECONCILIATION",
+  "external_authority": "NONE",
+  "external_gate_reconciliation": {
+    "blocked_gate_ids": [
+      "GV-01",
+      "GV-03",
+      "GV-04",
+      "GV-06",
+      "GV-07",
+      "GV-08",
+      "GV-09"
+    ],
+    "decision": "P3_EXTERNAL_GATE_STATUS_RECONCILED",
+    "evidence_submitted_gate_ids": [],
+    "open_gate_ids": [
+      "GV-02",
+      "GV-05",
+      "GV-10"
+    ],
+    "status_counts": {
+      "BLOCKED": 7,
+      "EVIDENCE_SUBMITTED": 0,
+      "OPEN": 3,
+      "TOTAL": 10
+    }
+  },
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_transmission_performed": false,
+  "fixture_only": true,
+  "generated_at_utc": "2026-08-22T22:05:11.985988Z",
+  "hardware_evidence": "UNVERIFIED",
+  "package_pre_freeze": {
+    "appointment_count": 5,
+    "checks": {
+      "appointments_schema": true,
+      "authorization_locked": true,
+      "external_verification_pending": true,
+      "freeze_absent_before_external_review": true,
+      "package_timestamp": true,
+      "required_roles_present": true,
+      "scope_schema": true,
+      "stop_authority_schema": true,
+      "test_window_schema": true
+    },
+    "freeze_created": false,
+    "state": "READY_TO_FREEZE"
+  },
+  "patient_data_used": false,
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "ready_for_external_appointment": true,
+  "ready_for_external_review": false,
+  "redaction_verified": true,
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "wave0-governance-reconciliation-evidence-v1",
+  "software_evidence_only": true,
+  "source_module": "wave0_governance_reconciliation_guard.py",
+  "submission_allowed": false
+}
