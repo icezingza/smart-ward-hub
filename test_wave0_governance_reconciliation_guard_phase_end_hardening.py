@@ -9,12 +9,14 @@ import re
 import subprocess
 import sys
 
+from export_wave0_governance_reconciliation_guard import export_evidence
 from wave0_governance_reconciliation_guard import evaluate_wave0_governance_reconciliation
 
 
 ROOT = Path(__file__).resolve().parent
 TARGETS = [
     ROOT / "wave0_governance_reconciliation_guard.py",
+    ROOT / "export_wave0_governance_reconciliation_guard.py",
 ]
 FOCUSED = ROOT / "test_wave0_governance_reconciliation_guard.py"
 FORBIDDEN_IMPORTS = {
@@ -87,6 +89,25 @@ def _assert_runtime_boundary() -> None:
     print("[Wave 0 Reconciliation Gate] runtime, appointment and gate boundaries: PASSED")
 
 
+def _assert_export_round_trip() -> None:
+    with __import__("tempfile").TemporaryDirectory(prefix="wave0-governance-reconciliation-export-") as directory:
+        output = Path(directory) / "evidence.json"
+        evidence = export_evidence(output)
+        loaded = json.loads(output.read_text(encoding="utf-8"))
+    assert loaded == evidence
+    assert loaded["evidence_scope"] == "LOCAL_DETERMINISTIC_RECONCILIATION_ONLY"
+    assert loaded["all_passed"] is True
+    assert loaded["ready_for_external_appointment"] is True
+    assert loaded["ready_for_external_review"] is False
+    assert loaded["appointment_confirmed"] is False
+    assert loaded["submission_allowed"] is False
+    assert loaded["external_transmission_performed"] is False
+    assert loaded["authorization_promoted"] is False
+    assert loaded["redaction_verified"] is True
+    assert loaded["external_gate_snapshot"] == {"blocked": 7, "open": 3, "evidence_submitted": 0, "passed": 0}
+    print("[Wave 0 Reconciliation Gate] exporter round-trip and no-appointment export: PASSED")
+
+
 def _assert_mutation_isolation() -> None:
     report = evaluate_wave0_governance_reconciliation()
     mutated = deepcopy(report)
@@ -128,6 +149,7 @@ def run() -> None:
     _assert_no_forbidden_imports()
     _assert_source_boundary()
     _assert_runtime_boundary()
+    _assert_export_round_trip()
     _assert_mutation_isolation()
     _assert_diff_check()
     print("WAVE0_GOVERNANCE_RECONCILIATION_GUARD_PHASE_END_HARDENING_GATE_PASSED")
