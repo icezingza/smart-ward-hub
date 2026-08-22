@@ -1,0 +1,127 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "all_transports_normalized": true,
+    "authorization_boundary_locked": true,
+    "execution_boundary_locked": true,
+    "failure_matrix_complete": true,
+    "fixture_input_unchanged": true,
+    "hardware_evidence_unverified": true,
+    "no_pii_or_command_forwarded": true,
+    "normalized_contract_fields_complete": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "P2_002_ADAPTER_CONFORMANCE_VERIFIED",
+  "evidence_type": "P2_002_ADAPTER_CONFORMANCE",
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "failure_matrix": {
+    "ble": {
+      "command_field": "command_field_detected",
+      "missing_signature": "signature_missing",
+      "oversized_frame": "frame_too_large",
+      "pii_field": "pii_or_secret_field_detected",
+      "source_identity_mismatch": "source_device_mismatch",
+      "unknown_outer_field": "unknown_outer_field",
+      "wrong_transport_context": "transport_context_mismatch"
+    },
+    "mqtt": {
+      "command_field": "command_field_detected",
+      "missing_signature": "signature_missing",
+      "oversized_frame": "frame_too_large",
+      "pii_field": "pii_or_secret_field_detected",
+      "source_identity_mismatch": "source_device_mismatch",
+      "unknown_outer_field": "unknown_outer_field",
+      "wrong_transport_context": "transport_context_mismatch"
+    },
+    "serial": {
+      "command_field": "command_field_detected",
+      "missing_signature": "signature_missing",
+      "oversized_frame": "frame_too_large",
+      "pii_field": "pii_or_secret_field_detected",
+      "source_identity_mismatch": "source_device_mismatch",
+      "unknown_outer_field": "unknown_outer_field",
+      "wrong_transport_context": "transport_context_mismatch"
+    },
+    "websocket": {
+      "command_field": "command_field_detected",
+      "missing_signature": "signature_missing",
+      "oversized_frame": "frame_too_large",
+      "pii_field": "pii_or_secret_field_detected",
+      "source_identity_mismatch": "source_device_mismatch",
+      "unknown_outer_field": "unknown_outer_field",
+      "wrong_transport_context": "transport_context_mismatch"
+    }
+  },
+  "fixture_only": true,
+  "freeze_source_revision": "2ebdb8dc7e31ce436e858f27ef32eba69a60a5d9",
+  "freeze_status": "PASS",
+  "generated_at_utc": "2026-08-22T16:09:06.550286+00:00",
+  "hardware_evidence": "UNVERIFIED",
+  "normalized_by_transport": {
+    "ble": {
+      "accel_x": 0.02,
+      "accel_y": 0.01,
+      "accel_z": 1.01,
+      "battery_pct": 87.0,
+      "device_id": "device-conformance-001",
+      "ppg": 0.82,
+      "schema_version": "1.0",
+      "sequence": 7
+    },
+    "mqtt": {
+      "accel_x": 0.02,
+      "accel_y": 0.01,
+      "accel_z": 1.01,
+      "battery_pct": 87.0,
+      "device_id": "device-conformance-001",
+      "ppg": 0.82,
+      "schema_version": "1.0",
+      "sequence": 7
+    },
+    "serial": {
+      "accel_x": 0.02,
+      "accel_y": 0.01,
+      "accel_z": 1.01,
+      "battery_pct": 87.0,
+      "device_id": "device-conformance-001",
+      "ppg": 0.82,
+      "schema_version": "1.0",
+      "sequence": 7
+    },
+    "websocket": {
+      "accel_x": 0.02,
+      "accel_y": 0.01,
+      "accel_z": 1.01,
+      "battery_pct": 87.0,
+      "device_id": "device-conformance-001",
+      "ppg": 0.82,
+      "schema_version": "1.0",
+      "sequence": 7
+    }
+  },
+  "origin_main_revision": "2ebdb8dc7e31ce436e858f27ef32eba69a60a5d9",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-p2-002-adapter-conformance-v1",
+  "selected_software_transport": "serial",
+  "transports": [
+    "mqtt",
+    "websocket",
+    "serial",
+    "ble"
+  ]
+}
