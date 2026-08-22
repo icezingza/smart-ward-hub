@@ -14,26 +14,24 @@
     "observation_present": true,
     "observation_source_allowed": true,
     "repository_identity_matches": true,
-    "repository_private": false
+    "repository_private": true
   },
   "claim_boundary": {
     "clinical_validation": "PENDING",
     "production_ready": false,
     "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
   },
-  "decision": "REPOSITORY_VISIBILITY_BLOCKED",
+  "decision": "PRIVATE_REPOSITORY_CONFIRMED",
   "default_branch": "main",
   "evidence_type": "REPOSITORY_VISIBILITY_GOVERNANCE",
   "external_submission_allowed": false,
   "external_transmission_performed": false,
-  "generated_at_utc": "2026-08-22T13:38:21.367157+00:00",
-  "is_private": false,
+  "generated_at_utc": "2026-08-22T15:51:03.951582+00:00",
+  "is_private": true,
   "observation_source": "GH_REPO_VIEW",
   "read_only": true,
   "redaction_verified": true,
-  "remediation_codes": [
-    "REPOSITORY_NOT_PRIVATE"
-  ],
+  "remediation_codes": [],
   "repository": "icezingza/smart-ward-hub",
   "runtime_mutation_performed": false,
   "schema_version": "smart-ward-repository-visibility-v1"

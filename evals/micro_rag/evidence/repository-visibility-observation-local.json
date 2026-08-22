@@ -10,7 +10,7 @@
   "default_branch": "main",
   "external_submission_allowed": false,
   "external_transmission_performed": false,
-  "is_private": false,
+  "is_private": true,
   "observation_status": "OBSERVED",
   "redaction_verified": true,
   "repository": "icezingza/smart-ward-hub",
