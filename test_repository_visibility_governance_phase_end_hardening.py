@@ -69,10 +69,10 @@ def run() -> None:
     print("[Visibility GATE] no network/provider/scheduler/subprocess imports: PASSED")
 
     report = check_repository(ROOT)
-    assert report["decision"] == "REPOSITORY_VISIBILITY_BLOCKED"
-    assert "REPOSITORY_NOT_PRIVATE" in report["remediation_codes"]
+    assert report["decision"] == "PRIVATE_REPOSITORY_CONFIRMED"
+    assert report["remediation_codes"] == []
     assert report["repository"] == "icezingza/smart-ward-hub"
-    assert report["is_private"] is False
+    assert report["is_private"] is True
     assert report["default_branch"] == "main"
     assert report["read_only"] is True
     assert report["external_submission_allowed"] is False
@@ -84,7 +84,7 @@ def run() -> None:
     with tempfile.TemporaryDirectory() as directory:
         output = Path(directory) / "visibility.json"
         exported = export_visibility(output=output, project_root=ROOT)
-        assert exported["decision"] == "REPOSITORY_VISIBILITY_BLOCKED"
+        assert exported["decision"] == "PRIVATE_REPOSITORY_CONFIRMED"
         assert exported["redaction_verified"] is True
         assert json.loads(output.read_text(encoding="utf-8")) == exported
     print("[Visibility GATE] exporter round trip and redaction: PASSED")

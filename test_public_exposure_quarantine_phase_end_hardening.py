@@ -69,8 +69,8 @@ def run() -> None:
     print("[Exposure GATE] no network/provider/scheduler/subprocess imports: PASSED")
 
     report = check_repository(ROOT)
-    assert report["decision"] == "PUBLIC_EXPOSURE_QUARANTINED"
-    assert "PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED" in report["remediation_codes"]
+    assert report["decision"] == "PUBLIC_EXPOSURE_CLEAR"
+    assert report["remediation_codes"] == []
     assert report["checks"]["freeze_pass"] is True
     assert report["checks"]["frozen_hashes_match"] is True
     assert report["checks"]["secret_markers_absent"] is True
@@ -81,12 +81,13 @@ def run() -> None:
     assert report["authorization_promoted"] is False
     assert report["runtime_mutation_performed"] is False
     assert report["external_transmission_performed"] is False
-    print("[Exposure GATE] live freeze scan is quarantined and read-only: PASSED")
+    assert report["checks"]["private_repository_confirmed"] is True
+    print("[Exposure GATE] live freeze scan is clear and read-only: PASSED")
 
     with tempfile.TemporaryDirectory() as directory:
         output = Path(directory) / "exposure.json"
         exported = export_exposure(output=output, project_root=ROOT)
-        assert exported["decision"] == "PUBLIC_EXPOSURE_QUARANTINED"
+        assert exported["decision"] == "PUBLIC_EXPOSURE_CLEAR"
         assert exported["redaction_verified"] is True
         assert json.loads(output.read_text(encoding="utf-8")) == exported
     print("[Exposure GATE] exporter round trip and redaction: PASSED")
