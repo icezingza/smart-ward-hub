@@ -685,6 +685,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "P4_BLOCKED_EXTERNAL_GATES_UNBLOCK_READINESS_REPORT_20260822.md",
+      "sha256": "249ae6c6e66da2e484857fc4bfb520e3a0677189a12abda974b2f9d4f38559d2",
+      "size_bytes": 10998
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "PILOT_READINESS_PACK.md",
       "sha256": "2d9bfa9fac4f2b31870ce7b41a7282a20d19e3acad9051148e2748c17615acfb",
       "size_bytes": 15021
@@ -818,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "a976c03a536b333d080ff92b622bbc04193f1d3e08769860f1c8385d5e57837c",
-      "size_bytes": 86002
+      "sha256": "fa8c77a9fdc60a68f68ec3594e38e58380b83514ca7a8107b4869f77e8f8c2a9",
+      "size_bytes": 87951
     },
     {
       "classification": "contract_or_governance_document",
@@ -1576,6 +1582,12 @@
       "path": "evals/micro_rag/evidence/p3-external-gate-transition-guard-local.json",
       "sha256": "adb88a3b6fdde1492aabc7d897f1f74bbb46a3986d3393ae48f7320f65fca863",
       "size_bytes": 3257
+    },
+    {
+      "classification": "evidence_or_machine_record",
+      "path": "evals/micro_rag/evidence/p4-blocked-gate-unblock-readiness-local.json",
+      "sha256": "53889c11a147474d8086d703dafe70526615812a87986ecd88f482e45b0bce1c",
+      "size_bytes": 10055
     },
     {
       "classification": "evidence_or_machine_record",
@@ -2726,8 +2738,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "f37d2c026b7e936501ddfbfda4ac68778b3a69a24a2033f074ed56c5ca5c78a6",
-      "size_bytes": 94368
+      "sha256": "955fc15fabf4c73676c5057aa6b62e532659678c2e487b9e491617c1debdad17",
+      "size_bytes": 96535
     },
     {
       "classification": "source_or_runtime_config",
@@ -3756,14 +3768,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T17:37:36.802645+00:00",
+  "freeze_created_at_utc": "2026-08-22T17:39:16.926952+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "f596654c083c88133c4b3ba346cf30c5d5861d75",
+  "origin_main_revision": "7485628cd4d6d01807a941bbb73040cacc6d7fdc",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "f596654c083c88133c4b3ba346cf30c5d5861d75"
+  "source_revision": "7485628cd4d6d01807a941bbb73040cacc6d7fdc"
 }
