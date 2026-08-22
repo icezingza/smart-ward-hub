@@ -65,10 +65,13 @@ def _child_passed(
     payload: Mapping[str, Any],
     *,
     decision: str,
+    allowed_remediation_codes: tuple[str, ...] = (),
 ) -> bool:
+    remediation_codes = payload.get("remediation_codes")
+    remediation_valid = remediation_codes == [] or tuple(remediation_codes or ()) == allowed_remediation_codes
     return (
         payload.get("decision") == decision
-        and payload.get("remediation_codes") == []
+        and remediation_valid
         and all(value is True for value in payload.get("checks", {}).values())
     )
 
@@ -87,7 +90,11 @@ def evaluate_reconciliation(
     consistency = dict(consistency)
     codes: list[str] = []
     checks = {
-        "drift_gate_passed": _child_passed(drift, decision="DRIFT_FREE"),
+        "drift_gate_passed": _child_passed(
+            drift,
+            decision="DRIFT_FREE",
+            allowed_remediation_codes=("DRIFT_FREE",),
+        ),
         "manifest_gate_passed": _child_passed(manifest, decision="MANIFEST_VALID"),
         "selection_gate_passed": _child_passed(selection, decision="SELECTED_SET_VALID"),
         "consistency_gate_passed": _child_passed(consistency, decision="SELECTION_MANIFEST_CONSISTENT"),

@@ -55,8 +55,20 @@ def test_all_child_gates_pass():
     assert all(result.checks.values())
 
 
+def test_drift_free_sentinel_is_accepted():
+    result = _evaluate(drift=lambda payload: payload.update(remediation_codes=["DRIFT_FREE"]))
+    assert result.decision == ReconciliationDecision.INTERNAL_HANDOFF_RECONCILIATION_READY
+    assert result.remediation_codes == ()
+
+
 def test_drift_child_failure_blocks_aggregate():
     result = _evaluate(drift=lambda payload: payload.update(decision="DRIFT_DETECTED", remediation_codes=["HASH_MISMATCH"]))
+    assert result.decision == ReconciliationDecision.INTERNAL_HANDOFF_RECONCILIATION_BLOCKED
+    assert ReconciliationCode.DRIFT_GATE_FAILED in result.remediation_codes
+
+
+def test_drift_unknown_nonempty_remediation_fails_closed():
+    result = _evaluate(drift=lambda payload: payload.update(remediation_codes=["UNEXPECTED_DRIFT_CODE"]))
     assert result.decision == ReconciliationDecision.INTERNAL_HANDOFF_RECONCILIATION_BLOCKED
     assert ReconciliationCode.DRIFT_GATE_FAILED in result.remediation_codes
 
