@@ -667,6 +667,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "PRE_HANDOFF_RECONCILIATION_GATE_READINESS_REPORT_20260822.md",
+      "sha256": "54640d21447b5d8ba2b29aa5b3371924abcaa45f383e3ca92eb5713b125c8b78",
+      "size_bytes": 4084
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "PRE_HANDOFF_SELECTION_MANIFEST_CONSISTENCY_READINESS_REPORT_20260822.md",
       "sha256": "c30e0a0c4c9c16eb228ac8662876f6828ef47edd5ceed6a5ccc0fc9be3b67a86",
       "size_bytes": 4837
@@ -752,8 +758,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "3e08e2b356dd4e02f927eac11e3baf9840a57655589cd4bf5248ff367822c9c2",
-      "size_bytes": 59363
+      "sha256": "cd6947951a43a980a68a86607da6ad13d7e98bf227f39609488512e68ac529cb",
+      "size_bytes": 60484
     },
     {
       "classification": "contract_or_governance_document",
@@ -2257,6 +2263,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "pre_handoff_reconciliation_gate.py",
+      "sha256": "71d33a20308a5dba30a45d75c473e94f61f248e3179f89d11dc7c69a475f4d97",
+      "size_bytes": 7705
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "pre_handoff_selection_manifest_consistency.py",
       "sha256": "b12ab533faf314b611e61c7abf844f394e30f7e8e0c5d6da7ad449f340d57e6b",
       "size_bytes": 15020
@@ -2384,8 +2396,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "220de28a45147ae5c9a98d112ab898739ead23e95673d1c47dbea005b8046c65",
-      "size_bytes": 7115
+      "sha256": "dc030d611196137815ef19c2152a541f5688f40c13890a005d4b467b5cef1665",
+      "size_bytes": 7229
     },
     {
       "classification": "source_or_runtime_config",
@@ -2462,8 +2474,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "4da6841638116cdad0c3f0589b7c0da3a8b226b54beeb3a0999569742321b258",
-      "size_bytes": 67236
+      "sha256": "5925bb517a20e4cf5097da41da12e603b67964ba81ce6267dd4a107776e81dff",
+      "size_bytes": 68385
     },
     {
       "classification": "source_or_runtime_config",
@@ -2995,6 +3007,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_pre_handoff_reconciliation_gate.py",
+      "sha256": "715221226eb2b0d3b2de168992c3ffdbab42c006f5c382e9ac5201128d723eae",
+      "size_bytes": 4853
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_pre_handoff_reconciliation_gate_phase_end_hardening.py",
+      "sha256": "51a3b750c97fae5b41bd4f8a10b8dc547071620248fdc8f477ed3e407dc6fba4",
+      "size_bytes": 4171
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_pre_handoff_selection_manifest_consistency.py",
       "sha256": "371b9bf91eda3469828cf605f6a165b7af13c391fa33ac90ac1e7189a6103d99",
       "size_bytes": 8314
@@ -3360,14 +3384,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T07:50:48.995698+00:00",
+  "freeze_created_at_utc": "2026-08-22T08:01:31.363178+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "f99556e3209a16f585343ed8c7ef579cf569eb57",
+  "origin_main_revision": "b5a8e0ada78541f1c6cb0bab0792ea8a8c7f172d",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "f99556e3209a16f585343ed8c7ef579cf569eb57"
+  "source_revision": "b5a8e0ada78541f1c6cb0bab0792ea8a8c7f172d"
 }
