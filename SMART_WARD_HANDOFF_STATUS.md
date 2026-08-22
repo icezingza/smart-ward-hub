@@ -310,3 +310,10 @@ Focused/adversarial, phase-end hardening และ master regression ผ่า�
 Focused/adversarial suite 11 cases และ phase-end hardening gate ผ่าน รวม hash/membership tamper, child drift, authorization/execution mutation, invalid/non-ancestor revision, caller-mutation isolation, exporter round-trip, redaction/private-key scan, no-network/provider/scheduler/subprocess scan และ `git diff --check`. Evidence snapshot คือ `evals/micro_rag/evidence/internal-handoff-chain-integrity-local.json`; master regression และ final freeze cycle อยู่ระหว่างดำเนินการ.
 
 ผลนี้เป็น internal software handoff binding เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical validation หรือ production approval. สถานะคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Internal Handoff Chain Integrity Gate — final closure — 22 สิงหาคม 2026
+
+Final chain check คืน `INTERNAL_HANDOFF_CHAIN_BOUND` หลังผูก consolidated internal handoff index, pre-handoff reconciliation evidence และ release-freeze manifest. Focused/adversarial 11 cases, phase-end hardening gate และ master regression ผ่าน. Final repository alignment ยืนยัน `HEAD==origin/main`, `HEAD^==freeze.source_revision==freeze.origin_main_revision`, `freeze_status=PASS`, coverage `567 files`, clean working tree และ `git diff --check` ผ่าน.
+
+ผลนี้เป็น internal software evidence binding เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical validation หรือ production approval. สถานะยังคง: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.

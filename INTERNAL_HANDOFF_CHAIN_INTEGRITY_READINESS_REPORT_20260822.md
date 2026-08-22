@@ -42,7 +42,11 @@
 | Phase-end AST no network/provider/scheduler/subprocess imports | PASS |
 | Exporter round trip and redaction | PASS |
 | Private-key scan and `git diff --check` | PASS |
-| Master regression | Pending final docs/freeze cycle |
+| Master regression | PASS — complete repository suite |
+
+## Final repository alignment
+
+หลัง final freeze cycle ยืนยัน `HEAD == origin/main`, `HEAD^ == freeze.source_revision == freeze.origin_main_revision`, `freeze_status=PASS`, `file_count=567`, `git diff --check` ผ่าน และ working tree สะอาด. Final child decisions ได้แก่ `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY` และ chain `INTERNAL_HANDOFF_CHAIN_BOUND`.
 
 ## Evidence artifact
 

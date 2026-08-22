@@ -328,3 +328,10 @@ Lineage result ยังคงแยกเป็น Wave 4/reviewer/Wave E `ANCE
 เพิ่ม `internal_handoff_chain_integrity.py` เพื่อผูก `consolidated-internal-handoff-index-local.json`, `pre-handoff-reconciliation-gate-local.json` และ release-freeze manifest เป็น chain เดียวแบบ read-only/fail-closed. Gate ตรวจ freeze PASS, artifact membership/hash, handoff `BOUND`, reconciliation `INTERNAL_HANDOFF_RECONCILIATION_READY`, child decisions/checks, locked claim/authorization/external-gate boundary และ local source-revision lineage. Failure modes คืน `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม remediation codes; ไม่มี external submission, runtime mutation หรือ authorization promotion.
 
 เพิ่ม `export_internal_handoff_chain_integrity.py`, focused/adversarial suite 11 cases และ phase-end hardening gate. ผลผ่านครบ: hash/membership tamper, child drift, authorization/execution lock mutation, invalid/non-ancestor revision, caller-mutation isolation, exporter round-trip, redaction/private-key scan, no network/provider/scheduler/subprocess imports และ `git diff --check`. Evidence snapshot อยู่ที่ `evals/micro_rag/evidence/internal-handoff-chain-integrity-local.json`; master regression และ final freeze cycle ยังต้องทำก่อนปิด workstream.
+
+
+### Internal Handoff Chain Integrity Gate — final closure — 22 สิงหาคม 2026
+
+หลัง publish snapshot และ refresh freeze แล้ว focused/adversarial suite 11 cases, phase-end hardening gate และ master regression ผ่าน. Final controls ยืนยัน `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY` และ `INTERNAL_HANDOFF_CHAIN_BOUND`; freeze `PASS`, coverage `567 files`, `HEAD==origin/main`, `HEAD^==freeze.source_revision==freeze.origin_main_revision`, clean working tree และ `git diff --check` ผ่าน.
+
+Chain bound เป็น internal software evidence เท่านั้น. External Gates ยังคง `7 BLOCKED / 3 OPEN / 0 PASSED`; external authority, clinical validation, production authorization และ runtime authority ยังคง locked/false/`NONE`.
