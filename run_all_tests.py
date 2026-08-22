@@ -104,6 +104,8 @@ TESTS = [
     "test_freeze_integrity_monitor_phase_end_hardening.py",
     "test_pre_handoff_readiness.py",
     "test_pre_handoff_readiness_phase_end_hardening.py",
+    "test_pre_handoff_manifest_validator.py",
+    "test_pre_handoff_manifest_validator_phase_end_hardening.py",
     "test_software_rollback_rehearsal.py",
     "test_software_rollback_rehearsal_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",

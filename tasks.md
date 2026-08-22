@@ -268,3 +268,12 @@ Index นี้เป็น internal handoff navigation artifact เท่าน
 `test_pre_handoff_readiness.py` ผ่าน 8 focused/adversarial cases ครอบคลุม ready path, drift stop, unbound index, authorization/claim/gate mutation, external submission enablement และ runtime/transmission mutation. `export_pre_handoff_readiness.py` สร้าง redacted internal evidence. Phase-end gate ผ่านหลังแก้ static assertion ให้ตรวจ immutable boundary จาก runtime output ตาม implementation จริง. Master integration ยังต้องเพิ่ม/commit/push, refresh freeze, master regression และ final hygiene.
 
 Pre-handoff check เป็น internal repository handoff readiness เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical authorization, production approval หรือ runtime resume. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Pre-Handoff Evidence Manifest Validator status note — 22 สิงหาคม 2026
+
+`pre_handoff_manifest_validator.py` เพิ่ม read-only validator สำหรับ snapshot `pre-handoff-readiness-local.json`. ตรวจ snapshot presence, freeze listing, snapshot SHA-256, source/origin revisions, fresh readiness decision/checks, claim boundary, authorization boundary, external-gate snapshot, external submission, runtime mutation, external transmission และ read-only contract.
+
+`test_pre_handoff_manifest_validator.py` ผ่าน 8 focused/adversarial cases ครอบคลุม valid fixture, missing/path/hash/source mismatch, decision/check mismatch, claim/authorization mutation, external/runtime/transmission mutation และ fresh readiness blocked. `test_pre_handoff_manifest_validator_phase_end_hardening.py` ผ่าน side-effect scan, redacted exporter round-trip, no-self-authorization/private-key scan และ diff hygiene. ยังต้อง commit/push, สร้าง snapshot, refresh freeze, รัน validator หลัง snapshot, master regression และ final hygiene.
+
+Validator เป็น internal manifest consistency check เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical authorization หรือ production approval. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.

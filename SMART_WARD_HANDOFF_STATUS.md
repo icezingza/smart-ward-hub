@@ -246,3 +246,12 @@ Workstream รอ commit/push, freeze refresh และ master regression. ส�
 Decision software-only ที่ตรวจได้คือ `INTERNAL_HANDOFF_READY` เมื่อ `DRIFT_FREE`, handoff `BOUND` และ checks ทั้งหมดผ่าน. หากพบ mismatch จะคืน `INTERNAL_HANDOFF_BLOCKED` พร้อม remediation code และไม่สร้าง approval/authorization ใหม่. Focused/adversarial suite 8 cases และ phase-end hardening gate ผ่านครบหลังปรับ static assertions ให้สอดคล้องกับ runtime contract.
 
 สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Pre-Handoff Evidence Manifest Validator — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `pre_handoff_manifest_validator.py` สำหรับตรวจ snapshot ที่ใช้ในการ internal handoff ให้ตรงกับ fresh readiness result, freeze-listed SHA-256, source/origin revision, claim boundary, authorization boundary และ external-gate snapshot. Decision `MANIFEST_VALID` จะเกิดขึ้นเมื่อ snapshot พร้อมใช้งานและสอดคล้องกับ freeze; mismatch ใด ๆ จะคืน `MANIFEST_INVALID` พร้อม stop code.
+
+เพิ่ม focused/adversarial suite 8 cases และ phase-end hardening gate สำหรับ valid fixture, path/hash/source/decision/check mismatch, claim/authorization/gate mutation, external/runtime/transmission lock, no network/provider/scheduler side effect, redaction และ private-key scan. Snapshot lifecycle ถูกกำหนดให้ export → commit → refresh freeze → validate → master regression.
+
+สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
