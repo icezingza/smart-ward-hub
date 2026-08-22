@@ -102,6 +102,8 @@ TESTS = [
     "test_cross_package_evidence_binding_phase_end_hardening.py",
     "test_freeze_integrity_monitor.py",
     "test_freeze_integrity_monitor_phase_end_hardening.py",
+    "test_pre_handoff_readiness.py",
+    "test_pre_handoff_readiness_phase_end_hardening.py",
     "test_software_rollback_rehearsal.py",
     "test_software_rollback_rehearsal_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",

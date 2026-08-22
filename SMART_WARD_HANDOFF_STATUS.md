@@ -237,3 +237,12 @@ Added `operational_remediation_rehearsal.py` and `export_operational_remediation
 เพิ่ม focused/adversarial tests 7 cases และ phase-end hardening gate สำหรับ no network/provider/scheduler side effect, hash/track/runtime drift, boundary/gate mutation, binding/handoff drift, redaction/private-key และ diff hygiene. Initial run พบ false-positive จากการนับ freeze manifest ตัวเองเป็น unfrozen; แก้ให้ตรงกับ authoritative self-exclusion แล้ว baseline คืน `DRIFT_FREE`.
 
 Workstream รอ commit/push, freeze refresh และ master regression. สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Pre-Handoff Readiness Check — continuation — 22 สิงหาคม 2026
+
+เพิ่ม `pre_handoff_readiness.py` และ `export_pre_handoff_readiness.py` สำหรับเรียกใช้ก่อน internal handoff แต่ละครั้ง. Check รวม freeze drift และ consolidated handoff index แล้วตรวจ locked claim boundary, authorization boundary, external-gate snapshot, external submission lock, runtime mutation และ external transmission.
+
+Decision software-only ที่ตรวจได้คือ `INTERNAL_HANDOFF_READY` เมื่อ `DRIFT_FREE`, handoff `BOUND` และ checks ทั้งหมดผ่าน. หากพบ mismatch จะคืน `INTERNAL_HANDOFF_BLOCKED` พร้อม remediation code และไม่สร้าง approval/authorization ใหม่. Focused/adversarial suite 8 cases และ phase-end hardening gate ผ่านครบหลังปรับ static assertions ให้สอดคล้องกับ runtime contract.
+
+สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.

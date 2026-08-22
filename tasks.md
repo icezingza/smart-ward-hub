@@ -259,3 +259,12 @@ Index นี้เป็น internal handoff navigation artifact เท่าน
 `test_freeze_integrity_monitor.py` ผ่าน 7 focused/adversarial cases. `test_freeze_integrity_monitor_phase_end_hardening.py` ตรวจ no network/provider/scheduler side effect, drift-free baseline, manifest self-exclusion, handoff dependency, redaction/private-key และ no-self-authorization. Master integration เพิ่มแล้ว; ยังต้อง commit/push, refresh freeze, master regression และ final hygiene.
 
 ขอบเขตเป็น local software drift scan เท่านั้น ไม่ใช่ continuous production monitoring, remote attestation, clinical validation หรือ external authorization. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Pre-Handoff Readiness Check status note — 22 สิงหาคม 2026
+
+`pre_handoff_readiness.py` เพิ่ม read-only gate ก่อน internal handoff โดยรวม `freeze_integrity_monitor.py` และ `consolidated_internal_handoff_index.py`. Decision ที่อนุญาตคือ `INTERNAL_HANDOFF_READY` เฉพาะเมื่อ drift เป็น `DRIFT_FREE`, handoff index เป็น `BOUND`, claim/authorization/gate boundaries ตรง locked values, external submission/transmission ปิด และ runtime mutation absent. กรณี mismatch คืน `INTERNAL_HANDOFF_BLOCKED` พร้อม remediation codes.
+
+`test_pre_handoff_readiness.py` ผ่าน 8 focused/adversarial cases ครอบคลุม ready path, drift stop, unbound index, authorization/claim/gate mutation, external submission enablement และ runtime/transmission mutation. `export_pre_handoff_readiness.py` สร้าง redacted internal evidence. Phase-end gate ผ่านหลังแก้ static assertion ให้ตรวจ immutable boundary จาก runtime output ตาม implementation จริง. Master integration ยังต้องเพิ่ม/commit/push, refresh freeze, master regression และ final hygiene.
+
+Pre-handoff check เป็น internal repository handoff readiness เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical authorization, production approval หรือ runtime resume. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
