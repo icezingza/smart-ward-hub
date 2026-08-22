@@ -57,7 +57,7 @@ Evidence snapshot ยืนยันค่าต่อไปนี้โดย�
 
 ## 4. Fail-closed และ adversarial coverage
 
-Focused/adversarial suite ผ่าน **6 cases** ได้แก่ valid unverified read-back, local snapshot authorization mutation, appointment dependency mutation, reviewer-handoff promotion mutation, local/external no-self-authorization และ lifecycle revision/audit integrity. การ mutate ค่า authorization ใน local snapshot ทำให้ guard คืน `P4_REVIEWER_READBACK_GUARD_BLOCKED` พร้อม remediation code แทนการยอมรับค่าที่ผิด.
+Focused/adversarial suite ผ่าน **10 cases** ได้แก่ valid unverified read-back, local snapshot authorization mutation, appointment dependency mutation, reviewer-handoff promotion mutation, malformed/unknown/authorization-promoted decision records, secret/raw-identity redaction markers, stale/future/hash-mismatch polls, local/external no-self-authorization, snapshot boundary isolation และ audit-chain tamper detection. การ mutate ค่า authorization ใน local snapshot หรือ received decision record ทำให้ guard คืน `P4_REVIEWER_READBACK_GUARD_BLOCKED` หรือ validator ปฏิเสธ input พร้อม remediation/error แทนการยอมรับค่าที่ผิด.
 
 Phase-end hardening gate ผ่านรายการต่อไปนี้:
 
