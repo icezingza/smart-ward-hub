@@ -212,8 +212,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "EVIDENCE_RECONCILIATION_LINEAGE_READINESS_REPORT_20260822.md",
-      "sha256": "6b269a7000c54b931893b66a13345a135056871d8f808662f3e2ebd71db0c9b9",
-      "size_bytes": 4591
+      "sha256": "7661e140ab0ee7710251cb1f2b6746a0a605124bf71facd63c1e1ce988c6c45d",
+      "size_bytes": 5066
     },
     {
       "classification": "contract_or_governance_document",
@@ -764,8 +764,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "83ed8de5dfdd2b8bbb536e790571f6cfa4f200e5e1ab0e6cedf82c1c95da8a82",
-      "size_bytes": 61887
+      "sha256": "03ce5c99d59c99d3a97939c143ed6db91b624a1ec60999b19e4f2fc6b10141de",
+      "size_bytes": 63211
     },
     {
       "classification": "contract_or_governance_document",
@@ -1286,7 +1286,7 @@
     {
       "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/evidence-reconciliation-local-20260821.json",
-      "sha256": "420ee74fb3b0cc85a3048ff994f32ff3550572609f941b7ff4eed8769431d94d",
+      "sha256": "55d890b930520851b02bd0b60bc062ba4fd280e4ee514f3e36c830dfb56513c6",
       "size_bytes": 5399
     },
     {
@@ -2492,8 +2492,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "5ad72c0f8ceedde187ed3b5e77ae8411ea5e40b05a356e50e260b9995fa92a14",
-      "size_bytes": 69771
+      "sha256": "8a6f30725ebe7e9dd1c1e3b4bea21bd2fb0b61be4e5ee83ee3663162a9666567",
+      "size_bytes": 70869
     },
     {
       "classification": "source_or_runtime_config",
@@ -3402,14 +3402,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T08:48:23.167207+00:00",
+  "freeze_created_at_utc": "2026-08-22T08:50:42.345707+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "bdbeff73bee2ebdb842dadabd79149796a4f3bcb",
+  "origin_main_revision": "bbf0a5a895e92c6e99cc53fcca667d6212f6fdc8",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "bdbeff73bee2ebdb842dadabd79149796a4f3bcb"
+  "source_revision": "bbf0a5a895e92c6e99cc53fcca667d6212f6fdc8"
 }
