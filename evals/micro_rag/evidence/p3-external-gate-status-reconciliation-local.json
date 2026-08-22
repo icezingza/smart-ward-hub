@@ -1,0 +1,240 @@
+{
+  "authorization_promoted": false,
+  "blocked_gate_ids": [
+    "GV-01",
+    "GV-03",
+    "GV-04",
+    "GV-06",
+    "GV-07",
+    "GV-08",
+    "GV-09"
+  ],
+  "blocker_analysis_source": "evals/micro_rag/evidence/controlled-pilot-blocker-analysis-20260820.json",
+  "checks": {
+    "all_gate_text_is_redacted": true,
+    "authorization_boundary_locked": true,
+    "blocked_ids_match_blocker_report": true,
+    "blocked_records_have_external_blocker_fields": true,
+    "blocker_report_bound_to_freeze": true,
+    "blocker_report_summary_matches_matrix": true,
+    "freeze_status_pass": true,
+    "matrix_bound_to_freeze": true,
+    "matrix_has_exactly_ten_gates": true,
+    "registry_domain_owner_evidence_matches_matrix": true,
+    "registry_has_exactly_ten_gates": true,
+    "status_counts_match_locked_summary": true
+  },
+  "claim_boundary": "CONTROLLED_PRODUCTION_PROTOTYPE",
+  "clinical_validation": "PENDING",
+  "clinical_validation_authorized": false,
+  "current_status_matrix_source": "controlled_pilot_presentation_deck/slide_04_external_gate_matrix.html",
+  "decision": "P3_EXTERNAL_GATE_STATUS_RECONCILED",
+  "evidence_submitted_gate_ids": [],
+  "evidence_type": "P3_EXTERNAL_GATE_STATUS_RECONCILIATION",
+  "external_authority": "NONE",
+  "external_gate_registry_source": "external_validation_package.default_pilot_package",
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "34d14c2320c14b7642334a35dd4b3683a1df2fd4",
+  "gate_records": [
+    {
+      "blocker_id": "BLK-GV01",
+      "blocker_reason": "clinical governance protocol and signed scope are not externally verified",
+      "domain": "clinical_governance",
+      "external_action": "Appoint clinical owner/committee and approve protocol, scope and consent/waiver decision.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-01",
+      "matrix_summary": "Approved clinical protocol, consent/waiver decision, signed scope",
+      "owner_role": "clinical_owner",
+      "priority": 1,
+      "required_evidence": [
+        "approved_protocol",
+        "consent_or_waiver",
+        "signed_scope"
+      ],
+      "severity": "CRITICAL",
+      "software_evidence_available": true,
+      "status": "BLOCKED",
+      "stop_condition": "Do not begin interventional or clinical validation activity without signed governance scope."
+    },
+    {
+      "domain": "privacy_security",
+      "gate_id": "GV-02",
+      "matrix_summary": "Zero-PII boundary sign-off, retention policy, access-control review",
+      "owner_role": "privacy_security_reviewer",
+      "required_evidence": [
+        "zero_pii_review",
+        "retention_decision",
+        "access_control_review"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "blocker_id": "BLK-GV03",
+      "blocker_reason": "real HIS/Admission transcript and reconciliation are not externally verified",
+      "domain": "his_admission",
+      "external_action": "Run a sandboxed real-HIS/Admission contract session with structured acknowledgement, reconciliation and failure recovery evidence.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-03",
+      "matrix_summary": "Real HIS sandbox transcript, FHIR ack reconciliation, failure recovery",
+      "owner_role": "integration_owner",
+      "priority": 2,
+      "required_evidence": [
+        "real_his_transcript",
+        "fhir_ack_reconciliation",
+        "failure_recovery"
+      ],
+      "severity": "HIGH",
+      "software_evidence_available": false,
+      "status": "BLOCKED",
+      "stop_condition": "Do not connect to a real HIS or transmit admission data until integration owner approves boundary and rollback."
+    },
+    {
+      "blocker_id": "BLK-GV04",
+      "blocker_reason": "real OIDC/mTLS handshake and key-rotation transcript are not externally verified",
+      "domain": "identity_transport",
+      "external_action": "Validate real IdP OIDC discovery/token claims, mTLS handshake, certificate lifecycle and key rotation transcript.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-04",
+      "matrix_summary": "Real IdP discovery/claims, real mTLS handshake, key rotation transcript",
+      "owner_role": "security_owner",
+      "priority": 1,
+      "required_evidence": [
+        "real_oidc_validation",
+        "real_mtls_handshake",
+        "key_rotation_transcript"
+      ],
+      "severity": "CRITICAL",
+      "software_evidence_available": false,
+      "status": "BLOCKED",
+      "stop_condition": "Do not enable production identity transport or accept real credentials from software simulation alone."
+    },
+    {
+      "domain": "fixed_hub_host",
+      "gate_id": "GV-05",
+      "matrix_summary": "Target host hardening checklist, firewall ACL evidence, service recovery",
+      "owner_role": "host_operator",
+      "required_evidence": [
+        "acer_hardening_checklist",
+        "firewall_acl_evidence",
+        "service_recovery"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "blocker_id": "BLK-GV06",
+      "blocker_reason": "Acer physical serial fixture and COM-port evidence are not available",
+      "domain": "hardware_recovery",
+      "external_action": "Provision a non-production serial loopback fixture, enumerate a real COM port on Acer, then execute serial, power-loss and disk-full drills.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-06",
+      "matrix_summary": "Physical loopback S-015, power-loss drill, disk-full drill (Acer COM unverified)",
+      "owner_role": "reliability_owner",
+      "priority": 1,
+      "required_evidence": [
+        "serial_loopback_s015",
+        "power_loss_drill",
+        "disk_full_drill"
+      ],
+      "severity": "HIGH",
+      "software_evidence_available": true,
+      "status": "BLOCKED",
+      "stop_condition": "Do not run physical test without fixture isolation, COM-port evidence and operator confirmation `I_HAVE_A_NONPRODUCTION_LOOPBACK`."
+    },
+    {
+      "blocker_id": "BLK-GV07",
+      "blocker_reason": "independent WORM receipt and trusted timestamp are not externally verified",
+      "domain": "forensic_anchor",
+      "external_action": "Connect an independently managed append-only/WORM anchor and capture receipt identity, trusted timestamp and cross-boundary readback.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-07",
+      "matrix_summary": "External WORM receipt, trusted timestamp, cross-boundary verification",
+      "owner_role": "forensic_owner",
+      "priority": 2,
+      "required_evidence": [
+        "external_worm_receipt",
+        "trusted_timestamp",
+        "cross_boundary_verify"
+      ],
+      "severity": "HIGH",
+      "software_evidence_available": true,
+      "status": "BLOCKED",
+      "stop_condition": "Do not describe local FileAnchorStore or simulated receipt as external immutability or tamper-proof evidence."
+    },
+    {
+      "blocker_id": "BLK-GV08",
+      "blocker_reason": "manufacturer provenance and hardware key custody are not externally verified",
+      "domain": "device_trust",
+      "external_action": "Obtain manufacturer provenance, hardware key custody, dual-control issuance, rotation, revocation and lost-device evidence.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-08",
+      "matrix_summary": "Manufacturer provenance, hardware key custody, revocation distribution",
+      "owner_role": "security_owner",
+      "priority": 1,
+      "required_evidence": [
+        "manufacturer_provenance",
+        "hardware_key_custody",
+        "revocation_distribution"
+      ],
+      "severity": "CRITICAL",
+      "software_evidence_available": true,
+      "status": "BLOCKED",
+      "stop_condition": "Do not bind real devices or treat software key lifecycle tests as hardware root-of-trust evidence."
+    },
+    {
+      "blocker_id": "BLK-GV09",
+      "blocker_reason": "staff training and manual fallback review are not externally verified",
+      "domain": "clinical_operations",
+      "external_action": "Approve staff training, manual fallback SOP, alarm-fatigue review and ward escalation/stop procedures.",
+      "external_evidence_status": "NOT_VERIFIED",
+      "gate_id": "GV-09",
+      "matrix_summary": "Staff training records, manual fallback SOP, alarm fatigue review",
+      "owner_role": "ward_manager",
+      "priority": 2,
+      "required_evidence": [
+        "staff_training",
+        "manual_fallback_sop",
+        "alarm_fatigue_review"
+      ],
+      "severity": "HIGH",
+      "software_evidence_available": true,
+      "status": "BLOCKED",
+      "stop_condition": "Do not start controlled pilot without trained staff, manual fallback and incident escalation owner."
+    },
+    {
+      "domain": "independent_review",
+      "gate_id": "GV-10",
+      "matrix_summary": "Independent reviewer appointment, analysis/adjudication plan, audit export",
+      "owner_role": "independent_reviewer",
+      "required_evidence": [
+        "analysis_plan",
+        "adjudication_plan",
+        "audit_export"
+      ],
+      "status": "OPEN"
+    }
+  ],
+  "generated_at_utc": "2026-08-22T17:16:20.935862+00:00",
+  "hardware_evidence": "UNVERIFIED",
+  "open_gate_ids": [
+    "GV-02",
+    "GV-05",
+    "GV-10"
+  ],
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "production_ready": false,
+  "read_only": true,
+  "ready_for_external_review": false,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "p3-external-gate-status-reconciliation-v1",
+  "status_counts": {
+    "BLOCKED": 7,
+    "EVIDENCE_SUBMITTED": 0,
+    "OPEN": 3,
+    "TOTAL": 10
+  }
+}
