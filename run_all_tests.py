@@ -28,6 +28,8 @@ TESTS = [
     "test_p0_hardening.py",
     "test_p0_oidc_config.py",
     "test_p0_mtls_config.py",
+    "test_p0_identity_transport_readiness_guard.py",
+    "test_p0_identity_transport_readiness_guard_phase_end_hardening.py",
     "test_p0_recovery.py",
     "test_p0_his_admission_contract.py",
     "test_p0_his_fhir_contract_readiness_guard.py",
