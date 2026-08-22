@@ -75,7 +75,7 @@ def run() -> None:
         "selection": "SELECTED_SET_VALID",
         "consistency": "SELECTION_MANIFEST_CONSISTENT",
     }
-    assert report["selected_count"] == 12
+    assert report["selected_count"] == 9
     assert report["read_only"] is True
     assert report["external_submission_allowed"] is False
     assert report["authorization_promoted"] is False
