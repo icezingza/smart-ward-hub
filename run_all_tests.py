@@ -110,6 +110,8 @@ TESTS = [
     "test_pre_handoff_selection_manifest_consistency_phase_end_hardening.py",
     "test_pre_handoff_reconciliation_gate.py",
     "test_pre_handoff_reconciliation_gate_phase_end_hardening.py",
+    "test_internal_handoff_chain_integrity.py",
+    "test_internal_handoff_chain_integrity_phase_end_hardening.py",
     "test_software_rollback_rehearsal.py",
     "test_software_rollback_rehearsal_phase_end_hardening.py",
     "test_wave0_owner_appointment_intake.py",
