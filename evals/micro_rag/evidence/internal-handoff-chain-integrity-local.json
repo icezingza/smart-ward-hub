@@ -1,0 +1,76 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "boundaries_equal": true,
+    "claim_boundaries_locked": true,
+    "external_gate_snapshot_equal": true,
+    "external_gate_snapshot_locked": true,
+    "freeze_boundary_locked": true,
+    "freeze_pass": true,
+    "handoff_index_artifact_frozen": true,
+    "handoff_index_bound": true,
+    "handoff_output_locked": true,
+    "reconciliation_artifact_frozen": true,
+    "reconciliation_checks_pass": true,
+    "reconciliation_children_locked": true,
+    "reconciliation_output_locked": true,
+    "reconciliation_ready": true,
+    "reconciliation_remediation_empty": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "INTERNAL_HANDOFF_CHAIN_BOUND",
+  "evidence_type": "INTERNAL_HANDOFF_CHAIN_INTEGRITY",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "e47e1a67512f3ace81fed434fe6d3add255edd93",
+  "generated_at_utc": "2026-08-22T09:43:27.893817+00:00",
+  "origin_main_revision": "e47e1a67512f3ace81fed434fe6d3add255edd93",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-internal-handoff-chain-v1",
+  "source_revision_lineage": {
+    "freeze": {
+      "ancestor_verified": true,
+      "relation": "MATCH",
+      "revision": "e47e1a67512f3ace81fed434fe6d3add255edd93",
+      "valid": true
+    },
+    "handoff": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR",
+      "revision": "dec23f006a26f46a51a320b85e7cce1b1bfa77ed",
+      "valid": true
+    },
+    "handoff_index": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR",
+      "revision": "93d78f907ce2be66099b5b3b830b8a865bdc79f5",
+      "valid": true
+    },
+    "reconciliation": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR",
+      "revision": "17e248f9bc704aece65e2c2bb1d706e90542a679",
+      "valid": true
+    }
+  }
+}
