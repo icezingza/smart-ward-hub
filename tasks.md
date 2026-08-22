@@ -335,3 +335,10 @@ Lineage result ยังคงแยกเป็น Wave 4/reviewer/Wave E `ANCE
 หลัง publish snapshot และ refresh freeze แล้ว focused/adversarial suite 11 cases, phase-end hardening gate และ master regression ผ่าน. Final controls ยืนยัน `DRIFT_FREE`, `MANIFEST_VALID`, `SELECTED_SET_VALID`, `SELECTION_MANIFEST_CONSISTENT`, aggregate `INTERNAL_HANDOFF_RECONCILIATION_READY` และ `INTERNAL_HANDOFF_CHAIN_BOUND`; freeze `PASS`, coverage `567 files`, `HEAD==origin/main`, `HEAD^==freeze.source_revision==freeze.origin_main_revision`, clean working tree และ `git diff --check` ผ่าน.
 
 Chain bound เป็น internal software evidence เท่านั้น. External Gates ยังคง `7 BLOCKED / 3 OPEN / 0 PASSED`; external authority, clinical validation, production authorization และ runtime authority ยังคง locked/false/`NONE`.
+
+
+### Internal Handoff Chain selected-set boundary correction — 22 สิงหาคม 2026
+
+ตรวจพบจากการออกแบบว่าไม่ควรเพิ่ม `internal_handoff_chain_integrity` เข้า `SELECTED_SET`: meta-gate ตรวจ selected handoff artifacts และ pre-handoff reconciliation อยู่แล้ว หากรวม snapshot ของตัวเองเข้า selected set จะเกิด recursive self-hash/dependency cycle. จึงแก้กลับให้ selector คง 9 รายการและให้ chain-integrity อยู่เป็น control ชั้นบนที่ตรวจ artifact hash ผ่าน release-freeze โดยตรง.
+
+Focused selected-set, consistency, aggregate reconciliation และ chain suites ผ่าน รวม 8/8/10/11 cases ตามลำดับ. Phase-end gates ของทั้งสี่ชั้นผ่านหลัง correction และ freeze refresh; chain evidence ยังคง `INTERNAL_HANDOFF_CHAIN_BOUND` โดยไม่เปลี่ยน external authorization boundary.

@@ -29,6 +29,12 @@
 
 สถานะนี้ **ไม่ใช่** external submission, independent reviewer acceptance, clinical validation, pilot authorization หรือ production approval
 
+## Selected-set boundary
+
+`internal_handoff_chain_integrity` ถูกออกแบบเป็น **meta-control เหนือ selected evidence set** และไม่ถูกเพิ่มเข้า `SELECTED_SET` หรือ dependency order ของ selector. เหตุผลคือ chain gate ตรวจ selected handoff artifacts และ pre-handoff reconciliation อยู่แล้ว; การเพิ่มตัว gate snapshot เข้า input ที่ตัวเองตรวจจะสร้าง recursive self-hash/dependency cycle. Selector จึงคง 9 รายการตาม contract เดิม ขณะที่ chain gate ตรวจ artifact ของตัวเองผ่าน release-freeze hash และถูกเรียกหลัง selected-set/reconciliation checks.
+
+การแยกชั้นนี้เป็น intentional governance boundary ไม่ใช่ artifact omission: selected set ทำหน้าที่เลือก evidence สำหรับ internal handoff; chain gate ทำหน้าที่รับรองความสมบูรณ์ของ handoff chain หลังจาก artifact set ถูกเลือกแล้ว.
+
 ## Verification evidence
 
 | Test | Result |
