@@ -1,0 +1,160 @@
+{
+  "appointment_confirmed": false,
+  "authorization_promoted": false,
+  "checks": {
+    "appointment_not_issued": true,
+    "appointment_plan_template_valid": true,
+    "boundary_locked": true,
+    "owner_appointment_template_valid": true,
+    "plan_redacted": true,
+    "reviewer_handoff_dependency_ready": true,
+    "role_separation_defined": true,
+    "scope_covers_all_gates_and_tests": true
+  },
+  "claim_boundary": "CONTROLLED_PRODUCTION_PROTOTYPE",
+  "clinical_validation": "PENDING",
+  "clinical_validation_authorized": false,
+  "decision": "P4_INDEPENDENT_REVIEWER_APPOINTMENT_PLAN_READY",
+  "evidence_type": "P4_INDEPENDENT_REVIEWER_APPOINTMENT_PLAN",
+  "external_authority": "NONE",
+  "external_transmission_performed": false,
+  "fixture_only": true,
+  "generated_at_utc": "2026-08-22T18:00:11.647261+00:00",
+  "hardware_evidence": "UNVERIFIED",
+  "owner_appointment_template_validation": {
+    "execution_ready": false,
+    "mode": "TEMPLATE_ONLY",
+    "owner_appointment_ready": false,
+    "valid": true
+  },
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "plan": {
+    "acceptance_conditions": [
+      "appointment and conflict declaration are signed/read-back",
+      "external authority and decision scope are named",
+      "intended use, expiry, rollback and stop rules are signed",
+      "independent read-back and evidence custody are available",
+      "reviewer has no production, clinical or runtime authority",
+      "local software evidence remains evidence-only until external acceptance"
+    ],
+    "appointment_decision": "NOT_ISSUED",
+    "appointment_packet_id": "PENDING_EXTERNAL_APPOINTMENT",
+    "authorization_boundary": {
+      "clinical_validation_authorized": false,
+      "external_authority": "NONE",
+      "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+      "production_authorized": false,
+      "runtime_authority": "NONE"
+    },
+    "clinical_validation_authorized": false,
+    "conflict_declaration": "PENDING_EXTERNAL_APPOINTMENT",
+    "decision_scope": {
+      "expiry_required": true,
+      "in_scope": [
+        "GV-01..GV-10",
+        "T-01..T-12",
+        "local software evidence and reproducibility read-back"
+      ],
+      "intended_use": "Controlled non-interventional external validation coordination for Smart Ward Hub",
+      "out_of_scope": [
+        "clinical treatment decisions",
+        "production authorization",
+        "real patient data",
+        "real hardware validation without separate approval"
+      ],
+      "scope_ref": "PENDING_EXTERNAL_APPOINTMENT",
+      "signed_scope_ref": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "external_execution_authorized": false,
+    "independent_review_started": false,
+    "independent_verification_required": true,
+    "plan_status": "APPOINTMENT_PLAN_TEMPLATE",
+    "production_authorized": false,
+    "project": "smart-ward-hub",
+    "raw_identity_present": false,
+    "redaction": "PASS",
+    "required_appointment_records": [
+      "reviewer_appointment_ref",
+      "reviewer_organization_ref",
+      "conflict_declaration_ref",
+      "appointing_authority_ref",
+      "signed_scope_ref",
+      "decision_scope_ref",
+      "expiry_ref",
+      "readback_channel_ref",
+      "custody_path_ref"
+    ],
+    "required_external_inputs": [
+      "named independent reviewer and conflict declaration",
+      "reviewer organization and independence statement",
+      "appointing external authority and decision scope",
+      "signed intended-use/scope/expiry/rollback/stop record",
+      "independent read-back channel and evidence custody path",
+      "named stop authority and recovery approver",
+      "external reviewer acceptance and findings protocol",
+      "signed external appointment or explicit closed-no-authorization record"
+    ],
+    "review_scope_gate_ids": [
+      "GV-01",
+      "GV-02",
+      "GV-03",
+      "GV-04",
+      "GV-05",
+      "GV-06",
+      "GV-07",
+      "GV-08",
+      "GV-09",
+      "GV-10"
+    ],
+    "review_scope_test_ids": [
+      "T-01",
+      "T-02",
+      "T-03",
+      "T-04",
+      "T-05",
+      "T-06",
+      "T-07",
+      "T-08",
+      "T-09",
+      "T-10",
+      "T-11",
+      "T-12"
+    ],
+    "reviewer_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+    "reviewer_organization": "PENDING_EXTERNAL_APPOINTMENT",
+    "role_separation": {
+      "appointing_authority_role": "external_authority",
+      "evidence_custodian_role": "evidence_custodian",
+      "independent_reviewer_role": "independent_reviewer",
+      "reviewer_must_differ_from": [
+        "internal_operator",
+        "external_coordinator",
+        "evidence_custodian"
+      ],
+      "rollback_owner_role": "rollback_owner",
+      "stop_and_rollback_must_differ": true,
+      "stop_authority_role": "stop_authority",
+      "system_operator_role": "internal_operator"
+    },
+    "schema_version": "p4-independent-reviewer-appointment-plan-v1",
+    "software_evidence_only": true,
+    "submission_allowed": false
+  },
+  "production_authorized": false,
+  "production_ready": false,
+  "read_only": true,
+  "ready_for_external_appointment": true,
+  "ready_for_external_review": false,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "reviewer_handoff_dependency": {
+    "decision": "P4_INDEPENDENT_REVIEWER_HANDOFF_READY",
+    "ready_for_external_appointment": true,
+    "ready_for_external_review": false,
+    "submission_allowed": false
+  },
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "p4-independent-reviewer-appointment-plan-v1",
+  "submission_allowed": false
+}
