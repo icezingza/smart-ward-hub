@@ -352,3 +352,12 @@ Focused suite ผ่าน 12 cases, phase-end gate ผ่าน และ maste
 ขยาย internal handoff chain ให้ตรวจ `PUBLIC_EXPOSURE_QUARANTINE` เป็น independent child. เมื่อ visibility governance รายงาน `REPOSITORY_VISIBILITY_BLOCKED` และ exposure audit รายงาน `PUBLIC_EXPOSURE_QUARANTINED`, chain จะไม่รายงาน `INTERNAL_HANDOFF_CHAIN_BOUND` แต่คืน `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม `EXPOSURE_QUARANTINED`. Focused chain 13 cases, chain phase-end และ exposure phase-end gates ผ่าน.
 
 การเปลี่ยนแปลงนี้เป็น software-only governance propagation และไม่เปลี่ยน GitHub visibility, external authorization, clinical validation หรือ production status. Selector ยังคง 9 artifacts; chain snapshot อยู่นอก selected set เพื่อป้องกัน recursive self-hash.
+
+
+## Repository Visibility Remediation Closure — 22 สิงหาคม 2026
+
+ตรวจ GitHub identity ด้วย integration ที่เชื่อมอยู่และพบสิทธิ์ `ADMIN`; เปลี่ยน `icezingza/smart-ward-hub` เป็น Private ตามคำขอ และตรวจ remote ซ้ำได้ `private=true`, default branch `main`. การเปลี่ยน setting ไม่ได้ใช้โทเคนที่ถูกส่งในแชต.
+
+Visibility governance เป็น `PRIVATE_REPOSITORY_CONFIRMED`; public-exposure เป็น `PUBLIC_EXPOSURE_CLEAR`; internal handoff chain เป็น `INTERNAL_HANDOFF_CHAIN_BOUND`. Focused/phase-end gates ของ visibility, exposure และ chain ผ่าน. โทเคนที่ถูกแปะในแชตถือว่า compromised และต้อง Revoke/Rotate โดยผู้ใช้เอง; สถานะการ revoke ยังไม่ได้รับการยืนยันจาก local evidence.
+
+External authorization, clinical validation และ production authorization ไม่เปลี่ยน: External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`, `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE`, Product `NOT_PRODUCTION_READY`.

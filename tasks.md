@@ -370,3 +370,10 @@ Gate คืน `REPOSITORY_VISIBILITY_BLOCKED` พร้อม `REPOSITORY_NOT_P
 ขยาย `internal_handoff_chain_integrity.py` ให้รับ `public_exposure_quarantine` เป็น independent child control. Chain จะคืน `INTERNAL_HANDOFF_CHAIN_BOUND` ได้ต่อเมื่อ exposure decision เป็น `PUBLIC_EXPOSURE_CLEAR`, remediation ว่าง, checks ผ่านครบ, snapshot ถูก hash-bind ใน freeze และ locked boundary ครบ. เมื่อ repository ยัง public ผลจึงถูก propagate เป็น `INTERNAL_HANDOFF_CHAIN_BLOCKED` พร้อม `EXPOSURE_QUARANTINED` โดยไม่เปลี่ยน authorization หรือ external settings.
 
 Focused chain suite ผ่าน 13 cases; chain phase-end และ public-exposure phase-end gates ผ่าน. Exporter เพิ่ม exposure decision/remediation fields แบบ redacted. การออกแบบยัง non-recursive: chain snapshot ไม่ถูกเพิ่มเข้า selected set.
+
+
+### Repository Visibility Remediation Closure — 22 สิงหาคม 2026
+
+ผู้ใช้ร้องขอให้ปิดงาน visibility blocker. ตรวจ GitHub identity ด้วย integration ที่เชื่อมอยู่พบสิทธิ์ `ADMIN` จากนั้นเปลี่ยน `icezingza/smart-ward-hub` เป็น Private และตรวจซ้ำได้ `private=true`, default branch `main`. ไม่ได้ใช้โทเคนที่ถูกแปะในแชต.
+
+Regenerate visibility observation/governance snapshot, public-exposure snapshot และ internal handoff chain snapshot แล้ว. Visibility suite 10 cases, exposure suite 12 cases, chain suite 13 cases และ phase-end gates ที่เกี่ยวข้องผ่าน. Public exposure เปลี่ยนเป็น `PUBLIC_EXPOSURE_CLEAR`; internal chain เปลี่ยนเป็น `INTERNAL_HANDOFF_CHAIN_BOUND`. Token values ที่ถูกแปะในแชตถือว่า compromised และต้อง Revoke/Rotate โดยผู้ใช้ใน GitHub token settings; ยังไม่มี local evidence ยืนยันว่า revoke สำเร็จ.

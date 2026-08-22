@@ -4,13 +4,13 @@
 
 **Repository:** `icezingza/smart-ward-hub`
 
-**สถานะล่าสุด:** `REPOSITORY_VISIBILITY_BLOCKED`
+**สถานะล่าสุด:** `PRIVATE_REPOSITORY_CONFIRMED`
 
 ## Executive finding
 
-การตรวจ remote repository ด้วยคำสั่ง `gh repo view icezingza/smart-ward-hub --json nameWithOwner,isPrivate,defaultBranchRef` รายงาน `nameWithOwner=icezingza/smart-ward-hub`, `default=main` และ `private=false`. ผลนี้ขัดกับขอบเขตที่กำหนดไว้ว่า repository ควรเป็น private จึงถูกบันทึกเป็น **security/governance blocker** แบบ fail-closed
+การตรวจ remote repository ด้วยคำสั่ง `gh repo view icezingza/smart-ward-hub --json nameWithOwner,isPrivate,defaultBranchRef,viewerPermission` รายงาน `nameWithOwner=icezingza/smart-ward-hub`, `default=main`, `private=true` และสิทธิ์ผู้ตรวจ `ADMIN`. Visibility blocker ถูกปิดด้วย external setting operation ที่ผู้ใช้ร้องขอ
 
-ยังไม่มีการเปลี่ยน repository visibility เพราะผู้ใช้ยังไม่ได้ให้คำยืนยันเฉพาะสำหรับการเปลี่ยน external setting. การ push ล่าสุดไม่มี pending commit: `HEAD == origin/main` และ working tree สะอาด
+การเปลี่ยน visibility ไม่ได้ใช้โทเคนที่ถูกแปะในแชต แต่ใช้ GitHub integration ที่เชื่อมอยู่และตรวจสิทธิ์ Admin ก่อนดำเนินการ. การ push ล่าสุดไม่มี pending commit หลัง final cycle: `HEAD == origin/main` และ working tree สะอาด
 
 ## Gate contract
 
@@ -18,12 +18,12 @@
 |---|---|---|---|
 | Repository identity | `icezingza/smart-ward-hub` | ตรงกัน | PASS |
 | Default branch | `main` | ตรงกัน | PASS |
-| Repository visibility | `private=true` | `private=false` | BLOCKED |
+| Repository visibility | `private=true` | `private=true` | PASS |
 | Observation source | `GH_REPO_VIEW` หรือ operator-confirmed | `GH_REPO_VIEW` | PASS |
 | Authorization boundary | external authority `NONE`; clinical/production false; runtime `NONE` | ตรงตาม lock | PASS |
 | Execution boundary | submission/promotion/runtime/transmission false | ตรงตาม lock | PASS |
 
-Machine-readable decision คือ `REPOSITORY_VISIBILITY_BLOCKED` พร้อม remediation code `REPOSITORY_NOT_PRIVATE`
+Machine-readable decision คือ `PRIVATE_REPOSITORY_CONFIRMED` และไม่มี remediation code
 
 ## Software verification
 
@@ -33,9 +33,9 @@ Final repository alignment ถูกตรวจด้วย invariant ของ
 
 ## Remediation boundary
 
-การแก้ blocker ต้องเป็น external repository-setting operation ที่ผู้มีอำนาจต้องยืนยันก่อน เช่น เปลี่ยน visibility เป็น private แล้วรัน `gh repo view` ซ้ำเพื่อบันทึก observation ใหม่. Gate นี้ไม่มีคำสั่งเปลี่ยน visibility และไม่ถือว่า public repository status เป็น authorization หรือ production decision
+Visibility remediation เสร็จแล้วตามคำขอ: remote ยืนยัน `private=true` และ observation/evidence/freeze ถูก regenerate. Gate นี้ยังคงไม่มีสิทธิ์ self-authorize clinical, pilot หรือ production execution และ private visibility ไม่ได้หมายความว่า repository ผ่าน clinical validation หรือ external review แล้ว
 
-จนกว่าจะมีการยืนยัน private จริง ห้ามอ้างว่า repository มี private-repository protection และควรหลีกเลี่ยงการใส่ข้อมูลลับ, private keys, credentials, real patient data หรือ external evidence ที่ไม่ควรเผยแพร่ใน repository
+โทเคนสองค่าที่ถูกส่งในแชตถือว่าเปิดเผยแล้วและไม่ถูกนำมาใช้. การ revoke/rotate โทเคนเหล่านั้นต้องดำเนินการโดยผู้ใช้ใน GitHub token settings; ระบบนี้บันทึกเป็น operator action ที่ยังต้องยืนยัน ไม่อ้างว่า revoke สำเร็จจาก local evidence
 
 ## Product and authorization boundary
 
