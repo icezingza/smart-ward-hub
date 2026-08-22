@@ -1,0 +1,156 @@
+{
+  "all_passed": true,
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "bench_packet_result": {
+    "all_passed": true,
+    "bench_step_count": 13,
+    "decision": "P0_HARDWARE_BENCH_PACKET_PREPARED_PENDING_PHYSICAL_EXECUTION",
+    "observed_result_count": 0,
+    "packet_status": "PREPARED_NOT_EXECUTED",
+    "physical_execution_performed": false,
+    "physical_hardware_evidence": "UNVERIFIED",
+    "precondition_count": 11,
+    "stop_condition_count": 11,
+    "target_model": "Acer Spin N17H2",
+    "target_role": "FIXED_EDGE_HUB_CANDIDATE"
+  },
+  "checks": {
+    "authority_boundary_locked": true,
+    "bench_execution_not_performed": true,
+    "bench_observed_results_empty": true,
+    "bench_packet_ready": true,
+    "bench_target_fixed_hub_locked": true,
+    "cross_artifact_no_clinical_claim": true,
+    "cross_artifact_physical_state_consistent": true,
+    "deployment_clinical_validation_pending": true,
+    "deployment_defaults_pass": true,
+    "deployment_physical_validation_unverified": true,
+    "external_gate_snapshot_locked": true,
+    "host_execution_not_started": true,
+    "host_manifest_template_valid": true,
+    "host_physical_validation_unverified": true,
+    "host_software_evidence_only": true
+  },
+  "claim_boundary": "CONTROLLED_PRODUCTION_PROTOTYPE",
+  "clinical_validation": "PENDING",
+  "clinical_validation_authorized": false,
+  "decision": "P1_HOST_HARDWARE_PREPARATION_RECONCILED_PENDING_TARGET_HOST_EVIDENCE",
+  "deployment_result": {
+    "checks": [
+      {
+        "check": "environment",
+        "detail": "SW_ENVIRONMENT=pilot",
+        "status": "PASS"
+      },
+      {
+        "check": "SW_AUTO_CREATE_DB",
+        "detail": "SW_AUTO_CREATE_DB=false",
+        "status": "PASS"
+      },
+      {
+        "check": "SW_SEED_DATA",
+        "detail": "SW_SEED_DATA=false",
+        "status": "PASS"
+      },
+      {
+        "check": "SW_ENABLE_DOCS",
+        "detail": "SW_ENABLE_DOCS=false",
+        "status": "PASS"
+      },
+      {
+        "check": "loopback_binding",
+        "detail": "127.0.0.1:8080",
+        "status": "PASS"
+      },
+      {
+        "check": "allowed_hosts",
+        "detail": "no wildcard or all-interface host entry",
+        "status": "PASS"
+      },
+      {
+        "check": "auth_mode",
+        "detail": "OIDC selected for pilot",
+        "status": "PASS"
+      },
+      {
+        "check": "oidc_shape",
+        "detail": "issuer, audience and HTTPS JWKS shape present",
+        "status": "PASS"
+      },
+      {
+        "check": "path:SW_DATABASE_PATH",
+        "detail": "outside source tree: /var/lib/smart-ward-hub/ward_hub.db",
+        "status": "PASS"
+      },
+      {
+        "check": "path:SW_TELEMETRY_STATE_PATH",
+        "detail": "outside source tree: /var/lib/smart-ward-hub/telemetry-state.json",
+        "status": "PASS"
+      },
+      {
+        "check": "path:SW_AUDIT_LOG_PATH",
+        "detail": "outside source tree: /var/log/smart-ward-hub/audit.jsonl",
+        "status": "PASS"
+      },
+      {
+        "check": "secret_source",
+        "detail": "no static token material found in validator input",
+        "status": "PASS"
+      },
+      {
+        "check": "device_trust_stage",
+        "detail": "Device Trust staged as enforce",
+        "status": "PASS"
+      }
+    ],
+    "clinical_validation": "PENDING",
+    "physical_validation": "UNVERIFIED",
+    "status": "PASS"
+  },
+  "evidence_scope": "LOCAL_DETERMINISTIC_RECONCILIATION_ONLY",
+  "evidence_type": "P1_HOST_HARDWARE_PREPARATION_RECONCILIATION",
+  "external_authority": "NONE",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "fixture_only": true,
+  "generated_at_utc": "2026-08-22T22:15:23.727660Z",
+  "hardware_evidence": "UNVERIFIED",
+  "host_execution_status": "NOT_STARTED",
+  "host_manifest_result": {
+    "external_owner_appointment": "PENDING_EXTERNAL_APPOINTMENT",
+    "host_execution_status": "NOT_STARTED",
+    "physical_validation": "UNVERIFIED",
+    "software_evidence_only": true,
+    "status": "HOST_HARDENING_SOFTWARE_PREPARATION_READY",
+    "valid": true
+  },
+  "observed_result_count": 0,
+  "patient_data_used": false,
+  "physical_execution_performed": false,
+  "physical_validation": "UNVERIFIED",
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "ready_for_target_host_execution": false,
+  "real_target_host_evidence": "UNVERIFIED",
+  "redaction_verified": true,
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "p1-host-hardware-preparation-reconciliation-evidence-v1",
+  "software_evidence_only": true,
+  "source_module": "p1_host_hardware_preparation_reconciliation.py",
+  "target_model": "Acer Spin N17H2",
+  "target_role": "FIXED_EDGE_HUB_CANDIDATE"
+}
