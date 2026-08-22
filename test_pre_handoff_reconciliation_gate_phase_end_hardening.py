@@ -10,11 +10,15 @@ import subprocess
 import sys
 import tempfile
 
+from export_pre_handoff_reconciliation_gate import export_reconciliation
 from pre_handoff_reconciliation_gate import check_repository
 
 
 ROOT = Path(__file__).resolve().parent
-TARGETS = (ROOT / "pre_handoff_reconciliation_gate.py",)
+TARGETS = (
+    ROOT / "pre_handoff_reconciliation_gate.py",
+    ROOT / "export_pre_handoff_reconciliation_gate.py",
+)
 FOCUSED = ROOT / "test_pre_handoff_reconciliation_gate.py"
 FORBIDDEN_IMPORTS = {
     "requests",
@@ -85,12 +89,20 @@ def run() -> None:
         before = target.read_bytes()
         _ = check_repository(ROOT)
         assert target.read_bytes() == before
-    print("[Reconciliation GATE] read-only filesystem boundary: PASSED")
+        exported_path = Path(directory) / "aggregate.json"
+        exported = export_reconciliation(output=exported_path, project_root=ROOT)
+        assert exported["decision"] == "INTERNAL_HANDOFF_RECONCILIATION_READY"
+        assert exported["redaction_verified"] is True
+        assert exported["read_only"] is True
+        assert exported["external_submission_allowed"] is False
+        assert exported["authorization_promoted"] is False
+        assert json.loads(exported_path.read_text(encoding="utf-8")) == exported
+    print("[Reconciliation GATE] read-only filesystem and exporter round trip: PASSED")
 
     serialized = json.dumps(report, sort_keys=True, ensure_ascii=True)
     for marker in ("HN-", "AN-", "patient_id", "patient_token", "PRIVATE KEY", "@"):
         assert marker not in serialized
-    source = TARGETS[0].read_text(encoding="utf-8")
+    source = "\n".join(target.read_text(encoding="utf-8") for target in TARGETS)
     assert '"external_submission_allowed": False' in source
     assert '"authorization_promoted": False' in source
     assert '"runtime_mutation_performed": False' in source
