@@ -1,0 +1,50 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "authorization_boundary_locked": true,
+    "claim_boundary_locked": true,
+    "external_gate_snapshot_preserved": true,
+    "external_submission_disabled": true,
+    "external_transmission_absent": true,
+    "freeze_drift_free": false,
+    "handoff_index_bound": true,
+    "read_only": true,
+    "runtime_mutation_absent": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "functional_verification": "PASSED",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "INTERNAL_HANDOFF_BLOCKED",
+  "drift_decision": "DRIFT_DETECTED",
+  "evidence_type": "PRE_HANDOFF_READINESS_CHECK",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "840e2d93f544507c99e25746141d35102197fc04",
+  "generated_at_utc": "2026-08-22T07:26:16.261961+00:00",
+  "handoff_index_decision": "BOUND",
+  "origin_main_revision": "840e2d93f544507c99e25746141d35102197fc04",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [
+    "FREEZE_DRIFT_DETECTED"
+  ],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-pre-handoff-v1",
+  "source_revision": "75ad94bfa72ebd70c44decdb0c30cc9674ab575b"
+}
