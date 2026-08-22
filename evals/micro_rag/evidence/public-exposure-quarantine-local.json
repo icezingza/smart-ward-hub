@@ -15,7 +15,7 @@
     "frozen_files_readable": true,
     "frozen_hashes_match": true,
     "identifier_patterns_absent": true,
-    "private_repository_confirmed": false,
+    "private_repository_confirmed": true,
     "secret_markers_absent": true,
     "synthetic_identifier_fixtures_classified": true,
     "visibility_observation_valid": true
@@ -25,7 +25,7 @@
     "production_ready": false,
     "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
   },
-  "decision": "PUBLIC_EXPOSURE_QUARANTINED",
+  "decision": "PUBLIC_EXPOSURE_CLEAR",
   "evidence_type": "PUBLIC_EXPOSURE_QUARANTINE",
   "external_submission_allowed": false,
   "external_transmission_performed": false,
@@ -214,16 +214,14 @@
       "path": "test_worker_recovery_transcript.py"
     }
   ],
-  "freeze_source_revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
-  "generated_at_utc": "2026-08-22T14:50:21.355835+00:00",
-  "origin_main_revision": "d89296e73b551fa9863650c0e859f0c208ac5fa9",
+  "freeze_source_revision": "ee61d73676f7ddf66ba2f8b74917aff865f70ea9",
+  "generated_at_utc": "2026-08-22T15:51:45.551097+00:00",
+  "origin_main_revision": "ee61d73676f7ddf66ba2f8b74917aff865f70ea9",
   "read_only": true,
   "redaction_verified": true,
-  "remediation_codes": [
-    "PUBLIC_REPOSITORY_EXPOSURE_QUARANTINED"
-  ],
+  "remediation_codes": [],
   "repository": "icezingza/smart-ward-hub",
   "runtime_mutation_performed": false,
   "schema_version": "smart-ward-public-exposure-quarantine-v1",
-  "visibility_decision": "REPOSITORY_VISIBILITY_BLOCKED"
+  "visibility_decision": "PRIVATE_REPOSITORY_CONFIRMED"
 }
