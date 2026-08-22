@@ -1,0 +1,123 @@
+{
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "artifact_hashes_match": true,
+    "authorization_promotion_disabled": true,
+    "dependency_order_valid": true,
+    "external_gate_snapshot_locked": true,
+    "external_submission_disabled": true,
+    "freeze_boundary_locked": true,
+    "freeze_pass": true,
+    "package_boundaries_valid": true,
+    "required_artifacts_frozen": true,
+    "required_artifacts_present": true,
+    "runtime_artifacts_excluded": true
+  },
+  "claim_boundary": {
+    "clinical_validation": "PENDING",
+    "production_ready": false,
+    "status": "CONTROLLED_PRODUCTION_PROTOTYPE"
+  },
+  "decision": "SELECTED_SET_VALID",
+  "dependency_order": [
+    "wave0_governance_handoff",
+    "p2_external_review_handoff",
+    "worker_recovery_transcript",
+    "worker_recovery_approval_readback",
+    "durable_worker_replay",
+    "cross_package_binding",
+    "consolidated_internal_handoff",
+    "pre_handoff_readiness",
+    "pre_handoff_manifest_validation"
+  ],
+  "evidence_type": "PRE_HANDOFF_EVIDENCE_SELECTION",
+  "excluded": [],
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "freeze_source_revision": "a9fe097056f27399f14095b1352094a46da1cc80",
+  "generated_at_utc": "2026-08-22T07:43:08.783924+00:00",
+  "origin_main_revision": "a9fe097056f27399f14095b1352094a46da1cc80",
+  "read_only": true,
+  "redaction_verified": true,
+  "remediation_codes": [],
+  "runtime_mutation_performed": false,
+  "schema_version": "smart-ward-pre-handoff-selection-v1",
+  "selected": [
+    {
+      "package_id": "wave0_governance_handoff",
+      "path": "evals/micro_rag/evidence/wave0-governance-handoff-20260820.json",
+      "role": "governance",
+      "sha256": "f78f85dfc84676f4ee59bbad8ea52f21dc8eedf1ca0cf51a8c936b33eec0b4fd",
+      "status": "PRESENT"
+    },
+    {
+      "package_id": "p2_external_review_handoff",
+      "path": "evals/micro_rag/evidence/p2-004-external-review-handoff-20260820.json",
+      "role": "governance",
+      "sha256": "7429b689d26eae08858fc216d70ce141e63dbec481b33a35e662b8f069bf7d82",
+      "status": "PRESENT"
+    },
+    {
+      "package_id": "worker_recovery_transcript",
+      "path": "evals/micro_rag/evidence/worker-recovery-transcript-local.json",
+      "role": "worker_recovery",
+      "sha256": "95dad31494f4e3fbdc3017cfd1c2faedef5eb7b82051255d72c0bfa7d0197ac5",
+      "status": "PRESENT"
+    },
+    {
+      "package_id": "worker_recovery_approval_readback",
+      "path": "evals/micro_rag/evidence/worker-recovery-approval-local.json",
+      "role": "worker_recovery",
+      "sha256": "2c57bbc1088b1def591c046a85aa7aef43567162302bdae357134c5c9a4161ac",
+      "status": "PRESENT"
+    },
+    {
+      "package_id": "durable_worker_replay",
+      "path": "evals/micro_rag/evidence/durable-worker-replay-local.json",
+      "role": "worker_recovery",
+      "sha256": "097b8c4e78da9badb4deedf2020d5adec5c90759c671c6e2da07f8c4f58e89d4",
+      "status": "PRESENT"
+    },
+    {
+      "package_id": "cross_package_binding",
+      "path": "evals/micro_rag/evidence/cross-package-binding-local.json",
+      "role": "binding",
+      "sha256": "285a09ff98eff04c9823885be4bbf1f6c35a023f603bee530887dfafb2604af6",
+      "status": "BOUND"
+    },
+    {
+      "package_id": "consolidated_internal_handoff",
+      "path": "evals/micro_rag/evidence/consolidated-internal-handoff-index-local.json",
+      "role": "handoff",
+      "sha256": "dff60d261722fde51756d50877d912dcbfcc7b982f38332f91a46d78b6dc0711",
+      "status": "BOUND"
+    },
+    {
+      "package_id": "pre_handoff_readiness",
+      "path": "evals/micro_rag/evidence/pre-handoff-readiness-local.json",
+      "role": "readiness",
+      "sha256": "10095f47bad98ad6bf4d331c79d0ac6555ba3c43ee9fa31477808af9d13bee14",
+      "status": "INTERNAL_HANDOFF_READY"
+    },
+    {
+      "package_id": "pre_handoff_manifest_validation",
+      "path": "evals/micro_rag/evidence/pre-handoff-manifest-validation-local.json",
+      "role": "validation",
+      "sha256": "4a3a95f3c9af28724ec804069f2d09b8c963625aa5e43fb3bede65bc552dfc0e",
+      "status": "MANIFEST_VALID"
+    }
+  ]
+}
