@@ -1,0 +1,80 @@
+{
+  "all_passed": true,
+  "authorization_boundary": {
+    "clinical_validation_authorized": false,
+    "external_authority": "NONE",
+    "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+    "production_authorized": false,
+    "runtime_authority": "NONE"
+  },
+  "authorization_promoted": false,
+  "checks": {
+    "authority_boundary_locked": true,
+    "live_mtls_evidence_unverified": true,
+    "live_network_contact_absent": true,
+    "live_oidc_evidence_unverified": true,
+    "mtls_local_configuration_valid": true,
+    "oidc_local_configuration_valid": true
+  },
+  "clinical_validation_authorized": false,
+  "decision": "P0_IDENTITY_TRANSPORT_SOFTWARE_VERIFIED_PENDING_LIVE_EVIDENCE",
+  "evidence_scope": "LOCAL_DETERMINISTIC_FIXTURE_ONLY",
+  "evidence_type": "P0_IDENTITY_TRANSPORT_READINESS",
+  "external_authority": "NONE",
+  "external_gate_snapshot": {
+    "blocked": 7,
+    "evidence_submitted": 0,
+    "open": 3,
+    "passed": 0
+  },
+  "external_submission_allowed": false,
+  "external_transmission_performed": false,
+  "generated_at_utc": "2026-08-22T19:34:46.410781Z",
+  "hardware_evidence": "UNVERIFIED",
+  "live_evidence": {
+    "certificate_rotation_and_revocation": "UNVERIFIED",
+    "issuer_jwks_reachability": "UNVERIFIED",
+    "mutual_tls_handshake": "UNVERIFIED",
+    "network_segmentation": "UNVERIFIED",
+    "rotation_and_revocation": "UNVERIFIED",
+    "scope_mapping": "UNVERIFIED",
+    "token_signature_acceptance": "UNVERIFIED"
+  },
+  "mtls_result": {
+    "ca_certs_present": true,
+    "certfile_present": true,
+    "client_cert_required": true,
+    "evidence_class": "LOCAL_FILE_HYGIENE_ONLY",
+    "keyfile_present": true,
+    "live_handshake_verified": false,
+    "live_revocation_verified": false,
+    "live_rotation_verified": false,
+    "network_segmentation_verified": false,
+    "private_key_mode": "0600",
+    "valid": true
+  },
+  "oidc_result": {
+    "algorithms": [
+      "RS256"
+    ],
+    "audience_configured": true,
+    "auth_mode": "oidc",
+    "evidence_class": "LOCAL_CONFIGURATION_ONLY",
+    "issuer_configured": true,
+    "jwks_url_is_https": true,
+    "live_issuer_reachable": false,
+    "live_jwks_rotation_verified": false,
+    "live_revocation_verified": false,
+    "live_token_acceptance_verified": false,
+    "valid": true
+  },
+  "patient_data_used": false,
+  "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
+  "production_authorized": false,
+  "raw_frames_recorded": false,
+  "redaction_verified": true,
+  "runtime_authority": "NONE",
+  "runtime_mutation_performed": false,
+  "schema_version": "p0-identity-transport-readiness-evidence-v1",
+  "source_module": "p0_identity_transport_readiness_guard.py"
+}

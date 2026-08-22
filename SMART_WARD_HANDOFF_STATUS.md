@@ -453,3 +453,12 @@ Guard นี้ยืนยัน software contract เท่านั้น ไ
 ## P0 HIS/FHIR Phase-end Freeze-safety Repair — 23 สิงหาคม 2026
 
 Master regression รอบแรกของ P0 HIS/FHIR พบ `freeze_artifact_hash_mismatch` เพราะ phase-end exporter round-trip เขียนทับ tracked evidence path ระหว่างทดสอบ. แก้ phase-end gate ให้ใช้ temporary export path และไม่แตะ frozen evidence artifact; focused/phase-end rerun ผ่าน และ snapshot ถูกคืนให้ตรงกับ manifest. นี่เป็น test-harness/freeze hygiene repair เท่านั้น ไม่ใช่การเปลี่ยน HIS contract, purge semantics หรือ authority boundary. Repair commit `f257169`; ต้อง refresh final freeze, rerun exact master regression และ final alignment ต่อ.
+
+
+## P0 OIDC/mTLS Identity-Transport Readiness Guard — 23 สิงหาคม 2026
+
+เพิ่ม local-only/read-only readiness guard สำหรับ OIDC และ mTLS configuration โดยใช้ deterministic fixtures เท่านั้น. Focused/adversarial suite 5 cases และ phase-end hardening ผ่านครบ: OIDC mode/HTTPS/algorithm validation, mTLS cert/key/CA metadata, client-certificate requirement, private-key permission, unknown/secret marker rejection, no network/provider/transport imports, live-evidence boundary, temporary exporter round-trip, mutation isolation และ `git diff --check`.
+
+Evidence `evals/micro_rag/evidence/p0-identity-transport-readiness-local.json` ระบุ `P0_IDENTITY_TRANSPORT_SOFTWARE_VERIFIED_PENDING_LIVE_EVIDENCE`, `all_passed=true`, `evidence_scope=LOCAL_DETERMINISTIC_FIXTURE_ONLY`, local OIDC/mTLS configuration valid, `live_network_contact_absent=true`, live OIDC/mTLS evidence ทุกด้าน `UNVERIFIED`, `external_submission_allowed=false`, `external_transmission_performed=false`, `authorization_promoted=false`, `patient_data_used=false`, `hardware_evidence=UNVERIFIED` และ External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`.
+
+Guard นี้ไม่ใช่ live issuer/JWKS evidence, signed-token acceptance, scope mapping, key rotation/revocation, CA trust, mutual TLS handshake, certificate lifecycle หรือ network segmentation evidence. P0-002/P0-003 ต้องรอหลักฐานจริงจาก hospital-owned IdP/CA/network และการอนุมัติที่แยกต่างหาก. Product ยังคง `NOT_PRODUCTION_READY`, `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE` และ pilot gate `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.

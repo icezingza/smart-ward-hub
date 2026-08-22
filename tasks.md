@@ -456,3 +456,12 @@ P0-001 ยังคงเป็น contract/software evidence เท่านั
 ### P0 HIS/FHIR phase-end freeze-safety repair — 23 สิงหาคม 2026
 
 Master regression รอบแรกเปิดเผยว่า phase-end exporter round-trip ของ P0 HIS/FHIR เขียนทับ tracked evidence path ระหว่างการทดสอบ ทำให้ `evidence_reconciliation_phase_end_hardening.py` ปฏิเสธด้วย `freeze_artifact_hash_mismatch`. แก้โดยให้ phase-end gate export ไปยัง temporary path สำหรับ round-trip แทนการเขียน evidence artifact ที่ถูก freeze; ไม่เปลี่ยน contract/evaluator หรือ authority boundary. Focused และ phase-end rerun ผ่านหลังแก้ และ snapshot ที่ frozen ถูกคืนให้ตรงกับ manifest ก่อนดำเนินการต่อ. Repair commit คือ `f257169`; master regression final และ freeze refresh ยังต้องรันต่อ.
+
+
+### P0 OIDC/mTLS Identity-Transport Readiness Guard — 23 สิงหาคม 2026
+
+เพิ่ม `p0_identity_transport_readiness_guard.py` เป็น local-only evaluator สำหรับ OIDC และ mTLS configuration shape/file hygiene โดยไม่ติดต่อ issuer, JWKS, TLS peer หรือ hospital network. Deterministic checks ผ่าน: OIDC mode, absolute HTTPS issuer/JWKS, safe algorithm allowlist, mTLS cert/key/CA metadata, client-certificate requirement, private-key mode, unknown-field/secret-marker rejection, no network contact และ locked authority boundary.
+
+`test_p0_identity_transport_readiness_guard.py` ผ่าน focused/adversarial 5 cases; `test_p0_identity_transport_readiness_guard_phase_end_hardening.py` ผ่าน AST no network/provider/transport/scheduler imports, live-evidence/secret scan, runtime boundary, temporary-path exporter round-trip, mutation isolation และ `git diff --check`. Evidence `evals/micro_rag/evidence/p0-identity-transport-readiness-local.json` ระบุ `P0_IDENTITY_TRANSPORT_SOFTWARE_VERIFIED_PENDING_LIVE_EVIDENCE`, `all_passed=true`, `external_submission_allowed=false`, `external_transmission_performed=false`, `authorization_promoted=false`, `patient_data_used=false`, `hardware_evidence=UNVERIFIED` และ External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`.
+
+P0-002/P0-003 ยังคงเป็น local configuration evidence เท่านั้น. Live issuer/JWKS reachability, token signature/claims/scope mapping, key rotation/revocation, CA chain, mutual TLS handshake, certificate lifecycle และ network segmentation ยังคง `UNVERIFIED` และต้องมาจาก hospital-owned identity/transport evidence. Product ยังคง `NOT_PRODUCTION_READY`, `external_authority=NONE`, `clinical_validation_authorized=false`, `production_authorized=false`, `runtime_authority=NONE` และ pilot gate `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
