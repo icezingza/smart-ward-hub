@@ -221,8 +221,10 @@ def reconcile_packages(
     reviewer_path: Path,
     wave_e_path: Path,
     wave0_template_path: Path,
+    lineage_root: Path | None = None,
 ) -> dict[str, Any]:
     root = root.expanduser().resolve()
+    lineage_root = (lineage_root or root).expanduser().resolve()
     freeze_path = freeze_path.expanduser().resolve()
     wave4_path = wave4_path.expanduser().resolve()
     reviewer_path = reviewer_path.expanduser().resolve()
@@ -279,7 +281,7 @@ def reconcile_packages(
                 "ancestor_verified": True,
             }
             continue
-        ancestor_verified = revision_is_ancestor(root, revision, freeze_source)
+        ancestor_verified = revision_is_ancestor(lineage_root, revision, freeze_source)
         relation = "ANCESTOR_REQUIRES_REGENERATION" if ancestor_verified else "NON_ANCESTOR_BLOCKED"
         source_revision_lineage[name] = {
             "revision": revision,

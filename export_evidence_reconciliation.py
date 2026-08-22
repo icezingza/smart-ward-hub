@@ -23,7 +23,7 @@ def export(*, root: Path, output: Path) -> dict:
         with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
             tar.extractall(frozen_root, filter="data")
         (frozen_root / freeze_path.relative_to(root)).write_bytes(freeze_path.read_bytes())
-        result = reconcile_packages(**default_paths(frozen_root))
+        result = reconcile_packages(**default_paths(frozen_root), lineage_root=root)
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
