@@ -10,6 +10,7 @@ import subprocess
 import sys
 import tempfile
 
+from export_pre_handoff_manifest_validation import export_validation
 from export_pre_handoff_readiness import export_readiness
 from pre_handoff_manifest_validator import (
     ManifestDecision,
@@ -21,6 +22,7 @@ from pre_handoff_manifest_validator import (
 ROOT = Path(__file__).resolve().parent
 TARGETS = (
     ROOT / "pre_handoff_manifest_validator.py",
+    ROOT / "export_pre_handoff_manifest_validation.py",
 )
 FOCUSED = ROOT / "test_pre_handoff_manifest_validator.py"
 FORBIDDEN_IMPORTS = {
@@ -95,9 +97,18 @@ def run() -> None:
         assert exported["runtime_mutation_performed"] is False
         assert exported["external_transmission_performed"] is False
         assert exported["redaction_verified"] is True
-    print("[PreHandoffManifest GATE] redacted readiness exporter round-trip: PASSED")
+        validation_output = Path(directory) / "manifest-validation.json"
+        validation = export_validation(output=validation_output, project_root=ROOT)
+        assert json.loads(validation_output.read_text(encoding="utf-8")) == validation
+        assert validation["read_only"] is True
+        assert validation["external_submission_allowed"] is False
+        assert validation["authorization_promoted"] is False
+        assert validation["runtime_mutation_performed"] is False
+        assert validation["external_transmission_performed"] is False
+        assert validation["redaction_verified"] is True
+    print("[PreHandoffManifest GATE] redacted readiness/manifest validation exporter round-trip: PASSED")
 
-    source = TARGETS[0].read_text(encoding="utf-8")
+    source = "\n".join(target.read_text(encoding="utf-8") for target in TARGETS)
     assert '"SNAPSHOT_EXTERNAL_SUBMISSION_ENABLED"' in source
     assert '"SNAPSHOT_RUNTIME_MUTATION"' in source
     assert '"SNAPSHOT_EXTERNAL_TRANSMISSION"' in source

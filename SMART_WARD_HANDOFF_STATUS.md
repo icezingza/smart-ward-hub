@@ -255,3 +255,12 @@ Decision software-only ที่ตรวจได้คือ `INTERNAL_HANDOFF
 เพิ่ม focused/adversarial suite 8 cases และ phase-end hardening gate สำหรับ valid fixture, path/hash/source/decision/check mismatch, claim/authorization/gate mutation, external/runtime/transmission lock, no network/provider/scheduler side effect, redaction และ private-key scan. Snapshot lifecycle ถูกกำหนดให้ export → commit → refresh freeze → validate → master regression.
 
 สถานะภายนอกยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Pre-Handoff Manifest ancestor-binding correction — 22 สิงหาคม 2026
+
+จาก snapshot rehearsal พบว่า pre-handoff snapshot ที่สร้างก่อน feature/freeze commit จะมี source/origin revision เป็น ancestor ของ freeze source revision ในลำดับ export → commit → freeze. Validator จึงถูกปรับให้ตรวจ ancestor relation ด้วย local Git graph แบบ read-only แทนการบังคับ string equality; revision ที่ไม่ใช่ ancestor ยังคงคืน `MANIFEST_INVALID`.
+
+เพิ่ม focused test สำหรับ ancestor path และคง stop rules สำหรับ hash mismatch, path mismatch, decision/check mismatch, claim/authorization/gate mutation และ external/runtime/transmission mutation.
+
+สถานะภายนอกคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.

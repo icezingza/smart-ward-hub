@@ -7,6 +7,7 @@ from enum import StrEnum
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 from typing import Any, Mapping
 
 from consolidated_internal_handoff_index import LOCKED_BOUNDARY, LOCKED_EXTERNAL_GATE_SNAPSHOT
@@ -100,6 +101,8 @@ def evaluate_manifest(
     fresh_readiness: Mapping[str, Any],
     snapshot_sha256: str | None = None,
     snapshot_relative: str = SNAPSHOT_RELATIVE.as_posix(),
+    snapshot_source_ancestor: bool | None = None,
+    snapshot_origin_ancestor: bool | None = None,
 ) -> ManifestValidationResult:
     """Validate a supplied snapshot against current readiness and freeze metadata."""
     codes: list[str] = []
@@ -117,8 +120,16 @@ def evaluate_manifest(
             and freeze_entry.get("sha256") == snapshot_sha256
         ),
         "freeze_pass": freeze.get("freeze_status") == "PASS",
-        "snapshot_source_matches_freeze": snapshot.get("source_revision") == freeze.get("source_revision"),
-        "snapshot_origin_matches_freeze": snapshot.get("origin_main_revision") == freeze.get("origin_main_revision"),
+        "snapshot_source_matches_freeze": (
+            snapshot_source_ancestor
+            if snapshot_source_ancestor is not None
+            else snapshot.get("source_revision") == freeze.get("source_revision")
+        ),
+        "snapshot_origin_matches_freeze": (
+            snapshot_origin_ancestor
+            if snapshot_origin_ancestor is not None
+            else snapshot.get("origin_main_revision") == freeze.get("origin_main_revision")
+        ),
         "snapshot_decision_ready": (
             snapshot.get("decision") == "INTERNAL_HANDOFF_READY"
             and snapshot.get("remediation_codes") == []
@@ -183,6 +194,20 @@ def evaluate_manifest(
     )
 
 
+def _is_ancestor(root: Path, older: Any, newer: Any) -> bool:
+    if not isinstance(older, str) or not isinstance(newer, str):
+        return False
+    try:
+        return subprocess.run(
+            ["git", "merge-base", "--is-ancestor", older, newer],
+            cwd=root,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        ).returncode == 0
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+
 def validate_repository(root: Path = ROOT) -> dict[str, Any]:
     """Validate the tracked pre-handoff snapshot without writing any files."""
     snapshot_path = root / SNAPSHOT_RELATIVE
@@ -196,6 +221,8 @@ def validate_repository(root: Path = ROOT) -> dict[str, Any]:
         freeze=freeze,
         fresh_readiness=fresh,
         snapshot_sha256=snapshot_sha,
+        snapshot_source_ancestor=_is_ancestor(root, snapshot.get("source_revision"), freeze.get("source_revision")),
+        snapshot_origin_ancestor=_is_ancestor(root, snapshot.get("origin_main_revision"), freeze.get("origin_main_revision")),
     )
     return {
         "evidence_type": "PRE_HANDOFF_EVIDENCE_MANIFEST_VALIDATION",

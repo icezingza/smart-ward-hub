@@ -12,7 +12,7 @@
 
 เพิ่ม Pre-Handoff Evidence Manifest Validator สำหรับตรวจ snapshot ที่เตรียมใช้ใน internal handoff ให้ตรงกับ readiness decision ล่าสุด, release-freeze source/origin revisions, freeze-listed snapshot hash, claim boundary, authorization boundary และ external-gate snapshot
 
-Validator คืน `MANIFEST_VALID` ได้เฉพาะเมื่อ snapshot เป็น `INTERNAL_HANDOFF_READY`, remediation codes ว่าง, checks ตรงกับ fresh readiness check, snapshot อยู่ใน freeze manifestและ hash ตรง, freeze เป็น `PASS`, source lineage ตรง และทุก external/runtime lock ยังคงปิด. กรณี mismatch คืน `MANIFEST_INVALID` พร้อม remediation code และห้ามตีความเป็น approval
+Validator คืน `MANIFEST_VALID` ได้เฉพาะเมื่อ snapshot เป็น `INTERNAL_HANDOFF_READY`, remediation codes ว่าง, checks ตรงกับ fresh readiness check, snapshot อยู่ใน freeze manifestและ hash ตรง, freeze เป็น `PASS`, snapshot source/origin revisions เป็น valid ancestors ของ freeze revision และทุก external/runtime lock ยังคงปิด. กรณี mismatch คืน `MANIFEST_INVALID` พร้อม remediation code และห้ามตีความเป็น approval
 
 ## Validation matrix
 
@@ -21,7 +21,7 @@ Validator คืน `MANIFEST_VALID` ได้เฉพาะเมื่อ sna
 | Snapshot exists | PASS | `SNAPSHOT_MISSING` |
 | Snapshot is freeze-listed | PASS | `SNAPSHOT_NOT_IN_FREEZE` |
 | Snapshot hash matches freeze | PASS | `SNAPSHOT_HASH_MISMATCH` |
-| Snapshot source/origin revisions match freeze | PASS | `SNAPSHOT_SOURCE_REVISION_MISMATCH`, `SNAPSHOT_ORIGIN_REVISION_MISMATCH` |
+| Snapshot source/origin revisions are freeze ancestors | PASS | `SNAPSHOT_SOURCE_REVISION_MISMATCH`, `SNAPSHOT_ORIGIN_REVISION_MISMATCH` |
 | Freeze status | PASS | `FREEZE_NOT_PASS` |
 | Fresh readiness decision | PASS | `FRESH_READINESS_BLOCKED`, `FRESH_READINESS_MISMATCH` |
 | Snapshot checks match fresh checks | PASS | `SNAPSHOT_CHECKS_MISMATCH` |
@@ -71,6 +71,14 @@ Allowed claims remain **controlled production prototype**, **functional verifica
   "pilot_gate_status": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION"
 }
 ```
+
+## ไฟล์หลัก
+
+- `pre_handoff_manifest_validator.py`
+- `export_pre_handoff_manifest_validation.py`
+- `test_pre_handoff_manifest_validator.py`
+- `test_pre_handoff_manifest_validator_phase_end_hardening.py`
+- `PRE_HANDOFF_EVIDENCE_MANIFEST_VALIDATOR_READINESS_REPORT_20260822.md`
 
 ## Real-world limitations
 

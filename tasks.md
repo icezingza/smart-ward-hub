@@ -277,3 +277,8 @@ Pre-handoff check เป็น internal repository handoff readiness เท่�
 `test_pre_handoff_manifest_validator.py` ผ่าน 8 focused/adversarial cases ครอบคลุม valid fixture, missing/path/hash/source mismatch, decision/check mismatch, claim/authorization mutation, external/runtime/transmission mutation และ fresh readiness blocked. `test_pre_handoff_manifest_validator_phase_end_hardening.py` ผ่าน side-effect scan, redacted exporter round-trip, no-self-authorization/private-key scan และ diff hygiene. ยังต้อง commit/push, สร้าง snapshot, refresh freeze, รัน validator หลัง snapshot, master regression และ final hygiene.
 
 Validator เป็น internal manifest consistency check เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical authorization หรือ production approval. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Pre-Handoff Manifest ancestor-binding correction — 22 สิงหาคม 2026
+
+พบจาก snapshot rehearsal ว่า snapshot ที่ export ก่อน commit ถูกต้องตาม lifecycle แต่หลัง freeze refresh แล้ว `source_revision` ของ snapshot จะเป็น ancestor ของ freeze source ไม่ใช่ค่าเท่ากัน. Validator เดิมจึงคืน `SNAPSHOT_SOURCE_REVISION_MISMATCH` และ `SNAPSHOT_ORIGIN_REVISION_MISMATCH` อย่างถูกต้องแบบ fail-closed. ปรับ contract ให้ตรวจ `git merge-base --is-ancestor` แบบ read-only และเพิ่ม focused test ยืนยัน ancestor path; exact mismatch ที่ไม่ใช่ ancestor ยังคงถูกบล็อก.

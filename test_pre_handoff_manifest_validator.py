@@ -88,6 +88,22 @@ def test_snapshot_not_in_freeze_is_blocked():
     assert ManifestCode.SNAPSHOT_NOT_IN_FREEZE in result.remediation_codes
 
 
+def test_snapshot_source_ancestor_is_allowed():
+    snapshot, freeze, fresh = _fixtures()
+    snapshot["source_revision"] = "c" * 40
+    snapshot["origin_main_revision"] = "d" * 40
+    result = evaluate_manifest(
+        snapshot=snapshot,
+        freeze=freeze,
+        fresh_readiness=fresh,
+        snapshot_sha256="b" * 64,
+        snapshot_source_ancestor=True,
+        snapshot_origin_ancestor=True,
+    )
+    assert result.decision == ManifestDecision.VALID
+    assert result.remediation_codes == ()
+
+
 def test_snapshot_source_mismatch_is_blocked():
     snapshot, freeze, fresh = _fixtures()
     snapshot["source_revision"] = "d" * 40
