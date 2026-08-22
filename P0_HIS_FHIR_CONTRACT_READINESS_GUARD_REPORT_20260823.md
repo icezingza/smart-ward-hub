@@ -78,6 +78,8 @@ Phase-end hardening ผ่านรายการต่อไปนี้:
 | Evidence mutation isolation | `PASSED` |
 | `git diff --check` | `PASSED` |
 
+หลังจาก master regression ตรวจพบว่า round-trip exporter เขียนทับ tracked evidence ระหว่างการทดสอบ จึงแก้ phase-end gate ให้ใช้ temporary export path. การ rerun ยืนยันว่า exporter round-trip ยังผ่านและไม่เปลี่ยน frozen evidence; จุดนี้เป็น test-harness hygiene control ไม่ใช่การเปลี่ยน external authorization.
+
 ## 6. การทำซ้ำ / Reproduction
 
 ```text
