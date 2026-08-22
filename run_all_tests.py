@@ -100,6 +100,8 @@ TESTS = [
     "test_worker_recovery_approval_phase_end_hardening.py",
     "test_cross_package_evidence_binding.py",
     "test_cross_package_evidence_binding_phase_end_hardening.py",
+    "test_p2_005_worker_control_consistency.py",
+    "test_p2_005_worker_control_consistency_phase_end_hardening.py",
     "test_freeze_integrity_monitor.py",
     "test_freeze_integrity_monitor_phase_end_hardening.py",
     "test_pre_handoff_readiness.py",
