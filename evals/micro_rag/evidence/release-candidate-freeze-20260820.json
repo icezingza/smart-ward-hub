@@ -271,6 +271,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "FREEZE_INTEGRITY_MONITOR_READINESS_REPORT_20260822.md",
+      "sha256": "b5323a9847519fe33aa9c0ae54d2f14ea93b9e46e0c145ffab617756bffabc06",
+      "size_bytes": 5524
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "GV10_INDEPENDENT_REVIEW_DOSSIER.md",
       "sha256": "6a00c8328d37e8c89d9202a005253a67e77b7f3743b90491fde6faf2c78d3315",
       "size_bytes": 7414
@@ -722,8 +728,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "853a41e9c98a81f598c8d8e6f5cfdbb125a22bc393dd320fdb94a65fc247a94d",
-      "size_bytes": 51382
+      "sha256": "e3b992bc523c387a2dec97be24e9a204929190e7a4f7c347d6217d64015ca7b7",
+      "size_bytes": 53019
     },
     {
       "classification": "contract_or_governance_document",
@@ -1837,6 +1843,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "freeze_integrity_monitor.py",
+      "sha256": "ba02eee78d6a3b5f7aa730163f8709da57f649c48c535346a7887a7b4eb052e7",
+      "size_bytes": 14444
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
       "sha256": "2bdad9e568faf6b6030e3a70e4786a71118acf8ea102d60e0736f214417c9050",
       "size_bytes": 4703
@@ -2276,8 +2288,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "f4af557c28d090b19247786308aae29e97efa77ba5ce27ba3dfe9c12e281ce1e",
-      "size_bytes": 6673
+      "sha256": "8f28fa9e08aee18998d6215cee6d7fda07c131da1351706b678ac52d80c62cd3",
+      "size_bytes": 6773
     },
     {
       "classification": "source_or_runtime_config",
@@ -2354,8 +2366,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "c49a7b4ae173f46fca54c94ba93d2ceb9ed49ae4cfccd4f7ee4febe0f28402d6",
-      "size_bytes": 58860
+      "sha256": "d4d78f63db36208f34923e275152c39fb6819eaf69a2eadccc54cbf632fc7091",
+      "size_bytes": 60759
     },
     {
       "classification": "source_or_runtime_config",
@@ -2572,6 +2584,18 @@
       "path": "test_forensics.py",
       "sha256": "6a18cf383dcf76fe7aea7b9b7fb4a02a08624dcec1b6985c5b5cdbaf9fa21978",
       "size_bytes": 3426
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_freeze_integrity_monitor.py",
+      "sha256": "df17c00a5c09e2606c8479b6185cfa350763c460cb3f2d0e94f0e775e7281fc6",
+      "size_bytes": 4831
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_freeze_integrity_monitor_phase_end_hardening.py",
+      "sha256": "e2e95029de9758a15ab7bc37ecd5cf827a5a0533b3b39e8355e97856f82849e1",
+      "size_bytes": 3872
     },
     {
       "classification": "source_or_runtime_config",
@@ -3192,14 +3216,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T03:17:23.444889+00:00",
+  "freeze_created_at_utc": "2026-08-22T03:34:36.358824+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "6496b057f63bfbcfe9fe8fe607963646d4cd7f0c",
+  "origin_main_revision": "969b16f10fb10884adb2f36965ccd25c7b432909",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "6496b057f63bfbcfe9fe8fe607963646d4cd7f0c"
+  "source_revision": "969b16f10fb10884adb2f36965ccd25c7b432909"
 }
