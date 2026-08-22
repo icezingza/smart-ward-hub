@@ -300,3 +300,10 @@ Selection policy เป็น internal artifact navigation/selection เท่�
 เพิ่ม `export_pre_handoff_selection_manifest_consistency.py`, focused/adversarial suite 8 cases และ phase-end hardening gate. ขั้นตอนที่เหลือคือผูกเข้า master regression, commit/push, สร้าง consolidated consistency snapshot, refresh freeze, รัน master regression และ final hygiene.
 
 ผลนี้เป็น internal software evidence consistency เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical authorization หรือ production approval.
+
+
+### Pre-Handoff Reconciliation Gate status note — 22 สิงหาคม 2026
+
+เพิ่ม `pre_handoff_reconciliation_gate.py` สำหรับรวม child gates 4 ชั้น: freeze drift (`DRIFT_FREE`), manifest (`MANIFEST_VALID`), evidence selection (`SELECTED_SET_VALID`) และ selection-to-manifest consistency (`SELECTION_MANIFEST_CONSISTENT`). Aggregate decision เป็น `INTERNAL_HANDOFF_RECONCILIATION_READY` ได้เมื่อ child decisions/remediation codes/checks ผ่านทั้งหมดและ output locks ยังคงปิด.
+
+Focused/adversarial suite 8 cases ผ่าน. Phase-end gate พบว่าใน workspace ก่อน commit aggregate จะ fail closed ด้วย `DRIFT_GATE_FAILED` เพราะ source drift จากไฟล์ใหม่ ซึ่งเป็น expected stop rule; หลัง commit และ refresh freeze ต้องรัน gate ซ้ำจน ready. เพิ่ม redacted aggregate exporter และต้องผูก tests เข้า master regression, commit/push, snapshot/freeze refresh และ final hygiene.

@@ -280,3 +280,10 @@ Decision software-only ที่ตรวจได้คือ `INTERNAL_HANDOFF
 เพิ่ม `pre_handoff_selection_manifest_consistency.py` สำหรับตรวจ cross-artifact chain ระหว่าง selected-set, pre-handoff readiness, manifest validation และ release freeze. Decision จะเป็น `SELECTION_MANIFEST_CONSISTENT` เฉพาะเมื่อ selected package set, SHA-256, dependency order, manifest/readiness binding, freeze ancestor lineage, claim boundary และ authorization/gate snapshot สอดคล้องกัน.
 
 เพิ่ม consolidated redacted exporter, focused/adversarial tests 8 cases และ phase-end hardening gate. สถานะ external ยังคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
+
+
+## Pre-Handoff Reconciliation Gate — continuation — 22 สิงหาคม 2026
+
+เพิ่ม aggregate gate สำหรับรวมผล freeze drift, pre-handoff manifest, evidence selection และ selection-to-manifest consistency เป็น decision เดียว. ผลที่ต้องผ่านคือ `INTERNAL_HANDOFF_RECONCILIATION_READY`; หาก child gate ใดล้มเหลวจะคืน `INTERNAL_HANDOFF_RECONCILIATION_BLOCKED` พร้อม composite remediation code และไม่เปลี่ยนสถานะ authorization.
+
+Gate เป็น read-only และตรวจ external submission/transmission disabled, runtime mutation absent, no-self-authorization และ claim boundary. Focused/adversarial suite 8 cases ผ่าน. สถานะภายนอกคงเดิม: Product `NOT_PRODUCTION_READY`; pilot `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`; External Gates `7 BLOCKED / 3 OPEN / 0 PASSED`; `external_authority=NONE`; `clinical_validation_authorized=false`; `production_authorized=false`; `runtime_authority=NONE`.
