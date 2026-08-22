@@ -291,3 +291,12 @@ Validator เป็น internal manifest consistency check เท่านั้
 Policy ตรวจ freeze PASS, locked authorization/gate snapshot, required artifact presence, freeze membership, SHA-256, required package decisions, exact dependency order และ runtime artifact exclusion. `export_pre_handoff_evidence_selection.py` สร้าง redacted selected-set snapshot. Focused/adversarial suite 8 cases และ phase-end hardening gate ผ่านครบ. ยังต้อง commit/push, generate selection snapshot, refresh freeze, master regression และ final hygiene.
 
 Selection policy เป็น internal artifact navigation/selection เท่านั้น ไม่ใช่ external submission, reviewer acceptance, authorization record หรือ production approval. Product remains `NOT_PRODUCTION_READY`; pilot remains `BLOCKED_PENDING_EXTERNAL_AUTHORIZATION`.
+
+
+### Pre-Handoff Selection-to-Manifest Consistency status note — 22 สิงหาคม 2026
+
+เพิ่ม `pre_handoff_selection_manifest_consistency.py` สำหรับตรวจ chain ระหว่าง selected-set snapshot, pre-handoff readiness, pre-handoff manifest validation และ freeze manifest. ตรวจ decision, dependency order, selected package/path set, current/freeze SHA-256, freeze lineage แบบ ancestor, manifest-to-readiness binding, package status, claim/authorization/gate locks และ external/runtime locks.
+
+เพิ่ม `export_pre_handoff_selection_manifest_consistency.py`, focused/adversarial suite 8 cases และ phase-end hardening gate. ขั้นตอนที่เหลือคือผูกเข้า master regression, commit/push, สร้าง consolidated consistency snapshot, refresh freeze, รัน master regression และ final hygiene.
+
+ผลนี้เป็น internal software evidence consistency เท่านั้น ไม่ใช่ external submission, independent reviewer acceptance, clinical authorization หรือ production approval.
