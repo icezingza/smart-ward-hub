@@ -7,7 +7,7 @@
     "runtime_authority": "NONE"
   },
   "claim_boundary": "EXTERNAL_UNVERIFIED_PENDING_OWNER_APPOINTMENT",
-  "created_at_utc": "2026-08-21T17:34:09Z",
+  "created_at_utc": "2026-08-22T08:47:19Z",
   "evidence_class": "SOFTWARE_COORDINATION_ONLY",
   "execution_permitted": false,
   "external_gate_snapshot": {
@@ -33,31 +33,31 @@
   "findings": [
     {
       "finding_id": "SOURCE_NONIDENTICAL_WAVE4",
-      "message": "wave4 source revision is not byte-identical to the top-level freeze source.",
-      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "message": "wave4 source revision is an ancestor of the top-level freeze source but is not byte-identical.",
+      "remediation": "Regenerate the package snapshot after the approved freeze source revision before external submission.",
       "severity": "MEDIUM",
-      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+      "status": "ANCESTOR_VERIFIED_REQUIRES_REGENERATION"
     },
     {
       "finding_id": "SOURCE_NONIDENTICAL_REVIEWER",
-      "message": "reviewer source revision is not byte-identical to the top-level freeze source.",
-      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "message": "reviewer source revision is an ancestor of the top-level freeze source but is not byte-identical.",
+      "remediation": "Regenerate the package snapshot after the approved freeze source revision before external submission.",
       "severity": "MEDIUM",
-      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+      "status": "ANCESTOR_VERIFIED_REQUIRES_REGENERATION"
     },
     {
       "finding_id": "SOURCE_NONIDENTICAL_WAVE_E",
-      "message": "wave_e source revision is not byte-identical to the top-level freeze source.",
-      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
+      "message": "wave_e source revision is an ancestor of the top-level freeze source but is not byte-identical.",
+      "remediation": "Regenerate the package snapshot after the approved freeze source revision before external submission.",
       "severity": "MEDIUM",
-      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+      "status": "ANCESTOR_VERIFIED_REQUIRES_REGENERATION"
     },
     {
       "finding_id": "SOURCE_NONIDENTICAL_WAVE0",
-      "message": "wave0 source revision is not byte-identical to the top-level freeze source.",
-      "remediation": "Verify git ancestry or regenerate the package snapshot after an approved source revision before external submission.",
-      "severity": "MEDIUM",
-      "status": "ANCESTOR_OR_STALE_UNVERIFIED"
+      "message": "wave0 source revision is not a verified ancestor of the top-level freeze source.",
+      "remediation": "Replace the package snapshot with one derived from an approved source revision and rerun reconciliation before external submission.",
+      "severity": "HIGH",
+      "status": "NON_ANCESTOR_SOURCE_BLOCKED"
     }
   ],
   "gate_decision": "BLOCKED_PENDING_EXTERNAL_AUTHORIZATION",
@@ -73,9 +73,36 @@
   "reconciliation_status": "RECONCILED_WITH_EXTERNAL_BLOCKERS",
   "schema_version": "smart-ward-evidence-reconciliation-v1",
   "software_evidence_only": true,
-  "source_revision_alignment": "NONIDENTICAL_REQUIRES_ANCESTOR_OR_REGENERATION_CHECK",
+  "source_revision_alignment": "ANCESTOR_VERIFIED_REQUIRES_REGENERATION",
+  "source_revision_lineage": {
+    "freeze": {
+      "ancestor_verified": true,
+      "relation": "FREEZE_SOURCE",
+      "revision": "c6cb14d80f00e13b6fee1f31532e37966688165c"
+    },
+    "reviewer": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR_REQUIRES_REGENERATION",
+      "revision": "899e9423412ac91276340b0e13cf0998ec10aec7"
+    },
+    "wave0": {
+      "ancestor_verified": false,
+      "relation": "NON_ANCESTOR_BLOCKED",
+      "revision": "PENDING_EXTERNAL_APPOINTMENT"
+    },
+    "wave4": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR_REQUIRES_REGENERATION",
+      "revision": "899e9423412ac91276340b0e13cf0998ec10aec7"
+    },
+    "wave_e": {
+      "ancestor_verified": true,
+      "relation": "ANCESTOR_REQUIRES_REGENERATION",
+      "revision": "0dbd9d407a227605b5c35afca798c69e7db62ba0"
+    }
+  },
   "source_revisions": {
-    "freeze": "bc25c59ed3833cd10ccd5d483dc8627be599e2c0",
+    "freeze": "c6cb14d80f00e13b6fee1f31532e37966688165c",
     "reviewer": "899e9423412ac91276340b0e13cf0998ec10aec7",
     "wave0": "PENDING_EXTERNAL_APPOINTMENT",
     "wave4": "899e9423412ac91276340b0e13cf0998ec10aec7",
