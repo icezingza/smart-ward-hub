@@ -649,6 +649,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "PRE_HANDOFF_READINESS_CHECK_READINESS_REPORT_20260822.md",
+      "sha256": "f7fdc4b198aba19d5ca8d854dd57b30e745c556dec322feef92958e2dd49e8a6",
+      "size_bytes": 4197
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "PRODUCTION_READINESS_EVIDENCE_AUDIT.md",
       "sha256": "cdf36ca210fa8263ab85a661764a7ec10ea02f44cacc8251ef091410ab2ca64e",
       "size_bytes": 6742
@@ -728,8 +734,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "e3b992bc523c387a2dec97be24e9a204929190e7a4f7c347d6217d64015ca7b7",
-      "size_bytes": 53019
+      "sha256": "16e0a346de230a2e8caf4f8b180e3c9c3decff5a3fee05bde11075c4cd4a0bc9",
+      "size_bytes": 54401
     },
     {
       "classification": "contract_or_governance_document",
@@ -1741,6 +1747,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "export_pre_handoff_readiness.py",
+      "sha256": "f24af0edac46531a76c0c4098171157e703baae277163e269eec65d49b4da3cf",
+      "size_bytes": 2497
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "export_sync_alert_replay.py",
       "sha256": "e4fca8db6522d6d1d9c46feefbe9988f0a7f9e89cb5f7f5fc2b8ed258a011a50",
       "size_bytes": 4401
@@ -2166,6 +2178,12 @@
       "size_bytes": 5715
     },
     {
+      "classification": "source_or_runtime_config",
+      "path": "pre_handoff_readiness.py",
+      "sha256": "6fee486b99475f7da294af48034016404822d7ae77559ab04635a5f77937b03a",
+      "size_bytes": 6661
+    },
+    {
       "classification": "repository_asset",
       "path": "presentation_assets/healthcare_security_reference.jpeg",
       "sha256": "3bd6fdeba31edb8a833e31e2b124233604a30414c6b64f260bb5a4d6b7e80846",
@@ -2288,8 +2306,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "8f28fa9e08aee18998d6215cee6d7fda07c131da1351706b678ac52d80c62cd3",
-      "size_bytes": 6773
+      "sha256": "f5b0c585e7f4b620c64f9d504324b2998f0e79770430c2eaf284d6ff7900f3e5",
+      "size_bytes": 6867
     },
     {
       "classification": "source_or_runtime_config",
@@ -2366,8 +2384,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "d4d78f63db36208f34923e275152c39fb6819eaf69a2eadccc54cbf632fc7091",
-      "size_bytes": 60759
+      "sha256": "a46978cdc5987a1838f97712556463a77346106124c9a984be4e91af01543d13",
+      "size_bytes": 62392
     },
     {
       "classification": "source_or_runtime_config",
@@ -2863,6 +2881,18 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_pre_handoff_readiness.py",
+      "sha256": "8369db753ef3d982c4dd8d2fa5ed0e7e37f0ca8d2e4de09c02ca54ce932025b9",
+      "size_bytes": 5586
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_pre_handoff_readiness_phase_end_hardening.py",
+      "sha256": "5e44cc4ddfe45a71396a1c410e15788b45b4e1a795ca38b351304131a2e80a27",
+      "size_bytes": 4336
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_production_readiness_audit.py",
       "sha256": "8963017600d78efec053109bb7c90644f1279c0fdc3ba96b6a474425c64efa84",
       "size_bytes": 1115
@@ -3216,14 +3246,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T03:34:36.358824+00:00",
+  "freeze_created_at_utc": "2026-08-22T05:12:13.349559+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "969b16f10fb10884adb2f36965ccd25c7b432909",
+  "origin_main_revision": "840e2d93f544507c99e25746141d35102197fc04",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "969b16f10fb10884adb2f36965ccd25c7b432909"
+  "source_revision": "840e2d93f544507c99e25746141d35102197fc04"
 }
