@@ -332,8 +332,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "INTERNAL_HANDOFF_CHAIN_INTEGRITY_READINESS_REPORT_20260822.md",
-      "sha256": "634cbe4904009522d8f36e5857cad7a309cb894da47dfe5529f773a294e9a35e",
-      "size_bytes": 6977
+      "sha256": "293127e141b1284ed6743a963d9d830d0eb6fa256914663d2d2fdd126985dde0",
+      "size_bytes": 6913
     },
     {
       "classification": "contract_or_governance_document",
@@ -710,8 +710,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "PUBLIC_EXPOSURE_QUARANTINE_READINESS_REPORT_20260822.md",
-      "sha256": "ca75c36c6f28e5b8e72ea260cff4ca2d4fb2da923df08dd71f6a9987d0ed7070",
-      "size_bytes": 4567
+      "sha256": "65608b0f69e57bc432b2fe70d63b77f4a17d4d618ab94a537fb34cc84ad3d9a2",
+      "size_bytes": 4620
     },
     {
       "classification": "contract_or_governance_document",
@@ -728,8 +728,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "REPOSITORY_VISIBILITY_GOVERNANCE_READINESS_REPORT_20260822.md",
-      "sha256": "81fc1a8a68ec0d50b5850ba9ba6096f3a4bf34bef3694b7b06826885a5a32731",
-      "size_bytes": 4902
+      "sha256": "4468960e3ee6b396ef7cc7021eb427c5fc62241fc4249c9526022615e17cb5f4",
+      "size_bytes": 4953
     },
     {
       "classification": "contract_or_governance_document",
@@ -782,8 +782,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "c248c2243f5b4e65272c19c8d4d77ad3be6cd48081885c98ea0208fa984210a3",
-      "size_bytes": 71602
+      "sha256": "967cdd7c64672519b4fe960bb32c31f18abaf21c6b45b0602ddc0305aa8e1865",
+      "size_bytes": 72998
     },
     {
       "classification": "contract_or_governance_document",
@@ -2570,8 +2570,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "3a92888fcd57bf8eed4764c6cf3c4cc8759f5057b948e18008426bda5b5332d6",
-      "size_bytes": 79032
+      "sha256": "4600f7573f347b78e73d15e65ba751f97ddac24262512541f499a8f4579a696c",
+      "size_bytes": 80300
     },
     {
       "classification": "source_or_runtime_config",
@@ -3516,14 +3516,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T15:55:27.047794+00:00",
+  "freeze_created_at_utc": "2026-08-22T15:58:12.707062+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "f264f4629de3fdced6c648cb38a13f1fdac215fe",
+  "origin_main_revision": "8e0de2cd2e1611539cd6312db086bcda3d3ebb2b",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "f264f4629de3fdced6c648cb38a13f1fdac215fe"
+  "source_revision": "8e0de2cd2e1611539cd6312db086bcda3d3ebb2b"
 }
