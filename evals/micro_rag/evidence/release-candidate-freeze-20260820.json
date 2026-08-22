@@ -332,8 +332,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "INTERNAL_HANDOFF_CHAIN_INTEGRITY_READINESS_REPORT_20260822.md",
-      "sha256": "dee3d34d78a97c5bd621bd85204ffb23601058a353920666bbad3db8fe171722",
-      "size_bytes": 6317
+      "sha256": "634cbe4904009522d8f36e5857cad7a309cb894da47dfe5529f773a294e9a35e",
+      "size_bytes": 6977
     },
     {
       "classification": "contract_or_governance_document",
@@ -782,8 +782,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "4bc7cd1523e22d31f3828ffc2d21b16b328ff8d2f684010f79ee7f5e0fc3c00a",
-      "size_bytes": 70606
+      "sha256": "c248c2243f5b4e65272c19c8d4d77ad3be6cd48081885c98ea0208fa984210a3",
+      "size_bytes": 71602
     },
     {
       "classification": "contract_or_governance_document",
@@ -1400,8 +1400,8 @@
     {
       "classification": "evidence_or_machine_record",
       "path": "evals/micro_rag/evidence/internal-handoff-chain-integrity-local.json",
-      "sha256": "7c4ced80c171e3c96b30bd161f564521e2ee7037ef6db9b5d330158f1bad089b",
-      "size_bytes": 2418
+      "sha256": "a3e885aab947140764e1cda85485a841d8432ba16b8eb911600fd7354967803a",
+      "size_bytes": 2861
     },
     {
       "classification": "evidence_or_machine_record",
@@ -2570,8 +2570,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "tasks.md",
-      "sha256": "ad9567d827465b478282c1a00de83140247236c8f616037d79a2401cc096544f",
-      "size_bytes": 77960
+      "sha256": "3a92888fcd57bf8eed4764c6cf3c4cc8759f5057b948e18008426bda5b5332d6",
+      "size_bytes": 79032
     },
     {
       "classification": "source_or_runtime_config",
@@ -3516,14 +3516,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T14:56:48.587465+00:00",
+  "freeze_created_at_utc": "2026-08-22T14:58:14.229672+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016",
+  "origin_main_revision": "f27c27342c7a74e6e79b109b708a7e97f78e388e",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "9fdeb3bdcfa28db7d9e30550af6192e628159016"
+  "source_revision": "f27c27342c7a74e6e79b109b708a7e97f78e388e"
 }
