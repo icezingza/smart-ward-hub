@@ -60,7 +60,7 @@ def test_public_visibility_quarantines_even_safe_bytes():
 
 
 def test_secret_marker_quarantines():
-    result = _evaluate(b"credential ghp_abcdefghijklmnopqrstuvwxyz123456")
+    result = _evaluate(b"credential " + b"ghp_" + b"abcdefghijklmnopqrstuvwxyz123456")
     assert result.decision == ExposureDecision.PUBLIC_EXPOSURE_QUARANTINED
     assert ExposureCode.SECRET_MARKER_FOUND in result.remediation_codes
     assert result.findings[0]["kind"] == "SECRET_MARKER"
