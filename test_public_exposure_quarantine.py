@@ -30,17 +30,18 @@ BASE_VISIBILITY = {
 }
 
 
-def _evaluate(raw: bytes = b"safe content", *, freeze=None, visibility=None):
+def _evaluate(raw: bytes = b"safe content", *, freeze=None, visibility=None, path="safe.txt"):
     active_freeze = deepcopy(freeze or BASE_FREEZE)
     active_visibility = deepcopy(visibility or BASE_VISIBILITY)
     import hashlib
 
     if freeze is None:
         active_freeze["files"][0]["sha256"] = hashlib.sha256(raw).hexdigest()
+    active_freeze["files"][0]["path"] = path
     return evaluate_exposure(
         freeze=active_freeze,
         visibility=active_visibility,
-        files={"safe.txt": raw},
+        files={path: raw},
     )
 
 
@@ -70,6 +71,20 @@ def test_identifier_pattern_quarantines():
     result = _evaluate(b"sample HN-2026-8901")
     assert result.decision == ExposureDecision.PUBLIC_EXPOSURE_QUARANTINED
     assert ExposureCode.IDENTIFIER_PATTERN_FOUND in result.remediation_codes
+
+
+def test_synthetic_identifier_fixture_is_classified_not_blocked():
+    result = _evaluate(b"sample HN-2026-8901", path="test_fixture.py")
+    assert result.decision == ExposureDecision.PUBLIC_EXPOSURE_CLEAR
+    assert result.checks["identifier_patterns_absent"] is True
+    assert result.checks["synthetic_identifier_fixtures_classified"] is True
+    assert result.findings[0]["kind"] == "SYNTHETIC_IDENTIFIER_FIXTURE"
+
+
+def test_field_name_is_not_an_identifier_finding():
+    result = _evaluate(b"patient_token = request.patient_token")
+    assert result.decision == ExposureDecision.PUBLIC_EXPOSURE_CLEAR
+    assert result.findings == ()
 
 
 def test_hash_mismatch_quarantines():

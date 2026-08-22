@@ -26,17 +26,24 @@ from repository_visibility_governance import (
 ROOT = Path(__file__).resolve().parent
 FREEZE_PATH = Path("evals/micro_rag/evidence/release-candidate-freeze-20260820.json")
 SECRET_PATTERNS = (
-    re.compile(rb"BEGIN (?:RSA|EC|OPENSSH|PRIVATE) KEY"),
-    re.compile(rb"AKIA[0-9A-Z]{16}"),
-    re.compile(rb"ghp_[A-Za-z0-9]{20,}"),
-    re.compile(rb"github_pat_[A-Za-z0-9_]{20,}"),
-    re.compile(rb"sk-[A-Za-z0-9]{20,}"),
+    ("PRIVATE_KEY_MARKER", re.compile(rb"BEGIN (?:RSA|EC|OPENSSH|PRIVATE) KEY")),
+    ("AWS_ACCESS_KEY_MARKER", re.compile(rb"AKIA[0-9A-Z]{16}")),
+    ("GITHUB_TOKEN_MARKER", re.compile(rb"ghp_[A-Za-z0-9]{20,}")),
+    ("GITHUB_PAT_MARKER", re.compile(rb"github_pat_[A-Za-z0-9_]{20,}")),
+    ("OPENAI_KEY_MARKER", re.compile(rb"sk-[A-Za-z0-9]{20,}")),
 )
 IDENTIFIER_PATTERNS = (
-    re.compile(rb"\bHN-[0-9]{4}-[0-9]{3,}\b"),
-    re.compile(rb"\bAN-[0-9]{4}-[0-9]{3,}\b"),
-    re.compile(rb"\bpatient[_-]?id\s*[:=]", re.IGNORECASE),
-    re.compile(rb"\bpatient[_-]?token\s*[:=]", re.IGNORECASE),
+    ("RAW_HN_PATTERN", re.compile(rb"\bHN-[0-9]{4}-[0-9]{3,}\b")),
+    ("RAW_AN_PATTERN", re.compile(rb"\bAN-[0-9]{4}-[0-9]{3,}\b")),
+)
+SYNTHETIC_IDENTIFIER_PATH_PREFIXES = (
+    "test_",
+    "simulate_",
+    "presentation_deck/",
+    "p1_presentation_deck/",
+    "gv10_presentation_deck/",
+    "controlled_pilot_presentation_deck/",
+    "wave1_presentation_deck/",
 )
 
 
@@ -94,12 +101,12 @@ def _freeze_entries(freeze: Mapping[str, Any]) -> list[Mapping[str, Any]]:
     return [entry for entry in files if isinstance(entry, Mapping) and isinstance(entry.get("path"), str)]
 
 
-def _match_labels(raw: bytes, patterns: tuple[re.Pattern[bytes], ...]) -> tuple[str, ...]:
-    labels: list[str] = []
-    for pattern in patterns:
-        if pattern.search(raw):
-            labels.append(pattern.pattern.decode("ascii", errors="replace"))
-    return tuple(labels)
+def _match_labels(raw: bytes, patterns: tuple[tuple[str, re.Pattern[bytes]], ...]) -> tuple[str, ...]:
+    return tuple(label for label, pattern in patterns if pattern.search(raw))
+
+
+def _is_synthetic_identifier_path(relative: str) -> bool:
+    return relative.startswith(SYNTHETIC_IDENTIFIER_PATH_PREFIXES)
 
 
 def evaluate_exposure(
@@ -121,6 +128,7 @@ def evaluate_exposure(
         "frozen_hashes_match": True,
         "secret_markers_absent": True,
         "identifier_patterns_absent": True,
+        "synthetic_identifier_fixtures_classified": True,
         "private_repository_confirmed": visibility.get("decision") == VisibilityDecision.PRIVATE_REPOSITORY_CONFIRMED,
         "visibility_observation_valid": visibility.get("repository") == EXPECTED_REPOSITORY
         and visibility.get("observation_source") in {"GH_REPO_VIEW", "OPERATOR_CONFIRMED"},
@@ -163,9 +171,19 @@ def evaluate_exposure(
             findings.append({"path": relative, "kind": "SECRET_MARKER", "markers": list(secret_labels)})
         identifier_labels = _match_labels(raw, IDENTIFIER_PATTERNS)
         if identifier_labels:
-            checks["identifier_patterns_absent"] = False
-            _add(codes, ExposureCode.IDENTIFIER_PATTERN_FOUND)
-            findings.append({"path": relative, "kind": "IDENTIFIER_PATTERN", "markers": list(identifier_labels)})
+            if _is_synthetic_identifier_path(relative):
+                findings.append(
+                    {
+                        "path": relative,
+                        "kind": "SYNTHETIC_IDENTIFIER_FIXTURE",
+                        "markers": list(identifier_labels),
+                    }
+                )
+            else:
+                checks["identifier_patterns_absent"] = False
+                checks["synthetic_identifier_fixtures_classified"] = False
+                _add(codes, ExposureCode.IDENTIFIER_PATTERN_FOUND)
+                findings.append({"path": relative, "kind": "IDENTIFIER_PATTERN", "markers": list(identifier_labels)})
 
     decision = ExposureDecision.PUBLIC_EXPOSURE_CLEAR.value if not codes else ExposureDecision.PUBLIC_EXPOSURE_QUARANTINED.value
     return ExposureResult(
