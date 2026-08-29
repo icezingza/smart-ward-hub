@@ -37,6 +37,9 @@ def _token_config() -> dict[str, set[str]]:
 @dataclass(frozen=True)
 class Settings:
     environment: str
+    product_name: str
+    product_short_name: str
+    product_description: str
     auto_create_db: bool
     seed_data: bool
     database_path: Path
@@ -91,6 +94,12 @@ def load_settings() -> Settings:
         raise RuntimeError("SW_SQLITE_SYNCHRONOUS must be OFF, NORMAL, FULL, or EXTRA")
     return Settings(
         environment=environment,
+        product_name=os.getenv("SW_PRODUCT_NAME", "IPD Smart Sentinel"),
+        product_short_name=os.getenv("SW_PRODUCT_SHORT_NAME", "IPD Smart Sentinel Hub"),
+        product_description=os.getenv(
+            "SW_PRODUCT_DESCRIPTION",
+            "Sovereign Edge-First Patient Monitoring Hub",
+        ),
         auto_create_db=_bool_env("SW_AUTO_CREATE_DB", environment in {"development", "test"}),
         seed_data=_bool_env("SW_SEED_DATA", environment in {"development", "test"}),
         database_path=database_path,

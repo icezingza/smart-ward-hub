@@ -46,8 +46,8 @@ if settings.auto_create_db:
     Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="IPD Smart Sentinel: Ward Edge Hub API",
-    description="Sovereign Edge-First Patient Monitoring Hub",
+    title=f"{settings.product_name}: Ward Edge Hub API",
+    description=settings.product_description,
     version="2.0.0",
     docs_url="/docs" if settings.enable_docs else None,
     redoc_url=None,
@@ -345,7 +345,7 @@ def startup_populate() -> None:
 def health_check() -> dict[str, Any]:
     return {
         "status": "healthy",
-        "system": "IPD Smart Sentinel Hub",
+        "system": settings.product_short_name,
         "environment": settings.environment,
         "schema_management": "startup_create_all" if settings.auto_create_db else "external_migration_required",
         "timestamp": utc_now().isoformat(),
