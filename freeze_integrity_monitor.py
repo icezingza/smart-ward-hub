@@ -127,6 +127,10 @@ def _parent_aligned_to_freeze(root: Path, freeze_source: Any) -> str | None:
         return None
     if _revision(freeze_source) and freeze_source in candidates:
         return str(freeze_source)
+    if _revision(freeze_source):
+        aligned = [candidate for candidate in candidates if revision_is_ancestor(root, freeze_source, candidate)]
+        if len(aligned) == 1:
+            return str(freeze_source)
     return candidates[0]
 
 
