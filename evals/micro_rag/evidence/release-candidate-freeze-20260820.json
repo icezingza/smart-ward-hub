@@ -116,8 +116,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": ".env.example",
-      "sha256": "504e43909150ea1baa63a617ba1d6fca86d66d17e6ebe51bcb93e545e5b08d9b",
-      "size_bytes": 3733
+      "sha256": "33a53ff3d07b10094a94746480e65c9e9f92c589b26b8f92452a7adb10505d65",
+      "size_bytes": 3683
     },
     {
       "classification": "repository_asset",
@@ -1148,8 +1148,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "config.py",
-      "sha256": "c34bf0b145df110482da103a2892ae370794834bb679574b0ec78b95522980a6",
-      "size_bytes": 5168
+      "sha256": "d0b9563a450ca9660d82d8019d2f7d84776b9bca5837e617b3e976269e65f0fd",
+      "size_bytes": 5522
     },
     {
       "classification": "source_or_runtime_config",
@@ -2834,8 +2834,8 @@
     {
       "classification": "dependency_manifest",
       "path": "requirements.txt",
-      "sha256": "c3a985c7a12b5955dd804ebe104f8ca53b1e53077ccd539f97412dc5bc88d898",
-      "size_bytes": 174
+      "sha256": "4dee58bc0b66b16fe381830619d7fa750074c7d6beee4008c8584457a49de5a2",
+      "size_bytes": 178
     },
     {
       "classification": "contract_or_governance_document",
@@ -3176,8 +3176,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_independent_reviewer_readiness_preflight_phase_end_hardening.py",
-      "sha256": "3bc2a6f4c47616ed5840ca70ea175b79441399ce304d57cde8fd62e74212b254",
-      "size_bytes": 3561
+      "sha256": "2bcc1ac86900337e164002c4a70215db6830cd58eab74c9d1985b46d10f4df07",
+      "size_bytes": 3537
     },
     {
       "classification": "source_or_runtime_config",
@@ -3272,8 +3272,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p0_hardening.py",
-      "sha256": "f44b342c7c3abcf0bb7f6fdd257c281de7efb3b6907808a8ce49d28d2a543e6c",
-      "size_bytes": 2618
+      "sha256": "655a6c663a21cdb6c041c73fd0a70100ce6d07ef4a70d71d9bac2360a7b5895f",
+      "size_bytes": 3373
     },
     {
       "classification": "source_or_runtime_config",
@@ -3866,8 +3866,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_wave2_integration_forensic_phase_end_hardening.py",
-      "sha256": "18b9c45f121078c09ffd24ee77b40989f582d18544f531fde2a2d54cf2ec563c",
-      "size_bytes": 3383
+      "sha256": "1e1d9e980a3b1ef63b3043482223ce19d7bec4fad4ed698ed023109d1b47d699",
+      "size_bytes": 3348
     },
     {
       "classification": "source_or_runtime_config",
@@ -3878,8 +3878,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_wave3_governance_host_clinical_phase_end_hardening.py",
-      "sha256": "0f9a02202ffd42566291cd92487d3829b611370fa3826a64e5cceac35222af6e",
-      "size_bytes": 3150
+      "sha256": "ae215121c23ba135728d60c3a031269ac4bed515eb6db6a823827fc20c605b5e",
+      "size_bytes": 3126
     },
     {
       "classification": "source_or_runtime_config",
@@ -3890,8 +3890,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_wave4_independent_review_package_phase_end_hardening.py",
-      "sha256": "ac69987f6f7699e87d0bb02c265e399dcaa63c685078dc893c761df1b559560b",
-      "size_bytes": 3443
+      "sha256": "b4757d202172146332b53008b4be5b2ca704992c68d14b2f17f4835226812411",
+      "size_bytes": 3419
     },
     {
       "classification": "source_or_runtime_config",
@@ -4056,14 +4056,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-22T22:16:22.863902+00:00",
+  "freeze_created_at_utc": "2026-08-29T02:27:49.052064+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "65c87513971f6215b54636f2b7a22c6716becf53",
+  "origin_main_revision": "5a6bf7db793d034f6ef079b2236f4a5bd3425794",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "65c87513971f6215b54636f2b7a22c6716becf53"
+  "source_revision": "5a6bf7db793d034f6ef079b2236f4a5bd3425794"
 }
