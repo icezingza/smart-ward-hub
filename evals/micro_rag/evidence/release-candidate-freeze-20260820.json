@@ -4146,14 +4146,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T12:20:02.674821+00:00",
+  "freeze_created_at_utc": "2026-08-29T12:24:25.094639+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "c05273ce999fa15adc6d85ef610a2314e5f0fc02",
+  "origin_main_revision": "a2d9338f22f25c3a1505884902b02f95ab4b72ee",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "2f6c3376519ab8459b909a80a7ac13fd88e816fb"
+  "source_revision": "a2d9338f22f25c3a1505884902b02f95ab4b72ee"
 }
