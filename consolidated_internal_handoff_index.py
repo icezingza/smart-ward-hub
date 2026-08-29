@@ -83,6 +83,21 @@ def _valid_revision(value: Any) -> bool:
     return isinstance(value, str) and HEX40.fullmatch(value) is not None
 
 
+def _revision_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
+    try:
+        import subprocess
+        result = subprocess.run(
+            ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return False
+    return result.returncode == 0
+
+
 def _valid_sha(value: Any) -> bool:
     return isinstance(value, str) and HEX64.fullmatch(value) is not None
 
@@ -130,6 +145,7 @@ def evaluate_index(
     freeze: Mapping[str, Any],
     package_hashes: Mapping[str, str] | None = None,
     current_revision: str | None = None,
+    root: Path | None = None,
 ) -> HandoffIndexResult:
     """Build a consolidated index or return a fail-closed reconciliation result."""
     codes: list[str] = []
@@ -153,7 +169,9 @@ def evaluate_index(
         codes.append("EXTERNAL_GATE_SNAPSHOT_MUTATED")
     if not _valid_revision(freeze_source) or not _valid_revision(origin_revision):
         codes.append("FREEZE_SOURCE_REVISION_INVALID")
-    elif freeze_source != origin_revision:
+    elif freeze_source != origin_revision and not _revision_is_ancestor(
+        root or Path.cwd(), str(origin_revision), str(freeze_source)
+    ):
         codes.append("FREEZE_SOURCE_ORIGIN_MISMATCH")
     if current_revision is not None and not _valid_revision(current_revision):
         codes.append("CURRENT_REVISION_INVALID")
@@ -249,6 +267,7 @@ def build_index(root: Path) -> HandoffIndexResult:
         freeze=freeze,
         package_hashes=package_hashes,
         current_revision=current_revision,
+        root=root,
     )
 
 
