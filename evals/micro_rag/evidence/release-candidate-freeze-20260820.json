@@ -120,6 +120,12 @@
       "size_bytes": 3901
     },
     {
+      "classification": "contract_or_governance_document",
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "sha256": "261ece0c6967007ac77ff0884925939c8fdfde17b808c8ac94b87218ae410009",
+      "size_bytes": 1714
+    },
+    {
       "classification": "repository_asset",
       "path": ".github/dependabot.yml",
       "sha256": "e11ee2dd9f1773e15bd2230e150a9f375c08b84fb4ff118e02d942b30639028e",
@@ -2941,6 +2947,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "scripts/verify_local.sh",
+      "sha256": "5e7a18918c6e937b28d9304b3668aef3bbc6b014a73dc8cd96ff2eb093be2c73",
+      "size_bytes": 931
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "security.py",
       "sha256": "a715628118d2b06d64e621b1d5b79e19bb39c6090ce9c5922b93c371fd6f4811",
       "size_bytes": 2934
@@ -4128,7 +4140,7 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T03:19:42.427979+00:00",
+  "freeze_created_at_utc": "2026-08-29T03:25:11.911866+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
@@ -4137,5 +4149,5 @@
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "83f7085a42d3d08f00ecbe60495ffeaa8f1b0955"
+  "source_revision": "02bb08201b0d6532bb715eccf7fafa4c94e83ab8"
 }
