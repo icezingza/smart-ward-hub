@@ -824,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "20d77aab52d1acec0aa5fdeff401860e006b955681a8b3f6289b0abd340efd63",
-      "size_bytes": 11837
+      "sha256": "526c7ffb9c3ab01a87b445ec03803e67b8ece70d0725a15db109cf0ee2fb9094",
+      "size_bytes": 12312
     },
     {
       "classification": "contract_or_governance_document",
@@ -1351,6 +1351,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "docs/HUB_TO_SERVER_DATA_PATH.md",
+      "sha256": "7c88c7beb715a66c6840b673e3632b5834fb26005f964d00acaded22748ab656",
+      "size_bytes": 2566
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "docs/OPERATIONS_RUNBOOK.md",
       "sha256": "c7ed6e20a7f14a6fd92d972e9393ef066986bd590e58e57ced2bf140d371de88",
       "size_bytes": 3663
@@ -1394,8 +1400,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "docs/SOFTWARE_SIMULATION_COVERAGE_MATRIX.md",
-      "sha256": "42aa1a9b5689b4485eef80f1004ddb5266c541ae0a0e15ee1baf80f426b85c08",
-      "size_bytes": 2506
+      "sha256": "5e86301582cf16c184c20a1c68a53dab5a6b87036adf3a510fc71ab63a4dc076",
+      "size_bytes": 2531
     },
     {
       "classification": "contract_or_governance_document",
@@ -2503,6 +2509,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "hospital_full_system_simulation.py",
+      "sha256": "9f09637272449261eebb23ea9d022e05716ea896bcd02eeae12e0f1413173d04",
+      "size_bytes": 11619
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "independent_review_operations.py",
       "sha256": "eb71e209b2a29caba8e37568fc70d017638006ab93dc4367f87e9a8739365e40",
       "size_bytes": 14438
@@ -2960,8 +2972,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "3e3b855c8a6d4a0c54d0adab7f1bd7c5c52085456db87d0e2847530a3de86370",
-      "size_bytes": 9502
+      "sha256": "8e1601d43fd7ecd517266c85141d24dca33e6449a74612b1fb0ffeafc66036db",
+      "size_bytes": 9549
     },
     {
       "classification": "source_or_runtime_config",
@@ -3044,8 +3056,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "software_simulation_matrix.py",
-      "sha256": "5f7c49500f762300ca9dfea35c5182bff30f470d3079d2b6dc621c0158a028a0",
-      "size_bytes": 9906
+      "sha256": "c0b0fab5c0e6143603156f8e928d5680596c55ff46e31b15515fc22e00af2ac2",
+      "size_bytes": 9974
     },
     {
       "classification": "source_or_runtime_config",
@@ -3292,6 +3304,12 @@
       "path": "test_gv10_evidence.py",
       "sha256": "d6a07b42f92c14cf2d459450c32abce834a2f05aa9378f559daaae6ce152cf9b",
       "size_bytes": 2881
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_hospital_full_system_simulation.py",
+      "sha256": "16246a312a459d9c5c109b2eebd5970e09ab078a5e8fa11eac5d2a7caeee1c06",
+      "size_bytes": 1139
     },
     {
       "classification": "source_or_runtime_config",
@@ -4218,14 +4236,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T14:45:29.103933+00:00",
+  "freeze_created_at_utc": "2026-08-29T14:55:38.933874+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "5fcbd485b0597b3cf8349532948a8ed0ca1eacc5",
+  "origin_main_revision": "6829b822968de0f556e005ed911f17e3d5ea1714",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "db31776ae169c5bbc16cc4f4696760b23fddb560"
+  "source_revision": "a9e8bce9836138f70fef0b55674ca1ed85db0c3f"
 }
