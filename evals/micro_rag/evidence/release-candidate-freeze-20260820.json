@@ -824,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "0eaab8b031af4c717a5f2b0aa7a0d81e865f0de793bbc61cd4081777d8beb25d",
-      "size_bytes": 11336
+      "sha256": "20d77aab52d1acec0aa5fdeff401860e006b955681a8b3f6289b0abd340efd63",
+      "size_bytes": 11837
     },
     {
       "classification": "contract_or_governance_document",
@@ -1394,8 +1394,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "docs/SOFTWARE_SIMULATION_COVERAGE_MATRIX.md",
-      "sha256": "cd746d4b35790c5ed2305911daf94d5bd597204dd4558c98c2e4def49ec2eda2",
-      "size_bytes": 2459
+      "sha256": "42aa1a9b5689b4485eef80f1004ddb5266c541ae0a0e15ee1baf80f426b85c08",
+      "size_bytes": 2506
     },
     {
       "classification": "contract_or_governance_document",
@@ -1414,6 +1414,12 @@
       "path": "docs/THREAT_MODEL.md",
       "sha256": "826e9e25d11816cfe70817383b392a43637433ffefbed9ee38128fecaedb65b1",
       "size_bytes": 2853
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/WARD_SCALE_SIMULATION_GUIDE.md",
+      "sha256": "26f9191dbb59ad04d9ce3a4f404d6fa1fbf5667fcd92ed3c1259f39f2f976283",
+      "size_bytes": 1344
     },
     {
       "classification": "source_or_runtime_config",
@@ -2528,8 +2534,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "main.py",
-      "sha256": "ddc0a4d45ad67b854690f019ae86d9b4e070d4bf2c4c795c1dc74db57d822876",
-      "size_bytes": 101196
+      "sha256": "ce6d6855a85e87d2e036e25f338a4de933bedffbd8dc5a5f510a5d9638cada8b",
+      "size_bytes": 100095
     },
     {
       "classification": "contract_or_governance_document",
@@ -2954,8 +2960,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "33b9bf7a8c9f1a200f18145fc337650d966c57f856a7f2a9ce70a5994fe9eaff",
-      "size_bytes": 9465
+      "sha256": "3e3b855c8a6d4a0c54d0adab7f1bd7c5c52085456db87d0e2847530a3de86370",
+      "size_bytes": 9502
     },
     {
       "classification": "source_or_runtime_config",
@@ -3038,8 +3044,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "software_simulation_matrix.py",
-      "sha256": "ddf950e2bb5ba08714691518f968e92bcd8996499f4ad8162498fde314d6daab",
-      "size_bytes": 9779
+      "sha256": "5f7c49500f762300ca9dfea35c5182bff30f470d3079d2b6dc621c0158a028a0",
+      "size_bytes": 9906
     },
     {
       "classification": "source_or_runtime_config",
@@ -3925,6 +3931,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_ward_scale_simulation.py",
+      "sha256": "3fd78a31edb0bc40ccc154347d3dedbf85a041e1082f0e9c5236130ed0829921",
+      "size_bytes": 1406
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_wave0_governance.py",
       "sha256": "d57aa4eafe1080462635e9ad91c065a337ad801028a3541db4ccf290951e49f2",
       "size_bytes": 2610
@@ -4087,6 +4099,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "triage_engine.py",
+      "sha256": "60bdb94eb2d8c04ac74fa14ef8a3f485d9fc52a938d9a4e217ed3ab949109fb2",
+      "size_bytes": 1529
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "validate_mtls_config.py",
       "sha256": "da6d7076b3ab47ca4c8440edff99a3567ca501601efc8f54b662a9c5e54f4dda",
       "size_bytes": 2609
@@ -4102,6 +4120,12 @@
       "path": "validate_reliability.py",
       "sha256": "5749ba3488e6812a0fb626476def6cfd53b8fda715ddc8d9b5fc355428188149",
       "size_bytes": 6867
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "ward_scale_simulation.py",
+      "sha256": "550e611ee7bf961ce5281f85270aa59c56aa4d61a1294afcbb208c3b0c309398",
+      "size_bytes": 6979
     },
     {
       "classification": "source_or_runtime_config",
@@ -4194,14 +4218,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T13:58:34.077879+00:00",
+  "freeze_created_at_utc": "2026-08-29T14:45:29.103933+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0fbc1f371e1da8b5385b8037945c4b8f8fbf1fb5",
+  "origin_main_revision": "5fcbd485b0597b3cf8349532948a8ed0ca1eacc5",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "577ddf3d387e01577a87e210fb3351c494098e35"
+  "source_revision": "db31776ae169c5bbc16cc4f4696760b23fddb560"
 }
