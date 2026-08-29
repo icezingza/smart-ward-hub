@@ -21,7 +21,7 @@ RUNTIME_NAMES = {
     "forensic_anchors.jsonl",
 }
 TEXT_SUFFIXES = {".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".py", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
-TEXT_NAMES = {".gitignore"}
+TEXT_NAMES = {".gitattributes", ".gitignore"}
 
 
 def run_git(*args: str) -> str:

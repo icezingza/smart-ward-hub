@@ -39,7 +39,7 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def _sha256(path: Path) -> str:
     raw = path.read_bytes()
-    if path.suffix.lower() in {".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".py", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"} or path.name in {".gitignore"}:
+    if path.suffix.lower() in {".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".py", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"} or path.name in {".gitattributes", ".gitignore"}:
         raw = raw.replace(b"\r\n", b"\n")
     return hashlib.sha256(raw).hexdigest()
 
