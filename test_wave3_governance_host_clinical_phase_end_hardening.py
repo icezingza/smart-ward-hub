@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 from wave3_governance_host_clinical_readiness import LOCKED_AUTHORIZATION, TRACKS, template, validate_wave3_manifest
 
 ROOT = Path(__file__).resolve().parent
-PYTHON = "/home/ubuntu/.venvs/smart-ward-audit/bin/python"
+PYTHON = sys.executable
 FOCUSED_TESTS = (
     "test_wave3_governance_host_clinical_hardening.py",
     "test_p1_002_host_hardening_readiness.py",

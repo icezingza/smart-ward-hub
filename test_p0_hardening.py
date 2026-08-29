@@ -23,6 +23,21 @@ def run() -> None:
     assert "OIDC mode requires" in (oidc_probe.stderr + oidc_probe.stdout)
     print("[P0] Missing OIDC configuration fails closed: PASSED")
 
+    unsafe_pilot_env = env.copy()
+    unsafe_pilot_env["SW_ENVIRONMENT"] = "pilot"
+    unsafe_pilot_env["SW_AUTH_MODE"] = "static"
+    unsafe_pilot_env["SW_AUTH_TOKENS_JSON"] = '{"pilot-token":["admin"]}'
+    unsafe_pilot_probe = subprocess.run(
+        [sys.executable, "-c", "import main"],
+        cwd=project_dir,
+        env=unsafe_pilot_env,
+        capture_output=True,
+        text=True,
+    )
+    assert unsafe_pilot_probe.returncode != 0
+    assert "Static authentication is disabled" in (unsafe_pilot_probe.stderr + unsafe_pilot_probe.stdout)
+    print("[P0] Pilot static authentication fails closed without explicit override: PASSED")
+
     with tempfile.TemporaryDirectory() as directory:
         database_path = Path(directory) / "migration.db"
         migration_env = env.copy()
@@ -30,7 +45,7 @@ def run() -> None:
         migration_env["SW_DATABASE_PATH"] = str(database_path)
         migration_env.pop("SW_AUTH_TOKENS_JSON", None)
         upgrade = subprocess.run(
-            ["alembic", "upgrade", "head"],
+            [sys.executable, "-m", "alembic", "upgrade", "head"],
             cwd=project_dir,
             env=migration_env,
             capture_output=True,
@@ -38,7 +53,7 @@ def run() -> None:
         )
         assert upgrade.returncode == 0, upgrade.stderr
         current = subprocess.run(
-            ["alembic", "current"],
+            [sys.executable, "-m", "alembic", "current"],
             cwd=project_dir,
             env=migration_env,
             capture_output=True,
@@ -51,6 +66,7 @@ def run() -> None:
         pilot_env["SW_AUTO_CREATE_DB"] = "false"
         pilot_env["SW_SEED_DATA"] = "false"
         pilot_env["SW_AUTH_TOKENS_JSON"] = '{"pilot-token":["admin"]}'
+        pilot_env["SW_ALLOW_STATIC_AUTH_IN_NONLOCAL"] = "true"
         pilot_env["SW_TELEMETRY_STATE_PATH"] = str(Path(directory) / "state.json")
         startup_probe = subprocess.run(
             [
