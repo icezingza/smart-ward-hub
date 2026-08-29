@@ -20,7 +20,7 @@ RUNTIME_NAMES = {
     "edge_telemetry_state.json",
     "forensic_anchors.jsonl",
 }
-TEXT_SUFFIXES = {".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".py", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
+TEXT_SUFFIXES = {".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".py", ".service", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
 TEXT_NAMES = {".gitattributes", ".gitignore"}
 
 
