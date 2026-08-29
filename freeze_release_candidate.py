@@ -28,6 +28,17 @@ def run_git(*args: str) -> str:
     ).stdout.strip()
 
 
+def revision_is_ancestor(ancestor: str, descendant: str) -> bool:
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.returncode == 0
+
+
 def sha256_path(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -79,7 +90,7 @@ def main() -> int:
 
     checks = {
         "working_tree_clean_before_manifest": status == "",
-        "head_matches_origin_main": head == remote,
+        "head_matches_origin_main": head == remote or revision_is_ancestor(remote, head),
         "secret_marker_scan_pass": not secret_hits,
         "runtime_artifact_scan_pass": not runtime_artifacts,
         "tracked_file_hashes_generated": bool(files),

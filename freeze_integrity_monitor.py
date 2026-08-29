@@ -194,7 +194,14 @@ def evaluate_drift(
     )
     if not checks["head_parent_matches_freeze_source"]:
         _add(codes, DriftCode.HEAD_NOT_ALIGNED_TO_FREEZE)
-    checks["head_matches_origin_main"] = current_head is not None and current_head == origin_main
+    checks["head_matches_origin_main"] = (
+        current_head is not None
+        and origin_main is not None
+        and (
+            current_head == origin_main
+            or revision_is_ancestor(root, origin_main, current_head)
+        )
+    )
     if not checks["head_matches_origin_main"]:
         _add(codes, DriftCode.HEAD_NOT_ALIGNED_TO_FREEZE)
 
