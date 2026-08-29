@@ -1304,14 +1304,14 @@
     {
       "classification": "repository_asset",
       "path": "deploy/windows/start_smart_ward_hub.cmd",
-      "sha256": "0e60f20fb25559e48648fc18ebd9a392ba9f0ec2eb0852daa0b0b04d673de153",
-      "size_bytes": 143
+      "sha256": "69df240bf257aec8500d9156ad6932e76718c34b99fbcc4bb6585f261fd47ab0",
+      "size_bytes": 139
     },
     {
       "classification": "repository_asset",
       "path": "deploy/windows/start_smart_ward_hub.ps1",
-      "sha256": "9cefec9e6ca4fc292d9ee19c85d0289320ec11f79d10a370f1ebf2b40ce3e155",
-      "size_bytes": 2001
+      "sha256": "f189ac0f080f2fdc2aa05f9b7076c927119e9126cd1a6f40ee8388dc75fbfea3",
+      "size_bytes": 1955
     },
     {
       "classification": "source_or_runtime_config",
@@ -2006,8 +2006,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "evidence_reconciliation.py",
-      "sha256": "0d54343b8e2695f502415f0039a07a9ee4735e745c2fb1f49d651e07f6cd8c79",
-      "size_bytes": 19453
+      "sha256": "ecfcc25995400f1d22e7aab3a7808f19de283acd4420b00291f7c773c190da31",
+      "size_bytes": 19477
     },
     {
       "classification": "source_or_runtime_config",
@@ -2360,8 +2360,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
-      "sha256": "3f391a6bbbc024ae9a5970ac3700920215a88cffe45a156909610d7758716deb",
-      "size_bytes": 5374
+      "sha256": "cf206b7e7561d216fa25e888531d8e0c979b27f732ae64e2dd47c4a0b857b33f",
+      "size_bytes": 5398
     },
     {
       "classification": "source_or_runtime_config",
@@ -4146,7 +4146,7 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T12:07:35.413292+00:00",
+  "freeze_created_at_utc": "2026-08-29T12:09:39.787049+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
@@ -4155,5 +4155,5 @@
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "3200bb6313b5968f222ea22a90fc04cb0b9bf97c"
+  "source_revision": "e3108941e1a43a1504433671e0f8c63f803ca03b"
 }
