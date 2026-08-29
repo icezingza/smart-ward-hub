@@ -120,6 +120,12 @@
       "size_bytes": 3901
     },
     {
+      "classification": "repository_asset",
+      "path": ".gitattributes",
+      "sha256": "13cb7f5e12dd469dc5c88afcf0cd035abe6cd1fc2f30afe224991e66b4262222",
+      "size_bytes": 29
+    },
+    {
       "classification": "contract_or_governance_document",
       "path": ".github/PULL_REQUEST_TEMPLATE.md",
       "sha256": "261ece0c6967007ac77ff0884925939c8fdfde17b808c8ac94b87218ae410009",
@@ -134,8 +140,8 @@
     {
       "classification": "repository_asset",
       "path": ".github/workflows/ci.yml",
-      "sha256": "21882a9321c5c8b382bf224443b3d5f7a8641552d713719f9fce8b3d25afb88c",
-      "size_bytes": 1618
+      "sha256": "a9e69d365fb51d247b14be13585ff7c441546ddfc1a39493b93f8e9a05cd80f8",
+      "size_bytes": 1713
     },
     {
       "classification": "repository_asset",
@@ -818,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "0573dd72bc9020d36889d9a1159f99b62a95b5bb9f4eae6b2756368469a2f927",
-      "size_bytes": 9003
+      "sha256": "c25d557de980eb8c162e66971b4e511d317aa9d3d7422332a03d1bdbe2ef2f3a",
+      "size_bytes": 9545
     },
     {
       "classification": "contract_or_governance_document",
@@ -884,8 +890,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "cc8b273c9d68a109c27eebd27f735c786a4bc4ccbd5f49b279b6544f53987399",
-      "size_bytes": 104834
+      "sha256": "d6149165581abdee3529c5781cff73fff38f060285a101ad4f28cd73286d7e96",
+      "size_bytes": 105350
     },
     {
       "classification": "contract_or_governance_document",
@@ -1280,14 +1286,14 @@
     {
       "classification": "repository_asset",
       "path": "deploy/tablet/smart-ward-hub-kiosk.service",
-      "sha256": "0999ab68af2389a3c3e98cefab5080c697dd3df4c84c9ff121b11dd54655e471",
-      "size_bytes": 429
+      "sha256": "a9f4d2cbeec64324cd088e3bb4f8b965f2da40bd5b1db842a34c80fdca1e2219",
+      "size_bytes": 445
     },
     {
       "classification": "repository_asset",
       "path": "deploy/tablet/smart-ward-hub.service",
-      "sha256": "b5c2c37b9c13818ec8ab2d410f14e14bbfecaad5c07fecf7b8a4fb065ffd9994",
-      "size_bytes": 563
+      "sha256": "fba41e8c92e1e4285c859118ce8406539c71d5d71ab3abc4875ee42a20164276",
+      "size_bytes": 586
     },
     {
       "classification": "contract_or_governance_document",
@@ -1298,14 +1304,14 @@
     {
       "classification": "repository_asset",
       "path": "deploy/windows/start_smart_ward_hub.cmd",
-      "sha256": "69df240bf257aec8500d9156ad6932e76718c34b99fbcc4bb6585f261fd47ab0",
-      "size_bytes": 139
+      "sha256": "0e60f20fb25559e48648fc18ebd9a392ba9f0ec2eb0852daa0b0b04d673de153",
+      "size_bytes": 143
     },
     {
       "classification": "repository_asset",
       "path": "deploy/windows/start_smart_ward_hub.ps1",
-      "sha256": "f189ac0f080f2fdc2aa05f9b7076c927119e9126cd1a6f40ee8388dc75fbfea3",
-      "size_bytes": 1955
+      "sha256": "9cefec9e6ca4fc292d9ee19c85d0289320ec11f79d10a370f1ebf2b40ce3e155",
+      "size_bytes": 2001
     },
     {
       "classification": "source_or_runtime_config",
@@ -2000,8 +2006,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "evidence_reconciliation.py",
-      "sha256": "dedda97f29ff91ce754525fc81dfb9212572d16d51c12ccd545c7efc5aed1d60",
-      "size_bytes": 19293
+      "sha256": "6168c2c0945b5b7fbd8254d5c5229bdf52b3d871c4e2fcba31bd8d872d931820",
+      "size_bytes": 19423
     },
     {
       "classification": "source_or_runtime_config",
@@ -2354,8 +2360,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
-      "sha256": "2cd4fdad58d54b2a386a205a26c9b687b320f9f49780571f2d06826d66f535d0",
-      "size_bytes": 5035
+      "sha256": "f9aec831284f8ba1798e3ecb37e239c6808442dceced7cb6727e4f7ab62a1ad1",
+      "size_bytes": 5350
     },
     {
       "classification": "source_or_runtime_config",
@@ -2708,8 +2714,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p3_external_gate_status_reconciliation.py",
-      "sha256": "dbbb7f16bda5bead32d5429b8845443b7c1b849b27dcb31519b4049a3afca210",
-      "size_bytes": 12086
+      "sha256": "d54f6d86a35c51e24fa16fd7cac442e706da815ee732fc1800688b27d89b8ace",
+      "size_bytes": 12216
     },
     {
       "classification": "source_or_runtime_config",
@@ -2720,8 +2726,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p4_blocked_gate_unblock_readiness.py",
-      "sha256": "70671403bf13da4a0c117c2666ed2facab96ed6f4650883caa15f3d70efcbf6c",
-      "size_bytes": 8804
+      "sha256": "3e4374c42c0909fdb44f1d423d0b7a01e394700efa27b2360963d910f5632935",
+      "size_bytes": 8934
     },
     {
       "classification": "source_or_runtime_config",
@@ -2732,8 +2738,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p4_independent_reviewer_handoff_readiness.py",
-      "sha256": "2456834e21386edbf0281c274cd151b53313ffe3e3e1a51832106f8527fa0fa0",
-      "size_bytes": 9362
+      "sha256": "1fbf83e0042f1464fc0c7d13ffa385a1ddffbe43278f344c8166e28206c10d43",
+      "size_bytes": 9492
     },
     {
       "classification": "source_or_runtime_config",
@@ -4140,14 +4146,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T03:41:07.010862+00:00",
+  "freeze_created_at_utc": "2026-08-29T00:00:00+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0639f9fa5e78885b352123c20c68c486657c5f75",
+  "origin_main_revision": "c05273ce999fa15adc6d85ef610a2314e5f0fc02",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "8c48dbf07d16ed0b73de748c1c08cb4867a0c2c8"
+  "source_revision": "c05273ce999fa15adc6d85ef610a2314e5f0fc02"
 }

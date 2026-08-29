@@ -36,6 +36,9 @@ jobs:
       - name: Compile Python sources
         run: python -m compileall -q .
 
+      - name: Validate shell scripts
+        run: bash -n scripts/verify_local.sh run_mtls.sh
+
       - name: Check dependency consistency
         run: python -m pip check
 

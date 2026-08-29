@@ -20,6 +20,8 @@ RUNTIME_NAMES = {
     "edge_telemetry_state.json",
     "forensic_anchors.jsonl",
 }
+TEXT_SUFFIXES = {".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".py", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
+TEXT_NAMES = {".gitignore"}
 
 
 def run_git(*args: str) -> str:
@@ -39,12 +41,14 @@ def revision_is_ancestor(ancestor: str, descendant: str) -> bool:
     return result.returncode == 0
 
 
+def canonical_bytes(path: Path) -> bytes:
+    """Hash text content consistently when checked out with CRLF or LF."""
+    raw = path.read_bytes()
+    return raw.replace(b"\r\n", b"\n") if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES else raw
+
+
 def sha256_path(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return hashlib.sha256(canonical_bytes(path)).hexdigest()
 
 
 def classify(path: str) -> str:
@@ -76,14 +80,14 @@ def main() -> int:
     files: list[dict[str, object]] = []
     for relative in tracked:
         path = ROOT / relative
-        raw = path.read_bytes()
+        raw = canonical_bytes(path)
         if SECRET_RE.search(raw):
             secret_hits.append(relative)
         files.append(
             {
                 "path": relative,
                 "classification": classify(relative),
-                "size_bytes": path.stat().st_size,
+                "size_bytes": len(raw),
                 "sha256": hashlib.sha256(raw).hexdigest(),
             }
         )

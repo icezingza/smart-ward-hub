@@ -1,6 +1,8 @@
 # Smart Ward Hub — Handoff Status
 
-**วันที่รายงาน:** 21 สิงหาคม 2026
+**วันที่รายงาน:** 29 สิงหาคม 2026
+
+**Repository verification update:** `main` รวม `audit/hardening-main` แล้วใน merge commit `c05273c` ณ วันที่ตรวจสอบนี้
 
 ## สรุปผู้บริหาร
 
@@ -20,7 +22,7 @@ Smart Ward Hub อยู่ในสถานะ **controlled production prototy
 | Bench procedure | อัปเดต `SERIAL_BENCH_VALIDATION_PLAN.md` ด้วยคำสั่ง safe runner และ physical gate |
 | P2 readiness | อัปเดต `P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md` ให้สะท้อน runner evidence และ no-COM-port gate |
 | Repository documentation | เพิ่ม `README.md` ที่กำหนด product boundary, differentiators และ evidence limits |
-| GitHub publication | สร้างและ push ไปยัง private repository `icezingza/smart-ward-hub` |
+| GitHub publication | private repository `icezingza/smart-ward-hub`; `audit/hardening-main` ถูก merge เข้า `main` ใน `c05273c` |
 | P2-004 Micro-RAG | Deterministic baseline, registry/index baseline และ model-agnostic adapter ผ่าน; Gemini 3 Flash v2 ผ่าน 8/8; Gemini 2.5 pinned rerun ได้ 2/8 โดย 6 calls ติด HTTP 429 |
 | P0-001 HIS/Admission Gateway | Sandbox contract test ผ่าน tokenization, TTL, revocation, idempotency และ structured acknowledgment; hospital integration ยังเปิด |
 | P0-004 Recovery | Software fault harness ผ่าน checkpoint/WAL/malformed-state scenarios; physical power-loss/storage gate ยังเปิด |
@@ -84,6 +86,8 @@ The current registry/index-backed evidence register records `gemini-2.5-flash` r
 ## GitHub publication
 
 Repository เป็น **private repository** ที่ [icezingza/smart-ward-hub](https://github.com/icezingza/smart-ward-hub) โดย branch `main` ต้องอ้างอิง commit ล่าสุดจาก `git log` หลังการเผยแพร่แต่ละครั้ง. ก่อนเผยแพร่มีการตรวจ staged tree ไม่พบ runtime database, audit log, private-key markers, credential file หรือ large runtime artifact ที่ควรอยู่ภายนอก Git
+
+การตรวจสอบ checkout รอบล่าสุดพบว่า `main` สะอาดและตรงกับ `origin/main` ที่ merge commit `c05273c`; จึงไม่ต้องเปิด PR ซ้ำจาก `audit/hardening-main` ตาม handoff ฉบับก่อน
 
 ## Physical Acer Serial bench — เงื่อนไขก่อนเริ่ม
 

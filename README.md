@@ -57,6 +57,14 @@ pip install -r requirements.txt
 python3 run_all_tests.py
 ```
 
+สำหรับตรวจ checkout แบบเดียวกับ CI ให้ใช้ `scripts/verify_local.sh` จาก Bash/Git Bash:
+
+```bash
+bash scripts/verify_local.sh
+```
+
+สคริปต์นี้สร้าง virtual environment แยก, ตรวจ compile/dependencies, ตรวจช่องโหว่ dependencies, รัน master regression suite และยืนยันว่าไม่มี runtime artifacts ถูกสร้างเป็นไฟล์ติดตามใน repository
+
 สำหรับตรวจ Serial framing โดยไม่เปิดพอร์ต ให้ใช้คำสั่งต่อไปนี้:
 
 ```bash
