@@ -56,7 +56,8 @@ def _assert_safe_artifact(path: Path) -> None:
 
 def _sqlite_metadata(path: Path) -> dict[str, Any]:
     try:
-        with sqlite3.connect(path) as connection:
+        connection = sqlite3.connect(path)
+        try:
             journal_mode = str(connection.execute("PRAGMA journal_mode").fetchone()[0]).lower()
             synchronous = connection.execute("PRAGMA synchronous").fetchone()[0]
             integrity = str(connection.execute("PRAGMA integrity_check").fetchone()[0])
@@ -75,6 +76,8 @@ def _sqlite_metadata(path: Path) -> dict[str, Any]:
                 "user_version": user_version,
                 "alembic_revision": alembic_revision,
             }
+        finally:
+            connection.close()
     except sqlite3.Error as exc:
         raise BackupRestoreError(f"sqlite_metadata_failed:{type(exc).__name__}") from exc
 
@@ -84,12 +87,16 @@ def _sqlite_backup(source: Path, destination: Path) -> dict[str, Any]:
     try:
         # SQLite's backup API reads a consistent snapshot and includes WAL state;
         # do not copy the .db file or checkpoint a read-only connection here.
-        with sqlite3.connect(source) as source_connection:
+        source_connection = sqlite3.connect(source)
+        destination_connection = sqlite3.connect(destination)
+        try:
             source_connection.execute("PRAGMA busy_timeout=5000")
-            with sqlite3.connect(destination) as destination_connection:
-                source_connection.backup(destination_connection)
-                destination_connection.execute("PRAGMA synchronous=FULL")
-                destination_connection.commit()
+            source_connection.backup(destination_connection)
+            destination_connection.execute("PRAGMA synchronous=FULL")
+            destination_connection.commit()
+        finally:
+            destination_connection.close()
+            source_connection.close()
         metadata = _sqlite_metadata(destination)
         if metadata["integrity_check"] != "ok":
             raise BackupRestoreError("backup_integrity_check_failed")

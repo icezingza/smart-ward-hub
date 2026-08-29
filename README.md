@@ -97,6 +97,16 @@ python smartwatch_simulator.py --scenario offline_reconnect
 
 มีรายละเอียดเรื่องขอบเขตและการเชื่อมต่อ Hub บนเครื่องตนเองใน `docs/SMARTWATCH_SIMULATOR_GUIDE.md` ตัวจำลองใช้ข้อมูล synthetic เท่านั้น ไม่ยืนยันความแม่นยำของ sensor, BLE/radio, battery, firmware หรือผลทางคลินิก
 
+## Simulation Matrix
+
+รัน simulation matrix แบบรวมทุก feature/risk ที่ตรวจด้วย software ได้ในเครื่องเดียว:
+
+```bash
+python software_simulation_matrix.py --execute
+```
+
+คำสั่งนี้รัน telemetry, transport pressure, identity/trust, workflow, alerts, recovery, forensics, HIS/FHIR, worker และ deployment-configuration fixtures โดยไม่ติดต่อ network หรือ hardware จริง รายละเอียด coverage และ external gates อยู่ใน `docs/SOFTWARE_SIMULATION_COVERAGE_MATRIX.md`
+
 ## การรัน API ในโหมดพัฒนา
 
 ```bash
