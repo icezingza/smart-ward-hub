@@ -19,7 +19,7 @@ The runner covers the ten software domains below. It invokes existing determinis
 
 | ID | Domain | Software scenarios covered |
 |---|---|---|
-| SIM-001 | Smart Watch telemetry | normal, replay, out-of-order, disconnect/reconnect, malformed envelope, PII and command rejection |
+| SIM-001 | Smart Watch telemetry | 30/40-bed synthetic ward, normal, fall, vital anomaly, replay, out-of-order, disconnect/reconnect, malformed envelope, PII and command rejection |
 | SIM-002 | Ingestion pressure | burst, partial frames, CRC corruption, queue bound, PII, replay and reconnect |
 | SIM-003 | Identity and trust | auth fail-closed, scope, pairing, signatures and device lifecycle |
 | SIM-004 | Ward workflow | session lifecycle, admission, roaming, scoped/idempotent commands |

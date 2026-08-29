@@ -107,6 +107,14 @@ python software_simulation_matrix.py --execute
 
 คำสั่งนี้รัน telemetry, transport pressure, identity/trust, workflow, alerts, recovery, forensics, HIS/FHIR, worker และ deployment-configuration fixtures โดยไม่ติดต่อ network หรือ hardware จริง รายละเอียด coverage และ external gates อยู่ใน `docs/SOFTWARE_SIMULATION_COVERAGE_MATRIX.md`
 
+## Ward Simulation: 40 Beds / 1 Hub
+
+```bash
+python ward_scale_simulation.py --beds 40 --ticks 8
+```
+
+จำลอง 40 เตียงพร้อม injected scenarios: fall, vital anomaly, device disconnect, perimeter warning และ blood-pressure capability gap โดยไม่ใช้ข้อมูลผู้ป่วยจริง ดูข้อจำกัดของค่า BP/location และผลที่คาดหวังใน `docs/WARD_SCALE_SIMULATION_GUIDE.md`
+
 ## การรัน API ในโหมดพัฒนา
 
 ```bash
