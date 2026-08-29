@@ -2006,8 +2006,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "evidence_reconciliation.py",
-      "sha256": "6168c2c0945b5b7fbd8254d5c5229bdf52b3d871c4e2fcba31bd8d872d931820",
-      "size_bytes": 19423
+      "sha256": "60f23de5b12e2342195b9c1424010d69ce943b55d944269a061dffc60b0028d2",
+      "size_bytes": 19441
     },
     {
       "classification": "source_or_runtime_config",
@@ -2360,8 +2360,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
-      "sha256": "f9aec831284f8ba1798e3ecb37e239c6808442dceced7cb6727e4f7ab62a1ad1",
-      "size_bytes": 5350
+      "sha256": "6d7821fdf36c7cb40a2374e06056e12010cd4307fe1a5ffb9cf90ea621963468",
+      "size_bytes": 5368
     },
     {
       "classification": "source_or_runtime_config",
@@ -2714,8 +2714,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p3_external_gate_status_reconciliation.py",
-      "sha256": "d54f6d86a35c51e24fa16fd7cac442e706da815ee732fc1800688b27d89b8ace",
-      "size_bytes": 12216
+      "sha256": "51587b89ee616b9cff0b6a08684938c202ce46e680e747251ca78c6b6af25242",
+      "size_bytes": 12234
     },
     {
       "classification": "source_or_runtime_config",
@@ -2726,8 +2726,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p4_blocked_gate_unblock_readiness.py",
-      "sha256": "3e4374c42c0909fdb44f1d423d0b7a01e394700efa27b2360963d910f5632935",
-      "size_bytes": 8934
+      "sha256": "974962571005cfde0606cc64413c578f1155cb671e2bfba320758ba325ed5887",
+      "size_bytes": 8952
     },
     {
       "classification": "source_or_runtime_config",
@@ -2738,8 +2738,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p4_independent_reviewer_handoff_readiness.py",
-      "sha256": "1fbf83e0042f1464fc0c7d13ffa385a1ddffbe43278f344c8166e28206c10d43",
-      "size_bytes": 9492
+      "sha256": "da092e00a1eebef354ccf7b41c62a0ca19437495d3c6f9da7ca08e07e5a63540",
+      "size_bytes": 9510
     },
     {
       "classification": "source_or_runtime_config",
@@ -4146,7 +4146,7 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T07:44:32.466992+00:00",
+  "freeze_created_at_utc": "2026-08-29T07:46:40.031805+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
@@ -4155,5 +4155,5 @@
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "c605c011f5f67024da79fba7c49252093b522621"
+  "source_revision": "9cc5e15ddb86312b1c8ede4c9bd0f07cf26299b4"
 }
