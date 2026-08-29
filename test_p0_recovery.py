@@ -39,15 +39,21 @@ def run() -> None:
         print("[P0-004] Corrupt checkpoint fails safe without restoring stale state: PASSED")
 
         database_path = root / "recovery.db"
-        with sqlite3.connect(database_path) as connection:
+        connection = sqlite3.connect(database_path)
+        try:
             journal_mode = connection.execute("PRAGMA journal_mode=WAL").fetchone()[0]
             connection.execute("PRAGMA synchronous=FULL")
             connection.execute("CREATE TABLE recovery_probe (id INTEGER PRIMARY KEY, value TEXT NOT NULL)")
             connection.execute("INSERT INTO recovery_probe(value) VALUES (?)", ("durable-fixture",))
             connection.commit()
+        finally:
+            connection.close()
         assert str(journal_mode).lower() == "wal"
-        with sqlite3.connect(database_path) as connection:
+        connection = sqlite3.connect(database_path)
+        try:
             assert connection.execute("SELECT value FROM recovery_probe WHERE id = 1").fetchone()[0] == "durable-fixture"
+        finally:
+            connection.close()
         print("[P0-004] SQLite WAL + synchronous FULL reopen check: PASSED")
 
     print("REAL_POWER_CUT_DISK_FULL_FILESYSTEM_CORRUPTION=UNVERIFIED")

@@ -84,6 +84,19 @@ python3 serial_bench_runner.py \
 
 ห้ามรัน physical command จนกว่าจะตรวจว่าพอร์ตเป็น fixture ทดสอบที่ปลอดภัย, ไม่มี patient device อยู่ในเส้นทาง, ไม่มีข้อมูลผู้ป่วยจริง และมี operator ที่รับผิดชอบ bench gate
 
+## จำลอง Smart Watch เพื่อพัฒนา HUB
+
+ขณะรออุปกรณ์จริง สามารถใช้ `smartwatch_simulator.py` สร้าง telemetry สังเคราะห์ตาม `TelemetryPacket v1` เพื่อพัฒนาและทดสอบ HUB ได้ โดยค่าเริ่มต้นเป็น dry-run จึงไม่ส่งข้อมูลผ่านเครือข่าย:
+
+```bash
+python smartwatch_simulator.py --scenario normal
+python smartwatch_simulator.py --scenario replay
+python smartwatch_simulator.py --scenario out_of_order
+python smartwatch_simulator.py --scenario offline_reconnect
+```
+
+มีรายละเอียดเรื่องขอบเขตและการเชื่อมต่อ Hub บนเครื่องตนเองใน `docs/SMARTWATCH_SIMULATOR_GUIDE.md` ตัวจำลองใช้ข้อมูล synthetic เท่านั้น ไม่ยืนยันความแม่นยำของ sensor, BLE/radio, battery, firmware หรือผลทางคลินิก
+
 ## การรัน API ในโหมดพัฒนา
 
 ```bash
