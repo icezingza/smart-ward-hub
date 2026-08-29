@@ -1381,6 +1381,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "docs/SMARTWATCH_HUB_INTAKE_CHECKLIST.md",
+      "sha256": "4a3ffca3b0e2c5079933d72dd7ec497b57cddf9f3dd12ebc50bd1f7210f3cd2f",
+      "size_bytes": 7363
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "docs/SYNTHETIC_DEMO_SCRIPT.md",
       "sha256": "af812f08694212acb3b4abc939be9af9af987b757aa1c2bc42bf6681c5794ffb",
       "size_bytes": 2760
@@ -4152,14 +4158,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T13:04:53.130762+00:00",
+  "freeze_created_at_utc": "2026-08-29T13:17:55.572045+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "ce0f1b3b04a3bece289ae292709849768b32471c",
+  "origin_main_revision": "a3851e2b393ba68517b2f607b09b2157fa352cad",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "d0a67145f747ea17a4ef95afe17122ad237a9264"
+  "source_revision": "ef7e83fc2dc6b16ea2c0d1ecded07481e5969e15"
 }
