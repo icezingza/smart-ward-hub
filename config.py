@@ -37,6 +37,9 @@ def _token_config() -> dict[str, set[str]]:
 @dataclass(frozen=True)
 class Settings:
     environment: str
+    product_name: str
+    product_short_name: str
+    product_description: str
     auto_create_db: bool
     seed_data: bool
     database_path: Path
@@ -80,11 +83,23 @@ def load_settings() -> Settings:
     device_trust_mode = os.getenv("SW_DEVICE_TRUST_MODE", "disabled").lower()
     if device_trust_mode not in {"disabled", "observe", "enforce"}:
         raise RuntimeError("SW_DEVICE_TRUST_MODE must be disabled, observe, or enforce")
+    auth_mode = os.getenv("SW_AUTH_MODE", "static").lower()
+    allow_static_nonlocal = _bool_env("SW_ALLOW_STATIC_AUTH_IN_NONLOCAL", False)
+    if environment in {"pilot", "production", "prod"} and auth_mode == "static" and not allow_static_nonlocal:
+        raise RuntimeError(
+            "Static authentication is disabled for pilot/production; configure SW_AUTH_MODE=oidc"
+        )
     synchronous = os.getenv("SW_SQLITE_SYNCHRONOUS", "FULL").upper()
     if synchronous not in {"OFF", "NORMAL", "FULL", "EXTRA"}:
         raise RuntimeError("SW_SQLITE_SYNCHRONOUS must be OFF, NORMAL, FULL, or EXTRA")
     return Settings(
         environment=environment,
+        product_name=os.getenv("SW_PRODUCT_NAME", "IPD Smart Sentinel"),
+        product_short_name=os.getenv("SW_PRODUCT_SHORT_NAME", "IPD Smart Sentinel Hub"),
+        product_description=os.getenv(
+            "SW_PRODUCT_DESCRIPTION",
+            "Sovereign Edge-First Patient Monitoring Hub",
+        ),
         auto_create_db=_bool_env("SW_AUTO_CREATE_DB", environment in {"development", "test"}),
         seed_data=_bool_env("SW_SEED_DATA", environment in {"development", "test"}),
         database_path=database_path,
@@ -99,7 +114,7 @@ def load_settings() -> Settings:
         enable_docs=_bool_env("SW_ENABLE_DOCS", False),
         allowed_hosts=_csv_env("SW_ALLOWED_HOSTS", ["127.0.0.1", "localhost", "testserver"]),
         allowed_origins=_csv_env("SW_ALLOWED_ORIGINS", []),
-        auth_mode=os.getenv("SW_AUTH_MODE", "static").lower(),
+        auth_mode=auth_mode,
         auth_tokens=_token_config(),
         oidc_issuer=os.getenv("SW_OIDC_ISSUER"),
         oidc_audience=os.getenv("SW_OIDC_AUDIENCE"),

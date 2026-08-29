@@ -88,7 +88,12 @@ def run() -> None:
 
     gate_path = Path(__file__).resolve()
     for path in ROOT.rglob("*"):
-        if not path.is_file() or path.resolve() == gate_path or ".git" in path.parts:
+        if (
+            not path.is_file()
+            or path.resolve() == gate_path
+            or ".git" in path.parts
+            or ".venv" in path.parts
+        ):
             continue
         if path.suffix.lower() not in {".py", ".md", ".json", ".yaml", ".yml", ".env", ".example"}:
             continue

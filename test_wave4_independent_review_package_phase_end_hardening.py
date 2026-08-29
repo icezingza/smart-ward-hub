@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 from wave4_independent_review_package import ARTIFACT_PATHS, LOCKED_AUTHORIZATION, TEST_SPECS, template, validate_package
 
 ROOT = Path(__file__).resolve().parent
-PYTHON = "/home/ubuntu/.venvs/smart-ward-audit/bin/python"
+PYTHON = sys.executable
 FOCUSED_TESTS = (
     "test_wave4_independent_review_package_hardening.py",
     "test_wave_e_evidence.py",

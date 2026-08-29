@@ -23,7 +23,7 @@ FORBIDDEN_PRIVATE_MARKERS = (
     "-" * 5 + "BEGIN OPENSSH " + "PRIVATE KEY" + "-" * 5,
     "-" * 5 + "BEGIN " + "PRIVATE KEY" + "-" * 5,
 )
-PYTHON = "/home/ubuntu/.venvs/smart-ward-audit/bin/python"
+PYTHON = sys.executable
 
 
 def run() -> None:

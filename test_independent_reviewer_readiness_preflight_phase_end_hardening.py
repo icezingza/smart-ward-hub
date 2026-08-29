@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 from independent_reviewer_readiness_preflight import CHECKS, EXTERNAL_INPUTS, LOCKED_AUTHORIZATION, template, validate_preflight
 
 ROOT = Path(__file__).resolve().parent
-PYTHON = "/home/ubuntu/.venvs/smart-ward-audit/bin/python"
+PYTHON = sys.executable
 FOCUSED_TESTS = (
     "test_independent_reviewer_readiness_preflight_hardening.py",
     "test_wave4_independent_review_package_phase_end_hardening.py",

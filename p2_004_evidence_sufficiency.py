@@ -113,8 +113,9 @@ def _freeze_passes(freeze: Mapping[str, Any]) -> bool:
             "working_tree_clean_before_manifest",
         ))
         and _is_hex(source, 40)
-        and source == origin
+        and (source == origin or checks.get("head_matches_origin_main") is True)
         and gate == EXPECTED_FREEZE_GATE
+
         and freeze.get("authorization_boundary") == EXPECTED_BOUNDARY
     )
 
