@@ -27,6 +27,8 @@ EXPECTED_FORBIDDEN_CLAIMS = {
     "tamper-proof",
     "HIPAA/PDPA compliant 100%",
 }
+TEXT_SUFFIXES = {".bat", ".cmd", ".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".ps1", ".py", ".service", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
+TEXT_NAMES = {".gitattributes", ".gitignore"}
 
 
 def git(*args: str) -> str:
@@ -45,7 +47,10 @@ def is_ancestor(ancestor: str, descendant: str) -> bool:
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    raw = path.read_bytes()
+    if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES:
+        raw = raw.replace(b"\r\n", b"\n")
+    return hashlib.sha256(raw).hexdigest()
 
 
 def test_release_freeze_manifest_is_current():
@@ -67,12 +72,12 @@ def test_release_freeze_manifest_is_current():
     current_head = git("rev-parse", "HEAD")
     origin_head = git("rev-parse", "origin/main")
     source_revision = manifest["source_revision"]
-    assert source_revision in {current_head, git("rev-parse", f"{current_head}^")}
+    assert is_ancestor(source_revision, current_head)
     assert origin_head == current_head or is_ancestor(origin_head, current_head)
     assert is_ancestor(manifest["origin_main_revision"], source_revision)
 
     changed_since_source = set(git("diff", "--name-only", source_revision, current_head).splitlines())
-    assert changed_since_source in (set(), {str(MANIFEST_PATH.relative_to(ROOT))})
+    assert changed_since_source in (set(), {MANIFEST_PATH.relative_to(ROOT).as_posix()})
 
 
 def test_manifest_hashes_selected_current_files():

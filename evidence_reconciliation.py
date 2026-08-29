@@ -69,11 +69,10 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    raw = path.read_bytes()
+    if path.suffix.lower() in {".bat", ".cmd", ".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".ps1", ".py", ".service", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"} or path.name in {".gitattributes", ".gitignore"}:
+        raw = raw.replace(b"\r\n", b"\n")
+    return hashlib.sha256(raw).hexdigest()
 
 
 def _assert_boundary(name: str, value: Any) -> None:
