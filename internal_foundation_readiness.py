@@ -98,7 +98,12 @@ def _runtime_artifact_check(project_root: Path, checks: list[dict[str, str]]) ->
 def _private_material_check(project_root: Path, checks: list[dict[str, str]]) -> None:
     hits: list[str] = []
     for path in project_root.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.suffix.lower() not in TEXT_SUFFIXES:
+        if (
+            not path.is_file()
+            or ".git" in path.parts
+            or ".venv" in path.parts
+            or path.suffix.lower() not in TEXT_SUFFIXES
+        ):
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")
         if any(marker in text for marker in PRIVATE_KEY_MARKERS):
