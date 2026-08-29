@@ -121,6 +121,18 @@
     },
     {
       "classification": "repository_asset",
+      "path": ".github/dependabot.yml",
+      "sha256": "e11ee2dd9f1773e15bd2230e150a9f375c08b84fb4ff118e02d942b30639028e",
+      "size_bytes": 133
+    },
+    {
+      "classification": "repository_asset",
+      "path": ".github/workflows/ci.yml",
+      "sha256": "21882a9321c5c8b382bf224443b3d5f7a8641552d713719f9fce8b3d25afb88c",
+      "size_bytes": 1618
+    },
+    {
+      "classification": "repository_asset",
       "path": ".gitignore",
       "sha256": "e298fbaf22873010612a6b0b616d6b0c656693c35ce1ecbed1354988b2bc414c",
       "size_bytes": 607
@@ -1308,6 +1320,30 @@
       "size_bytes": 3825
     },
     {
+      "classification": "contract_or_governance_document",
+      "path": "docs/OPERATIONS_RUNBOOK.md",
+      "sha256": "c7ed6e20a7f14a6fd92d972e9393ef066986bd590e58e57ced2bf140d371de88",
+      "size_bytes": 3663
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/PILOT_READINESS_CHECKLIST.md",
+      "sha256": "53060bd804fcabc5784002a22b51dc8c68a1e5e3994099385ba936f40dd2a82a",
+      "size_bytes": 3087
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/PRODUCT_BOUNDARY.md",
+      "sha256": "0278bd206845bdd4569e9444afc94bba94d15e8000e8f4d959d60760d59c693f",
+      "size_bytes": 3224
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/THREAT_MODEL.md",
+      "sha256": "826e9e25d11816cfe70817383b392a43637433ffefbed9ee38128fecaedb65b1",
+      "size_bytes": 2853
+    },
+    {
       "classification": "source_or_runtime_config",
       "path": "durable_worker_replay_contract.py",
       "sha256": "d7c0214bd0bc1345bc7b066fc6e075f1b80d15c4d1b1a9cb66fd5ab3535fd715",
@@ -2270,14 +2306,14 @@
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_integrity_monitor.py",
-      "sha256": "f896412594294ea6488845b13287514473240a3c0386d5a6116be1a8b008a2a0",
-      "size_bytes": 14782
+      "sha256": "4589c1fb7aa4ce65be81a6652229ab34810fe2bb92a61f7dab7daf8a016c9e49",
+      "size_bytes": 14935
     },
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
-      "sha256": "2bdad9e568faf6b6030e3a70e4786a71118acf8ea102d60e0736f214417c9050",
-      "size_bytes": 4703
+      "sha256": "2cd4fdad58d54b2a386a205a26c9b687b320f9f49780571f2d06826d66f535d0",
+      "size_bytes": 5035
     },
     {
       "classification": "source_or_runtime_config",
@@ -4056,14 +4092,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T02:27:49.052064+00:00",
+  "freeze_created_at_utc": "2026-08-29T02:58:39.553905+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "5a6bf7db793d034f6ef079b2236f4a5bd3425794",
+  "origin_main_revision": "0639f9fa5e78885b352123c20c68c486657c5f75",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "5a6bf7db793d034f6ef079b2236f4a5bd3425794"
+  "source_revision": "a31dce7f3f2a9fe7f02e3df682b2ae66b97fdbfa"
 }
