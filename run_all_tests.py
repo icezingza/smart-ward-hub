@@ -155,6 +155,7 @@ TESTS = [
     "test_p4_reviewer_readback_decision_guard_phase_end_hardening.py",
     "test_p2_edge_iot_adapters.py",
     "test_smartwatch_simulator.py",
+    "test_software_simulation_matrix.py",
     "test_p2_002_adapter_conformance.py",
     "test_p2_002_adapter_conformance_phase_end_hardening.py",
     "test_p2_002_transport_selection.py",

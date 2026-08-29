@@ -70,8 +70,11 @@ def run() -> None:
         database_artifact.write_bytes(original_bytes)
         print("[Worker Backup] Confirmation, binding hash and database tamper rejection: PASSED")
 
-        with sqlite3.connect(source) as connection:
+        connection = sqlite3.connect(source)
+        try:
             assert connection.execute("SELECT value FROM worker_store_meta WHERE key='schema_version'").fetchone()[0] == "p2-005-durable-worker-v1"
+        finally:
+            connection.close()
     print("WORKER_QUEUE_BACKUP_TESTS_PASSED")
 
 
