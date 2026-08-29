@@ -824,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "c25d557de980eb8c162e66971b4e511d317aa9d3d7422332a03d1bdbe2ef2f3a",
-      "size_bytes": 9545
+      "sha256": "c877996f72460b490c8c480db32cb9098c09ae1174d90fd24a1fdce43ab6ec05",
+      "size_bytes": 10693
     },
     {
       "classification": "contract_or_governance_document",
@@ -1384,6 +1384,12 @@
       "path": "docs/SMARTWATCH_HUB_INTAKE_CHECKLIST.md",
       "sha256": "4a3ffca3b0e2c5079933d72dd7ec497b57cddf9f3dd12ebc50bd1f7210f3cd2f",
       "size_bytes": 7363
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/SMARTWATCH_SIMULATOR_GUIDE.md",
+      "sha256": "0f12498653d6c843640fd19d11ee0196bd06c3446ce8a8a1576ea3e8a571415f",
+      "size_bytes": 2120
     },
     {
       "classification": "contract_or_governance_document",
@@ -2942,8 +2948,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "bd63dc5e8705a2fb2f286119ee96974f364b014980641f57f7625d68b416d384",
-      "size_bytes": 9387
+      "sha256": "fcc776686e23a8b2617f83a40f1913a53d039adc9fcfbfa5fd43b32647772029",
+      "size_bytes": 9423
     },
     {
       "classification": "source_or_runtime_config",
@@ -3010,6 +3016,12 @@
       "path": "skills.md",
       "sha256": "c4d42133dc8b9aa067b2fc0f13070a2502ab55f64d2c792cab62d9c0fe48aa37",
       "size_bytes": 8511
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "smartwatch_simulator.py",
+      "sha256": "fd1ffe2ad301e5bf523426850a0cb4b71beaef870f0471357689909149b33293",
+      "size_bytes": 7816
     },
     {
       "classification": "source_or_runtime_config",
@@ -3422,8 +3434,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p0_mtls_config.py",
-      "sha256": "d531cf50cff1366bf82e0cc5c3b331356c7e53ab0846e8b1018fc1958c281a14",
-      "size_bytes": 2398
+      "sha256": "7ef6d3b4ec4ae9b0b0fc7207026bafac95831ab302a354bbcca2293eb77d4171",
+      "size_bytes": 3118
     },
     {
       "classification": "source_or_runtime_config",
@@ -3434,8 +3446,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p0_recovery.py",
-      "sha256": "abb162f5dd8c26df4a64fd1f8f80acffe960225ad0ab04da01ddcb04ed2b73fa",
-      "size_bytes": 2460
+      "sha256": "9d162b976dcf4cc17b55bf0df2d0935906fd3364371b80fc2fd0b0e0c936c7bf",
+      "size_bytes": 2568
     },
     {
       "classification": "source_or_runtime_config",
@@ -3853,6 +3865,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_smartwatch_simulator.py",
+      "sha256": "da663966fa6631bacaa38ccc03b2ce5e7fc1ba2ae67248109a7f316af3ff19f9",
+      "size_bytes": 2566
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_software_rollback_rehearsal.py",
       "sha256": "fc63439eafef3902bae7bc0d38ff5285b970e7f96117a2b28ef1047c7d330057",
       "size_bytes": 3157
@@ -4052,8 +4070,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "validate_mtls_config.py",
-      "sha256": "d2ee638fe7adf1811b33c25aa187005991f22c4ab9233ddd05cd278f02a089ad",
-      "size_bytes": 1588
+      "sha256": "da6d7076b3ab47ca4c8440edff99a3567ca501601efc8f54b662a9c5e54f4dda",
+      "size_bytes": 2609
     },
     {
       "classification": "source_or_runtime_config",
@@ -4158,14 +4176,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T13:17:55.572045+00:00",
+  "freeze_created_at_utc": "2026-08-29T13:46:38.512902+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "a3851e2b393ba68517b2f607b09b2157fa352cad",
+  "origin_main_revision": "bb42205f15605cf420dd11fdd1695a9afaad6e6f",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "ef7e83fc2dc6b16ea2c0d1ecded07481e5969e15"
+  "source_revision": "0344040e50c8123fefd4c0e9383323eed890da0e"
 }
