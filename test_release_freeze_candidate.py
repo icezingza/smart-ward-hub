@@ -77,7 +77,7 @@ def test_release_freeze_manifest_is_current():
     assert is_ancestor(manifest["origin_main_revision"], source_revision)
 
     changed_since_source = set(git("diff", "--name-only", source_revision, current_head).splitlines())
-    assert changed_since_source in (set(), {str(MANIFEST_PATH.relative_to(ROOT))})
+    assert changed_since_source in (set(), {MANIFEST_PATH.relative_to(ROOT).as_posix()})
 
 
 def test_manifest_hashes_selected_current_files():
