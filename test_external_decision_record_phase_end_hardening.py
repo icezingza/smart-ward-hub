@@ -56,7 +56,12 @@ def run() -> None:
     print("[Decision Record GATE] blank-safe template and no-authorization lock: PASSED")
 
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.name == Path(__file__).name:
+        if (
+            not path.is_file()
+            or ".git" in path.parts
+            or ".venv" in path.parts
+            or path.name == Path(__file__).name
+        ):
             continue
         if path.suffix.lower() not in {".py", ".md", ".json", ".yaml", ".yml", ".env", ".example"}:
             continue

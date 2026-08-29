@@ -1,6 +1,6 @@
 # Smart Ward Hub — Product Boundary Record
 
-**Status:** Draft for founder, clinical owner, IT/security owner and regulatory review  
+**Status:** Draft for founder, clinical owner, IT/security owner and regulatory review
 **Version:** 0.1
 
 ## Proposed intended use

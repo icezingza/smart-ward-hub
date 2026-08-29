@@ -1,6 +1,6 @@
 # Smart Ward Hub — Synthetic Demo Script
 
-**Audience:** technical investor, design partner, hospital IT/clinical owner  
+**Audience:** technical investor, design partner, hospital IT/clinical owner
 **Data rule:** synthetic IDs and synthetic telemetry only; no real patient data.
 
 ## Demo objective

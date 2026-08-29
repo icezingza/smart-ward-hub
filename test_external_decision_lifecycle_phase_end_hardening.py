@@ -119,7 +119,12 @@ def run() -> None:
     print("[Lifecycle GATE] Deterministic blank-safe exporter snapshot: PASSED")
 
     for path in ROOT.rglob("*"):
-        if not path.is_file() or path.resolve() == Path(__file__).resolve() or ".git" in path.parts:
+        if (
+            not path.is_file()
+            or path.resolve() == Path(__file__).resolve()
+            or ".git" in path.parts
+            or ".venv" in path.parts
+        ):
             continue
         if path.suffix.lower() not in {".py", ".md", ".json", ".yaml", ".yml", ".env", ".example"}:
             continue

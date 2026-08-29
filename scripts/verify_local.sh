@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
-VENV_DIR="${VENV_DIR:-${ROOT}/.venv}"
+VENV_DIR="${VENV_DIR:-${TMPDIR:-/tmp}/smart-ward-hub-venv}"
 
 cd "$ROOT"
 "$PYTHON_BIN" -m venv "$VENV_DIR"
