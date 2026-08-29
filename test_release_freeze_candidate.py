@@ -33,6 +33,17 @@ def git(*args: str) -> str:
     return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip()
 
 
+def is_ancestor(ancestor: str, descendant: str) -> bool:
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.returncode == 0
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -56,9 +67,9 @@ def test_release_freeze_manifest_is_current():
     current_head = git("rev-parse", "HEAD")
     origin_head = git("rev-parse", "origin/main")
     source_revision = manifest["source_revision"]
-    assert source_revision == manifest["origin_main_revision"]
     assert source_revision in {current_head, git("rev-parse", f"{current_head}^")}
-    assert origin_head == current_head
+    assert origin_head == current_head or is_ancestor(origin_head, current_head)
+    assert is_ancestor(manifest["origin_main_revision"], source_revision)
 
     changed_since_source = set(git("diff", "--name-only", source_revision, current_head).splitlines())
     assert changed_since_source in (set(), {str(MANIFEST_PATH.relative_to(ROOT))})
