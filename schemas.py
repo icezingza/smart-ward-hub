@@ -268,3 +268,9 @@ class HandoverResponse(BaseModel):
     fhir_bundle: dict[str, Any]
     sync_status: str
     aggregate_count: int
+
+
+class HisSyncPurgeRequest(BaseModel):
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
+    his_http_status: int = Field(default=200, description="HTTP status code returned by HIS endpoint")
+    his_response_payload: Optional[dict[str, Any]] = Field(default_factory=dict, description="Payload returned by HIS endpoint")

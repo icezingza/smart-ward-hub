@@ -9,7 +9,7 @@ import secrets
 from typing import Any
 from uuid import uuid4
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -32,6 +32,7 @@ from edge_controls import (
     reset_request_id,
     set_request_id,
 )
+from his_sync_gate import HisSyncGate
 from security import require_scope
 from triage_engine import evaluate_telemetry_triage
 from system_identity import SYSTEM_VERSION
@@ -51,6 +52,7 @@ ANCHOR_STORE = FileAnchorStore(
 )
 FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
+HIS_SYNC_GATE = HisSyncGate()
 
 MAX_REQUEST_BODY_BYTES = 1_048_576  # 1 MiB
 
@@ -1731,14 +1733,59 @@ def unbind_and_discharge(
     )
 
 
+def _persist_alert_and_forensics(
+    *,
+    alert_info: dict[str, Any],
+    binding: dict[str, Any],
+    sample_received_at: datetime,
+    device_id: str,
+) -> None:
+    db = SessionLocal()
+    try:
+        existing = db.query(models.Alert).filter(
+            models.Alert.device_id == device_id,
+            models.Alert.alert_type == alert_info["alert_type"],
+            models.Alert.is_resolved.is_(False),
+        ).first()
+        if existing is None:
+            alert_record = models.Alert(
+                device_id=device_id,
+                session_id=binding.get("session_id"),
+                bed_no=binding["bed_no"],
+                patient_token=binding["patient_token"],
+                alert_level=alert_info["alert_level"],
+                alert_type=alert_info["alert_type"],
+                description=alert_info["description"],
+            )
+            db.add(alert_record)
+            db.commit()
+            db.refresh(alert_record)
+            forensic_samples = TELEMETRY_STORE.snapshot_window(
+                device_id,
+                window_seconds=settings.forensic_window_seconds,
+                now=sample_received_at,
+            )
+            freeze_forensic_package(
+                db,
+                alert_record,
+                forensic_samples,
+                session_id=binding.get("session_id"),
+            )
+    except Exception as exc:
+        logger.warning("Failed to persist alert and black-box forensic package for %s: %s", device_id, exc, exc_info=True)
+    finally:
+        db.close()
+
+
 @app.post("/api/v1/telemetry", response_model=schemas.BaseResponse)
 def ingest_telemetry(
     packet: schemas.TelemetryPacket,
     http_request: Request,
+    background_tasks: BackgroundTasks = None,
     db: Session = Depends(get_db),
     _auth: dict[str, Any] = Depends(require_scope("telemetry:write")),
 ) -> schemas.BaseResponse:
-    """Accept a raw packet only from a currently paired device."""
+    """Accept a raw packet only from a currently paired device (Decoupled RAM Ring Buffer)."""
     device_trust_status = verify_ingress_device_trust(packet, http_request, db)
     binding = ACTIVE_PAIRINGS_CACHE.get(packet.device_id)
     if binding is None:
@@ -1769,38 +1816,29 @@ def ingest_telemetry(
             details={"sequence": packet.sequence, "reason": append_result.reason},
         )
         raise HTTPException(status_code=409, detail=append_result.reason)
+    
+    # 1. In-RAM Triage Evaluation (< 1.5s SLA for fall / red alert detection)
     buffer = TELEMETRY_STORE.snapshot(packet.device_id)
     alert = evaluate_triage(packet.device_id, buffer)
+    
+    # 2. Decoupled Persistence: Offload SQLite disk I/O to background task or async writer
     if alert is not None:
-        existing = db.query(models.Alert).filter(
-            models.Alert.device_id == packet.device_id,
-            models.Alert.alert_type == alert["alert_type"],
-            models.Alert.is_resolved.is_(False),
-        ).first()
-        if existing is None:
-            alert_record = models.Alert(
+        if background_tasks is not None:
+            background_tasks.add_task(
+                _persist_alert_and_forensics,
+                alert_info=alert,
+                binding=binding,
+                sample_received_at=sample["received_at"],
                 device_id=packet.device_id,
-                session_id=binding.get("session_id"),
-                bed_no=binding["bed_no"],
-                patient_token=binding["patient_token"],
-                alert_level=alert["alert_level"],
-                alert_type=alert["alert_type"],
-                description=alert["description"],
             )
-            db.add(alert_record)
-            db.commit()
-            db.refresh(alert_record)
-            forensic_samples = TELEMETRY_STORE.snapshot_window(
-                packet.device_id,
-                window_seconds=settings.forensic_window_seconds,
-                now=sample["received_at"],
+        else:
+            _persist_alert_and_forensics(
+                alert_info=alert,
+                binding=binding,
+                sample_received_at=sample["received_at"],
+                device_id=packet.device_id,
             )
-            freeze_forensic_package(
-                db,
-                alert_record,
-                forensic_samples,
-                session_id=binding.get("session_id"),
-            )
+
     AUDIT_SINK.record(
         "telemetry.ingest",
         "success",
@@ -1818,6 +1856,65 @@ def ingest_telemetry(
             "buffered_samples": append_result.buffered_samples,
             "dropped_samples": append_result.dropped_samples,
             "device_trust": device_trust_status,
+        },
+    )
+
+
+@app.post("/api/v1/his/sync-and-purge", response_model=schemas.BaseResponse)
+def his_sync_and_purge(
+    request: schemas.HisSyncPurgeRequest,
+    _auth: dict[str, Any] = Depends(require_scope("telemetry:read")),
+) -> schemas.BaseResponse:
+    """Safe Sync & Purge Gate: Only purge local buffer after receiving verified HTTP 200 OK from HIS."""
+    device_id = request.device_id
+    binding = ACTIVE_PAIRINGS_CACHE.get(device_id)
+    if binding is None:
+        raise HTTPException(status_code=403, detail="Device is not actively paired.")
+
+    samples = TELEMETRY_STORE.snapshot(device_id)
+    if not samples:
+        raise HTTPException(status_code=404, detail="No telemetry samples available to sync.")
+
+    batch = HIS_SYNC_GATE.create_batch(device_id=device_id, samples=samples)
+    confirmed = HIS_SYNC_GATE.confirm_sync(
+        batch_id=batch.batch_id,
+        http_status_code=request.his_http_status,
+        his_response=request.his_response_payload or {},
+    )
+
+    if not confirmed or not HIS_SYNC_GATE.can_purge(batch.batch_id):
+        AUDIT_SINK.record(
+            "his.sync_gate",
+            "purge_blocked",
+            actor=_auth,
+            resource_type="sync_batch",
+            resource_id=batch.batch_id,
+            details={"reason": "HIS_HTTP_NON_200_OR_MISSING_TX", "http_status": request.his_http_status},
+        )
+        raise HTTPException(
+            status_code=412,
+            detail="Safe Sync Gate: Purge blocked. Authoritative HTTP 200 confirmation with transaction reference from HIS is required.",
+        )
+
+    # Purge RAM buffer only when confirmed
+    purged_count = TELEMETRY_STORE.clear_device(device_id)
+    AUDIT_SINK.record(
+        "his.sync_gate",
+        "purge_authorized",
+        actor=_auth,
+        resource_type="sync_batch",
+        resource_id=batch.batch_id,
+        details={"purged_samples": purged_count, "his_tx": batch.his_transaction_id},
+    )
+    return schemas.BaseResponse(
+        success=True,
+        message="Safe Sync Gate: Telemetry synced to HIS and local buffer purged.",
+        data={
+            "batch_id": batch.batch_id,
+            "device_id": device_id,
+            "purged_samples": purged_count,
+            "his_transaction_id": batch.his_transaction_id,
+            "batch_hash": batch.batch_hash,
         },
     )
 

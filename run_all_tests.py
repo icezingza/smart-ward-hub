@@ -29,6 +29,7 @@ TESTS = [
     "test_security.py",
     "test_auth_fail_closed.py",
     "test_audit_hardening.py",
+    "test_sentinel_specs.py",
     "test_edge_runtime.py",
     "test_p0_hardening.py",
     "test_p0_oidc_config.py",
