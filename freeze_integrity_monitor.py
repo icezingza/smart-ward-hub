@@ -9,14 +9,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
-import hashlib
 import json
 from pathlib import Path
 import re
 import subprocess
 from typing import Any, Mapping
 
-from consolidated_internal_handoff_index import build_index
+from canonical_file_hash import canonical_sha256
 
 
 ROOT = Path(__file__).resolve().parent
@@ -96,10 +95,7 @@ class DriftResult:
 
 
 def _sha256_path(path: Path) -> str:
-    raw = path.read_bytes()
-    if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES:
-        raw = raw.replace(b"\r\n", b"\n")
-    return hashlib.sha256(raw).hexdigest()
+    return canonical_sha256(path)
 
 
 def _load_json(path: Path) -> dict[str, Any] | None:

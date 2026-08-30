@@ -1,11 +1,11 @@
 """Local-only sufficiency and provenance gate for Micro-RAG evaluation evidence."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
-import hashlib
 import json
 from pathlib import Path
 from typing import Any, Mapping
+
+from canonical_file_hash import canonical_sha256
 
 
 ROOT = Path(__file__).resolve().parent
@@ -81,11 +81,7 @@ def _is_hex(value: Any, length: int) -> bool:
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_sha256(path)
 
 
 def _freeze_entry(freeze: Mapping[str, Any], path: str) -> Mapping[str, Any] | None:

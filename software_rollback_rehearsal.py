@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from copy import deepcopy
+from contextlib import closing
 from datetime import datetime, timedelta
 import hashlib
 import json
@@ -12,7 +12,7 @@ import tempfile
 from typing import Any
 from unittest.mock import patch
 
-from backup_restore import RESTORE_CONFIRMATION, BackupRestoreError, create_backup_bundle, restore_backup_bundle
+from backup_restore import RESTORE_CONFIRMATION, create_backup_bundle, restore_backup_bundle
 from durable_worker_store import DurableWorkerStore
 from edge_controls import AuditSink, FileAnchorStore, reset_request_id, set_request_id
 from edge_runtime import EdgeTelemetryStore
@@ -44,7 +44,7 @@ def _sample(sequence: int) -> dict[str, Any]:
 
 
 def _seed_database(path: Path) -> None:
-    with sqlite3.connect(path) as connection:
+    with closing(sqlite3.connect(path)) as connection, connection:
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("PRAGMA foreign_keys=ON")
         connection.execute("PRAGMA user_version=7")
@@ -102,7 +102,7 @@ def _seed_worker(path: Path) -> None:
 
 
 def _verify_database(path: Path) -> dict[str, Any]:
-    with sqlite3.connect(f"file:{path}?mode=ro", uri=True) as connection:
+    with closing(sqlite3.connect(f"file:{path}?mode=ro", uri=True)) as connection:
         integrity = str(connection.execute("PRAGMA integrity_check").fetchone()[0]).lower()
         value = connection.execute("SELECT opaque_state FROM ward_state WHERE id=1").fetchone()
         journal_mode = str(connection.execute("PRAGMA journal_mode").fetchone()[0]).lower()
@@ -188,7 +188,7 @@ def _probe_interrupted_checkpoint_promotion(bundle: Path, target_root: Path) -> 
     target_root.mkdir(parents=True, exist_ok=True)
     target_db = target_root / "interrupted.db"
     target_checkpoint = target_root / "interrupted-checkpoint.json"
-    with sqlite3.connect(target_db) as connection:
+    with closing(sqlite3.connect(target_db)) as connection, connection:
         connection.execute("CREATE TABLE ward_state (id INTEGER PRIMARY KEY, opaque_state TEXT NOT NULL)")
         connection.execute("INSERT INTO ward_state(id, opaque_state) VALUES (1, 'pre-restore-state')")
         connection.commit()
@@ -207,7 +207,7 @@ def _probe_interrupted_checkpoint_promotion(bundle: Path, target_root: Path) -> 
         assert str(exc) == "simulated interrupted checkpoint promotion"
     else:
         raise AssertionError("interrupted checkpoint promotion was accepted")
-    with sqlite3.connect(target_db) as connection:
+    with closing(sqlite3.connect(target_db)) as connection:
         preserved = connection.execute("SELECT opaque_state FROM ward_state WHERE id=1").fetchone() == ("pre-restore-state",)
     clean = not any(target_root.glob("interrupted*restore-tmp")) and not any(target_root.glob("interrupted*restore-prev"))
     return {
@@ -264,7 +264,7 @@ def _probe_schema_mismatch(database: Path, root: Path) -> dict[str, Any]:
     root.mkdir(parents=True, exist_ok=True)
     mismatch = root / "schema-mismatch.db"
     shutil.copy2(database, mismatch)
-    with sqlite3.connect(mismatch) as connection:
+    with closing(sqlite3.connect(mismatch)) as connection, connection:
         connection.execute("PRAGMA user_version=8")
         connection.commit()
     verification = _verify_database(mismatch)
@@ -326,7 +326,7 @@ def run_rehearsal(output: Path | None = None) -> dict[str, Any]:
             source_revision=REHEARSAL_REVISION,
         )
 
-        with sqlite3.connect(source_db) as connection:
+        with closing(sqlite3.connect(source_db)) as connection, connection:
             connection.execute("UPDATE ward_state SET opaque_state='drifted-live-state' WHERE id=1")
             connection.commit()
         live_checkpoint = EdgeTelemetryStore(max_samples=4, state_path=source_checkpoint, checkpoint_every=1)

@@ -17,6 +17,7 @@ import re
 import subprocess
 from typing import Any, Mapping
 
+from canonical_file_hash import canonical_sha256
 
 ROOT = Path(__file__).resolve().parent
 TRANSCRIPT_PATH = Path("evals/micro_rag/evidence/worker-recovery-transcript-local.json")
@@ -25,7 +26,6 @@ DURABLE_PATH = Path("evals/micro_rag/evidence/durable-worker-replay-local.json")
 FREEZE_PATH = Path("evals/micro_rag/evidence/release-candidate-freeze-20260820.json")
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CANONICAL_TEXT_SUFFIXES = {".json", ".md", ".py", ".txt", ".yaml", ".yml"}
 
 
 class BindingDecision(StrEnum):
@@ -82,10 +82,7 @@ def _canonical_sha(value: Any) -> str:
 
 
 def _file_sha256(path: Path) -> str:
-    raw = path.read_bytes()
-    if path.suffix.lower() in CANONICAL_TEXT_SUFFIXES:
-        raw = raw.replace(b"\r\n", b"\n")
-    return hashlib.sha256(raw).hexdigest()
+    return canonical_sha256(path)
 
 
 def _load_json(root: Path, relative: Path) -> dict[str, Any]:
