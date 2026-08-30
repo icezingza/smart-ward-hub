@@ -12,6 +12,31 @@ PROJECT_DIR = Path(__file__).resolve().parent
 SCRIPT = PROJECT_DIR / "validate_mtls_config.py"
 
 
+def make_private_key_fixture(path: Path) -> None:
+    if os.name != "nt":
+        path.chmod(0o600)
+        return
+    identity = subprocess.run(["whoami"], capture_output=True, text=True, check=True).stdout.strip()
+    subprocess.run(
+        ["icacls", str(path), "/inheritance:r", "/grant:r", f"{identity}:(F)", "SYSTEM:(F)", "Administrators:(F)"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+
+def make_key_fixture_unsafe(path: Path) -> None:
+    if os.name != "nt":
+        path.chmod(stat.S_IRUSR | stat.S_IRGRP)
+        return
+    subprocess.run(
+        ["icacls", str(path), "/grant", "Everyone:(R)"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+
 def run_probe(env_overrides: dict[str, str | None]) -> subprocess.CompletedProcess[str]:
     env = os.environ.copy()
     for name, value in env_overrides.items():
@@ -50,7 +75,7 @@ def run() -> None:
         key.write_text("private-key-fixture\n")
         ca.write_text("ca-fixture\n")
         cert.chmod(0o644)
-        key.chmod(0o600)
+        make_private_key_fixture(key)
         ca.chmod(0o644)
         valid = run_probe(
             {
@@ -64,7 +89,7 @@ def run() -> None:
         assert "LIVE_HANDSHAKE_ROTATION_REVOCATION_AND_SEGMENTATION=UNVERIFIED" in valid.stdout
         print("[P0] mTLS local file hygiene validates without reading key material: PASSED")
 
-        key.chmod(stat.S_IRUSR | stat.S_IRGRP)
+        make_key_fixture_unsafe(key)
         unsafe = run_probe(
             {
                 "SW_MTLS_CERTFILE": str(cert),

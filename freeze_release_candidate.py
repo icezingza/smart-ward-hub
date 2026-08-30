@@ -20,6 +20,8 @@ RUNTIME_NAMES = {
     "edge_telemetry_state.json",
     "forensic_anchors.jsonl",
 }
+TEXT_SUFFIXES = {".bat", ".cmd", ".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".ps1", ".py", ".service", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
+TEXT_NAMES = {".gitattributes", ".gitignore"}
 
 
 def run_git(*args: str) -> str:
@@ -39,12 +41,14 @@ def revision_is_ancestor(ancestor: str, descendant: str) -> bool:
     return result.returncode == 0
 
 
+def canonical_bytes(path: Path) -> bytes:
+    """Hash text content consistently when checked out with CRLF or LF."""
+    raw = path.read_bytes()
+    return raw.replace(b"\r\n", b"\n") if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES else raw
+
+
 def sha256_path(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return hashlib.sha256(canonical_bytes(path)).hexdigest()
 
 
 def classify(path: str) -> str:
@@ -60,7 +64,7 @@ def classify(path: str) -> str:
 
 
 def main() -> int:
-    manifest_relative = str(OUTPUT.relative_to(ROOT))
+    manifest_relative = OUTPUT.relative_to(ROOT).as_posix()
     tracked = [
         item for item in run_git("ls-files").splitlines() if item and item != manifest_relative
     ]
@@ -76,14 +80,14 @@ def main() -> int:
     files: list[dict[str, object]] = []
     for relative in tracked:
         path = ROOT / relative
-        raw = path.read_bytes()
+        raw = canonical_bytes(path)
         if SECRET_RE.search(raw):
             secret_hits.append(relative)
         files.append(
             {
                 "path": relative,
                 "classification": classify(relative),
-                "size_bytes": path.stat().st_size,
+                "size_bytes": len(raw),
                 "sha256": hashlib.sha256(raw).hexdigest(),
             }
         )
@@ -101,7 +105,7 @@ def main() -> int:
         "freeze_created_at_utc": datetime.now(timezone.utc).isoformat(),
         "source_revision": head,
         "origin_main_revision": remote,
-        "manifest_path": str(OUTPUT.relative_to(ROOT)),
+        "manifest_path": manifest_relative,
         "manifest_self_hash_excluded": True,
         "freeze_status": "PASS" if all(checks.values()) else "BLOCKED",
         "checks": checks,
