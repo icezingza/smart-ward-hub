@@ -1,7 +1,7 @@
 # Smart Ward Hub — Knowledge Update
 
 **Update date:** 19 August 2026  
-**Source context:** Authenticated Google Notebook, *NamoNexus Enterprise: Sovereign AI for Mental Health Crisis Triage*  
+**Source context:** Authenticated external research notebook on evidence integrity and healthcare technology
 **Status:** Research-informed engineering guidance; not clinical, legal, or regulatory certification.
 
 ## Executive update

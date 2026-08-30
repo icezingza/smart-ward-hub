@@ -31,6 +31,7 @@ from edge_controls import (
 )
 from security import require_scope
 from triage_engine import evaluate_telemetry_triage
+from system_identity import SYSTEM_VERSION
 
 from database import Base, SessionLocal, engine, get_db
 import models
@@ -53,7 +54,7 @@ if settings.auto_create_db:
 app = FastAPI(
     title=f"{settings.product_name}: Ward Edge Hub API",
     description=settings.product_description,
-    version="2.0.0",
+    version=SYSTEM_VERSION,
     docs_url="/docs" if settings.enable_docs else None,
     redoc_url=None,
     openapi_url="/openapi.json" if settings.enable_docs else None,
@@ -351,6 +352,7 @@ def health_check() -> dict[str, Any]:
     return {
         "status": "healthy",
         "system": settings.product_short_name,
+        "version": SYSTEM_VERSION,
         "environment": settings.environment,
         "schema_management": "startup_create_all" if settings.auto_create_db else "external_migration_required",
         "timestamp": utc_now().isoformat(),

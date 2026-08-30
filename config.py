@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 
+from system_identity import DEFAULT_DATABASE_FILENAME, PRODUCT_NAME, SYSTEM_NAME, SYSTEM_VERSION
 
 TRUE_VALUES = {"1", "true", "yes", "on"}
 
@@ -74,7 +75,9 @@ class Settings:
 def load_settings() -> Settings:
     project_dir = Path(__file__).resolve().parent
     environment = os.getenv("SW_ENVIRONMENT", "development").lower()
-    database_path = Path(os.getenv("SW_DATABASE_PATH", str(project_dir / "ward_hub.db"))).expanduser()
+    database_path = Path(
+        os.getenv("SW_DATABASE_PATH", str(project_dir / DEFAULT_DATABASE_FILENAME))
+    ).expanduser()
     state_path = Path(
         os.getenv("SW_TELEMETRY_STATE_PATH", str(project_dir / "edge_telemetry_state.json"))
     ).expanduser()
@@ -107,11 +110,11 @@ def load_settings() -> Settings:
         raise RuntimeError("SW_SQLITE_SYNCHRONOUS must be OFF, NORMAL, FULL, or EXTRA")
     return Settings(
         environment=environment,
-        product_name=os.getenv("SW_PRODUCT_NAME", "IPD Smart Sentinel"),
-        product_short_name=os.getenv("SW_PRODUCT_SHORT_NAME", "IPD Smart Sentinel Hub"),
+        product_name=os.getenv("SW_PRODUCT_NAME", SYSTEM_NAME),
+        product_short_name=os.getenv("SW_PRODUCT_SHORT_NAME", PRODUCT_NAME),
         product_description=os.getenv(
             "SW_PRODUCT_DESCRIPTION",
-            "Sovereign Edge-First Patient Monitoring Hub",
+            f"{SYSTEM_NAME} / {PRODUCT_NAME} v{SYSTEM_VERSION} - ward-local monitoring and workflow hub",
         ),
         auto_create_db=_bool_env("SW_AUTO_CREATE_DB", environment in {"development", "test"}),
         seed_data=_bool_env("SW_SEED_DATA", environment in {"development", "test"}),
