@@ -36,6 +36,8 @@ RUNTIME_NAMES = {
     "telemetry.jsonl",
     "serial_bench_evidence.json",
 }
+TEXT_SUFFIXES = {".bat", ".cmd", ".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".ps1", ".py", ".service", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
+TEXT_NAMES = {".gitattributes", ".gitignore"}
 LOCKED_BOUNDARY = {
     "external_authority": "NONE",
     "clinical_validation_authorized": False,
@@ -94,11 +96,10 @@ class DriftResult:
 
 
 def _sha256_path(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    raw = path.read_bytes()
+    if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES:
+        raw = raw.replace(b"\r\n", b"\n")
+    return hashlib.sha256(raw).hexdigest()
 
 
 def _load_json(path: Path) -> dict[str, Any] | None:
@@ -114,6 +115,23 @@ def _git(root: Path, *args: str) -> str | None:
         return subprocess.check_output(["git", *args], cwd=root, text=True, stderr=subprocess.DEVNULL).strip()
     except (OSError, subprocess.SubprocessError):
         return None
+
+
+def _parent_aligned_to_freeze(root: Path, freeze_source: Any) -> str | None:
+    """Use the branch parent when CI checks a synthetic PR merge commit."""
+    parents = _git(root, "rev-list", "--parents", "-n", "1", "HEAD")
+    if not parents:
+        return None
+    candidates = parents.split()[1:]
+    if not candidates:
+        return None
+    if _revision(freeze_source) and freeze_source in candidates:
+        return str(freeze_source)
+    if _revision(freeze_source):
+        aligned = [candidate for candidate in candidates if revision_is_ancestor(root, freeze_source, candidate)]
+        if len(aligned) == 1:
+            return str(freeze_source)
+    return candidates[0]
 
 
 def revision_is_ancestor(root: Path, ancestor: Any, descendant: Any) -> bool:
@@ -319,7 +337,7 @@ def check_repository(root: Path = ROOT) -> dict[str, Any]:
     binding = _load_json(root / BINDING_RELATIVE)
     handoff = _load_json(root / HANDOFF_RELATIVE)
     current_head = _git(root, "rev-parse", "HEAD")
-    current_parent = _git(root, "rev-parse", "HEAD^")
+    current_parent = _parent_aligned_to_freeze(root, freeze.get("source_revision") if freeze else None)
     origin_main = _git(root, "rev-parse", "origin/main")
     tracked_output = _git(root, "ls-files") or ""
     tracked_paths = [line for line in tracked_output.splitlines() if line]

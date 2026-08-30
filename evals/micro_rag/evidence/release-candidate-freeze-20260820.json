@@ -120,6 +120,12 @@
       "size_bytes": 3901
     },
     {
+      "classification": "repository_asset",
+      "path": ".gitattributes",
+      "sha256": "13cb7f5e12dd469dc5c88afcf0cd035abe6cd1fc2f30afe224991e66b4262222",
+      "size_bytes": 29
+    },
+    {
       "classification": "contract_or_governance_document",
       "path": ".github/PULL_REQUEST_TEMPLATE.md",
       "sha256": "261ece0c6967007ac77ff0884925939c8fdfde17b808c8ac94b87218ae410009",
@@ -134,8 +140,8 @@
     {
       "classification": "repository_asset",
       "path": ".github/workflows/ci.yml",
-      "sha256": "21882a9321c5c8b382bf224443b3d5f7a8641552d713719f9fce8b3d25afb88c",
-      "size_bytes": 1618
+      "sha256": "b86bf6c6b0e0067c50cf15380ca7e26e9ceda54256d4d154fb1c1c0e799bff4e",
+      "size_bytes": 1713
     },
     {
       "classification": "repository_asset",
@@ -818,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "0573dd72bc9020d36889d9a1159f99b62a95b5bb9f4eae6b2756368469a2f927",
-      "size_bytes": 9003
+      "sha256": "72c4b0f2e83ae313652a1f7928ce7514351797292d8829b86f7e3cead3030445",
+      "size_bytes": 13700
     },
     {
       "classification": "contract_or_governance_document",
@@ -884,8 +890,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "SMART_WARD_HANDOFF_STATUS.md",
-      "sha256": "cc8b273c9d68a109c27eebd27f735c786a4bc4ccbd5f49b279b6544f53987399",
-      "size_bytes": 104834
+      "sha256": "d6149165581abdee3529c5781cff73fff38f060285a101ad4f28cd73286d7e96",
+      "size_bytes": 105350
     },
     {
       "classification": "contract_or_governance_document",
@@ -1148,8 +1154,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "backup_restore.py",
-      "sha256": "6c60689b6cbae19b0c3f8cd493bba2a0f57712862975cd015a8b5fc735b6ff0f",
-      "size_bytes": 16693
+      "sha256": "e3fc0a107593f7de13996c96ba6f608bbea8cb9aca27c5cb0055f7e391466476",
+      "size_bytes": 16828
     },
     {
       "classification": "source_or_runtime_config",
@@ -1345,6 +1351,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "docs/HUB_TO_SERVER_DATA_PATH.md",
+      "sha256": "7c88c7beb715a66c6840b673e3632b5834fb26005f964d00acaded22748ab656",
+      "size_bytes": 2566
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "docs/OPERATIONS_RUNBOOK.md",
       "sha256": "c7ed6e20a7f14a6fd92d972e9393ef066986bd590e58e57ced2bf140d371de88",
       "size_bytes": 3663
@@ -1357,6 +1369,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "docs/PRODUCTION_READINESS_PLAN.md",
+      "sha256": "0a40c72f31c2635a3986245730d5fdcd324f33eb39d6d4fbf1ab2e96ac1bd269",
+      "size_bytes": 6386
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "docs/PRODUCT_BOUNDARY.md",
       "sha256": "e51130e2f034c4c383d5d315f81cd47a0fd0a692fb34fbd3f7ca712e197b1a5e",
       "size_bytes": 3222
@@ -1366,6 +1384,24 @@
       "path": "docs/REBRAND_HANDOFF.md",
       "sha256": "6e252d07e7f4f25c362693cc6184b1bd31a2eb27eea71a21b7473f4ea8e67978",
       "size_bytes": 1946
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/SMARTWATCH_HUB_INTAKE_CHECKLIST.md",
+      "sha256": "4a3ffca3b0e2c5079933d72dd7ec497b57cddf9f3dd12ebc50bd1f7210f3cd2f",
+      "size_bytes": 7363
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/SMARTWATCH_SIMULATOR_GUIDE.md",
+      "sha256": "0f12498653d6c843640fd19d11ee0196bd06c3446ce8a8a1576ea3e8a571415f",
+      "size_bytes": 2120
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/SOFTWARE_SIMULATION_COVERAGE_MATRIX.md",
+      "sha256": "5e86301582cf16c184c20a1c68a53dab5a6b87036adf3a510fc71ab63a4dc076",
+      "size_bytes": 2531
     },
     {
       "classification": "contract_or_governance_document",
@@ -1384,6 +1420,12 @@
       "path": "docs/THREAT_MODEL.md",
       "sha256": "826e9e25d11816cfe70817383b392a43637433ffefbed9ee38128fecaedb65b1",
       "size_bytes": 2853
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/WARD_SCALE_SIMULATION_GUIDE.md",
+      "sha256": "26f9191dbb59ad04d9ce3a4f404d6fa1fbf5667fcd92ed3c1259f39f2f976283",
+      "size_bytes": 1344
     },
     {
       "classification": "source_or_runtime_config",
@@ -2000,8 +2042,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "evidence_reconciliation.py",
-      "sha256": "dedda97f29ff91ce754525fc81dfb9212572d16d51c12ccd545c7efc5aed1d60",
-      "size_bytes": 19293
+      "sha256": "ecfcc25995400f1d22e7aab3a7808f19de283acd4420b00291f7c773c190da31",
+      "size_bytes": 19477
     },
     {
       "classification": "source_or_runtime_config",
@@ -2348,14 +2390,14 @@
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_integrity_monitor.py",
-      "sha256": "f306b831bd90dab6d235fe7bfe575990654ae959a15f7389fce2adc234ac91c5",
-      "size_bytes": 15116
+      "sha256": "6331fd499b8c3439a93fd70f2dc5c25ba22b7dfe7f036143d1fed86112040742",
+      "size_bytes": 16087
     },
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
-      "sha256": "2cd4fdad58d54b2a386a205a26c9b687b320f9f49780571f2d06826d66f535d0",
-      "size_bytes": 5035
+      "sha256": "cf206b7e7561d216fa25e888531d8e0c979b27f732ae64e2dd47c4a0b857b33f",
+      "size_bytes": 5398
     },
     {
       "classification": "source_or_runtime_config",
@@ -2467,6 +2509,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "hospital_full_system_simulation.py",
+      "sha256": "9f09637272449261eebb23ea9d022e05716ea896bcd02eeae12e0f1413173d04",
+      "size_bytes": 11619
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "independent_review_operations.py",
       "sha256": "eb71e209b2a29caba8e37568fc70d017638006ab93dc4367f87e9a8739365e40",
       "size_bytes": 14438
@@ -2498,8 +2546,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "main.py",
-      "sha256": "ddc0a4d45ad67b854690f019ae86d9b4e070d4bf2c4c795c1dc74db57d822876",
-      "size_bytes": 101196
+      "sha256": "ce6d6855a85e87d2e036e25f338a4de933bedffbd8dc5a5f510a5d9638cada8b",
+      "size_bytes": 100095
     },
     {
       "classification": "contract_or_governance_document",
@@ -2708,8 +2756,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p3_external_gate_status_reconciliation.py",
-      "sha256": "dbbb7f16bda5bead32d5429b8845443b7c1b849b27dcb31519b4049a3afca210",
-      "size_bytes": 12086
+      "sha256": "51587b89ee616b9cff0b6a08684938c202ce46e680e747251ca78c6b6af25242",
+      "size_bytes": 12234
     },
     {
       "classification": "source_or_runtime_config",
@@ -2720,8 +2768,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p4_blocked_gate_unblock_readiness.py",
-      "sha256": "70671403bf13da4a0c117c2666ed2facab96ed6f4650883caa15f3d70efcbf6c",
-      "size_bytes": 8804
+      "sha256": "974962571005cfde0606cc64413c578f1155cb671e2bfba320758ba325ed5887",
+      "size_bytes": 8952
     },
     {
       "classification": "source_or_runtime_config",
@@ -2732,8 +2780,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p4_independent_reviewer_handoff_readiness.py",
-      "sha256": "2456834e21386edbf0281c274cd151b53313ffe3e3e1a51832106f8527fa0fa0",
-      "size_bytes": 9362
+      "sha256": "da092e00a1eebef354ccf7b41c62a0ca19437495d3c6f9da7ca08e07e5a63540",
+      "size_bytes": 9510
     },
     {
       "classification": "source_or_runtime_config",
@@ -2924,8 +2972,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "bd63dc5e8705a2fb2f286119ee96974f364b014980641f57f7625d68b416d384",
-      "size_bytes": 9387
+      "sha256": "971ac4d5ccc1cb0ed1bfc9139dc735a7b422366ea1f393098bff2010a39857af",
+      "size_bytes": 9601
     },
     {
       "classification": "source_or_runtime_config",
@@ -2995,9 +3043,21 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "smartwatch_simulator.py",
+      "sha256": "fd1ffe2ad301e5bf523426850a0cb4b71beaef870f0471357689909149b33293",
+      "size_bytes": 7816
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "software_rollback_rehearsal.py",
       "sha256": "664bf7b741e778dd6de0e22838fe51f996be50d001cb6a5e3249197da868080d",
       "size_bytes": 19000
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "software_simulation_matrix.py",
+      "sha256": "c0b0fab5c0e6143603156f8e928d5680596c55ff46e31b15515fc22e00af2ac2",
+      "size_bytes": 9974
     },
     {
       "classification": "source_or_runtime_config",
@@ -3247,6 +3307,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_hospital_full_system_simulation.py",
+      "sha256": "16246a312a459d9c5c109b2eebd5970e09ab078a5e8fa11eac5d2a7caeee1c06",
+      "size_bytes": 1139
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_independent_review_operations.py",
       "sha256": "44564f16b0541a03d4b48f0026147e72808086fa115bf54e5dff2a5031dca6d6",
       "size_bytes": 4761
@@ -3404,8 +3470,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p0_mtls_config.py",
-      "sha256": "d531cf50cff1366bf82e0cc5c3b331356c7e53ab0846e8b1018fc1958c281a14",
-      "size_bytes": 2398
+      "sha256": "7ef6d3b4ec4ae9b0b0fc7207026bafac95831ab302a354bbcca2293eb77d4171",
+      "size_bytes": 3118
     },
     {
       "classification": "source_or_runtime_config",
@@ -3416,8 +3482,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p0_recovery.py",
-      "sha256": "abb162f5dd8c26df4a64fd1f8f80acffe960225ad0ab04da01ddcb04ed2b73fa",
-      "size_bytes": 2460
+      "sha256": "9d162b976dcf4cc17b55bf0df2d0935906fd3364371b80fc2fd0b0e0c936c7bf",
+      "size_bytes": 2568
     },
     {
       "classification": "source_or_runtime_config",
@@ -3764,8 +3830,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_release_freeze_candidate.py",
-      "sha256": "6dfccdec369f8bca60a959a4f3b6cf912051297684f2441845b3b027e36e14ac",
-      "size_bytes": 3509
+      "sha256": "a5bbe054fd827ddd8f38484bb4390e49dc26972d0f0c64c1e3c751eec67c2609",
+      "size_bytes": 3862
     },
     {
       "classification": "source_or_runtime_config",
@@ -3835,6 +3901,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_smartwatch_simulator.py",
+      "sha256": "da663966fa6631bacaa38ccc03b2ce5e7fc1ba2ae67248109a7f316af3ff19f9",
+      "size_bytes": 2566
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_software_rollback_rehearsal.py",
       "sha256": "fc63439eafef3902bae7bc0d38ff5285b970e7f96117a2b28ef1047c7d330057",
       "size_bytes": 3157
@@ -3844,6 +3916,12 @@
       "path": "test_software_rollback_rehearsal_phase_end_hardening.py",
       "sha256": "7d6c3b8c5cbb0bcf575c575a14e25cb4e3571557348c642e3027d1cebba6e65c",
       "size_bytes": 4026
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_software_simulation_matrix.py",
+      "sha256": "c757308470e6dd2f93d69dd439b6cff7e01bfba4d0a7d7d0554e9c1ad6b0eb26",
+      "size_bytes": 1720
     },
     {
       "classification": "source_or_runtime_config",
@@ -3868,6 +3946,18 @@
       "path": "test_triage.py",
       "sha256": "a2ad06e6d0547fb9e50d27722b5808eb3fe7fcebfad4f4c8038ac83b3a255777",
       "size_bytes": 3376
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_virtual_wristband_telemetry_streamer.py",
+      "sha256": "3d83ebdc1e57fcfe48bc392546fb5995de56e998ee357514953b69abc51baacf",
+      "size_bytes": 1363
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_ward_scale_simulation.py",
+      "sha256": "3fd78a31edb0bc40ccc154347d3dedbf85a041e1082f0e9c5236130ed0829921",
+      "size_bytes": 1406
     },
     {
       "classification": "source_or_runtime_config",
@@ -4004,8 +4094,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_worker_queue_backup.py",
-      "sha256": "0f1a4dda7e777d70caa152fba3c9493119134df6b6e12e9b80adad98ecb6896c",
-      "size_bytes": 3454
+      "sha256": "14490a84ba0836b8be741ef1fc6319bcc5d990c4c14c9832e5dd085f12240916",
+      "size_bytes": 3508
     },
     {
       "classification": "source_or_runtime_config",
@@ -4033,9 +4123,15 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "triage_engine.py",
+      "sha256": "60bdb94eb2d8c04ac74fa14ef8a3f485d9fc52a938d9a4e217ed3ab949109fb2",
+      "size_bytes": 1529
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "validate_mtls_config.py",
-      "sha256": "d2ee638fe7adf1811b33c25aa187005991f22c4ab9233ddd05cd278f02a089ad",
-      "size_bytes": 1588
+      "sha256": "da6d7076b3ab47ca4c8440edff99a3567ca501601efc8f54b662a9c5e54f4dda",
+      "size_bytes": 2609
     },
     {
       "classification": "source_or_runtime_config",
@@ -4048,6 +4144,18 @@
       "path": "validate_reliability.py",
       "sha256": "5749ba3488e6812a0fb626476def6cfd53b8fda715ddc8d9b5fc355428188149",
       "size_bytes": 6867
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "virtual_wristband_telemetry_streamer.py",
+      "sha256": "97a743148cddf76fd2123ecbcf46486b8ec318496a1292ebca732f1bb02abee2",
+      "size_bytes": 9235
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "ward_scale_simulation.py",
+      "sha256": "550e611ee7bf961ce5281f85270aa59c56aa4d61a1294afcbb208c3b0c309398",
+      "size_bytes": 6979
     },
     {
       "classification": "source_or_runtime_config",
@@ -4124,8 +4232,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "worker_queue_backup.py",
-      "sha256": "cb68925a786d29c12d3db527dc11c9be31bba1e673a78b38fbd6a89c2ba0e7cd",
-      "size_bytes": 8057
+      "sha256": "4e1bd68d29e46d069ffbc6ea22e8ec506edae45de71c9354ea1b5061916cf9ff",
+      "size_bytes": 8111
     },
     {
       "classification": "source_or_runtime_config",
@@ -4140,14 +4248,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T03:41:07.010862+00:00",
+  "freeze_created_at_utc": "2026-08-30T19:47:00.319593+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0639f9fa5e78885b352123c20c68c486657c5f75",
+  "origin_main_revision": "82bc39b3ac288affe89ed70ae1d7170ffced689c",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "8c48dbf07d16ed0b73de748c1c08cb4867a0c2c8"
+  "source_revision": "ca904a84f36b21164413eeeea09b9e7a579cc798"
 }
