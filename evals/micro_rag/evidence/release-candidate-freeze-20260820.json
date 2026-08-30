@@ -1165,6 +1165,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "canonical_file_hash.py",
+      "sha256": "5791ded65da188935bf27c393cd0ac19656db72fd3390082a468431ece8ec863",
+      "size_bytes": 806
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "clinical_shadow_mode.py",
       "sha256": "2962a5bc4385b77743efc8e5b18201f1c1f119ef9f014949d9cca6602575ad92",
       "size_bytes": 12732
@@ -1274,8 +1280,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "cross_package_evidence_binding.py",
-      "sha256": "4b3e610d787ebfad7b8640cb11be2c23f70096941df46dc76b7c9ef9b27490ae",
-      "size_bytes": 14954
+      "sha256": "1c329cdf57cd434b86bff51f68144e87e2fd7ccfe80302c08341c8815897bd88",
+      "size_bytes": 14794
     },
     {
       "classification": "source_or_runtime_config",
@@ -2408,14 +2414,14 @@
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_integrity_monitor.py",
-      "sha256": "6331fd499b8c3439a93fd70f2dc5c25ba22b7dfe7f036143d1fed86112040742",
-      "size_bytes": 16087
+      "sha256": "a3c6f985d601ec7c01653ccbbd09fddf312b672ba9a292032dd4fdf97334c2d7",
+      "size_bytes": 15910
     },
     {
       "classification": "source_or_runtime_config",
       "path": "freeze_release_candidate.py",
-      "sha256": "cf206b7e7561d216fa25e888531d8e0c979b27f732ae64e2dd47c4a0b857b33f",
-      "size_bytes": 5398
+      "sha256": "5f5bb78ff98d31bdfc7a005e4144e1095baef3ffb20bcfaff9a22b4a56882337",
+      "size_bytes": 4928
     },
     {
       "classification": "source_or_runtime_config",
@@ -2540,8 +2546,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "independent_reviewer_readiness_preflight.py",
-      "sha256": "a9919e4e20e0f49e187e4e06a0bcd81dc03e581d0c1503fde37938a8a10513d8",
-      "size_bytes": 12753
+      "sha256": "0f91469878787e94caf3fb9071693513490a5c530a3b82eb0f7d4281bf4bcf5e",
+      "size_bytes": 12620
     },
     {
       "classification": "source_or_runtime_config",
@@ -2552,8 +2558,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "internal_handoff_chain_integrity.py",
-      "sha256": "51a99f4e7be38e22fe153a5116d34534d6291e5c6d918c4199c2e3d46f158b85",
-      "size_bytes": 14008
+      "sha256": "35f4a04e16acc197121f844ca78043f82b47f9dcd054e940289a495e655c8e95",
+      "size_bytes": 13791
     },
     {
       "classification": "source_or_runtime_config",
@@ -2756,8 +2762,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "p2_004_evidence_sufficiency.py",
-      "sha256": "aa8d33497f0b5330e6c96dca090a526c89f7ee979c44bf7d597616cbd917fddc",
-      "size_bytes": 12312
+      "sha256": "fec69c93dc9470ef8eb123ae0fab7e6fa0b302e86675e9c6b0b1d935c3c166c4",
+      "size_bytes": 12146
     },
     {
       "classification": "source_or_runtime_config",
@@ -2828,14 +2834,14 @@
     {
       "classification": "source_or_runtime_config",
       "path": "pre_handoff_evidence_selection.py",
-      "sha256": "02ec7439945800e05fc8686882fb12fd2bffaf96c9afd7a3d6f8e4527240a75c",
-      "size_bytes": 11749
+      "sha256": "40408b3f1976457ee155a2545773f1888ac652d9b06c8d01ee46eb067cf90ed2",
+      "size_bytes": 11606
     },
     {
       "classification": "source_or_runtime_config",
       "path": "pre_handoff_manifest_validator.py",
-      "sha256": "d9d725cd3aa5edb7fb90940caa63288bdb47984020e96f3e0a36d273e670a0e2",
-      "size_bytes": 10791
+      "sha256": "9de58b2726a31e9138ba73f4c28be8cfa17c5e02f8902f17c37bec007ec2ac25",
+      "size_bytes": 10664
     },
     {
       "classification": "source_or_runtime_config",
@@ -2852,8 +2858,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "pre_handoff_selection_manifest_consistency.py",
-      "sha256": "b12ab533faf314b611e61c7abf844f394e30f7e8e0c5d6da7ad449f340d57e6b",
-      "size_bytes": 15020
+      "sha256": "fe5943bb3265b70cf8cc32368923cd3a94eade2123994c42ce4a1c8d1c84484a",
+      "size_bytes": 14877
     },
     {
       "classification": "repository_asset",
@@ -3068,8 +3074,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "software_rollback_rehearsal.py",
-      "sha256": "664bf7b741e778dd6de0e22838fe51f996be50d001cb6a5e3249197da868080d",
-      "size_bytes": 19000
+      "sha256": "4884a492d8204a18c4621be05eb3e7e662b00f1b73b01502986c162dbe0ce630",
+      "size_bytes": 19087
     },
     {
       "classification": "source_or_runtime_config",
@@ -3638,8 +3644,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_p2_004_evidence_sufficiency.py",
-      "sha256": "b389a22425ab9a46529270962185eef3d832cf34d715f5555c5e646f670bc324",
-      "size_bytes": 7655
+      "sha256": "fb2ae8ee7f60d760741331c7d680c7e66c56ab5b6e9f6ac46c86df7785fa7715",
+      "size_bytes": 7640
     },
     {
       "classification": "source_or_runtime_config",
@@ -4238,8 +4244,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "wave4_independent_review_package.py",
-      "sha256": "e780256d2019640c8252f8ff29c823050560afaea7051ac69abd05950ae3034a",
-      "size_bytes": 15978
+      "sha256": "6384d6642b581a9188b1b28effb466e00b6562a6ef2dc8bb18e57ebac1e5664f",
+      "size_bytes": 15776
     },
     {
       "classification": "source_or_runtime_config",
@@ -4278,7 +4284,7 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-30T20:08:02.228743+00:00",
+  "freeze_created_at_utc": "2026-08-30T20:16:00.049463+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
@@ -4287,5 +4293,5 @@
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "e57098bc58e9f12406dc37b7c99c2780a0fbaacc"
+  "source_revision": "ad11a840b3a2f79d9bef83ff7f0fad7133111457"
 }
