@@ -16,6 +16,7 @@ from pathlib import Path
 import re
 from typing import Any, Mapping
 
+from canonical_file_hash import canonical_sha256
 from cross_package_evidence_binding import (
     APPROVAL_PATH,
     DURABLE_PATH,
@@ -272,11 +273,7 @@ def build_index(root: Path) -> HandoffIndexResult:
 
 
 def _file_sha(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_sha256(path)
 
 
 if __name__ == "__main__":

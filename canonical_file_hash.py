@@ -31,12 +31,16 @@ TEXT_SUFFIXES = {
 TEXT_NAMES = {".gitattributes", ".gitignore"}
 
 
-def canonical_bytes(path: Path) -> bytes:
-    """Normalize text line endings so evidence hashes are platform-independent."""
-    raw = path.read_bytes()
+def canonicalize_bytes(path: Path, raw: bytes) -> bytes:
+    """Normalize supplied file bytes using the release-freeze text rules."""
     if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES:
         return raw.replace(b"\r\n", b"\n")
     return raw
+
+
+def canonical_bytes(path: Path) -> bytes:
+    """Read and normalize a file so evidence hashes are platform-independent."""
+    return canonicalize_bytes(path, path.read_bytes())
 
 
 def canonical_sha256(path: Path) -> str:
