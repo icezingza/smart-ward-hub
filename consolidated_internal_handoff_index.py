@@ -22,7 +22,6 @@ from cross_package_evidence_binding import (
     DURABLE_PATH,
     FREEZE_PATH,
     TRANSCRIPT_PATH,
-    check_repository,
 )
 
 
