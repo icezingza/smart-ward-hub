@@ -115,6 +115,14 @@ python ward_scale_simulation.py --beds 40 --ticks 8
 
 จำลอง 40 เตียงพร้อม injected scenarios: fall, vital anomaly, device disconnect, perimeter warning และ blood-pressure capability gap โดยไม่ใช้ข้อมูลผู้ป่วยจริง ดูข้อจำกัดของค่า BP/location และผลที่คาดหวังใน `docs/WARD_SCALE_SIMULATION_GUIDE.md`
 
+## Hospital Full-System Simulation
+
+```bash
+python hospital_full_system_simulation.py --wards 5 --beds-per-ward 40 --ticks 8
+```
+
+จำลอง FastAPI end-to-end หลายวอร์ดผ่าน Hub จริงใน database ชั่วคราว และตรวจ Hub-to-Server retain/retry/structured-ack contract โดยไม่ติดต่อ Server จริง แนวทาง data path อยู่ใน `docs/HUB_TO_SERVER_DATA_PATH.md`
+
 ## การรัน API ในโหมดพัฒนา
 
 ```bash

@@ -26,7 +26,7 @@ The runner covers the ten software domains below. It invokes existing determinis
 | SIM-005 | Alerts and shadow mode | stale revision, alert reconciliation, diagnostic-label rejection and review controls |
 | SIM-006 | Recovery | WAL, checkpoint corruption, disk-full injection, tamper, backup/restore and reconciliation gate |
 | SIM-007 | Forensics | audit-chain tamper detection and anchor failures |
-| SIM-008 | HIS/FHIR | opaque identity, acknowledgement mismatch, timeout and retention |
+| SIM-008 | HIS/FHIR | opaque identity, multi-ward FastAPI flow, acknowledgement mismatch, timeout and retention |
 | SIM-009 | Workers | bounded retry, queue backup, replay eligibility and approval gate |
 | SIM-010 | Deployment configuration | OIDC/mTLS fail-closed checks, Windows ACL fixture and migration startup |
 
