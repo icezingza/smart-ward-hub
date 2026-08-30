@@ -8,7 +8,7 @@
   },
   "checks": {
     "head_matches_origin_main": true,
-    "runtime_artifact_scan_pass": false,
+    "runtime_artifact_scan_pass": true,
     "secret_marker_scan_pass": true,
     "tracked_file_hashes_generated": true,
     "working_tree_clean_before_manifest": true
@@ -4278,18 +4278,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-30T19:56:28.344236+00:00",
-  "freeze_status": "BLOCKED",
+  "freeze_created_at_utc": "2026-08-30T19:57:21.016833+00:00",
+  "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
   "origin_main_revision": "346599ba93f2cc3ace3b4e158926e21b3ee0a546",
   "repository": "icezingza/smart-ward-hub",
-  "runtime_artifacts": [
-    "audit_events.jsonl",
-    "edge_telemetry_state.json",
-    "ward_hub.db"
-  ],
+  "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "38a2be78da3b30bbb23da7a9873fd6c9d9f18ae1"
+  "source_revision": "c7ae8c3f13dbe4650a0c92f0452bea0f023ee93a"
 }
