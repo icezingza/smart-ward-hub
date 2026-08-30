@@ -41,6 +41,9 @@ The service must fail closed for authentication, authorization, invalid telemetr
 | Clinical effectiveness | No | Clinical protocol, study evidence and clinical sign-off |
 | Production-ready | No | Validated release, QMS, security, operations, integration and regulatory decision |
 | Tamper-proof/external immutability | No | Independently administered anchor, custody, timestamp and verification evidence |
+| Cryptographically Verifiable Tamper-Evident Audit Trail | Yes, for the verified package scope | Hash-chain/signature verification evidence plus explicit local-custody limitations |
+| Hospital-Controlled Data Boundary | Yes, when hospital network, route, identity, destination and retention controls are documented | Approved architecture, network rules, access control and data-flow evidence |
+| Traceability & Forensic Readiness | Yes, as an operational support claim | Incident records, audit linkage, retention procedure and chain-of-custody process; no guaranteed legal outcome |
 
 ## Approval record
 

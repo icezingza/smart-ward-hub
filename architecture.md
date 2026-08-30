@@ -29,6 +29,8 @@ Fixed Ward Edge Hub (Acer Spin N17H2 candidate)
 
 ## 2. Trust and data boundaries
 
+Deployment language uses **Hospital-Controlled Data Boundary**, not air-gapped. The Hub may use hospital-managed ward connectivity, but every route, identity, destination and retained data class must remain explicitly approved and controlled by the hospital. Network location alone never establishes trust.
+
 | Boundary | Permitted data | Prohibited data or behavior |
 |---|---|---|
 | Device → Edge | device identity, signed packet, sequence, sensor values, timestamp, battery | raw HN/name, unsigned trust bypass, replayed sequence |
@@ -46,7 +48,7 @@ Fixed Ward Edge Hub (Acer Spin N17H2 candidate)
 | Speed/recovery | Thread-safe bounded ring buffer + atomic checkpoint | Software tests; power-loss validation pending |
 | API | FastAPI routes, scopes, health and contract endpoints | Functional verification passed |
 | Safety intelligence | triage/fall signal and alert persistence | Clinical validation pending |
-| Forensics | SHA-256 hash chain, freeze and local anchor adapter | Tamper-evident local baseline; external anchor pending |
+| Forensics | SHA-256 hash chain, freeze, RSA-PSS verification and local anchor adapter | Cryptographically Verifiable Tamper-Evident Audit Trail within the covered package; external custody pending |
 | Trust | Ed25519 public-key enrollment and signed packet verification | Software baseline; manufacturer CA/HSM pending |
 | Interoperability | FHIR/handover and Admission/roaming contracts | Real HIS/IdP/network integration pending |
 

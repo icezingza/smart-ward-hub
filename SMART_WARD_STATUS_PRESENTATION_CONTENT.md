@@ -14,14 +14,16 @@ Source: `README.md`, `SMART_WARD_HANDOFF_STATUS.md`
 
 ## Slide 2 — Product thesis: สร้างระบบ ไม่ใช่เพียง dashboard
 
-Smart Ward Hub รวม Edge persistence, telemetry ingestion, patient-safety intelligence, tamper-evident evidence, HIS/EMR interoperability, Device Trust และ ward workflow ไว้ใน control plane เดียว
+Smart Ward Hub รวม Edge persistence, telemetry ingestion, patient-safety intelligence, Cryptographically Verifiable Tamper-Evident Audit Trail, HIS/EMR interoperability, Device Trust และ ward workflow ไว้ใน control plane เดียว
 
 **จุดขายหลัก**
 
 - Sovereign Edge / Offline-first
 - Zero-PII Edge boundary
 - Patient Safety Intelligence
-- Tamper-Evident Evidence
+- Cryptographically Verifiable Tamper-Evident Audit Trail
+- Hospital-Controlled Data Boundary
+- Traceability & Forensic Readiness
 - HIS/EMR Interoperability
 - Device Trust & Secure Provisioning
 - Outside-in Ward Workflow
@@ -154,6 +156,8 @@ Source: `MICRO_RAG_*`, `evals/micro_rag/`, `SMART_WARD_8_SKILL_INTEGRATION.md`
 6. Pinned Gemini 2.5 Micro-RAG rerun after provider quota window
 
 > Product claim boundary: **functional verification passed** is not **clinical-ready**, **tamper-proof**, **HIPAA/PDPA compliant 100%** or **production-ready**.
+
+> CISO wording: **Hospital-Controlled Data Boundary**, not air-gapped; **Traceability & Forensic Readiness**, not a guarantee against litigation or a guaranteed legal outcome.
 
 **Decision point:** move from software foundation to controlled external validation only when each owner, evidence artifact, rollback path and stop condition is explicitly assigned
 
