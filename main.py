@@ -1,9 +1,7 @@
-from collections import deque
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 import math
-import os
 from threading import RLock
 from pathlib import Path
 from typing import Any
@@ -17,6 +15,12 @@ from sqlalchemy.orm import Session
 
 from config import settings
 from edge_runtime import EdgeTelemetryStore
+from forensic_vault import (
+    GENESIS_HASH,
+    SIGNATURE_ALGORITHM,
+    compute_block_hash,
+    load_optional_signer,
+)
 from device_trust import public_key_fingerprint, verify_device_signature
 from edge_controls import (
     AuditSink,
@@ -39,6 +43,7 @@ ANCHOR_STORE = FileAnchorStore(
     path=settings.forensic_anchor_path,
     source_root=Path(__file__).resolve().parent,
 )
+FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
 
 
@@ -1181,11 +1186,10 @@ def freeze_session_incident(
     alert = unresolved_alert_for_session(db, session)
     if alert is None:
         raise HTTPException(status_code=409, detail="No unresolved incident alert found for session.")
-    cutoff = utc_now() - timedelta(minutes=10)
-    samples = [
-        sample for sample in TELEMETRY_STORE.snapshot(session.device_id)
-        if sample.get("received_at") is None or sample["received_at"] >= cutoff
-    ]
+    samples = TELEMETRY_STORE.snapshot_window(
+        session.device_id,
+        window_seconds=settings.forensic_window_seconds,
+    )
     package = freeze_forensic_package(db, alert, samples, session_id=session_id)
     session.status = "INCIDENT_FROZEN"
     db.commit()
@@ -1195,7 +1199,12 @@ def freeze_session_incident(
         actor=_auth,
         resource_type="ward_session",
         resource_id=session_id,
-        details={"forensic_package_id": package.id, "sample_count": len(samples), "window_seconds": 600},
+        details={
+            "forensic_package_id": package.id,
+            "sample_count": len(samples),
+            "window_seconds": settings.forensic_window_seconds,
+            "signature_status": package.signature_status,
+        },
     )
     return schemas.BaseResponse(
         success=True,
@@ -1723,10 +1732,15 @@ def ingest_telemetry(
             db.add(alert_record)
             db.commit()
             db.refresh(alert_record)
+            forensic_samples = TELEMETRY_STORE.snapshot_window(
+                packet.device_id,
+                window_seconds=settings.forensic_window_seconds,
+                now=sample["received_at"],
+            )
             freeze_forensic_package(
                 db,
                 alert_record,
-                list(buffer),
+                forensic_samples,
                 session_id=binding.get("session_id"),
             )
     AUDIT_SINK.record(
@@ -1853,9 +1867,6 @@ def evaluate_triage(device_id: str, samples: list[dict[str, Any]]) -> dict[str, 
     return {**signal, "description": description}
 
 
-GENESIS_HASH = "0" * 64
-
-
 def freeze_forensic_package(
     db: Session,
     alert: models.Alert,
@@ -1873,10 +1884,18 @@ def freeze_forensic_package(
         "description": alert.description,
         "samples": samples,
     }
-    frozen_payload = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=str)
+    frozen_payload = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+        allow_nan=False,
+        default=str,
+    )
     previous = db.query(models.ForensicPackage).order_by(models.ForensicPackage.id.desc()).first()
     previous_hash = previous.block_hash if previous else GENESIS_HASH
-    block_hash = hashlib.sha256(f"{previous_hash}:{frozen_payload}".encode("utf-8")).hexdigest()
+    block_hash = compute_block_hash(previous_hash, frozen_payload)
+    signature = FORENSIC_SIGNER.sign_block_hash(block_hash) if FORENSIC_SIGNER else None
     package = models.ForensicPackage(
         alert_id=alert.id,
         session_id=session_id,
@@ -1886,6 +1905,11 @@ def freeze_forensic_package(
         frozen_payload_json=frozen_payload,
         previous_hash=previous_hash,
         block_hash=block_hash,
+        signature_algorithm=signature.algorithm if signature else None,
+        signature_b64=signature.signature_b64 if signature else None,
+        signing_key_fingerprint=signature.key_fingerprint if signature else None,
+        signature_status="SIGNED" if signature else "UNSIGNED",
+        signed_at=utc_now() if signature else None,
     )
     db.add(package)
     db.commit()
@@ -1912,6 +1936,8 @@ def freeze_forensic_package(
         resource_id=str(package.id),
         details={
             "block_hash": package.block_hash,
+            "signature_status": package.signature_status,
+            "signing_key_fingerprint": package.signing_key_fingerprint,
             "local_anchor_recorded": anchored,
             "anchor_evidence_class": anchor_receipt.get("evidence_class") if isinstance(anchor_receipt, dict) else "LOCAL_TAMPER_EVIDENT_UNVERIFIED",
             "external_anchor_verified": False,
@@ -1962,10 +1988,9 @@ def verify_forensic_chain(
 ) -> dict[str, Any]:
     packages = db.query(models.ForensicPackage).order_by(models.ForensicPackage.id.asc()).all()
     previous_hash = GENESIS_HASH
+    signature_statuses: list[dict[str, Any]] = []
     for package in packages:
-        expected_hash = hashlib.sha256(
-            f"{previous_hash}:{package.frozen_payload_json}".encode("utf-8")
-        ).hexdigest()
+        expected_hash = compute_block_hash(previous_hash, package.frozen_payload_json)
         if package.previous_hash != previous_hash or package.block_hash != expected_hash:
             AUDIT_SINK.record(
                 "forensics.verify",
@@ -1980,6 +2005,38 @@ def verify_forensic_chain(
                 "tampered_package_id": package.id,
                 "detail": "Forensic hash chain verification failed.",
             }
+        if not package.signature_b64:
+            signature_state = "UNSIGNED"
+        elif package.signature_algorithm != SIGNATURE_ALGORITHM:
+            signature_state = "UNSUPPORTED_ALGORITHM"
+        elif FORENSIC_SIGNER is None:
+            signature_state = "UNVERIFIED_KEY_UNAVAILABLE"
+        elif package.signing_key_fingerprint != FORENSIC_SIGNER.key_fingerprint:
+            signature_state = "UNVERIFIED_KEY_MISMATCH"
+        elif FORENSIC_SIGNER.verify_block_hash(package.block_hash, package.signature_b64):
+            signature_state = "SIGNED_VERIFIED"
+        else:
+            AUDIT_SINK.record(
+                "forensics.verify",
+                "signature_failed",
+                actor=_auth,
+                resource_type="forensic_package",
+                resource_id=str(package.id),
+                details={"block_hash": package.block_hash},
+            )
+            return {
+                "integrity": "FAILED",
+                "tampered_package_id": package.id,
+                "detail": "Forensic digital signature verification failed.",
+            }
+        signature_statuses.append(
+            {
+                "package_id": package.id,
+                "status": signature_state,
+                "algorithm": package.signature_algorithm,
+                "key_fingerprint": package.signing_key_fingerprint,
+            }
+        )
         previous_hash = package.block_hash
     anchor_statuses = [
         _local_anchor_status(
@@ -2001,6 +2058,9 @@ def verify_forensic_chain(
         "integrity": "OK",
         "package_count": len(packages),
         "last_hash": previous_hash if packages else GENESIS_HASH,
+        "signature_status": signature_statuses,
+        "all_packages_signed_and_verified": bool(packages)
+        and all(row["status"] == "SIGNED_VERIFIED" for row in signature_statuses),
         "anchor_status": anchor_statuses,
         "external_anchor_verified": False,
     }

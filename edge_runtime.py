@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import json
 import os
 from pathlib import Path
@@ -210,6 +210,35 @@ class EdgeTelemetryStore:
                 return []
             buffer = self._buffers.get(device_id)
             return [dict(item) for item in buffer] if buffer is not None else []
+
+    def snapshot_window(
+        self,
+        device_id: str,
+        *,
+        window_seconds: int = 600,
+        now: datetime | None = None,
+    ) -> list[dict[str, Any]]:
+        """Return received samples inside a bounded recent forensic window."""
+        if isinstance(window_seconds, bool) or window_seconds <= 0:
+            raise ValueError("window_seconds must be positive")
+        reference = now or datetime.now(timezone.utc)
+        if reference.tzinfo is not None:
+            reference = reference.astimezone(timezone.utc).replace(tzinfo=None)
+        cutoff = reference - timedelta(seconds=window_seconds)
+        samples = self.snapshot(device_id)
+        selected: list[dict[str, Any]] = []
+        for sample in samples:
+            received_at = sample.get("received_at")
+            if not isinstance(received_at, datetime):
+                continue
+            normalized = (
+                received_at.astimezone(timezone.utc).replace(tzinfo=None)
+                if received_at.tzinfo is not None
+                else received_at
+            )
+            if cutoff <= normalized <= reference:
+                selected.append(sample)
+        return selected
 
     def clear_device(self, device_id: str, *, reset_sequence: bool = False) -> int:
         with self._lock:

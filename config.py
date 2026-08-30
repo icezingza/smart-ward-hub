@@ -64,6 +64,9 @@ class Settings:
     audit_log_path: Path
     idempotency_ttl_seconds: int
     forensic_anchor_path: Path | None
+    forensic_window_seconds: int
+    forensic_signing_private_key_path: Path | None
+    forensic_signing_required: bool
     device_trust_mode: str
     device_trust_clock_skew_seconds: int
 
@@ -80,6 +83,16 @@ def load_settings() -> Settings:
     ).expanduser()
     anchor_raw = os.getenv("SW_FORENSIC_ANCHOR_PATH", "").strip()
     anchor_path = Path(anchor_raw).expanduser() if anchor_raw else None
+    signing_key_raw = os.getenv("SW_FORENSIC_SIGNING_PRIVATE_KEY_PATH", "").strip()
+    signing_key_path = Path(signing_key_raw).expanduser() if signing_key_raw else None
+    signing_required = _bool_env("SW_FORENSIC_SIGNING_REQUIRED", False)
+    forensic_window_seconds = int(os.getenv("SW_FORENSIC_WINDOW_SECONDS", "600"))
+    if forensic_window_seconds <= 0:
+        raise RuntimeError("SW_FORENSIC_WINDOW_SECONDS must be positive")
+    if signing_required and signing_key_path is None:
+        raise RuntimeError(
+            "SW_FORENSIC_SIGNING_REQUIRED requires SW_FORENSIC_SIGNING_PRIVATE_KEY_PATH"
+        )
     device_trust_mode = os.getenv("SW_DEVICE_TRUST_MODE", "disabled").lower()
     if device_trust_mode not in {"disabled", "observe", "enforce"}:
         raise RuntimeError("SW_DEVICE_TRUST_MODE must be disabled, observe, or enforce")
@@ -124,6 +137,9 @@ def load_settings() -> Settings:
         audit_log_path=audit_path,
         idempotency_ttl_seconds=int(os.getenv("SW_IDEMPOTENCY_TTL_SECONDS", "86400")),
         forensic_anchor_path=anchor_path,
+        forensic_window_seconds=forensic_window_seconds,
+        forensic_signing_private_key_path=signing_key_path,
+        forensic_signing_required=signing_required,
         device_trust_mode=device_trust_mode,
         device_trust_clock_skew_seconds=int(os.getenv("SW_DEVICE_TRUST_CLOCK_SKEW_SECONDS", "30")),
     )
