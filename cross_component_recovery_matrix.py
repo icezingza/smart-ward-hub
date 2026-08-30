@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import closing
 import argparse
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
@@ -12,7 +13,7 @@ from typing import Any, Callable
 from unittest.mock import patch
 
 from backup_restore import BackupRestoreError, create_backup_bundle, restore_backup_bundle
-from durable_worker_store import DurableWorkerStore, DurableWorkerStateError
+from durable_worker_store import DurableWorkerStore
 from edge_controls import FileAnchorStore
 from edge_runtime import EdgeTelemetryStore
 from worker_queue_backup import WorkerQueueBackupError, create_worker_queue_backup, restore_worker_queue_backup
@@ -34,7 +35,7 @@ def _sample(sequence: int) -> dict[str, Any]:
 
 
 def _create_database(path: Path) -> None:
-    with sqlite3.connect(path) as connection:
+    with closing(sqlite3.connect(path)) as connection:
         connection.execute("CREATE TABLE recovery_fixture (id INTEGER PRIMARY KEY, value TEXT NOT NULL)")
         connection.execute("INSERT INTO recovery_fixture(value) VALUES (?)", ("opaque-recovery-fixture",))
         connection.commit()
@@ -121,7 +122,7 @@ def _case_backup_restore_roundtrip(root: Path) -> dict[str, Any]:
         target_checkpoint=target_checkpoint,
         confirmation=RESTORE_CONFIRMATION,
     )
-    with sqlite3.connect(target_db) as connection:
+    with closing(sqlite3.connect(target_db)) as connection:
         row = connection.execute("SELECT value FROM recovery_fixture WHERE id=1").fetchone()
     recovered = EdgeTelemetryStore(max_samples=4, state_path=target_checkpoint, checkpoint_every=1)
     assert row == ("opaque-recovery-fixture",)
@@ -271,7 +272,7 @@ def _case_worker_audit_corruption_fails_closed(root: Path) -> dict[str, Any]:
     store = DurableWorkerStore(str(database), clock=FixedClock())
     _submit_worker(store, "worker-audit-001", "worker-audit-idem-001")
     store.close()
-    with sqlite3.connect(database) as connection:
+    with closing(sqlite3.connect(database)) as connection:
         connection.execute("UPDATE worker_audit SET details_json = '{broken' WHERE event_seq = 1")
         connection.commit()
     reopened = DurableWorkerStore(str(database), clock=FixedClock())
@@ -308,13 +309,13 @@ def _case_worker_queue_schema_binding_mismatch(root: Path) -> dict[str, Any]:
 
 def _case_wal_busy_locked_fails_closed(root: Path) -> dict[str, Any]:
     database = root / "wal-busy.db"
-    with sqlite3.connect(database, timeout=1.0) as owner:
+    with closing(sqlite3.connect(database, timeout=1.0)) as owner:
         owner.execute("PRAGMA journal_mode=WAL")
         owner.execute("CREATE TABLE lock_fixture (id INTEGER PRIMARY KEY, value TEXT)")
         owner.commit()
         owner.execute("BEGIN IMMEDIATE")
         owner.execute("INSERT INTO lock_fixture(value) VALUES ('owner')")
-        with sqlite3.connect(database, timeout=0.05) as contender:
+        with closing(sqlite3.connect(database, timeout=0.05)) as contender:
             contender.execute("PRAGMA busy_timeout=50")
             try:
                 contender.execute("INSERT INTO lock_fixture(value) VALUES ('contender')")

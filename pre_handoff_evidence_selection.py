@@ -8,12 +8,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
-import hashlib
 import json
 from pathlib import Path
 import subprocess
 from typing import Any, Mapping
 
+from canonical_file_hash import canonical_sha256
 from consolidated_internal_handoff_index import LOCKED_BOUNDARY, LOCKED_EXTERNAL_GATE_SNAPSHOT
 
 
@@ -96,11 +96,7 @@ class SelectionResult:
 
 def _sha256(path: Path) -> str | None:
     try:
-        digest = hashlib.sha256()
-        with path.open("rb") as handle:
-            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                digest.update(chunk)
-        return digest.hexdigest()
+        return canonical_sha256(path)
     except OSError:
         return None
 

@@ -42,6 +42,17 @@ Master regression suite ครอบคลุม Phase 1–6, P0 hardening, resi
 
 จึงห้ามตีความ repository นี้ว่าเป็น **clinical-ready**, **tamper-proof**, **HIPAA/PDPA compliant 100%** หรือ **production-ready** จาก functional tests เพียงอย่างเดียว
 
+## Evidence-First Claims
+
+การสื่อสารกับโรงพยาบาล ทีม CISO และผู้ตรวจสอบต้องใช้ถ้อยคำตาม
+`docs/EVIDENCE_FIRST_CLAIMS_POLICY.md`:
+
+- **Cryptographically Verifiable Tamper-Evident Audit Trail** แทนคำว่า Tamper-Proof
+- **Hospital-Controlled Data Boundary** แทนคำว่า Air-Gapped เมื่อ Hub ยังเชื่อมต่อเครือข่ายที่โรงพยาบาลควบคุม
+- **Traceability & Forensic Readiness** หรือ **ช่วยเพิ่มพยานหลักฐานและกระบวนการพิสูจน์ข้อเท็จจริง** แทนคำรับประกันว่าจะป้องกันการฟ้องร้องหรือรับฟังในศาล
+
+ทุก claim ต้องระบุหลักฐานที่รองรับ ข้อจำกัดที่ยังเหลือ และ gate ที่ต้องผ่านก่อนยกระดับถ้อยคำ
+
 ## โครงสร้างสำคัญ
 
 `main.py` เป็น FastAPI application หลัก ส่วน `database.py`, `models.py` และ Alembic migrations ดูแล persistence contract. `edge_iot_adapters.py`, `serial_framing.py`, `network_pressure_simulation.py` และ `serial_bench_runner.py` เป็นขอบเขต P2-002 สำหรับ ingestion และ bench validation. `evals/micro_rag/` เก็บ corpus, response adapter, approved registry, rebuildable index และ evaluation suites. เอกสาร `prd.md`, `design.md`, `architecture.md`, `agents.md`, `memory.md`, `tasks.md`, `rules.md` และ `skills.md` เป็น AI-native project system สำหรับทำให้การพัฒนาต่อมีบริบทและ guardrails ที่สม่ำเสมอ
@@ -132,6 +143,17 @@ python virtual_wristband_telemetry_streamer.py --send --hub-url http://127.0.0.1
 Streamer เก็บ 6-axis (`accel` + `gyro`) ในหลักฐานจำลอง แต่ map เข้า `TelemetryPacket v1`
 เฉพาะฟิลด์ที่ HUB รองรับในปัจจุบัน จึงไม่ใช่การยืนยันว่า Band จริงส่งข้อมูลเหล่านี้ผ่าน BLE ได้
 และ latency ที่วัดได้เป็นเพียง loopback software evidence ไม่ใช่ผลทดสอบ production หรือ clinical
+
+## Medical Black Box
+
+เมื่อเกิด alert ระบบเลือก telemetry จาก RAM ring buffer ย้อนหลังตาม time window 600 วินาที,
+freeze เป็น forensic package, ต่อ SHA-256 hash chain และรองรับ RSA-PSS/SHA-256 signature
+จาก private-key file ที่ operator provision ภายนอก repository รายละเอียด contract, configuration
+และข้อจำกัดด้านกฎหมายอยู่ใน `docs/MEDICAL_BLACK_BOX_SPEC.md`
+
+ฟังก์ชันนี้รองรับคำว่า **Cryptographically Verifiable Tamper-Evident Audit Trail**
+ภายในขอบเขต package ที่ตรวจสอบได้ และช่วยเพิ่ม **Traceability & Forensic Readiness** เท่านั้น
+ไม่ใช่ WORM storage, ISO certification หรือการรับประกันว่าหลักฐานจะถูกรับฟังในศาลโดยอัตโนมัติ
 
 จำลอง 40 เตียงพร้อม injected scenarios: fall, vital anomaly, device disconnect, perimeter warning และ blood-pressure capability gap โดยไม่ใช้ข้อมูลผู้ป่วยจริง ดูข้อจำกัดของค่า BP/location และผลที่คาดหวังใน `docs/WARD_SCALE_SIMULATION_GUIDE.md`
 

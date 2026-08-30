@@ -7,6 +7,8 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
+from canonical_file_hash import canonical_bytes, canonical_sha256
+
 ROOT = Path(__file__).resolve().parent
 OUTPUT = ROOT / "evals/micro_rag/evidence/release-candidate-freeze-20260820.json"
 SECRET_RE = re.compile(
@@ -20,8 +22,6 @@ RUNTIME_NAMES = {
     "edge_telemetry_state.json",
     "forensic_anchors.jsonl",
 }
-TEXT_SUFFIXES = {".bat", ".cmd", ".csv", ".css", ".example", ".html", ".ini", ".js", ".json", ".mako", ".md", ".ps1", ".py", ".service", ".sh", ".sql", ".svg", ".toml", ".txt", ".xml", ".yaml", ".yml"}
-TEXT_NAMES = {".gitattributes", ".gitignore"}
 
 
 def run_git(*args: str) -> str:
@@ -41,14 +41,8 @@ def revision_is_ancestor(ancestor: str, descendant: str) -> bool:
     return result.returncode == 0
 
 
-def canonical_bytes(path: Path) -> bytes:
-    """Hash text content consistently when checked out with CRLF or LF."""
-    raw = path.read_bytes()
-    return raw.replace(b"\r\n", b"\n") if path.suffix.lower() in TEXT_SUFFIXES or path.name in TEXT_NAMES else raw
-
-
 def sha256_path(path: Path) -> str:
-    return hashlib.sha256(canonical_bytes(path)).hexdigest()
+    return canonical_sha256(path)
 
 
 def classify(path: str) -> str:

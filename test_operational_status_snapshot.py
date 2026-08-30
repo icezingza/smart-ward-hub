@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import closing
 import json
 from pathlib import Path
 import sqlite3
@@ -24,6 +25,8 @@ def _configure_environment(runtime_root: Path) -> dict[str, str]:
             "SW_SYNC_BACKLOG": "0",
             "SW_WORKER_QUEUE_BACKLOG": "0",
             "SW_UNRESOLVED_ALERTS": "0",
+            # Keep this host-dependent test deterministic without changing the 10% default.
+            "SW_MIN_DISK_FREE_RATIO": "0.05",
         }
     )
     return env
@@ -56,7 +59,7 @@ def run() -> None:
         print("[Operational] redaction, preflight and locked authorization boundary: PASSED")
 
         database = runtime_root / "ward_hub.db"
-        with sqlite3.connect(database) as connection:
+        with closing(sqlite3.connect(database)) as connection:
             connection.execute("PRAGMA journal_mode=WAL")
             connection.execute("PRAGMA foreign_keys=ON")
             connection.execute("CREATE TABLE fixture (id INTEGER PRIMARY KEY, value TEXT NOT NULL)")
@@ -82,7 +85,7 @@ def run() -> None:
         assert snapshot["runtime"]["audit"]["status"] == "PRESENT"
         assert snapshot["runtime"]["anchor"]["status"] == "PRESENT"
         assert snapshot["runtime"]["backup"]["status"] == "PRESENT"
-        assert snapshot["threshold_evaluation"]["status"] == "PASS"
+        assert snapshot["threshold_evaluation"]["status"] == "PASS", snapshot["threshold_evaluation"]
         assert snapshot["threshold_evaluation"]["resume_permitted"] is True
         assert snapshot["threshold_evaluation"]["remediation_codes"] == []
         assert snapshot["rollback"]["source_revision_available"] is True

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import closing
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -83,7 +84,7 @@ def _sqlite_status(path: Path | None) -> dict[str, object]:
     if not resolved.is_file():
         return {"status": "NOT_PRESENT_UNVERIFIED"}
     try:
-        with sqlite3.connect(f"file:{resolved}?mode=ro", uri=True) as connection:
+        with closing(sqlite3.connect(f"file:{resolved}?mode=ro", uri=True)) as connection:
             connection.execute("PRAGMA foreign_keys=ON")
             journal_mode = str(connection.execute("PRAGMA journal_mode").fetchone()[0]).lower()
             integrity = str(connection.execute("PRAGMA integrity_check").fetchone()[0]).lower()

@@ -9,11 +9,11 @@ for suffix in ("", "-wal", "-shm"):
     if path.exists():
         path.unlink()
 
-from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient  # noqa: E402
 
-from database import SessionLocal
-from main import ACTIVE_PAIRINGS_CACHE, TELEMETRY_STORE, app
-import models
+from database import SessionLocal  # noqa: E402
+from main import ACTIVE_PAIRINGS_CACHE, TELEMETRY_STORE, app  # noqa: E402
+import models  # noqa: E402
 
 
 DEVICE_ID = "MAC-A1:B2:C3:D4:E5:F6"
@@ -76,6 +76,8 @@ def run() -> None:
         assert verification.status_code == 200
         assert verification.json()["integrity"] == "OK"
         assert verification.json()["last_hash"] == first_hash
+        assert verification.json()["all_packages_signed_and_verified"] is False
+        assert verification.json()["signature_status"][0]["status"] == "UNSIGNED"
         assert verification.json()["external_anchor_verified"] is False
         assert len(verification.json()["anchor_status"]) == 1
         assert verification.json()["anchor_status"][0]["status"].startswith("LOCAL_ANCHOR_")
