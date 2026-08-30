@@ -4,13 +4,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
-import hashlib
 import json
 from pathlib import Path
 from typing import Any, Mapping
 
+from canonical_file_hash import canonical_sha256
 from freeze_integrity_monitor import revision_is_ancestor
-from public_exposure_quarantine import check_repository as check_exposure
 
 
 ROOT = Path(__file__).resolve().parent
@@ -90,11 +89,7 @@ def _valid_sha256(value: Any) -> bool:
 
 def _sha256(path: Path) -> str | None:
     try:
-        digest = hashlib.sha256()
-        with path.open("rb") as handle:
-            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                digest.update(chunk)
-        return digest.hexdigest()
+        return canonical_sha256(path)
     except OSError:
         return None
 

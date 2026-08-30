@@ -133,6 +133,16 @@ Streamer เก็บ 6-axis (`accel` + `gyro`) ในหลักฐานจ�
 เฉพาะฟิลด์ที่ HUB รองรับในปัจจุบัน จึงไม่ใช่การยืนยันว่า Band จริงส่งข้อมูลเหล่านี้ผ่าน BLE ได้
 และ latency ที่วัดได้เป็นเพียง loopback software evidence ไม่ใช่ผลทดสอบ production หรือ clinical
 
+## Medical Black Box
+
+เมื่อเกิด alert ระบบเลือก telemetry จาก RAM ring buffer ย้อนหลังตาม time window 600 วินาที,
+freeze เป็น forensic package, ต่อ SHA-256 hash chain และรองรับ RSA-PSS/SHA-256 signature
+จาก private-key file ที่ operator provision ภายนอก repository รายละเอียด contract, configuration
+และข้อจำกัดด้านกฎหมายอยู่ใน `docs/MEDICAL_BLACK_BOX_SPEC.md`
+
+ฟังก์ชันนี้เป็น tamper-evident software baseline เท่านั้น ไม่ใช่ WORM storage, ISO certification
+หรือการรับประกันว่าหลักฐานจะถูกรับฟังในศาลโดยอัตโนมัติ
+
 จำลอง 40 เตียงพร้อม injected scenarios: fall, vital anomaly, device disconnect, perimeter warning และ blood-pressure capability gap โดยไม่ใช้ข้อมูลผู้ป่วยจริง ดูข้อจำกัดของค่า BP/location และผลที่คาดหวังใน `docs/WARD_SCALE_SIMULATION_GUIDE.md`
 
 ## Hospital Full-System Simulation

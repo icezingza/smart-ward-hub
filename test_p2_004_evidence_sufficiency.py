@@ -1,12 +1,11 @@
 """Focused/adversarial tests for the P2-004 evidence sufficiency gate."""
 from __future__ import annotations
 
-from copy import deepcopy
-import hashlib
 import json
 from pathlib import Path
 import tempfile
 
+from canonical_file_hash import canonical_sha256
 from p2_004_evidence_sufficiency import (
     AGGREGATE_PATH,
     FREEZE_PATH,
@@ -28,7 +27,7 @@ def _write_fixture(directory: Path, aggregate: dict, freeze: dict) -> tuple[Path
     aggregate_path.write_text(json.dumps(aggregate, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     for entry in freeze["files"]:
         if entry["path"] == AGGREGATE_PATH.as_posix():
-            entry["sha256"] = hashlib.sha256(aggregate_path.read_bytes()).hexdigest()
+            entry["sha256"] = canonical_sha256(aggregate_path)
     freeze_path.write_text(json.dumps(freeze, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     return aggregate_path, freeze_path
 

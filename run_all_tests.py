@@ -21,6 +21,8 @@ TESTS = [
     "test_telemetry.py",
     "test_triage.py",
     "test_forensics.py",
+    "test_forensic_vault.py",
+    "test_forensics_signed.py",
     "test_fhir.py",
     "test_security.py",
     "test_auth_fail_closed.py",

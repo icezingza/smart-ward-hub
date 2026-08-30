@@ -8,7 +8,8 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from wave4_independent_review_package import LOCKED_AUTHORIZATION, PENDING, TOP_LEVEL_FREEZE_REFERENCE, build_local_package, validate_package
+from canonical_file_hash import canonical_sha256
+from wave4_independent_review_package import LOCKED_AUTHORIZATION, PENDING, TOP_LEVEL_FREEZE_REFERENCE, validate_package
 
 SCHEMA_VERSION = "independent-reviewer-readiness-preflight-v1"
 PROJECT = "smart-ward-hub"
@@ -67,11 +68,7 @@ def _safe_text(value: Any, field: str) -> None:
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_sha256(path)
 
 
 def validate_preflight(payload: dict[str, Any], *, template_only: bool = False) -> dict[str, Any]:

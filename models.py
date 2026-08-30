@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Index, Integer, String
 from sqlalchemy.sql import func, text
 
@@ -190,6 +188,11 @@ class ForensicPackage(Base):
     frozen_payload_json = Column(String, nullable=False)
     previous_hash = Column(String, nullable=False)
     block_hash = Column(String, nullable=False, unique=True, index=True)
+    signature_algorithm = Column(String, nullable=True)
+    signature_b64 = Column(String, nullable=True)
+    signing_key_fingerprint = Column(String, nullable=True, index=True)
+    signature_status = Column(String, nullable=False, default="UNSIGNED", index=True)
+    signed_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, nullable=False, server_default=func.now(), index=True)
 
 

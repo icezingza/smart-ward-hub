@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 from typing import Any, Mapping
 
+from canonical_file_hash import canonicalize_bytes
 from repository_visibility_governance import (
     EXPECTED_REPOSITORY,
     LOCKED_BOUNDARY,
@@ -159,7 +160,7 @@ def evaluate_exposure(
             _add(codes, ExposureCode.FREEZE_FILE_UNREADABLE)
             findings.append({"path": relative, "kind": "UNREADABLE"})
             continue
-        digest = hashlib.sha256(raw).hexdigest()
+        digest = hashlib.sha256(canonicalize_bytes(Path(relative), raw)).hexdigest()
         if entry.get("sha256") != digest:
             checks["frozen_hashes_match"] = False
             _add(codes, ExposureCode.FREEZE_HASH_MISMATCH)

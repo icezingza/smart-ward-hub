@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import closing
 import json
 import sqlite3
 import tempfile
@@ -22,7 +23,7 @@ def run() -> None:
         backup_root = root / "backups"
         restored_db = root / "restored.db"
         restored_checkpoint = root / "restored-checkpoint.json"
-        with sqlite3.connect(source_db) as connection:
+        with closing(sqlite3.connect(source_db)) as connection:
             connection.execute("PRAGMA journal_mode=WAL")
             connection.execute("PRAGMA synchronous=FULL")
             connection.execute("CREATE TABLE probe (id INTEGER PRIMARY KEY, value TEXT NOT NULL)")
@@ -50,14 +51,14 @@ def run() -> None:
         )
         assert restored["restore_status"] == "SOFTWARE_RESTORE_VERIFIED"
         assert restored["database_integrity_check"] == "ok"
-        with sqlite3.connect(restored_db) as connection:
+        with closing(sqlite3.connect(restored_db)) as connection:
             assert connection.execute("SELECT value FROM probe WHERE id=1").fetchone()[0] == "durable-fixture"
         assert restored_checkpoint.read_text(encoding="utf-8").startswith("{\"state_version\"")
         print("[P1-001] Separate-target restore and row verification: PASSED")
 
         interrupted_db = root / "interrupted-target.db"
         interrupted_checkpoint = root / "interrupted-target-checkpoint.json"
-        with sqlite3.connect(interrupted_db) as connection:
+        with closing(sqlite3.connect(interrupted_db)) as connection:
             connection.execute("CREATE TABLE probe (id INTEGER PRIMARY KEY, value TEXT NOT NULL)")
             connection.execute("INSERT INTO probe(value) VALUES (?)", ("pre-restore-state",))
             connection.commit()
@@ -81,7 +82,7 @@ def run() -> None:
             assert str(exc) == "simulated interrupted checkpoint promotion"
         else:
             raise AssertionError("interrupted checkpoint promotion was accepted")
-        with sqlite3.connect(interrupted_db) as connection:
+        with closing(sqlite3.connect(interrupted_db)) as connection:
             assert connection.execute("SELECT value FROM probe WHERE id=1").fetchone()[0] == "pre-restore-state"
         assert interrupted_checkpoint.read_text(encoding="utf-8") == '{"state_version":1,"buffers":{"before":true}}\n'
         assert not interrupted_db.with_suffix(interrupted_db.suffix + ".restore-tmp").exists()

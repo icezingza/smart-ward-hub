@@ -8,6 +8,8 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+from canonical_file_hash import canonical_sha256
+
 SCHEMA_VERSION = "wave4-independent-review-package-v1"
 PROJECT = "smart-ward-hub"
 PENDING = "PENDING_EXTERNAL_APPOINTMENT"
@@ -186,16 +188,11 @@ def template() -> dict[str, Any]:
 
 
 def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_sha256(path)
 
 
 def build_local_package(root: Path) -> dict[str, Any]:
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
-    freeze_path = root / "evals/micro_rag/evidence/release-candidate-freeze-20260820.json"
     package = template()
     package["package_id"] = f"wave4-index-{revision[:12]}"
     package["source_revision"] = revision

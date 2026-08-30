@@ -17,6 +17,7 @@ import re
 import subprocess
 from typing import Any, Mapping
 
+from canonical_file_hash import canonical_sha256
 
 ROOT = Path(__file__).resolve().parent
 TRANSCRIPT_PATH = Path("evals/micro_rag/evidence/worker-recovery-transcript-local.json")
@@ -81,11 +82,7 @@ def _canonical_sha(value: Any) -> str:
 
 
 def _file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return canonical_sha256(path)
 
 
 def _load_json(root: Path, relative: Path) -> dict[str, Any]:
