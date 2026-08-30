@@ -113,6 +113,26 @@ python software_simulation_matrix.py --execute
 python ward_scale_simulation.py --beds 40 --ticks 8
 ```
 
+## Virtual Wristband Telemetry Streamer: 30 Beds
+
+สร้าง telemetry สังเคราะห์จากสายรัดข้อมือเสมือน 30 เตียงพร้อมกัน รองรับ `normal`,
+`cardiac_distress`, `silent_fall` และ `mixed` โดยค่าเริ่มต้นเป็น dry-run:
+
+```powershell
+python virtual_wristband_telemetry_streamer.py --beds 30 --samples 8 --scenario mixed
+python test_virtual_wristband_telemetry_streamer.py
+```
+
+การส่งเข้า HUB ใช้ได้เฉพาะ loopback และต้อง pair อุปกรณ์สังเคราะห์ไว้ก่อน:
+
+```powershell
+python virtual_wristband_telemetry_streamer.py --send --hub-url http://127.0.0.1:8000 --token <local-token>
+```
+
+Streamer เก็บ 6-axis (`accel` + `gyro`) ในหลักฐานจำลอง แต่ map เข้า `TelemetryPacket v1`
+เฉพาะฟิลด์ที่ HUB รองรับในปัจจุบัน จึงไม่ใช่การยืนยันว่า Band จริงส่งข้อมูลเหล่านี้ผ่าน BLE ได้
+และ latency ที่วัดได้เป็นเพียง loopback software evidence ไม่ใช่ผลทดสอบ production หรือ clinical
+
 จำลอง 40 เตียงพร้อม injected scenarios: fall, vital anomaly, device disconnect, perimeter warning และ blood-pressure capability gap โดยไม่ใช้ข้อมูลผู้ป่วยจริง ดูข้อจำกัดของค่า BP/location และผลที่คาดหวังใน `docs/WARD_SCALE_SIMULATION_GUIDE.md`
 
 ## Hospital Full-System Simulation
