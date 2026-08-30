@@ -3110,8 +3110,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "test_backup_restore.py",
-      "sha256": "34323f27f65166793cfe5fae80472abf19a7dd22546d8bd72e245ba12332b4d6",
-      "size_bytes": 8125
+      "sha256": "62466c1792ee2a5d0caed55d5d6673aa52677e8c6861b242f4fa1cfbb56e9ea8",
+      "size_bytes": 8192
     },
     {
       "classification": "source_or_runtime_config",
@@ -4278,7 +4278,7 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-30T19:59:03.722040+00:00",
+  "freeze_created_at_utc": "2026-08-30T20:00:21.367117+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
@@ -4287,5 +4287,5 @@
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "a26b5261037395b15e9a3238238258d8e6428d94"
+  "source_revision": "e2183cfbc2d3dadf627a85d55686e9d0ab53d658"
 }
