@@ -4,7 +4,6 @@ import hashlib
 import json
 import math
 import os
-from statistics import pstdev
 from threading import RLock
 from pathlib import Path
 from typing import Any
@@ -27,6 +26,7 @@ from edge_controls import (
     set_request_id,
 )
 from security import require_scope
+from triage_engine import evaluate_telemetry_triage
 
 from database import Base, SessionLocal, engine, get_db
 import models
@@ -1842,44 +1842,15 @@ def evaluate_triage(device_id: str, samples: list[dict[str, Any]]) -> dict[str, 
     if binding is None:
         return None
 
-    recent = samples[-30:]
-    for index, sample in enumerate(recent):
-        if sample["g_force"] <= 2.5:
-            continue
-        subsequent = recent[index + 1 : index + 6]
-        if len(subsequent) < 5:
-            continue
-        g_forces = [item["g_force"] for item in subsequent]
-        if pstdev(g_forces) < 0.15 and abs(sum(g_forces) / len(g_forces) - 1.0) < 0.25:
-            return {
-                "alert_level": "RED",
-                "alert_type": "FALL",
-                "description": f"Silent fall pattern detected at bed {binding['bed_no']}.",
-            }
-
-    latest = recent[-1]
-    physiological_score = 0.0
-    if latest.get("spo2") is not None:
-        if latest["spo2"] < 90:
-            physiological_score += 100
-        elif latest["spo2"] < 95:
-            physiological_score += 40
-    if latest.get("heart_rate") is not None and (
-        latest["heart_rate"] < 50 or latest["heart_rate"] > 120
-    ):
-        physiological_score += 60
-    risk_score = {"High": 100.0, "Medium": 50.0, "Low": 10.0}.get(
-        binding.get("risk_level", "Low"),
-        10.0,
+    signal = evaluate_telemetry_triage(samples, str(binding.get("risk_level", "Low")))
+    if signal is None:
+        return None
+    description = (
+        f"Silent fall pattern detected at bed {binding['bed_no']}."
+        if signal["alert_type"] == "FALL"
+        else f"Vital anomaly signal at bed {binding['bed_no']}."
     )
-    triage_score = (0.618 * min(100.0, physiological_score)) + (0.382 * risk_score)
-    if triage_score >= 50.0 or (latest.get("spo2") is not None and latest["spo2"] < 90):
-        return {
-            "alert_level": "RED",
-            "alert_type": "VITAL_ANOMALY",
-            "description": f"Vital anomaly triage score {triage_score:.1f}% at bed {binding['bed_no']}.",
-        }
-    return None
+    return {**signal, "description": description}
 
 
 GENESIS_HASH = "0" * 64

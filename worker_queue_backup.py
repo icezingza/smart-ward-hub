@@ -85,9 +85,12 @@ def _read_binding(bundle: Path, manifest: dict[str, Any]) -> dict[str, Any]:
 
 def _assert_worker_store_database(path: Path) -> None:
     try:
-        with sqlite3.connect(path) as connection:
+        connection = sqlite3.connect(path)
+        try:
             schema = connection.execute("SELECT value FROM worker_store_meta WHERE key='schema_version'").fetchone()
             integrity = str(connection.execute("PRAGMA integrity_check").fetchone()[0]).lower()
+        finally:
+            connection.close()
     except sqlite3.Error as exc:
         raise WorkerQueueBackupError(f"worker_store_database_invalid:{type(exc).__name__}") from exc
     if schema is None or schema[0] != STORE_SCHEMA_VERSION:
