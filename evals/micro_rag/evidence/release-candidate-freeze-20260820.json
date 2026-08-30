@@ -8,7 +8,7 @@
   },
   "checks": {
     "head_matches_origin_main": true,
-    "runtime_artifact_scan_pass": true,
+    "runtime_artifact_scan_pass": false,
     "secret_marker_scan_pass": true,
     "tracked_file_hashes_generated": true,
     "working_tree_clean_before_manifest": true
@@ -116,8 +116,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": ".env.example",
-      "sha256": "91f05b69f5ea8231854a8e7da25d90e263dfcd634b1ffa30a998f16f7e343b7c",
-      "size_bytes": 3901
+      "sha256": "58ef14406b504b96b74b1b9e448f8451f6a4a8003843abda61a90e33449951a4",
+      "size_bytes": 4116
     },
     {
       "classification": "repository_asset",
@@ -824,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "72c4b0f2e83ae313652a1f7928ce7514351797292d8829b86f7e3cead3030445",
-      "size_bytes": 13700
+      "sha256": "3e5159b33a83aaed7d2b29ea8cc167a2c557918b0dce894598b7ce78f42e1adf",
+      "size_bytes": 14587
     },
     {
       "classification": "contract_or_governance_document",
@@ -1129,6 +1129,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "alembic/versions/8c9d0e1f2a33_forensic_signatures.py",
+      "sha256": "ac001025ea3bb6c85f77b867cee93a3a953be4ef2b5b1e06e92a7128a2c06cd7",
+      "size_bytes": 1810
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "alembic/versions/9e9c98c2eb7f_initial_schema.py",
       "sha256": "64aca612cdbe26b882107deb15d3555d807ed6e16e8180a5b5a857233d4f454d",
       "size_bytes": 13178
@@ -1172,8 +1178,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "config.py",
-      "sha256": "52652d68ae4ad1ecddb701df336170b38f16433422bd3405b2e2b258d4d84742",
-      "size_bytes": 5910
+      "sha256": "e1739d08152c533f08e3532173911c4de5e6aacb608daf4fc4e6387a17dfba0e",
+      "size_bytes": 6816
     },
     {
       "classification": "source_or_runtime_config",
@@ -1357,6 +1363,12 @@
     },
     {
       "classification": "contract_or_governance_document",
+      "path": "docs/MEDICAL_BLACK_BOX_SPEC.md",
+      "sha256": "02fe64f3d185430b0b0cf35256c7febcd7f769e5852859324783159827bceacb",
+      "size_bytes": 3775
+    },
+    {
+      "classification": "contract_or_governance_document",
       "path": "docs/OPERATIONS_RUNBOOK.md",
       "sha256": "c7ed6e20a7f14a6fd92d972e9393ef066986bd590e58e57ced2bf140d371de88",
       "size_bytes": 3663
@@ -1454,8 +1466,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "edge_runtime.py",
-      "sha256": "9cf79c73312de0b23d17f6b95ab61e82a784f2b35291dc9519ceba4e747ff38b",
-      "size_bytes": 15383
+      "sha256": "157eba7a4b75dc7fec5bdf2863993e3efeabd176eed17d8dfcb693c44499cf6e",
+      "size_bytes": 16592
     },
     {
       "classification": "evidence_or_machine_record",
@@ -2389,6 +2401,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "forensic_vault.py",
+      "sha256": "30b1cdb9093be6420ec265f8ce3705731db95956ba50a581abc7cfe1b1c991a2",
+      "size_bytes": 3879
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "freeze_integrity_monitor.py",
       "sha256": "6331fd499b8c3439a93fd70f2dc5c25ba22b7dfe7f036143d1fed86112040742",
       "size_bytes": 16087
@@ -2546,8 +2564,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "main.py",
-      "sha256": "ce6d6855a85e87d2e036e25f338a4de933bedffbd8dc5a5f510a5d9638cada8b",
-      "size_bytes": 100095
+      "sha256": "603f90816e97c1a25ddc51c4f59c3070ef2990591da7055218949b8768117244",
+      "size_bytes": 102689
     },
     {
       "classification": "contract_or_governance_document",
@@ -2558,8 +2576,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "models.py",
-      "sha256": "677e4f56ee2669a8e9db9ce654642ef463d56346a1158a567710ab8e132816c1",
-      "size_bytes": 11057
+      "sha256": "c32dc5a3ad7c57fa5af732d30c129df6eb44f67861757c2ab86cc36582cae09b",
+      "size_bytes": 11338
     },
     {
       "classification": "source_or_runtime_config",
@@ -2972,8 +2990,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "971ac4d5ccc1cb0ed1bfc9139dc735a7b422366ea1f393098bff2010a39857af",
-      "size_bytes": 9601
+      "sha256": "a8f1b8a92180b6ca917029dbe3d9e3b03135a819c59631decc6acca8c4fda4fc",
+      "size_bytes": 9663
     },
     {
       "classification": "source_or_runtime_config",
@@ -3283,9 +3301,21 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_forensic_vault.py",
+      "sha256": "f1be5228086159633bb05b321602262c80a60ea1063bc6344086c538cbffb060",
+      "size_bytes": 2034
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_forensics.py",
-      "sha256": "6a18cf383dcf76fe7aea7b9b7fb4a02a08624dcec1b6985c5b5cdbaf9fa21978",
-      "size_bytes": 3426
+      "sha256": "0fe3e1b1b87625f6032a65e744362da485ce21ec15c9f923b61459fbda097a1e",
+      "size_bytes": 3644
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "test_forensics_signed.py",
+      "sha256": "a1480f49f3cabd14418145083ecdb26204732c5915cf27d47734513bd540a2d4",
+      "size_bytes": 3907
     },
     {
       "classification": "source_or_runtime_config",
@@ -4248,14 +4278,18 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-30T19:47:00.319593+00:00",
-  "freeze_status": "PASS",
+  "freeze_created_at_utc": "2026-08-30T19:56:28.344236+00:00",
+  "freeze_status": "BLOCKED",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "82bc39b3ac288affe89ed70ae1d7170ffced689c",
+  "origin_main_revision": "346599ba93f2cc3ace3b4e158926e21b3ee0a546",
   "repository": "icezingza/smart-ward-hub",
-  "runtime_artifacts": [],
+  "runtime_artifacts": [
+    "audit_events.jsonl",
+    "edge_telemetry_state.json",
+    "ward_hub.db"
+  ],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "ca904a84f36b21164413eeeea09b9e7a579cc798"
+  "source_revision": "38a2be78da3b30bbb23da7a9873fd6c9d9f18ae1"
 }
