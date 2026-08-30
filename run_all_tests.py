@@ -157,6 +157,7 @@ TESTS = [
     "test_smartwatch_simulator.py",
     "test_ward_scale_simulation.py",
     "test_hospital_full_system_simulation.py",
+    "test_virtual_wristband_telemetry_streamer.py",
     "test_software_simulation_matrix.py",
     "test_p2_002_adapter_conformance.py",
     "test_p2_002_adapter_conformance_phase_end_hardening.py",
