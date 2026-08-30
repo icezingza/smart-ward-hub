@@ -35,6 +35,19 @@ def _token_config() -> dict[str, set[str]]:
     return {str(token): set(map(str, scopes)) for token, scopes in parsed.items()}
 
 
+def _token_hashes_config() -> dict[str, set[str]]:
+    raw = os.getenv("SW_AUTH_TOKEN_HASHES_JSON", "").strip()
+    if not raw:
+        return {}
+    try:
+        parsed: dict[str, list[str]] = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("SW_AUTH_TOKEN_HASHES_JSON must be valid JSON") from exc
+    if not isinstance(parsed, dict):
+        raise RuntimeError("SW_AUTH_TOKEN_HASHES_JSON must contain an object")
+    return {str(token_hash).lower(): set(map(str, scopes)) for token_hash, scopes in parsed.items()}
+
+
 @dataclass(frozen=True)
 class Settings:
     environment: str
@@ -57,6 +70,8 @@ class Settings:
     allowed_origins: list[str]
     auth_mode: str
     auth_tokens: dict[str, set[str]]
+    auth_token_hashes: dict[str, set[str]]
+    local_bootstrap_token: str | None
     oidc_issuer: str | None
     oidc_audience: str | None
     oidc_jwks_url: str | None
@@ -96,6 +111,12 @@ def load_settings() -> Settings:
         raise RuntimeError(
             "SW_FORENSIC_SIGNING_REQUIRED requires SW_FORENSIC_SIGNING_PRIVATE_KEY_PATH"
         )
+    if signing_key_path is not None and signing_key_path.exists() and os.name != "nt":
+        st = signing_key_path.stat()
+        if st.st_mode & 0o077:
+            raise RuntimeError(
+                f"Forensic signing key {signing_key_path} is group/other accessible; chmod 0400 required"
+            )
     device_trust_mode = os.getenv("SW_DEVICE_TRUST_MODE", "disabled").lower()
     if device_trust_mode not in {"disabled", "observe", "enforce"}:
         raise RuntimeError("SW_DEVICE_TRUST_MODE must be disabled, observe, or enforce")
@@ -105,9 +126,13 @@ def load_settings() -> Settings:
         raise RuntimeError(
             "Static authentication is disabled for pilot/production; configure SW_AUTH_MODE=oidc"
         )
+    rate_limit_per_minute = int(os.getenv("SW_RATE_LIMIT_PER_MINUTE", "6000"))
+    if environment in {"pilot", "production", "prod"} and rate_limit_per_minute <= 0:
+        raise RuntimeError("SW_RATE_LIMIT_PER_MINUTE must be positive for pilot/production")
     synchronous = os.getenv("SW_SQLITE_SYNCHRONOUS", "FULL").upper()
     if synchronous not in {"OFF", "NORMAL", "FULL", "EXTRA"}:
         raise RuntimeError("SW_SQLITE_SYNCHRONOUS must be OFF, NORMAL, FULL, or EXTRA")
+    local_bootstrap_token = os.getenv("SW_LOCAL_BOOTSTRAP_TOKEN", "").strip() or None
     return Settings(
         environment=environment,
         product_name=os.getenv("SW_PRODUCT_NAME", SYSTEM_NAME),
@@ -132,11 +157,13 @@ def load_settings() -> Settings:
         allowed_origins=_csv_env("SW_ALLOWED_ORIGINS", []),
         auth_mode=auth_mode,
         auth_tokens=_token_config(),
+        auth_token_hashes=_token_hashes_config(),
+        local_bootstrap_token=local_bootstrap_token,
         oidc_issuer=os.getenv("SW_OIDC_ISSUER"),
         oidc_audience=os.getenv("SW_OIDC_AUDIENCE"),
         oidc_jwks_url=os.getenv("SW_OIDC_JWKS_URL"),
         oidc_algorithms=_csv_env("SW_OIDC_ALGORITHMS", ["RS256"]),
-        rate_limit_per_minute=int(os.getenv("SW_RATE_LIMIT_PER_MINUTE", "6000")),
+        rate_limit_per_minute=rate_limit_per_minute,
         audit_log_path=audit_path,
         idempotency_ttl_seconds=int(os.getenv("SW_IDEMPOTENCY_TTL_SECONDS", "86400")),
         forensic_anchor_path=anchor_path,

@@ -1,15 +1,18 @@
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import logging
 import math
 from threading import RLock
 from pathlib import Path
+import secrets
 from typing import Any
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from sqlalchemy.orm import Session
 
@@ -38,6 +41,8 @@ import models
 import schemas
 
 
+logger = logging.getLogger(__name__)
+
 RATE_LIMITER = SlidingWindowRateLimiter(limit=settings.rate_limit_per_minute, window_seconds=60)
 AUDIT_SINK = AuditSink(path=settings.audit_log_path)
 ANCHOR_STORE = FileAnchorStore(
@@ -46,6 +51,20 @@ ANCHOR_STORE = FileAnchorStore(
 )
 FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
+
+MAX_REQUEST_BODY_BYTES = 1_048_576  # 1 MiB
+
+
+class BodySizeLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        cl = request.headers.get("content-length")
+        if cl:
+            try:
+                if int(cl) > MAX_REQUEST_BODY_BYTES:
+                    return JSONResponse(status_code=413, content={"detail": "Request body too large."})
+            except ValueError:
+                pass
+        return await call_next(request)
 
 
 if settings.auto_create_db:
@@ -59,6 +78,7 @@ app = FastAPI(
     redoc_url=None,
     openapi_url="/openapi.json" if settings.enable_docs else None,
 )
+app.add_middleware(BodySizeLimitMiddleware)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
 if settings.allowed_origins:
     app.add_middleware(
@@ -342,8 +362,32 @@ def seed_data() -> None:
         db.close()
 
 
+def _verify_database_migrations() -> None:
+    if settings.environment in {"pilot", "production", "prod"}:
+        try:
+            from alembic.config import Config
+            from alembic.script import ScriptDirectory
+            from alembic.runtime.migration import MigrationContext
+            cfg = Config(str(Path(__file__).resolve().parent / "alembic.ini"))
+            script = ScriptDirectory.from_config(cfg)
+            with engine.begin() as conn:
+                context = MigrationContext.configure(conn)
+                current = context.get_current_revision()
+            head = script.get_current_head()
+            if current != head or settings.auto_create_db:
+                raise RuntimeError(
+                    f"Database schema at revision '{current}', expected head '{head}'. "
+                    "Run 'alembic upgrade head' before starting pilot/production."
+                )
+        except Exception as exc:
+            if isinstance(exc, RuntimeError):
+                raise
+            logger.warning("Failed to verify alembic migrations: %s", exc)
+
+
 @app.on_event("startup")
 def startup_populate() -> None:
+    _verify_database_migrations()
     seed_data()
 
 
@@ -366,6 +410,10 @@ def require_local_kiosk(request: Request) -> dict[str, Any]:
     host = request.client.host if request.client else ""
     if host not in {"127.0.0.1", "::1", "localhost"}:
         raise HTTPException(status_code=403, detail="Kiosk bootstrap is local-only.")
+    if settings.environment in {"pilot", "production", "prod"}:
+        token = request.headers.get("X-Local-Bootstrap-Token", "").strip()
+        if not settings.local_bootstrap_token or not secrets.compare_digest(token, settings.local_bootstrap_token):
+            raise HTTPException(status_code=403, detail="Local bootstrap token required.")
     return {"token_subject": "local-tablet-kiosk", "scopes": ["telemetry:read"]}
 
 
@@ -1527,7 +1575,15 @@ def admissions_and_pairing(
 ) -> schemas.BaseResponse:
     patient = db.query(models.Patient).filter(models.Patient.patient_token == request.patient_token).first()
     if not patient:
-        raise HTTPException(status_code=404, detail=f"Patient {request.patient_token} not found.")
+        AUDIT_SINK.record(
+            "patient.lookup",
+            "not_found",
+            actor=_auth,
+            resource_type="patient",
+            resource_id=request.patient_token,
+            details={"bed_no": request.bed_no},
+        )
+        raise HTTPException(status_code=404, detail="Patient not found for the given token.")
 
     bed = db.query(models.Bed).filter(models.Bed.bed_no == request.bed_no).first()
     if not bed:
@@ -1960,7 +2016,8 @@ def _local_anchor_status(*, package_id: int, block_hash: str, chain_tip: str) ->
         return {**base, "status": "LOCAL_ANCHOR_READBACK_UNAVAILABLE"}
     try:
         records = reader()
-    except Exception:
+    except Exception as exc:
+        logger.warning("Local anchor reader failed: %s", exc, exc_info=True)
         return {**base, "status": "LOCAL_ANCHOR_READBACK_FAILED"}
     matches = [
         record for record in records
@@ -1974,7 +2031,8 @@ def _local_anchor_status(*, package_id: int, block_hash: str, chain_tip: str) ->
     receipt = matches[-1]
     try:
         verified = verifier(receipt) is True
-    except Exception:
+    except Exception as exc:
+        logger.warning("Local anchor verification failed: %s", exc, exc_info=True)
         verified = False
     return {
         **base,

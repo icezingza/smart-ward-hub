@@ -4,10 +4,13 @@ from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import logging
 import re
 import sqlite3
 from threading import RLock
 from typing import Any, Callable
+
+logger = logging.getLogger(__name__)
 
 
 class DurableWorkerStoreError(ValueError):
@@ -306,7 +309,8 @@ class DurableWorkerStore:
                 row = self._fetch(job_id)
                 self._connection.execute("COMMIT")
                 return self._row_to_job(row)
-            except Exception:
+            except Exception as exc:
+                logger.warning("Failed to submit worker job %s: %s", job_id, exc, exc_info=True)
                 self._connection.execute("ROLLBACK")
                 raise
 
@@ -328,7 +332,8 @@ class DurableWorkerStore:
                 result = self._row_to_job(self._fetch(job_id))
                 self._connection.execute("COMMIT")
                 return result
-            except Exception:
+            except Exception as exc:
+                logger.warning("Failed to claim worker job %s: %s", job_id, exc, exc_info=True)
                 self._connection.execute("ROLLBACK")
                 raise
 
@@ -361,7 +366,8 @@ class DurableWorkerStore:
                 result_row = self._row_to_job(self._fetch(job_id))
                 self._connection.execute("COMMIT")
                 return result_row
-            except Exception:
+            except Exception as exc:
+                logger.warning("Failed to complete worker job %s: %s", job_id, exc, exc_info=True)
                 try:
                     self._connection.execute("ROLLBACK")
                 except sqlite3.OperationalError:
@@ -387,7 +393,8 @@ class DurableWorkerStore:
                 result = self._row_to_job(self._fetch(job_id))
                 self._connection.execute("COMMIT")
                 return result
-            except Exception:
+            except Exception as exc:
+                logger.warning("Failed to mark worker job %s failure: %s", job_id, exc, exc_info=True)
                 self._connection.execute("ROLLBACK")
                 raise
 
@@ -406,7 +413,8 @@ class DurableWorkerStore:
                     self._audit(actor_role=actor_role, action="LEASE_RECOVERY_BLOCK", job_id=job_id, result="BLOCKED", now=current, details={"reconciliation_ref": reconciliation_ref})
                 self._connection.execute("COMMIT")
                 return job_ids
-            except Exception:
+            except Exception as exc:
+                logger.warning("Failed to recover expired leases: %s", exc, exc_info=True)
                 self._connection.execute("ROLLBACK")
                 raise
 
@@ -434,7 +442,8 @@ class DurableWorkerStore:
                 result = self._row_to_job(self._fetch(job_id))
                 self._connection.execute("COMMIT")
                 return result
-            except Exception:
+            except Exception as exc:
+                logger.warning("Failed to reconcile worker job %s: %s", job_id, exc, exc_info=True)
                 self._connection.execute("ROLLBACK")
                 raise
 
