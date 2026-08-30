@@ -824,8 +824,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "README.md",
-      "sha256": "526c7ffb9c3ab01a87b445ec03803e67b8ece70d0725a15db109cf0ee2fb9094",
-      "size_bytes": 12312
+      "sha256": "72c4b0f2e83ae313652a1f7928ce7514351797292d8829b86f7e3cead3030445",
+      "size_bytes": 13700
     },
     {
       "classification": "contract_or_governance_document",
@@ -2972,8 +2972,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "8e1601d43fd7ecd517266c85141d24dca33e6449a74612b1fb0ffeafc66036db",
-      "size_bytes": 9549
+      "sha256": "971ac4d5ccc1cb0ed1bfc9139dc735a7b422366ea1f393098bff2010a39857af",
+      "size_bytes": 9601
     },
     {
       "classification": "source_or_runtime_config",
@@ -3949,6 +3949,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_virtual_wristband_telemetry_streamer.py",
+      "sha256": "3d83ebdc1e57fcfe48bc392546fb5995de56e998ee357514953b69abc51baacf",
+      "size_bytes": 1363
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_ward_scale_simulation.py",
       "sha256": "3fd78a31edb0bc40ccc154347d3dedbf85a041e1082f0e9c5236130ed0829921",
       "size_bytes": 1406
@@ -4141,6 +4147,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "virtual_wristband_telemetry_streamer.py",
+      "sha256": "97a743148cddf76fd2123ecbcf46486b8ec318496a1292ebca732f1bb02abee2",
+      "size_bytes": 9235
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "ward_scale_simulation.py",
       "sha256": "550e611ee7bf961ce5281f85270aa59c56aa4d61a1294afcbb208c3b0c309398",
       "size_bytes": 6979
@@ -4236,14 +4248,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-29T14:55:38.933874+00:00",
+  "freeze_created_at_utc": "2026-08-30T19:47:00.319593+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "6829b822968de0f556e005ed911f17e3d5ea1714",
+  "origin_main_revision": "82bc39b3ac288affe89ed70ae1d7170ffced689c",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "a9e8bce9836138f70fef0b55674ca1ed85db0c3f"
+  "source_revision": "ca904a84f36b21164413eeeea09b9e7a579cc798"
 }
