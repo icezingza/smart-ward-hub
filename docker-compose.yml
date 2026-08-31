@@ -17,6 +17,12 @@ services:
       - SW_DATABASE_PATH=/app/data/ward_hub.db
       - SW_TELEMETRY_STATE_PATH=/app/data/edge_telemetry_state.json
       - SW_FORENSIC_ANCHOR_PATH=/app/data/forensic_anchors.jsonl
+      # OpenID Connect (OIDC) Authentication Configuration
+      - SW_AUTH_MODE=oidc
+      - SW_OIDC_ISSUER=${SW_OIDC_ISSUER:-https://securetoken.google.com/YOUR_PROJECT_ID}
+      - SW_OIDC_AUDIENCE=${SW_OIDC_AUDIENCE:-YOUR_PROJECT_ID}
+      - SW_OIDC_JWKS_URL=${SW_OIDC_JWKS_URL:-https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com}
+      - SW_OIDC_ALGORITHMS=RS256
     volumes:
       - edge-data:/app/data
     restart: always
