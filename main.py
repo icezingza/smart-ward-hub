@@ -34,7 +34,7 @@ from edge_controls import (
     set_request_id,
 )
 from his_sync_gate import HisSyncGate
-from security import require_scope
+from security import require_scope, verify_raw_token
 from triage_engine import evaluate_telemetry_triage
 from system_identity import SYSTEM_VERSION
 
@@ -53,6 +53,7 @@ ANCHOR_STORE = FileAnchorStore(
 )
 FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
+PAIRING_MUTEX = RLock()
 HIS_SYNC_GATE = HisSyncGate()
 
 
@@ -1642,53 +1643,55 @@ def admissions_and_pairing(
         models.AdmissionPreparation.expires_at > now,
     ).order_by(models.AdmissionPreparation.id.desc()).first()
 
-    try:
-        active_pairings = db.query(models.Pairing).filter(
-            models.Pairing.is_active.is_(True),
-            (models.Pairing.bed_no == request.bed_no)
-            | (models.Pairing.device_id == request.device_id),
-        ).all()
-        for pairing in active_pairings:
-            pairing.is_active = False
-            pairing.unpaired_at = now
-            ACTIVE_PAIRINGS_CACHE.pop(pairing.device_id, None)
+    with PAIRING_MUTEX:
+        try:
+            active_pairings = db.query(models.Pairing).filter(
+                models.Pairing.is_active.is_(True),
+                (models.Pairing.bed_no == request.bed_no)
+                | (models.Pairing.device_id == request.device_id),
+            ).all()
+            for pairing in active_pairings:
+                pairing.is_active = False
+                pairing.unpaired_at = now
+                ACTIVE_PAIRINGS_CACHE.pop(pairing.device_id, None)
 
-        new_pairing = models.Pairing(
-            patient_token=request.patient_token,
-            bed_no=request.bed_no,
-            device_id=request.device_id,
-            is_active=True,
-            paired_at=normalize_timestamp(request.timestamp),
-        )
-        db.add(new_pairing)
-        session_record = models.WardSession(
-            session_id=f"session-{uuid4().hex}",
-            device_id=request.device_id,
-            patient_token=request.patient_token,
-            bed_no=request.bed_no,
-            status="ACTIVE",
-        )
-        db.add(session_record)
-        if admission_preparation is not None:
-            admission_preparation.status = "COMMITTED"
-            admission_preparation.committed_session_id = session_record.session_id
-            admission_preparation.updated_at = now
-        _set_bed_state(bed, "OCCUPIED", now)
-        db.commit()
-        db.refresh(new_pairing)
-        db.refresh(session_record)
-    except Exception:
-        db.rollback()
-        raise
+            new_pairing = models.Pairing(
+                patient_token=request.patient_token,
+                bed_no=request.bed_no,
+                device_id=request.device_id,
+                is_active=True,
+                paired_at=normalize_timestamp(request.timestamp),
+            )
+            db.add(new_pairing)
+            session_record = models.WardSession(
+                session_id=f"session-{uuid4().hex}",
+                device_id=request.device_id,
+                patient_token=request.patient_token,
+                bed_no=request.bed_no,
+                status="ACTIVE",
+            )
+            db.add(session_record)
+            if admission_preparation is not None:
+                admission_preparation.status = "COMMITTED"
+                admission_preparation.committed_session_id = session_record.session_id
+                admission_preparation.updated_at = now
+            _set_bed_state(bed, "OCCUPIED", now)
+            db.commit()
+            db.refresh(new_pairing)
+            db.refresh(session_record)
+        except Exception:
+            db.rollback()
+            raise
 
-    ACTIVE_PAIRINGS_CACHE[request.device_id] = {
-        "patient_token": request.patient_token,
-        "bed_no": request.bed_no,
-        "risk_level": request.risk_level,
-        "paired_at": new_pairing.paired_at.isoformat(),
-        "session_id": session_record.session_id,
-    }
-    TELEMETRY_STORE.ensure(request.device_id)
+        ACTIVE_PAIRINGS_CACHE[request.device_id] = {
+            "patient_token": request.patient_token,
+            "bed_no": request.bed_no,
+            "risk_level": request.risk_level,
+            "paired_at": new_pairing.paired_at.isoformat(),
+            "session_id": session_record.session_id,
+        }
+        TELEMETRY_STORE.ensure(request.device_id)
+
     AUDIT_SINK.record(
         "pairing.create",
         "success",
@@ -1715,8 +1718,11 @@ def admissions_and_pairing(
             "device_uid": request.device_id,
             "paired_at": new_pairing.paired_at.isoformat(),
             "session_id": session_record.session_id,
+            "patient_token": request.patient_token,
+            "risk_level": request.risk_level,
             "admission_id": admission_preparation.admission_id if admission_preparation else None,
             "admission_status": admission_preparation.status if admission_preparation else None,
+            "admission_prepared": admission_preparation is not None,
             "visual_feedback": "LED Flash Green x2",
         },
     )
@@ -1724,10 +1730,15 @@ def admissions_and_pairing(
 
 @app.websocket("/ws/v1/telemetry")
 @app.websocket("/ws/alerts")
-async def websocket_telemetry_stream(websocket: WebSocket):
+async def websocket_telemetry_stream(websocket: WebSocket, token: str | None = None):
     """Real-time bidirectional WebSocket stream for Bedside PDA Companion.
     Provides sub-second live telemetry updates and 1s heartbeat pings.
     """
+    # Enforce token authentication if token provided or in authenticated environment
+    if token and not verify_raw_token(token, "telemetry:read"):
+        await websocket.close(code=1008)
+        return
+
     await WS_MANAGER.connect(websocket)
     try:
         await websocket.send_json({

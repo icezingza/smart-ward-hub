@@ -103,3 +103,21 @@ def require_scope(required_scope: str):
         return identity
 
     return dependency
+
+
+def verify_raw_token(token_str: str | None, required_scope: str = "telemetry:read") -> bool:
+    """Verify raw token string for WebSocket handshakes and non-standard HTTP transports."""
+    if not token_str:
+        return False
+    creds = HTTPAuthorizationCredentials(scheme="Bearer", credentials=token_str)
+    try:
+        if settings.auth_mode == "oidc":
+            identity = _oidc_auth(creds)
+        elif settings.auth_mode == "static":
+            identity = _static_auth(creds)
+        else:
+            return False
+        scopes = set(identity.get("scopes", []))
+        return required_scope in scopes or "admin" in scopes
+    except Exception:
+        return False

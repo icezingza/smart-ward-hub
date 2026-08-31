@@ -136,12 +136,41 @@ def test_loopback_proxy_header_rejection() -> None:
     print("[Hardening Test] Loopback proxy header injection guard: PASSED")
 
 
+def test_slide_fall_detection() -> None:
+    from triage_engine import evaluate_telemetry_triage
+
+    # Elderly slide-fall scenario: low impact (1.9G) followed by immobility
+    samples = [{"g_force": 1.0, "heart_rate": 75, "spo2": 98} for _ in range(20)]
+    samples.append({"g_force": 1.9, "heart_rate": 75, "spo2": 98})
+    for _ in range(5):
+        samples.append({"g_force": 1.0, "heart_rate": 75, "spo2": 98})
+
+    signal = evaluate_telemetry_triage(samples, "High")
+    assert signal is not None
+    assert signal["alert_type"] == "FALL"
+    assert signal["alert_level"] == "RED"
+    print("[Hardening Test] Slide-fall low-impact kinematic detection: PASSED")
+
+
+def test_websocket_token_auth() -> None:
+    from security import verify_raw_token
+
+    # Valid token with telemetry:read scope -> True
+    assert verify_raw_token("test-token", "telemetry:read") is True
+    # Invalid token -> False
+    assert verify_raw_token("invalid-token-xyz", "telemetry:read") is False
+    assert verify_raw_token(None, "telemetry:read") is False
+    print("[Hardening Test] WebSocket raw token authentication guard: PASSED")
+
+
 def run_all() -> None:
     test_body_size_limit()
     test_hashed_token_auth()
     test_patient_token_error_sanitization()
     test_kiosk_bootstrap_token_enforcement()
     test_loopback_proxy_header_rejection()
+    test_slide_fall_detection()
+    test_websocket_token_auth()
     print("\nALL AUDIT HARDENING TESTS PASSED SUCCESSFULLY!")
 
 
