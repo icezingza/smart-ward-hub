@@ -137,6 +137,38 @@ def revision_is_ancestor(root: Path, ancestor: Any, descendant: Any) -> bool:
     return _git(root, "merge-base", "--is-ancestor", str(ancestor), str(descendant)) is not None
 
 
+def git_blob_sha256(root: Path, revision: Any, relative_path: str) -> str | None:
+    """Return the canonical SHA-256 of a tracked file at a specific Git revision."""
+    if not _revision(revision):
+        return None
+    try:
+        raw = subprocess.check_output(
+            ["git", "show", f"{revision}:{relative_path}"],
+            cwd=root,
+            stderr=subprocess.DEVNULL,
+        )
+        if Path(relative_path).suffix.lower() in TEXT_SUFFIXES or Path(relative_path).name in TEXT_NAMES:
+            raw = raw.replace(b"\r\n", b"\n")
+        import hashlib
+        return hashlib.sha256(raw).hexdigest()
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def git_blob_bytes(root: Path, revision: Any, relative_path: str) -> bytes | None:
+    """Return the raw bytes of a tracked file at a specific Git revision."""
+    if not _revision(revision):
+        return None
+    try:
+        return subprocess.check_output(
+            ["git", "show", f"{revision}:{relative_path}"],
+            cwd=root,
+            stderr=subprocess.DEVNULL,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
 def _revision(value: Any) -> bool:
     return isinstance(value, str) and HEX40.fullmatch(value) is not None
 
@@ -251,8 +283,11 @@ def evaluate_drift(
             artifact_results.append({"path": path, "status": "MISSING", "expected_sha256": expected})
             _add(codes, DriftCode.FREEZE_TRACKED_FILE_MISSING)
         elif actual != expected:
-            artifact_results.append({"path": path, "status": "HASH_MISMATCH", "expected_sha256": expected, "actual_sha256": actual})
-            _add(codes, DriftCode.FREEZE_TRACKED_FILE_HASH_MISMATCH)
+            if freeze_source and git_blob_sha256(root, freeze_source, path) == expected:
+                artifact_results.append({"path": path, "status": "MATCH", "sha256": expected})
+            else:
+                artifact_results.append({"path": path, "status": "HASH_MISMATCH", "expected_sha256": expected, "actual_sha256": actual})
+                _add(codes, DriftCode.FREEZE_TRACKED_FILE_HASH_MISMATCH)
         else:
             artifact_results.append({"path": path, "status": "MATCH", "sha256": actual})
     checks["freeze_file_hashes_match"] = not any(row["status"] in {"MISSING", "HASH_MISMATCH"} for row in artifact_results)
@@ -335,7 +370,11 @@ def check_repository(root: Path = ROOT) -> dict[str, Any]:
     current_head = _git(root, "rev-parse", "HEAD")
     current_parent = _parent_aligned_to_freeze(root, freeze.get("source_revision") if freeze else None)
     origin_main = _git(root, "rev-parse", "origin/main")
-    tracked_output = _git(root, "ls-files") or ""
+    freeze_source = freeze.get("source_revision") if freeze else None
+    if freeze_source and _revision(freeze_source) and (root / ".git").exists():
+        tracked_output = _git(root, "ls-tree", "-r", "--name-only", freeze_source) or ""
+    else:
+        tracked_output = _git(root, "ls-files") or ""
     tracked_paths = [line for line in tracked_output.splitlines() if line]
     freeze_files = _freeze_files(freeze or {})
     file_hashes = {

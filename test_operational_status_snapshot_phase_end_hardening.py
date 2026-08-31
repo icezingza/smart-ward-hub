@@ -7,6 +7,7 @@ import os
 import subprocess
 import sys
 import tempfile
+from unittest.mock import patch
 
 from operational_status_snapshot import collect_operational_snapshot
 from test_internal_foundation_readiness import valid_environment
@@ -79,8 +80,9 @@ def run() -> None:
                 "SW_AUDIT_LOG_PATH": str(runtime_root / "audit.jsonl"),
             }
         )
-        first = collect_operational_snapshot(env, project_root=ROOT, now=2_000_000_000)
-        second = collect_operational_snapshot(env, project_root=ROOT, now=2_000_000_000)
+        with patch("shutil.disk_usage", return_value=type("DiskUsage", (), {"total": 100_000_000_000, "used": 50_000_000_000, "free": 50_000_000_000})()):
+            first = collect_operational_snapshot(env, project_root=ROOT, now=2_000_000_000)
+            second = collect_operational_snapshot(env, project_root=ROOT, now=2_000_000_000)
         assert first == second
         assert first["authorization_boundary"]["external_authority"] == "NONE"
         assert first["authorization_boundary"]["clinical_validation_authorized"] is False

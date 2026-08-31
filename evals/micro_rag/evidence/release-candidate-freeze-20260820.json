@@ -368,8 +368,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "KNOWLEDGE_UPDATE_2026-08.md",
-      "sha256": "a5da26ea218d3d3b6e2e6bb3a261d452d224afd863320467499ba4442a7ad012",
-      "size_bytes": 6049
+      "sha256": "85412c43bc654eb2e34c9c9fa62e6c970df9201e7581d1f1de07fcb9a2f1b23d",
+      "size_bytes": 6036
     },
     {
       "classification": "contract_or_governance_document",
@@ -1184,8 +1184,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "config.py",
-      "sha256": "e1739d08152c533f08e3532173911c4de5e6aacb608daf4fc4e6387a17dfba0e",
-      "size_bytes": 6816
+      "sha256": "69c0da556f0525dc6ad74f9c0a49bef78c5fc741a866c7148d66f39be5b10c43",
+      "size_bytes": 6965
     },
     {
       "classification": "source_or_runtime_config",
@@ -1406,8 +1406,8 @@
     {
       "classification": "contract_or_governance_document",
       "path": "docs/REBRAND_HANDOFF.md",
-      "sha256": "6e252d07e7f4f25c362693cc6184b1bd31a2eb27eea71a21b7473f4ea8e67978",
-      "size_bytes": 1946
+      "sha256": "74fe027f8fa9f5b42e873c4ed162d512f7d290f1b1aa2ae5874cf60a473557a7",
+      "size_bytes": 2265
     },
     {
       "classification": "contract_or_governance_document",
@@ -1432,6 +1432,12 @@
       "path": "docs/SYNTHETIC_DEMO_SCRIPT.md",
       "sha256": "af812f08694212acb3b4abc939be9af9af987b757aa1c2bc42bf6681c5794ffb",
       "size_bytes": 2760
+    },
+    {
+      "classification": "contract_or_governance_document",
+      "path": "docs/SYSTEM_IDENTITY.md",
+      "sha256": "1eca77255936ea663c443f6e3de4a8aca780b09a7e590c7e79ba264df0b4de4b",
+      "size_bytes": 985
     },
     {
       "classification": "contract_or_governance_document",
@@ -2576,8 +2582,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "main.py",
-      "sha256": "603f90816e97c1a25ddc51c4f59c3070ef2990591da7055218949b8768117244",
-      "size_bytes": 102689
+      "sha256": "ec1367247e42b3e8a19c51d584eed4fea07250c5e7cb08cb9bdbbd257bf84350",
+      "size_bytes": 102774
     },
     {
       "classification": "contract_or_governance_document",
@@ -3002,8 +3008,8 @@
     {
       "classification": "source_or_runtime_config",
       "path": "run_all_tests.py",
-      "sha256": "6365d43b7b76505815f187cd5a670eaf7fb3439f3c9e73041bf5372c25eb3b34",
-      "size_bytes": 9700
+      "sha256": "6693788ff102b25547bf8abbb159f7dda44376a6c2dde388fc8347e5b72638b2",
+      "size_bytes": 9731
     },
     {
       "classification": "source_or_runtime_config",
@@ -3094,6 +3100,12 @@
       "path": "sync_alert_replay_harness.py",
       "sha256": "7059d48472cbef3bb12d6c92e9c745ca937e7b8c384955126c5a2cf86ca55890",
       "size_bytes": 19682
+    },
+    {
+      "classification": "source_or_runtime_config",
+      "path": "system_identity.py",
+      "sha256": "8d3da0218089fd2418afe61c840bec4622a14c67ba2d3869b1c110d18f8b7348",
+      "size_bytes": 284
     },
     {
       "classification": "contract_or_governance_document",
@@ -3985,6 +3997,12 @@
     },
     {
       "classification": "source_or_runtime_config",
+      "path": "test_system_identity.py",
+      "sha256": "b836c7bbd8abe256fcf8fdb5c84882a1d101eec833712cc7d1a81b511219615c",
+      "size_bytes": 1833
+    },
+    {
+      "classification": "source_or_runtime_config",
       "path": "test_telemetry.py",
       "sha256": "cd04156deb62d8266becfa70bd4fe0fdafc953cef453750e04928829c0ec57b3",
       "size_bytes": 3476
@@ -4296,14 +4314,14 @@
       "size_bytes": 11125
     }
   ],
-  "freeze_created_at_utc": "2026-08-30T20:32:55.447350+00:00",
+  "freeze_created_at_utc": "2026-08-30T20:50:18.890142+00:00",
   "freeze_status": "PASS",
   "manifest_path": "evals/micro_rag/evidence/release-candidate-freeze-20260820.json",
   "manifest_self_hash_excluded": true,
-  "origin_main_revision": "0079870ee328876fe1f99fd765b3235b2a27baa8",
+  "origin_main_revision": "fc5b163b0b313c11e3cc31ac8c0fbd0530542a1d",
   "repository": "icezingza/smart-ward-hub",
   "runtime_artifacts": [],
   "schema_version": "smart-ward-hub-release-freeze-v1",
   "secret_hits": [],
-  "source_revision": "c77f8d9fdd9ad1b27a16e80271e4649b231173e1"
+  "source_revision": "b701c6635fda46f5c89f8005cdc2b38fa05d1566"
 }

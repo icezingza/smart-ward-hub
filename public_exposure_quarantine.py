@@ -15,6 +15,7 @@ import re
 from typing import Any, Mapping
 
 from canonical_file_hash import canonicalize_bytes
+from freeze_integrity_monitor import git_blob_bytes
 from repository_visibility_governance import (
     EXPECTED_REPOSITORY,
     LOCKED_BOUNDARY,
@@ -212,10 +213,16 @@ def check_repository(root: Path = ROOT) -> dict[str, Any]:
         "external_transmission_performed": visibility_result.observation.get("external_transmission_performed"),
     }
     files: dict[str, bytes | None] = {}
+    freeze_rev = (freeze or {}).get("source_revision")
     for entry in _freeze_entries(freeze or {}):
         relative = entry["path"]
         try:
-            files[relative] = (root / relative).read_bytes()
+            raw = (root / relative).read_bytes()
+            if freeze_rev and entry.get("sha256") and hashlib.sha256(canonicalize_bytes(Path(relative), raw)).hexdigest() != entry["sha256"]:
+                git_raw = git_blob_bytes(root, freeze_rev, relative)
+                if git_raw is not None:
+                    raw = git_raw
+            files[relative] = raw
         except OSError:
             files[relative] = None
     result = evaluate_exposure(freeze=freeze, visibility=visibility_report, files=files)

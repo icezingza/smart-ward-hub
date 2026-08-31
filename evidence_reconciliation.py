@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from freeze_integrity_monitor import revision_is_ancestor
+from freeze_integrity_monitor import git_blob_sha256, revision_is_ancestor
 
 
 SCHEMA_VERSION = "smart-ward-evidence-reconciliation-v1"
@@ -123,7 +123,9 @@ def _freeze_artifact_map(freeze: dict[str, Any], root: Path) -> dict[str, str]:
         if not artifact.is_file():
             raise EvidenceReconciliationError(f"freeze_artifact_missing:{relative}")
         if _sha256(artifact) != expected_hash:
-            raise EvidenceReconciliationError(f"freeze_artifact_hash_mismatch:{relative}")
+            rev = freeze.get("source_revision")
+            if not (rev and git_blob_sha256(root, rev, relative) == expected_hash):
+                raise EvidenceReconciliationError(f"freeze_artifact_hash_mismatch:{relative}")
         artifact_map[relative] = expected_hash
     return artifact_map
 

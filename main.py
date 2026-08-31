@@ -1,15 +1,19 @@
+import asyncio
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import logging
 import math
 from threading import RLock
 from pathlib import Path
+import secrets
 from typing import Any
 from uuid import uuid4
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from sqlalchemy.orm import Session
 
@@ -29,13 +33,17 @@ from edge_controls import (
     reset_request_id,
     set_request_id,
 )
+from his_sync_gate import HisSyncGate
 from security import require_scope
 from triage_engine import evaluate_telemetry_triage
+from system_identity import SYSTEM_VERSION
 
 from database import Base, SessionLocal, engine, get_db
 import models
 import schemas
 
+
+logger = logging.getLogger(__name__)
 
 RATE_LIMITER = SlidingWindowRateLimiter(limit=settings.rate_limit_per_minute, window_seconds=60)
 AUDIT_SINK = AuditSink(path=settings.audit_log_path)
@@ -45,6 +53,50 @@ ANCHOR_STORE = FileAnchorStore(
 )
 FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
+HIS_SYNC_GATE = HisSyncGate()
+
+
+class ConnectionManager:
+    """Manages real-time WebSocket connections for Bedside PDA companions."""
+    def __init__(self):
+        self.active_connections: list[WebSocket] = []
+        self._lock = RLock()
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        with self._lock:
+            self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        with self._lock:
+            if websocket in self.active_connections:
+                self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: dict[str, Any]):
+        with self._lock:
+            conns = list(self.active_connections)
+        for connection in conns:
+            try:
+                await connection.send_json(message)
+            except Exception:
+                self.disconnect(connection)
+
+
+WS_MANAGER = ConnectionManager()
+
+MAX_REQUEST_BODY_BYTES = 1_048_576  # 1 MiB
+
+
+class BodySizeLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        cl = request.headers.get("content-length")
+        if cl:
+            try:
+                if int(cl) > MAX_REQUEST_BODY_BYTES:
+                    return JSONResponse(status_code=413, content={"detail": "Request body too large."})
+            except ValueError:
+                pass
+        return await call_next(request)
 
 
 if settings.auto_create_db:
@@ -53,11 +105,12 @@ if settings.auto_create_db:
 app = FastAPI(
     title=f"{settings.product_name}: Ward Edge Hub API",
     description=settings.product_description,
-    version="2.0.0",
+    version=SYSTEM_VERSION,
     docs_url="/docs" if settings.enable_docs else None,
     redoc_url=None,
     openapi_url="/openapi.json" if settings.enable_docs else None,
 )
+app.add_middleware(BodySizeLimitMiddleware)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
 if settings.allowed_origins:
     app.add_middleware(
@@ -341,8 +394,32 @@ def seed_data() -> None:
         db.close()
 
 
+def _verify_database_migrations() -> None:
+    if settings.environment in {"pilot", "production", "prod"}:
+        try:
+            from alembic.config import Config
+            from alembic.script import ScriptDirectory
+            from alembic.runtime.migration import MigrationContext
+            cfg = Config(str(Path(__file__).resolve().parent / "alembic.ini"))
+            script = ScriptDirectory.from_config(cfg)
+            with engine.begin() as conn:
+                context = MigrationContext.configure(conn)
+                current = context.get_current_revision()
+            head = script.get_current_head()
+            if current != head or settings.auto_create_db:
+                raise RuntimeError(
+                    f"Database schema at revision '{current}', expected head '{head}'. "
+                    "Run 'alembic upgrade head' before starting pilot/production."
+                )
+        except Exception as exc:
+            if isinstance(exc, RuntimeError):
+                raise
+            logger.warning("Failed to verify alembic migrations: %s", exc)
+
+
 @app.on_event("startup")
 def startup_populate() -> None:
+    _verify_database_migrations()
     seed_data()
 
 
@@ -351,6 +428,7 @@ def health_check() -> dict[str, Any]:
     return {
         "status": "healthy",
         "system": settings.product_short_name,
+        "version": SYSTEM_VERSION,
         "environment": settings.environment,
         "schema_management": "startup_create_all" if settings.auto_create_db else "external_migration_required",
         "timestamp": utc_now().isoformat(),
@@ -364,6 +442,10 @@ def require_local_kiosk(request: Request) -> dict[str, Any]:
     host = request.client.host if request.client else ""
     if host not in {"127.0.0.1", "::1", "localhost"}:
         raise HTTPException(status_code=403, detail="Kiosk bootstrap is local-only.")
+    if settings.environment in {"pilot", "production", "prod"}:
+        token = request.headers.get("X-Local-Bootstrap-Token", "").strip()
+        if not settings.local_bootstrap_token or not secrets.compare_digest(token, settings.local_bootstrap_token):
+            raise HTTPException(status_code=403, detail="Local bootstrap token required.")
     return {"token_subject": "local-tablet-kiosk", "scopes": ["telemetry:read"]}
 
 
@@ -1525,7 +1607,15 @@ def admissions_and_pairing(
 ) -> schemas.BaseResponse:
     patient = db.query(models.Patient).filter(models.Patient.patient_token == request.patient_token).first()
     if not patient:
-        raise HTTPException(status_code=404, detail=f"Patient {request.patient_token} not found.")
+        AUDIT_SINK.record(
+            "patient.lookup",
+            "not_found",
+            actor=_auth,
+            resource_type="patient",
+            resource_id=request.patient_token,
+            details={"bed_no": request.bed_no},
+        )
+        raise HTTPException(status_code=404, detail="Patient not found for the given token.")
 
     bed = db.query(models.Bed).filter(models.Bed.bed_no == request.bed_no).first()
     if not bed:
@@ -1613,8 +1703,11 @@ def admissions_and_pairing(
         message=f"Successfully paired Patient {request.patient_token} with Bed {request.bed_no}.",
         data={
             "pairing_id": new_pairing.id,
+            "status": "paired",
             "bed_no": request.bed_no,
+            "bed_id": request.bed_no,
             "device_id": request.device_id,
+            "device_uid": request.device_id,
             "paired_at": new_pairing.paired_at.isoformat(),
             "session_id": session_record.session_id,
             "admission_id": admission_preparation.admission_id if admission_preparation else None,
@@ -1622,6 +1715,36 @@ def admissions_and_pairing(
             "visual_feedback": "LED Flash Green x2",
         },
     )
+
+
+@app.websocket("/ws/v1/telemetry")
+@app.websocket("/ws/alerts")
+async def websocket_telemetry_stream(websocket: WebSocket):
+    """Real-time bidirectional WebSocket stream for Bedside PDA Companion.
+    Provides sub-second live telemetry updates and 1s heartbeat pings.
+    """
+    await WS_MANAGER.connect(websocket)
+    try:
+        await websocket.send_json({
+            "type": "connection_established",
+            "hub_status": "ONLINE",
+            "timestamp": utc_now().isoformat(),
+            "active_beds_count": len(ACTIVE_PAIRINGS_CACHE),
+        })
+        while True:
+            try:
+                # Wait for optional client messages or timeout after 1.5s to emit heartbeat
+                await asyncio.wait_for(websocket.receive_text(), timeout=1.5)
+            except asyncio.TimeoutError:
+                await websocket.send_json({
+                    "type": "heartbeat",
+                    "timestamp": utc_now().isoformat(),
+                    "hub_status": "ONLINE",
+                })
+    except WebSocketDisconnect:
+        WS_MANAGER.disconnect(websocket)
+    except Exception:
+        WS_MANAGER.disconnect(websocket)
 
 
 @app.post("/api/v1/unpair", response_model=schemas.BaseResponse)
@@ -1673,14 +1796,59 @@ def unbind_and_discharge(
     )
 
 
+def _persist_alert_and_forensics(
+    *,
+    alert_info: dict[str, Any],
+    binding: dict[str, Any],
+    sample_received_at: datetime,
+    device_id: str,
+) -> None:
+    db = SessionLocal()
+    try:
+        existing = db.query(models.Alert).filter(
+            models.Alert.device_id == device_id,
+            models.Alert.alert_type == alert_info["alert_type"],
+            models.Alert.is_resolved.is_(False),
+        ).first()
+        if existing is None:
+            alert_record = models.Alert(
+                device_id=device_id,
+                session_id=binding.get("session_id"),
+                bed_no=binding["bed_no"],
+                patient_token=binding["patient_token"],
+                alert_level=alert_info["alert_level"],
+                alert_type=alert_info["alert_type"],
+                description=alert_info["description"],
+            )
+            db.add(alert_record)
+            db.commit()
+            db.refresh(alert_record)
+            forensic_samples = TELEMETRY_STORE.snapshot_window(
+                device_id,
+                window_seconds=settings.forensic_window_seconds,
+                now=sample_received_at,
+            )
+            freeze_forensic_package(
+                db,
+                alert_record,
+                forensic_samples,
+                session_id=binding.get("session_id"),
+            )
+    except Exception as exc:
+        logger.warning("Failed to persist alert and black-box forensic package for %s: %s", device_id, exc, exc_info=True)
+    finally:
+        db.close()
+
+
 @app.post("/api/v1/telemetry", response_model=schemas.BaseResponse)
 def ingest_telemetry(
     packet: schemas.TelemetryPacket,
     http_request: Request,
+    background_tasks: BackgroundTasks = None,
     db: Session = Depends(get_db),
     _auth: dict[str, Any] = Depends(require_scope("telemetry:write")),
 ) -> schemas.BaseResponse:
-    """Accept a raw packet only from a currently paired device."""
+    """Accept a raw packet only from a currently paired device (Decoupled RAM Ring Buffer)."""
     device_trust_status = verify_ingress_device_trust(packet, http_request, db)
     binding = ACTIVE_PAIRINGS_CACHE.get(packet.device_id)
     if binding is None:
@@ -1711,38 +1879,58 @@ def ingest_telemetry(
             details={"sequence": packet.sequence, "reason": append_result.reason},
         )
         raise HTTPException(status_code=409, detail=append_result.reason)
+    
+    # 1. In-RAM Triage Evaluation (< 1.5s SLA for fall / red alert detection)
     buffer = TELEMETRY_STORE.snapshot(packet.device_id)
     alert = evaluate_triage(packet.device_id, buffer)
+    
+    # 2. Decoupled Persistence: Offload SQLite disk I/O to background task or async writer
     if alert is not None:
-        existing = db.query(models.Alert).filter(
-            models.Alert.device_id == packet.device_id,
-            models.Alert.alert_type == alert["alert_type"],
-            models.Alert.is_resolved.is_(False),
-        ).first()
-        if existing is None:
-            alert_record = models.Alert(
+        if background_tasks is not None:
+            background_tasks.add_task(
+                _persist_alert_and_forensics,
+                alert_info=alert,
+                binding=binding,
+                sample_received_at=sample["received_at"],
                 device_id=packet.device_id,
-                session_id=binding.get("session_id"),
-                bed_no=binding["bed_no"],
-                patient_token=binding["patient_token"],
-                alert_level=alert["alert_level"],
-                alert_type=alert["alert_type"],
-                description=alert["description"],
             )
-            db.add(alert_record)
-            db.commit()
-            db.refresh(alert_record)
-            forensic_samples = TELEMETRY_STORE.snapshot_window(
-                packet.device_id,
-                window_seconds=settings.forensic_window_seconds,
-                now=sample["received_at"],
+            background_tasks.add_task(
+                WS_MANAGER.broadcast,
+                {
+                    "type": "alert",
+                    "device_id": packet.device_id,
+                    "bed_no": binding.get("bed_no"),
+                    "alert_level": alert["alert_level"],
+                    "alert_type": alert["alert_type"],
+                    "description": alert["description"],
+                    "timestamp": sample["received_at"].isoformat(),
+                },
             )
-            freeze_forensic_package(
-                db,
-                alert_record,
-                forensic_samples,
-                session_id=binding.get("session_id"),
+        else:
+            _persist_alert_and_forensics(
+                alert_info=alert,
+                binding=binding,
+                sample_received_at=sample["received_at"],
+                device_id=packet.device_id,
             )
+
+    if background_tasks is not None:
+        background_tasks.add_task(
+            WS_MANAGER.broadcast,
+            {
+                "type": "telemetry",
+                "device_id": packet.device_id,
+                "bed_no": binding.get("bed_no"),
+                "sequence": packet.sequence,
+                "heart_rate": packet.heart_rate,
+                "spo2": packet.spo2,
+                "skin_temp": packet.skin_temp,
+                "battery_pct": packet.battery_pct,
+                "g_force": sample["g_force"],
+                "timestamp": sample["received_at"].isoformat(),
+            },
+        )
+
     AUDIT_SINK.record(
         "telemetry.ingest",
         "success",
@@ -1760,6 +1948,65 @@ def ingest_telemetry(
             "buffered_samples": append_result.buffered_samples,
             "dropped_samples": append_result.dropped_samples,
             "device_trust": device_trust_status,
+        },
+    )
+
+
+@app.post("/api/v1/his/sync-and-purge", response_model=schemas.BaseResponse)
+def his_sync_and_purge(
+    request: schemas.HisSyncPurgeRequest,
+    _auth: dict[str, Any] = Depends(require_scope("telemetry:read")),
+) -> schemas.BaseResponse:
+    """Safe Sync & Purge Gate: Only purge local buffer after receiving verified HTTP 200 OK from HIS."""
+    device_id = request.device_id
+    binding = ACTIVE_PAIRINGS_CACHE.get(device_id)
+    if binding is None:
+        raise HTTPException(status_code=403, detail="Device is not actively paired.")
+
+    samples = TELEMETRY_STORE.snapshot(device_id)
+    if not samples:
+        raise HTTPException(status_code=404, detail="No telemetry samples available to sync.")
+
+    batch = HIS_SYNC_GATE.create_batch(device_id=device_id, samples=samples)
+    confirmed = HIS_SYNC_GATE.confirm_sync(
+        batch_id=batch.batch_id,
+        http_status_code=request.his_http_status,
+        his_response=request.his_response_payload or {},
+    )
+
+    if not confirmed or not HIS_SYNC_GATE.can_purge(batch.batch_id):
+        AUDIT_SINK.record(
+            "his.sync_gate",
+            "purge_blocked",
+            actor=_auth,
+            resource_type="sync_batch",
+            resource_id=batch.batch_id,
+            details={"reason": "HIS_HTTP_NON_200_OR_MISSING_TX", "http_status": request.his_http_status},
+        )
+        raise HTTPException(
+            status_code=412,
+            detail="Safe Sync Gate: Purge blocked. Authoritative HTTP 200 confirmation with transaction reference from HIS is required.",
+        )
+
+    # Purge RAM buffer only when confirmed
+    purged_count = TELEMETRY_STORE.clear_device(device_id)
+    AUDIT_SINK.record(
+        "his.sync_gate",
+        "purge_authorized",
+        actor=_auth,
+        resource_type="sync_batch",
+        resource_id=batch.batch_id,
+        details={"purged_samples": purged_count, "his_tx": batch.his_transaction_id},
+    )
+    return schemas.BaseResponse(
+        success=True,
+        message="Safe Sync Gate: Telemetry synced to HIS and local buffer purged.",
+        data={
+            "batch_id": batch.batch_id,
+            "device_id": device_id,
+            "purged_samples": purged_count,
+            "his_transaction_id": batch.his_transaction_id,
+            "batch_hash": batch.batch_hash,
         },
     )
 
@@ -1958,7 +2205,8 @@ def _local_anchor_status(*, package_id: int, block_hash: str, chain_tip: str) ->
         return {**base, "status": "LOCAL_ANCHOR_READBACK_UNAVAILABLE"}
     try:
         records = reader()
-    except Exception:
+    except Exception as exc:
+        logger.warning("Local anchor reader failed: %s", exc, exc_info=True)
         return {**base, "status": "LOCAL_ANCHOR_READBACK_FAILED"}
     matches = [
         record for record in records
@@ -1972,7 +2220,8 @@ def _local_anchor_status(*, package_id: int, block_hash: str, chain_tip: str) ->
     receipt = matches[-1]
     try:
         verified = verifier(receipt) is True
-    except Exception:
+    except Exception as exc:
+        logger.warning("Local anchor verification failed: %s", exc, exc_info=True)
         verified = False
     return {
         **base,

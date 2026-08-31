@@ -16,6 +16,10 @@ PRIVATE_KEY_PATH.write_bytes(
         encryption_algorithm=serialization.NoEncryption(),
     )
 )
+try:
+    PRIVATE_KEY_PATH.chmod(0o400)
+except OSError:
+    pass
 os.environ.update(
     {
         "SW_AUTH_TOKENS_JSON": '{"signed-forensic-test-token":["admin"]}',

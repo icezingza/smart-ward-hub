@@ -9,15 +9,34 @@ DEVICE_ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
 
 
 class PairingRequest(BaseModel):
-    patient_token: str = Field(..., min_length=16, max_length=128, description="Pseudonymized HIS patient reference")
-    bed_no: str = Field(..., min_length=1, max_length=32, description="Ward bed number")
-    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN, description="Registered wristband identifier")
+    patient_token: str = Field(..., min_length=10, max_length=128, description="Pseudonymized HIS patient reference")
+    bed_no: Optional[str] = Field(default=None, max_length=32, description="Ward bed number")
+    bed_id: Optional[str] = Field(default=None, max_length=32, description="Alias for bed_no")
+    device_id: Optional[str] = Field(default=None, max_length=64, description="Registered wristband identifier")
+    device_uid: Optional[str] = Field(default=None, max_length=64, description="Alias for device_id")
+    placement_position: Optional[str] = Field(default="WRIST", description="Sensor placement: WRIST, CHEST, ANKLE")
     risk_level: str = Field(default="Low", pattern="^(High|Medium|Low)$")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+    @model_validator(mode="before")
+    @classmethod
+    def resolve_aliases(cls, values: Any) -> Any:
+        if isinstance(values, dict):
+            if not values.get("bed_no") and values.get("bed_id"):
+                values["bed_no"] = str(values["bed_id"]).strip()
+            if not values.get("device_id") and values.get("device_uid"):
+                values["device_id"] = str(values["device_uid"]).strip()
+            if not values.get("bed_no"):
+                raise ValueError("bed_no or bed_id is required")
+            if not values.get("device_id"):
+                raise ValueError("device_id or device_uid is required")
+        return values
+
     @field_validator("patient_token", "bed_no", "device_id")
     @classmethod
-    def strip_identifier(cls, value: str) -> str:
+    def strip_identifier(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return None
         value = value.strip()
         if not value:
             raise ValueError("identifier must not be blank")
@@ -27,7 +46,7 @@ class PairingRequest(BaseModel):
     @classmethod
     def require_opaque_patient_token(cls, value: str) -> str:
         if (
-            not re.fullmatch(r"[A-Za-z0-9._~-]{16,128}", value)
+            not re.fullmatch(r"[A-Za-z0-9._~-]{10,128}", value)
             or re.match(r"^(HN|AN)([-_:]|$)", value, flags=re.IGNORECASE)
         ):
             raise ValueError("patient_token must be an opaque token; raw HN/AN formats are not accepted")
@@ -268,3 +287,9 @@ class HandoverResponse(BaseModel):
     fhir_bundle: dict[str, Any]
     sync_status: str
     aggregate_count: int
+
+
+class HisSyncPurgeRequest(BaseModel):
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
+    his_http_status: int = Field(default=200, description="HTTP status code returned by HIS endpoint")
+    his_response_payload: Optional[dict[str, Any]] = Field(default_factory=dict, description="Payload returned by HIS endpoint")

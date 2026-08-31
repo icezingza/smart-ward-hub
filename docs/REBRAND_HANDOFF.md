@@ -8,6 +8,8 @@ Branding is presentation metadata, not a trust, authorization, audit or clinical
 
 Product name, short name and description are read from `SW_PRODUCT_NAME`, `SW_PRODUCT_SHORT_NAME` and `SW_PRODUCT_DESCRIPTION`. The FastAPI title/description and `/health` system label use these settings. Defaults preserve the current product identity until the brand decision is approved.
 
+The current technical identity is fixed as **Smart Ward Hub / IPD Smart Sentinel v2.0.0**. The default SQLite database is **`ward_hub.db`**. Unrelated product brands are not aliases for this repository and must not be inserted into technical documentation, API metadata, evidence manifests or deployment instructions.
+
 ## Rebrand steps
 
 1. Approve the new name, product descriptor, domain and trademark review.
