@@ -53,6 +53,13 @@ class PairingRequest(BaseModel):
         return value
 
 
+class QRPairingRequest(BaseModel):
+    qr_payload: str = Field(..., description="Raw JSON string from the QR code")
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN)
+    risk_level: str = Field(default="Low", pattern="^(High|Medium|Low)$")
+    placement_position: Optional[str] = Field(default="WRIST")
+
+
 class UnbindRequest(BaseModel):
     device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN, description="Wristband identifier")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

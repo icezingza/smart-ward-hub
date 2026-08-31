@@ -18,6 +18,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from sqlalchemy.orm import Session
 
 from config import settings
+from utils_qr import verify_qr_payload
 from edge_runtime import EdgeTelemetryStore
 from forensic_vault import (
     GENESIS_HASH,
@@ -1726,6 +1727,120 @@ def admissions_and_pairing(
             "visual_feedback": "LED Flash Green x2",
         },
     )
+
+
+@app.post("/api/v1/qr-pairing", response_model=schemas.BaseResponse)
+def qr_pairing(
+    request: schemas.QRPairingRequest,
+    db: Session = Depends(get_db),
+    _auth: dict[str, Any] = Depends(require_scope("pairing:write")),
+) -> schemas.BaseResponse:
+    try:
+        qr_data = verify_qr_payload(request.qr_payload)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    anonymous_id = qr_data["anonymous_id"]
+    bed_id = qr_data["bed_id"]
+    device_id = request.device_id
+
+    # 1. Verify Device
+    device = db.query(models.Device).filter(models.Device.device_id == device_id).first()
+    if not device:
+        raise HTTPException(status_code=404, detail=f"Device {device_id} not registered.")
+    if not device.is_active:
+        raise HTTPException(status_code=409, detail=f"Device {device_id} is inactive.")
+    if settings.device_trust_mode == "enforce" and _active_device_credential(db, device_id) is None:
+        raise HTTPException(status_code=409, detail="Device Trust enrollment is required before pairing.")
+
+    # 2. Verify Bed
+    bed = db.query(models.Bed).filter(models.Bed.bed_no == bed_id).first()
+    if not bed:
+        raise HTTPException(status_code=404, detail=f"Bed {bed_id} not found.")
+
+    # 3. Auto-Admit Anonymous Patient if not exists
+    patient = db.query(models.Patient).filter(models.Patient.patient_token == anonymous_id).first()
+    if not patient:
+        patient = models.Patient(patient_token=anonymous_id)
+        db.add(patient)
+        db.commit()
+        db.refresh(patient)
+
+    # 4. Pair
+    with PAIRING_MUTEX:
+        try:
+            active_pairings = db.query(models.Pairing).filter(
+                models.Pairing.is_active.is_(True),
+                (models.Pairing.bed_no == bed_id)
+                | (models.Pairing.device_id == device_id)
+            ).all()
+
+            for p in active_pairings:
+                p.is_active = False
+                p.unpaired_at = utc_now()
+                p.unpair_reason = "REPLACED_BY_QR_PAIRING"
+
+            new_pairing = models.Pairing(
+                patient_token=anonymous_id,
+                bed_no=bed_id,
+                device_id=device_id,
+                is_active=True,
+            )
+            db.add(new_pairing)
+            db.flush()
+
+            session_record = models.WardSession(
+                session_id=f"session-{uuid4().hex}",
+                patient_token=anonymous_id,
+                bed_no=bed_id,
+                device_id=device_id,
+                status="ACTIVE",
+            )
+            db.add(session_record)
+            db.commit()
+            db.refresh(new_pairing)
+            db.refresh(session_record)
+        except Exception:
+            db.rollback()
+            raise
+
+        ACTIVE_PAIRINGS_CACHE[device_id] = {
+            "patient_token": anonymous_id,
+            "bed_no": bed_id,
+            "risk_level": request.risk_level,
+            "paired_at": new_pairing.paired_at.isoformat(),
+            "session_id": session_record.session_id,
+        }
+        TELEMETRY_STORE.ensure(device_id)
+
+    AUDIT_SINK.record(
+        "qr_pairing.create",
+        "success",
+        actor=_auth,
+        resource_type="pairing",
+        resource_id=str(new_pairing.id),
+        details={
+            "device_id": device_id,
+            "bed_no": bed_id,
+            "patient_token": anonymous_id,
+            "session_id": session_record.session_id,
+        },
+    )
+
+    return schemas.BaseResponse(
+        success=True,
+        message=f"Successfully paired device {device_id} with Bed {bed_id} via QR.",
+        data={
+            "pairing_id": new_pairing.id,
+            "status": "paired",
+            "bed_no": bed_id,
+            "device_id": device_id,
+            "patient_token": anonymous_id,
+            "session_id": session_record.session_id,
+            "visual_feedback": "LED Flash Blue x2",
+        },
+    )
+
 
 
 @app.websocket("/ws/v1/telemetry")
