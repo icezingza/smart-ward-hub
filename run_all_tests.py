@@ -209,9 +209,9 @@ def run() -> None:
         if script in {"test_internal_foundation_readiness.py", "test_internal_foundation_phase_end_hardening.py"}:
             clean_runtime_artifacts()
         print(f"\n[MASTER] Running {script}")
-        completed = subprocess.run([sys.executable, str(ROOT / script)], cwd=ROOT)
+        completed = subprocess.run([sys.executable, "-u", str(ROOT / script)], cwd=ROOT)
         if completed.returncode != 0:
-            raise SystemExit(f"[MASTER] FAILED: {script}")
+            raise SystemExit(f"[MASTER] FAILED: {script} (exit code {completed.returncode})")
         print(f"[MASTER] PASSED: {script}")
     print("\nALL FUNCTIONAL LEVEL 1–6, DEVICE TRUST, WARD WORKFLOW, OUTSIDE-IN ADMISSION, AND ROAMING CHECKS PASSED")
     print("Note: Phase 6, Device Trust, ward workflow, Outside-in admission, and roaming verification are software tests, not clinical, HIS, or hardware validation.")
