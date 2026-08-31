@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [switch]$ValidateOnly,
-    [int]$Port = 8080
+    [int]$Port = 8000
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,8 +16,9 @@ $env:SW_ENVIRONMENT = "pilot"
 $env:SW_AUTO_CREATE_DB = "false"
 $env:SW_SEED_DATA = "false"
 $env:SW_ENABLE_DOCS = "false"
-$env:SW_ALLOWED_HOSTS = "127.0.0.1,localhost"
-$env:SW_ALLOWED_ORIGINS = ""
+# LAN PDA pre-flight; narrow these to the ward subnet or PDA origin in production.
+$env:SW_ALLOWED_HOSTS = "*"
+$env:SW_ALLOWED_ORIGINS = "*"
 $env:SW_AUTH_MODE = if ($env:SW_AUTH_MODE) { $env:SW_AUTH_MODE } else { "oidc" }
 $env:SW_DATABASE_PATH = Join-Path $RuntimeRoot "ward_hub.db"
 $env:SW_TELEMETRY_STATE_PATH = Join-Path $RuntimeRoot "edge_telemetry_state.json"
@@ -30,7 +31,7 @@ if (-not (Test-Path -LiteralPath $Python -PathType Leaf)) {
     throw "Python environment not found: $Python. Create .venv and install requirements before auto-run."
 }
 
-$readinessArgs = @("deployment_readiness.py", "--host", "127.0.0.1", "--port", "$Port", "--project-root", $ProjectRoot)
+$readinessArgs = @("deployment_readiness.py", "--host", "0.0.0.0", "--port", "$Port", "--project-root", $ProjectRoot)
 & $Python @readinessArgs
 if ($LASTEXITCODE -ne 0) {
     throw "Deployment readiness failed closed. No Edge service was started."
@@ -42,5 +43,5 @@ if ($ValidateOnly) {
 }
 
 Set-Location -LiteralPath $ProjectRoot
-& $Python -m uvicorn main:app --host 127.0.0.1 --port $Port
+& $Python -m uvicorn main:app --host 0.0.0.0 --port $Port
 exit $LASTEXITCODE

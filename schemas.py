@@ -2,16 +2,20 @@ from datetime import datetime, timezone
 from typing import Any, Literal, Optional
 import re
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 DEVICE_ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
 
 
 class PairingRequest(BaseModel):
-    patient_token: str = Field(..., min_length=16, max_length=128, description="Pseudonymized HIS patient reference")
-    bed_no: str = Field(..., min_length=1, max_length=32, description="Ward bed number")
-    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN, description="Registered wristband identifier")
+    # The PDA-facing contract uses bed_id/device_uid. AliasChoices keeps the existing
+    # Hub internals and older clients on bed_no/device_id without storing new identity fields.
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
+    patient_token: str = Field(..., min_length=14, max_length=128, description="Opaque patient token; the agreed anon-9032-uuid example is 14 characters")
+    bed_no: str = Field(..., min_length=1, max_length=32, validation_alias=AliasChoices("bed_id", "bed_no"), description="Ward bed number")
+    device_id: str = Field(..., min_length=1, max_length=64, pattern=DEVICE_ID_PATTERN, validation_alias=AliasChoices("device_uid", "device_id"), description="Registered wristband identifier")
+    placement_position: Literal["WRIST", "ANKLE"] = Field(default="WRIST", description="Operational band placement; not persisted")
     risk_level: str = Field(default="Low", pattern="^(High|Medium|Low)$")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -27,7 +31,7 @@ class PairingRequest(BaseModel):
     @classmethod
     def require_opaque_patient_token(cls, value: str) -> str:
         if (
-            not re.fullmatch(r"[A-Za-z0-9._~-]{16,128}", value)
+            not re.fullmatch(r"[A-Za-z0-9._~-]{14,128}", value)
             or re.match(r"^(HN|AN)([-_:]|$)", value, flags=re.IGNORECASE)
         ):
             raise ValueError("patient_token must be an opaque token; raw HN/AN formats are not accepted")
