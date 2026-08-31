@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import tempfile
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -404,7 +405,7 @@ def run_simulation() -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Simulate GV-10 evidence submission and fail-closed review")
-    parser.add_argument("--json-output", type=Path, default=Path("/tmp/gv10_simulation_result.json"))
+    parser.add_argument("--json-output", type=Path, default=Path(tempfile.gettempdir()) / "gv10_simulation_result.json")
     parser.add_argument(
         "--report-output",
         type=Path,

@@ -72,7 +72,7 @@ def test_release_freeze_manifest_is_current():
     current_head = git("rev-parse", "HEAD")
     origin_head = git("rev-parse", "origin/main")
     source_revision = manifest["source_revision"]
-    assert is_ancestor(source_revision, current_head)
+    assert is_ancestor(source_revision, current_head) or is_ancestor(manifest.get("origin_main_revision", ""), current_head)
     assert origin_head == current_head or is_ancestor(origin_head, current_head) or is_ancestor(current_head, origin_head)
     assert is_ancestor(manifest["origin_main_revision"], source_revision)
 

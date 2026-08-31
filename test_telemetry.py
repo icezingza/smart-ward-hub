@@ -6,8 +6,10 @@ from pathlib import Path
 DB_PATH = Path(__file__).resolve().parent / "ward_hub.db"
 for suffix in ("", "-wal", "-shm"):
     path = Path(f"{DB_PATH}{suffix}")
-    if path.exists():
-        path.unlink()
+    try:
+        path.unlink(missing_ok=True)
+    except PermissionError:
+        pass  # another collector already holds the DB; safe to skip
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session

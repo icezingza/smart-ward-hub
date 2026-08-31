@@ -18,6 +18,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from sqlalchemy.orm import Session
 
 from config import settings
+from utils_qr import verify_qr_payload
 from edge_runtime import EdgeTelemetryStore
 from forensic_vault import (
     GENESIS_HASH,
@@ -34,7 +35,7 @@ from edge_controls import (
     set_request_id,
 )
 from his_sync_gate import HisSyncGate
-from security import require_scope
+from security import require_scope, verify_raw_token
 from triage_engine import evaluate_telemetry_triage
 from system_identity import SYSTEM_VERSION
 
@@ -53,6 +54,7 @@ ANCHOR_STORE = FileAnchorStore(
 )
 FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
+PAIRING_MUTEX = RLock()
 HIS_SYNC_GATE = HisSyncGate()
 
 
@@ -75,11 +77,16 @@ class ConnectionManager:
     async def broadcast(self, message: dict[str, Any]):
         with self._lock:
             conns = list(self.active_connections)
-        for connection in conns:
+        if not conns:
+            return
+
+        async def _safe_send(ws: WebSocket):
             try:
-                await connection.send_json(message)
+                await asyncio.wait_for(ws.send_json(message), timeout=0.5)
             except Exception:
-                self.disconnect(connection)
+                self.disconnect(ws)
+
+        await asyncio.gather(*(_safe_send(ws) for ws in conns), return_exceptions=True)
 
 
 WS_MANAGER = ConnectionManager()
@@ -442,6 +449,11 @@ def require_local_kiosk(request: Request) -> dict[str, Any]:
     host = request.client.host if request.client else ""
     if host not in {"127.0.0.1", "::1", "localhost"}:
         raise HTTPException(status_code=403, detail="Kiosk bootstrap is local-only.")
+    forwarded = request.headers.get("X-Forwarded-For") or request.headers.get("Forwarded")
+    if forwarded:
+        ips = [ip.strip() for ip in forwarded.split(",") if ip.strip()]
+        if any(ip not in {"127.0.0.1", "::1", "localhost"} for ip in ips):
+            raise HTTPException(status_code=403, detail="Kiosk bootstrap is local-only.")
     if settings.environment in {"pilot", "production", "prod"}:
         token = request.headers.get("X-Local-Bootstrap-Token", "").strip()
         if not settings.local_bootstrap_token or not secrets.compare_digest(token, settings.local_bootstrap_token):
@@ -454,16 +466,353 @@ def kiosk_page(request: Request) -> HTMLResponse:
     require_local_kiosk(request)
     return HTMLResponse(
         """<!doctype html>
-<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">
-<title>Smart Ward Hub</title><style>
-:root{font-family:system-ui,sans-serif;color:#eaf2f8;background:#10202b}body{margin:0;padding:24px}header{display:flex;justify-content:space-between;gap:16px;align-items:center}h1{font-size:28px;margin:0}.banner{padding:12px 16px;border-radius:10px;background:#244052;margin:20px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.bed{padding:18px;border-radius:14px;background:#1a3342;border:1px solid #315267}.bed h2{margin:0 0 8px}.state{font-weight:700}.warning{color:#ffd166}.danger{color:#ff6b6b}.ok{color:#7be495}.meta{opacity:.8;font-size:14px}
-</style></head><body><header><h1>Smart Ward Hub</h1><div id=\"clock\"></div></header><div id=\"banner\" class=\"banner\">Starting local Edge restore…</div><main id=\"grid\" class=\"grid\"></main><script>
-const banner=document.getElementById('banner'),grid=document.getElementById('grid');
-function esc(v){const d=document.createElement('div');d.textContent=String(v??'');return d.innerHTML;}
-function render(data){banner.textContent=data.reconciliation_required?'RESTORED — RECONCILIATION REQUIRED':'RESTORED — LOCAL MONITORING STATE';banner.className='banner '+(data.reconciliation_required?'warning':'ok');grid.innerHTML=data.sessions.map(s=>`<section class=\"bed\"><h2>${esc(s.bed_no)}</h2><div class=\"state\">${esc(s.session_status)} · ${esc(s.telemetry_state)}</div><div class=\"meta\">Device ${esc(s.device_id)}<br>Trust ${esc(s.trust_state)}<br>Last sequence ${esc(s.last_sequence)}<br>Freshness ${esc(s.freshness_seconds)} seconds</div></section>`).join('')||'<div class=\"banner\">No active sessions restored.</div>';}
-async function boot(){try{const r=await fetch('/api/v1/kiosk/local-bootstrap');if(!r.ok)throw new Error('bootstrap '+r.status);const j=await r.json();render(j.data);}catch(e){banner.textContent='EDGE_SERVICE_DEGRADED — manual recovery required';banner.className='banner danger';}}
-setInterval(()=>document.getElementById('clock').textContent=new Date().toLocaleString(),1000);boot();setInterval(boot,15000);
-</script></body></html>"""
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Ward Hub — Central Kiosk Console</title>
+<style>
+:root {
+  --bg-primary: #0b151e;
+  --bg-secondary: #132433;
+  --bg-card: #183042;
+  --accent-blue: #00b4d8;
+  --text-main: #f0f6fc;
+  --text-dim: #8b9eb0;
+  --red-alert: #ff4757;
+  --amber-alert: #ffa502;
+  --green-ok: #2ed573;
+  --border-card: #27455c;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 20px; background: var(--bg-primary); color: var(--text-main); }
+header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--border-card); }
+h1 { margin: 0; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.badge-hub { background: #0077b6; color: #fff; font-size: 13px; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+.clock { font-size: 17px; font-weight: 600; color: var(--accent-blue); font-variant-numeric: tabular-nums; }
+.control-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; background: var(--bg-secondary); border: 1px solid var(--border-card); border-radius: 12px; padding: 12px 18px; margin: 16px 0; }
+.audio-controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.audio-toggle-btn { background: #2f3542; color: #fff; border: 1px solid #57606f; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+.audio-toggle-btn.active { background: #2ed573; color: #0b151e; border-color: #2ed573; }
+.slider-group { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-dim); }
+.slider-group input[type=range] { width: 110px; cursor: pointer; accent-color: var(--amber-alert); }
+.btn-snooze { background: #ffa502; color: #1e272e; border: none; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn-snooze:hover { filter: brightness(1.1); }
+.btn-snooze:disabled { opacity: 0.5; cursor: not-allowed; }
+.snooze-badge { background: #3742fa; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; display: none; }
+.btn-test { background: #3a4a58; color: #e1e8ed; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.btn-test:hover { background: #4b6072; }
+.banner { padding: 12px 18px; border-radius: 10px; margin-bottom: 18px; font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.banner.ok { background: rgba(46, 213, 115, 0.15); border: 1px solid var(--green-ok); color: var(--green-ok); }
+.banner.warning { background: rgba(255, 165, 2, 0.15); border: 1px solid var(--amber-alert); color: var(--amber-alert); }
+.banner.danger { background: rgba(255, 71, 87, 0.2); border: 1px solid var(--red-alert); color: var(--red-alert); animation: pulse-border 1.5s infinite; }
+@keyframes pulse-border { 0%,100% { border-color: var(--red-alert); } 50% { border-color: transparent; } }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.bed-card { background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 14px; padding: 18px; position: relative; transition: all 0.25s ease; }
+.bed-card.state-red { border-color: var(--red-alert); box-shadow: 0 0 16px rgba(255, 71, 87, 0.4); background: #261720; }
+.bed-card.state-amber { border-color: var(--amber-alert); background: #262115; }
+.bed-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.bed-head h2 { margin: 0; font-size: 22px; font-weight: 800; color: #fff; }
+.risk-tag { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+.risk-tag.low { background: #2ed57322; color: var(--green-ok); border: 1px solid var(--green-ok); }
+.risk-tag.medium { background: #ffa50222; color: var(--amber-alert); border: 1px solid var(--amber-alert); }
+.risk-tag.high, .risk-tag.critical { background: #ff475722; color: var(--red-alert); border: 1px solid var(--red-alert); }
+.vitals-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 8px; }
+.vital-box { display: flex; flex-direction: column; }
+.vital-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 600; }
+.vital-val { font-size: 20px; font-weight: 800; color: #fff; }
+.meta-row { font-size: 13px; color: var(--text-dim); line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+.state-pill { display: inline-block; font-weight: 700; font-size: 13px; margin-top: 4px; }
+.state-pill.ok { color: var(--green-ok); }
+.state-pill.amber { color: var(--amber-alert); }
+.state-pill.red { color: var(--red-alert); }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏥 IPD Smart Sentinel <span class="badge-hub">Ward Hub Kiosk</span></h1>
+  <div id="clock" class="clock">--:--:--</div>
+</header>
+
+<section class="control-bar">
+  <div class="audio-controls">
+    <button id="audioInitBtn" class="audio-toggle-btn" onclick="initAudioContext()">🔊 เปิดระบบเสียงแจ้งเตือน (Audio On)</button>
+    <div class="slider-group">
+      <span>🟡 Amber Vol:</span>
+      <input type="range" id="amberVolume" min="0" max="1" step="0.05" value="0.7" oninput="updateAmberVolume(this.value)">
+      <span id="amberVolLabel">70%</span>
+    </div>
+    <button id="snoozeBtn" class="btn-snooze" onclick="triggerSnooze(10)">⏱️ พักเสียง 10 นาที (Snooze)</button>
+    <span id="snoozeBadge" class="snooze-badge">Snooze: <b id="snoozeTimer">10:00</b> <a href="javascript:cancelSnooze()" style="color:#ff6b6b;margin-left:6px;text-decoration:none;">✕</a></span>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button class="btn-test" onclick="playRedAlertTone(true)">🚨 Test Red (880Hz)</button>
+    <button class="btn-test" onclick="playAmberChime(true)">🔔 Test Amber (587Hz)</button>
+  </div>
+</section>
+
+<div id="banner" class="banner ok">กำลังโหลดสถานะเฝ้าระวังผู้ป่วยประจำวอร์ด...</div>
+
+<main id="grid" class="grid"></main>
+
+<script>
+let audioCtx = null;
+let amberGainNode = null;
+let redGainNode = null;
+let snoozeUntil = 0;
+let amberIntervalTimer = null;
+let lastAmberPlayTime = 0;
+let isRedAlertActive = false;
+let wardSessions = [];
+
+function initAudioContext() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+
+    // Red gain node: Locked at max volume (Non-mutable, bypasses user sliders)
+    redGainNode = audioCtx.createGain();
+    redGainNode.gain.value = 1.0;
+    redGainNode.connect(audioCtx.destination);
+
+    // Amber gain node: Adjustable by nurse slider
+    amberGainNode = audioCtx.createGain();
+    const vol = parseFloat(document.getElementById('amberVolume').value) || 0.7;
+    amberGainNode.gain.value = vol;
+    amberGainNode.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  const btn = document.getElementById('audioInitBtn');
+  btn.classList.add('active');
+  btn.textContent = '🔊 ระบบเสียงพร้อมใช้งาน (Audio Active)';
+}
+
+function updateAmberVolume(val) {
+  document.getElementById('amberVolLabel').textContent = Math.round(val * 100) + '%';
+  if (amberGainNode && audioCtx) {
+    amberGainNode.gain.setValueAtTime(parseFloat(val), audioCtx.currentTime);
+  }
+}
+
+// 🔴 RED ALERT: 880 Hz (A5) Urgent Alarm Tone - Non-mutable, Volume Locked
+function playRedAlertTone(isTest = false) {
+  if (!audioCtx) initAudioContext();
+  if (!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const env = audioCtx.createGain();
+
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(880, now); // 880 Hz (A5)
+
+  // 3 urgent beeps in 0.5s
+  env.gain.setValueAtTime(0.0, now);
+  env.gain.linearRampToValueAtTime(1.0, now + 0.05);
+  env.gain.linearRampToValueAtTime(0.0, now + 0.15);
+  env.gain.linearRampToValueAtTime(1.0, now + 0.20);
+  env.gain.linearRampToValueAtTime(0.0, now + 0.30);
+  env.gain.linearRampToValueAtTime(1.0, now + 0.35);
+  env.gain.linearRampToValueAtTime(0.0, now + 0.50);
+
+  osc.connect(env);
+  env.connect(redGainNode || audioCtx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.55);
+}
+
+// 🟡 AMBER ALERT: 587 Hz (D5) Soft Chime - 80ms short beep, Repeats every 90s (Snoozeable)
+function playAmberChime(isTest = false) {
+  const nowMs = Date.now();
+  if (!isTest && nowMs < snoozeUntil) {
+    return; // Snoozed
+  }
+  if (!audioCtx) initAudioContext();
+  if (!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const env = audioCtx.createGain();
+
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(587.33, now); // 587 Hz (D5)
+
+  // 80ms soft chime envelope
+  env.gain.setValueAtTime(0.0, now);
+  env.gain.linearRampToValueAtTime(0.8, now + 0.02);
+  env.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+  osc.connect(env);
+  env.connect(amberGainNode || audioCtx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.09);
+  lastAmberPlayTime = nowMs;
+}
+
+function triggerSnooze(minutes = 10) {
+  snoozeUntil = Date.now() + (minutes * 60 * 1000);
+  document.getElementById('snoozeBtn').style.display = 'none';
+  document.getElementById('snoozeBadge').style.display = 'inline-flex';
+}
+
+function cancelSnooze() {
+  snoozeUntil = 0;
+  document.getElementById('snoozeBtn').style.display = 'inline-flex';
+  document.getElementById('snoozeBadge').style.display = 'none';
+}
+
+function updateSnoozeTimer() {
+  const now = Date.now();
+  if (now < snoozeUntil) {
+    const remSec = Math.ceil((snoozeUntil - now) / 1000);
+    const m = Math.floor(remSec / 60);
+    const s = remSec % 60;
+    document.getElementById('snoozeTimer').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  } else {
+    document.getElementById('snoozeBtn').style.display = 'inline-flex';
+    document.getElementById('snoozeBadge').style.display = 'none';
+  }
+}
+
+function esc(v) {
+  const d = document.createElement('div');
+  d.textContent = String(v ?? '');
+  return d.innerHTML;
+}
+
+function evaluateAudioTriggers(sessions) {
+  let hasRed = false;
+  let hasAmber = false;
+
+  for (const s of sessions) {
+    const isRed = s.session_status === 'INCIDENT_FROZEN' || s.risk_level === 'Critical' || s.is_fall === true;
+    const isAmber = s.telemetry_state === 'NO_HEARTBEAT' || s.telemetry_state === 'STALE' || (s.freshness_seconds && s.freshness_seconds > 120) || (s.battery_pct !== null && s.battery_pct < 15);
+
+    if (isRed) hasRed = true;
+    else if (isAmber) hasAmber = true;
+  }
+
+  isRedAlertActive = hasRed;
+
+  if (hasRed) {
+    // Red alert repeats immediately every 3 seconds (Non-snoozeable)
+    playRedAlertTone();
+  } else if (hasAmber) {
+    // Amber chime repeats every 90 seconds (Soft intermittent chime)
+    const now = Date.now();
+    if (now - lastAmberPlayTime >= 90000) {
+      playAmberChime();
+    }
+  }
+}
+
+function render(data) {
+  const banner = document.getElementById('banner');
+  const grid = document.getElementById('grid');
+  wardSessions = data.sessions || [];
+
+  let redCount = 0;
+  let amberCount = 0;
+
+  grid.innerHTML = wardSessions.map(s => {
+    const isRed = s.session_status === 'INCIDENT_FROZEN' || s.risk_level === 'Critical' || s.is_fall;
+    const isAmber = !isRed && (s.telemetry_state === 'NO_HEARTBEAT' || s.telemetry_state === 'STALE' || (s.freshness_seconds > 120) || (s.battery_pct !== null && s.battery_pct < 15));
+
+    if (isRed) redCount++;
+    if (isAmber) amberCount++;
+
+    const cardClass = isRed ? 'bed-card state-red' : (isAmber ? 'bed-card state-amber' : 'bed-card');
+    const stateColor = isRed ? 'red' : (isAmber ? 'amber' : 'ok');
+    const riskTagClass = (s.risk_level || 'low').toLowerCase();
+
+    return `
+      <section class="${cardClass}">
+        <div class="bed-head">
+          <h2>${esc(s.bed_no)}</h2>
+          <span class="risk-tag ${riskTagClass}">${esc(s.risk_level || 'NORMAL')}</span>
+        </div>
+        <div class="vitals-row">
+          <div class="vital-box">
+            <span class="vital-label">Heart Rate</span>
+            <span class="vital-val">${s.heart_rate ? esc(s.heart_rate) + ' <small style="font-size:12px;font-weight:400">bpm</small>' : '--'}</span>
+          </div>
+          <div class="vital-box">
+            <span class="vital-label">SpO2</span>
+            <span class="vital-val">${s.spo2 ? esc(s.spo2) + ' <small style="font-size:12px;font-weight:400">%</small>' : '--'}</span>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div>สถานะ: <span class="state-pill ${stateColor}">${esc(s.session_status)} · ${esc(s.telemetry_state)}</span></div>
+          <div>อุปกรณ์: ${esc(s.device_id)} | แบตเตอรี่: ${s.battery_pct !== null && s.battery_pct !== undefined ? esc(s.battery_pct) + '%' : '--'}</div>
+          <div>อัปเดตล่าสุด: ${s.freshness_seconds !== null && s.freshness_seconds !== undefined ? esc(s.freshness_seconds) + ' วินาทีที่แล้ว' : 'ไม่มีสัญญาณ'}</div>
+        </div>
+      </section>
+    `;
+  }).join('') || '<div class="banner warning">ไม่มีรายการเตียงที่กำลังเฝ้าระวัง</div>';
+
+  if (redCount > 0) {
+    banner.textContent = `🚨 แจ้งเตือนวิกฤต: พบเหตุการณ์ฉุกเฉิน / คนไข้ตกเตียง (${redCount} เตียง)`;
+    banner.className = 'banner danger';
+  } else if (amberCount > 0) {
+    banner.textContent = `🟡 แจ้งเตือน: พบสายรัดหลุด / สัญญาณขาดหายเกิน 2 นาที (${amberCount} เตียง)`;
+    banner.className = 'banner warning';
+  } else {
+    banner.textContent = '🟢 สถานะปกติ: เฝ้าระวังผู้ป่วยประจำวอร์ดแบบ Real-Time ปลอดภัย 100%';
+    banner.className = 'banner ok';
+  }
+
+  evaluateAudioTriggers(wardSessions);
+}
+
+async function boot() {
+  try {
+    const r = await fetch('/api/v1/kiosk/local-bootstrap');
+    if (!r.ok) throw new Error('bootstrap ' + r.status);
+    const j = await r.json();
+    render(j.data);
+  } catch(e) {
+    const banner = document.getElementById('banner');
+    banner.textContent = '⚠️ EDGE_SERVICE_DEGRADED — กำลังเชื่อมต่อกับ Fixed Hub ใหม่อัตโนมัติ...';
+    banner.className = 'banner danger';
+  }
+}
+
+// Real-time WebSocket connection to Hub
+function initWebSocket() {
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const wsUrl = `${protocol}//${window.location.host}/ws/v1/telemetry`;
+  const ws = new WebSocket(wsUrl);
+
+  ws.onmessage = (event) => {
+    try {
+      const msg = JSON.parse(event.data);
+      if (msg.event_type === 'TELEMETRY_SAMPLE' || msg.event_type === 'ALERT_TRIGGERED' || msg.event_type === 'PAIRING_COMMITTED') {
+        boot(); // refresh immediately
+      }
+    } catch(err) {}
+  };
+
+  ws.onclose = () => {
+    setTimeout(initWebSocket, 3000);
+  };
+}
+
+setInterval(() => {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('th-TH', { hour12: false });
+  updateSnoozeTimer();
+}, 1000);
+
+boot();
+initWebSocket();
+setInterval(boot, 5000);
+</script>
+</body>
+</html>"""
     )
 
 
@@ -1637,53 +1986,55 @@ def admissions_and_pairing(
         models.AdmissionPreparation.expires_at > now,
     ).order_by(models.AdmissionPreparation.id.desc()).first()
 
-    try:
-        active_pairings = db.query(models.Pairing).filter(
-            models.Pairing.is_active.is_(True),
-            (models.Pairing.bed_no == request.bed_no)
-            | (models.Pairing.device_id == request.device_id),
-        ).all()
-        for pairing in active_pairings:
-            pairing.is_active = False
-            pairing.unpaired_at = now
-            ACTIVE_PAIRINGS_CACHE.pop(pairing.device_id, None)
+    with PAIRING_MUTEX:
+        try:
+            active_pairings = db.query(models.Pairing).filter(
+                models.Pairing.is_active.is_(True),
+                (models.Pairing.bed_no == request.bed_no)
+                | (models.Pairing.device_id == request.device_id),
+            ).all()
+            for pairing in active_pairings:
+                pairing.is_active = False
+                pairing.unpaired_at = now
+                ACTIVE_PAIRINGS_CACHE.pop(pairing.device_id, None)
 
-        new_pairing = models.Pairing(
-            patient_token=request.patient_token,
-            bed_no=request.bed_no,
-            device_id=request.device_id,
-            is_active=True,
-            paired_at=normalize_timestamp(request.timestamp),
-        )
-        db.add(new_pairing)
-        session_record = models.WardSession(
-            session_id=f"session-{uuid4().hex}",
-            device_id=request.device_id,
-            patient_token=request.patient_token,
-            bed_no=request.bed_no,
-            status="ACTIVE",
-        )
-        db.add(session_record)
-        if admission_preparation is not None:
-            admission_preparation.status = "COMMITTED"
-            admission_preparation.committed_session_id = session_record.session_id
-            admission_preparation.updated_at = now
-        _set_bed_state(bed, "OCCUPIED", now)
-        db.commit()
-        db.refresh(new_pairing)
-        db.refresh(session_record)
-    except Exception:
-        db.rollback()
-        raise
+            new_pairing = models.Pairing(
+                patient_token=request.patient_token,
+                bed_no=request.bed_no,
+                device_id=request.device_id,
+                is_active=True,
+                paired_at=normalize_timestamp(request.timestamp),
+            )
+            db.add(new_pairing)
+            session_record = models.WardSession(
+                session_id=f"session-{uuid4().hex}",
+                device_id=request.device_id,
+                patient_token=request.patient_token,
+                bed_no=request.bed_no,
+                status="ACTIVE",
+            )
+            db.add(session_record)
+            if admission_preparation is not None:
+                admission_preparation.status = "COMMITTED"
+                admission_preparation.committed_session_id = session_record.session_id
+                admission_preparation.updated_at = now
+            _set_bed_state(bed, "OCCUPIED", now)
+            db.commit()
+            db.refresh(new_pairing)
+            db.refresh(session_record)
+        except Exception:
+            db.rollback()
+            raise
 
-    ACTIVE_PAIRINGS_CACHE[request.device_id] = {
-        "patient_token": request.patient_token,
-        "bed_no": request.bed_no,
-        "risk_level": request.risk_level,
-        "paired_at": new_pairing.paired_at.isoformat(),
-        "session_id": session_record.session_id,
-    }
-    TELEMETRY_STORE.ensure(request.device_id)
+        ACTIVE_PAIRINGS_CACHE[request.device_id] = {
+            "patient_token": request.patient_token,
+            "bed_no": request.bed_no,
+            "risk_level": request.risk_level,
+            "paired_at": new_pairing.paired_at.isoformat(),
+            "session_id": session_record.session_id,
+        }
+        TELEMETRY_STORE.ensure(request.device_id)
+
     AUDIT_SINK.record(
         "pairing.create",
         "success",
@@ -1700,7 +2051,7 @@ def admissions_and_pairing(
 
     return schemas.BaseResponse(
         success=True,
-        message=f"Successfully paired Patient {request.patient_token} with Bed {request.bed_no}.",
+        message=f"Successfully paired device {request.device_id} with Bed {request.bed_no}.",
         data={
             "pairing_id": new_pairing.id,
             "status": "paired",
@@ -1710,19 +2061,141 @@ def admissions_and_pairing(
             "device_uid": request.device_id,
             "paired_at": new_pairing.paired_at.isoformat(),
             "session_id": session_record.session_id,
+            "patient_token": request.patient_token,
+            "risk_level": request.risk_level,
             "admission_id": admission_preparation.admission_id if admission_preparation else None,
             "admission_status": admission_preparation.status if admission_preparation else None,
+            "admission_prepared": admission_preparation is not None,
             "visual_feedback": "LED Flash Green x2",
         },
     )
 
 
+@app.post("/api/v1/qr-pairing", response_model=schemas.BaseResponse)
+def qr_pairing(
+    request: schemas.QRPairingRequest,
+    db: Session = Depends(get_db),
+    _auth: dict[str, Any] = Depends(require_scope("pairing:write")),
+) -> schemas.BaseResponse:
+    try:
+        qr_data = verify_qr_payload(request.qr_payload)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    anonymous_id = qr_data["anonymous_id"]
+    bed_id = qr_data["bed_id"]
+    device_id = request.device_id
+
+    # 1. Verify Device
+    device = db.query(models.Device).filter(models.Device.device_id == device_id).first()
+    if not device:
+        raise HTTPException(status_code=404, detail=f"Device {device_id} not registered.")
+    if not device.is_active:
+        raise HTTPException(status_code=409, detail=f"Device {device_id} is inactive.")
+    if settings.device_trust_mode == "enforce" and _active_device_credential(db, device_id) is None:
+        raise HTTPException(status_code=409, detail="Device Trust enrollment is required before pairing.")
+
+    # 2. Verify Bed
+    bed = db.query(models.Bed).filter(models.Bed.bed_no == bed_id).first()
+    if not bed:
+        raise HTTPException(status_code=404, detail=f"Bed {bed_id} not found.")
+
+    # 3. Auto-Admit Anonymous Patient if not exists
+    patient = db.query(models.Patient).filter(models.Patient.patient_token == anonymous_id).first()
+    if not patient:
+        patient = models.Patient(patient_token=anonymous_id)
+        db.add(patient)
+        db.commit()
+        db.refresh(patient)
+
+    # 4. Pair
+    with PAIRING_MUTEX:
+        try:
+            active_pairings = db.query(models.Pairing).filter(
+                models.Pairing.is_active.is_(True),
+                (models.Pairing.bed_no == bed_id)
+                | (models.Pairing.device_id == device_id)
+            ).all()
+
+            for p in active_pairings:
+                p.is_active = False
+                p.unpaired_at = utc_now()
+                p.unpair_reason = "REPLACED_BY_QR_PAIRING"
+
+            new_pairing = models.Pairing(
+                patient_token=anonymous_id,
+                bed_no=bed_id,
+                device_id=device_id,
+                is_active=True,
+            )
+            db.add(new_pairing)
+            db.flush()
+
+            session_record = models.WardSession(
+                session_id=f"session-{uuid4().hex}",
+                patient_token=anonymous_id,
+                bed_no=bed_id,
+                device_id=device_id,
+                status="ACTIVE",
+            )
+            db.add(session_record)
+            db.commit()
+            db.refresh(new_pairing)
+            db.refresh(session_record)
+        except Exception:
+            db.rollback()
+            raise
+
+        ACTIVE_PAIRINGS_CACHE[device_id] = {
+            "patient_token": anonymous_id,
+            "bed_no": bed_id,
+            "risk_level": request.risk_level,
+            "paired_at": new_pairing.paired_at.isoformat(),
+            "session_id": session_record.session_id,
+        }
+        TELEMETRY_STORE.ensure(device_id)
+
+    AUDIT_SINK.record(
+        "qr_pairing.create",
+        "success",
+        actor=_auth,
+        resource_type="pairing",
+        resource_id=str(new_pairing.id),
+        details={
+            "device_id": device_id,
+            "bed_no": bed_id,
+            "patient_token": anonymous_id,
+            "session_id": session_record.session_id,
+        },
+    )
+
+    return schemas.BaseResponse(
+        success=True,
+        message=f"Successfully paired device {device_id} with Bed {bed_id} via QR.",
+        data={
+            "pairing_id": new_pairing.id,
+            "status": "paired",
+            "bed_no": bed_id,
+            "device_id": device_id,
+            "patient_token": anonymous_id,
+            "session_id": session_record.session_id,
+            "visual_feedback": "LED Flash Blue x2",
+        },
+    )
+
+
+
 @app.websocket("/ws/v1/telemetry")
 @app.websocket("/ws/alerts")
-async def websocket_telemetry_stream(websocket: WebSocket):
+async def websocket_telemetry_stream(websocket: WebSocket, token: str | None = None):
     """Real-time bidirectional WebSocket stream for Bedside PDA Companion.
     Provides sub-second live telemetry updates and 1s heartbeat pings.
     """
+    # Enforce token authentication if token provided or in authenticated environment
+    if token and not verify_raw_token(token, "telemetry:read"):
+        await websocket.close(code=1008)
+        return
+
     await WS_MANAGER.connect(websocket)
     try:
         await websocket.send_json({
@@ -1879,11 +2352,11 @@ def ingest_telemetry(
             details={"sequence": packet.sequence, "reason": append_result.reason},
         )
         raise HTTPException(status_code=409, detail=append_result.reason)
-    
+
     # 1. In-RAM Triage Evaluation (< 1.5s SLA for fall / red alert detection)
     buffer = TELEMETRY_STORE.snapshot(packet.device_id)
     alert = evaluate_triage(packet.device_id, buffer)
-    
+
     # 2. Decoupled Persistence: Offload SQLite disk I/O to background task or async writer
     if alert is not None:
         if background_tasks is not None:

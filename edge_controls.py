@@ -84,10 +84,39 @@ class SlidingWindowRateLimiter:
 
 
 class AuditSink:
+    """Tamper-evident audit log sink protected by SHA-256 hash chaining."""
+
+    GENESIS_HASH = "0" * 64
+
     def __init__(self, path: Path, fsync: bool = True) -> None:
         self.path = path
         self.fsync = fsync
         self._lock = threading.RLock()
+        self._head_hash = self.GENESIS_HASH
+        self._init_head_hash()
+
+    def _init_head_hash(self) -> None:
+        with self._lock:
+            if self.path.exists():
+                try:
+                    with self.path.open("r", encoding="utf-8") as handle:
+                        for line in handle:
+                            line = line.strip()
+                            if line:
+                                entry = json.loads(line)
+                                if "entry_hash" in entry:
+                                    self._head_hash = entry["entry_hash"]
+                except Exception:
+                    pass
+
+    @property
+    def head_hash(self) -> str:
+        with self._lock:
+            return self._head_hash
+
+    @staticmethod
+    def _canonical_json(value: dict[str, Any]) -> str:
+        return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
     def record(
         self,
@@ -99,19 +128,25 @@ class AuditSink:
         resource_id: str | None = None,
         details: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        event = {
-            "event_version": "1.0",
-            "event_type": event_type,
-            "outcome": outcome,
-            "request_id": current_request_id(),
-            "occurred_at": datetime.now(timezone.utc).isoformat(),
-            "actor": _sanitize_actor(actor),
-            "resource_type": resource_type,
-            "resource_id": resource_id,
-            "details": _redact(details or {}),
-        }
-        line = json.dumps(event, sort_keys=True, separators=(",", ":")) + "\n"
         with self._lock:
+            prev_hash = self._head_hash
+            event = {
+                "event_version": "1.0",
+                "event_type": event_type,
+                "outcome": outcome,
+                "request_id": current_request_id(),
+                "occurred_at": datetime.now(timezone.utc).isoformat(),
+                "actor": _sanitize_actor(actor),
+                "resource_type": resource_type,
+                "resource_id": resource_id,
+                "details": _redact(details or {}),
+                "previous_hash": prev_hash,
+            }
+            entry_hash = hashlib.sha256(self._canonical_json(event).encode("utf-8")).hexdigest()
+            event["entry_hash"] = entry_hash
+            self._head_hash = entry_hash
+
+            line = self._canonical_json(event) + "\n"
             with self.path.open("a", encoding="utf-8") as handle:
                 handle.write(line)
                 handle.flush()
@@ -119,6 +154,29 @@ class AuditSink:
                     import os
                     os.fsync(handle.fileno())
         return event
+
+    def verify_integrity(self, expected_head_hash: str | None = None) -> bool:
+        with self._lock:
+            if not self.path.exists():
+                return True
+            prev = self.GENESIS_HASH
+            with self.path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    entry = json.loads(line)
+                    recorded_hash = entry.get("entry_hash")
+                    if entry.get("previous_hash") != prev:
+                        return False
+                    unsigned = {k: v for k, v in entry.items() if k != "entry_hash"}
+                    expected_hash = hashlib.sha256(self._canonical_json(unsigned).encode("utf-8")).hexdigest()
+                    if recorded_hash != expected_hash:
+                        return False
+                    prev = recorded_hash
+            if expected_head_hash is not None and prev != expected_head_hash:
+                return False
+            return True
 
 
 class AnchorStore(Protocol):

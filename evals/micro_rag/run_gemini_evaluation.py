@@ -334,7 +334,7 @@ def run() -> int:
         report["model_specific_status"] = "REQUIRES_REVIEW"
     report["clinical_validity"] = "PENDING"
     report["runtime_authority"] = "NONE"
-    output_path = Path(os.getenv("SMART_WARD_MODEL_EVAL_OUTPUT", f"/tmp/{run_id}.json"))
+    output_path = Path(os.getenv("SMART_WARD_MODEL_EVAL_OUTPUT", Path(tempfile.gettempdir()) / f"{run_id}.json"))
     output_path.write_text(json.dumps(report, ensure_ascii=True, indent=2), encoding="utf-8")
     print(json.dumps({"suite": report["suite"], "model_id": model, "passed_cases": passed, "total_cases": len(cases), "status": report["model_specific_status"], "report_path": str(output_path)}, sort_keys=True))
     return 0 if passed == len(cases) else 2
