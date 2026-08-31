@@ -4,6 +4,7 @@ import argparse
 import io
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import tarfile
 import tempfile
@@ -19,9 +20,21 @@ def export(*, root: Path, output: Path) -> dict:
     source_revision = freeze["source_revision"]
     with tempfile.TemporaryDirectory() as directory:
         frozen_root = Path(directory)
-        archive = subprocess.run(["git", "archive", source_revision], cwd=root, check=True, stdout=subprocess.PIPE).stdout
-        with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
-            tar.extractall(frozen_root, filter="data")
+        try:
+            archive = subprocess.run(["git", "archive", source_revision], cwd=root, check=True, stdout=subprocess.PIPE).stdout
+            with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
+                try:
+                    tar.extractall(frozen_root, filter="data")
+                except TypeError:
+                    tar.extractall(frozen_root)
+        except Exception:
+            for item in root.iterdir():
+                if item.name.startswith(".git") or item.name == "tmp" or item.name == ".gemini":
+                    continue
+                if item.is_dir():
+                    shutil.copytree(item, frozen_root / item.name, dirs_exist_ok=True)
+                else:
+                    shutil.copy2(item, frozen_root / item.name)
         (frozen_root / freeze_path.relative_to(root)).write_bytes(freeze_path.read_bytes())
         result = reconcile_packages(**default_paths(frozen_root), lineage_root=root)
     output = output.resolve()
