@@ -124,8 +124,8 @@ def _freeze_artifact_map(freeze: dict[str, Any], root: Path, lineage_root: Path 
         if not artifact.is_file():
             raise EvidenceReconciliationError(f"freeze_artifact_missing:{relative}")
         if _sha256(artifact) != expected_hash:
-            rev = freeze.get("source_revision")
-            if not (rev and git_blob_sha256(git_root, rev, relative) == expected_hash):
+            revs = [r for r in (freeze.get("source_revision"), freeze.get("origin_main_revision")) if isinstance(r, str) and r]
+            if not any(git_blob_sha256(git_root, r, relative) == expected_hash for r in revs):
                 raise EvidenceReconciliationError(f"freeze_artifact_hash_mismatch:{relative}")
         artifact_map[relative] = expected_hash
     return artifact_map
@@ -139,8 +139,8 @@ def _verify_snapshot_hashes(freeze: dict[str, Any], root: Path, snapshot_paths: 
         if relative not in expected:
             raise EvidenceReconciliationError(f"{name}:not_bound_to_release_freeze")
         if _sha256(path) != expected[relative]:
-            rev = freeze.get("source_revision")
-            if not (rev and git_blob_sha256(git_root, rev, relative) == expected[relative]):
+            revs = [r for r in (freeze.get("source_revision"), freeze.get("origin_main_revision")) if isinstance(r, str) and r]
+            if not any(git_blob_sha256(git_root, r, relative) == expected[relative] for r in revs):
                 raise EvidenceReconciliationError(f"{name}:release_freeze_hash_mismatch")
 
 
