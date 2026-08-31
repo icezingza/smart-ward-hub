@@ -6,8 +6,10 @@ os.environ.pop("SW_AUTH_TOKENS_JSON", None)
 DB_PATH = Path(__file__).resolve().parent / "ward_hub.db"
 for suffix in ("", "-wal", "-shm"):
     path = Path(f"{DB_PATH}{suffix}")
-    if path.exists():
-        path.unlink()
+    try:
+        path.unlink(missing_ok=True)
+    except PermissionError:
+        pass
 
 from fastapi.testclient import TestClient
 
