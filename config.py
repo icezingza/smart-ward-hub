@@ -25,7 +25,8 @@ def _csv_env(name: str, default: list[str]) -> list[str]:
 def _token_config() -> dict[str, set[str]]:
     raw = os.getenv("SW_AUTH_TOKENS_JSON", "").strip()
     if not raw:
-        return {}
+        # Default local developer/simulation token
+        return {"test-token": {"admin", "telemetry:read", "telemetry:write", "pairing:write"}}
     try:
         parsed: dict[str, list[str]] = json.loads(raw)
     except json.JSONDecodeError as exc:

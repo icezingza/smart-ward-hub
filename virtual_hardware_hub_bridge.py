@@ -5,6 +5,7 @@ and broadcasts via WebSockets for the Mobile Bedside PDA companion.
 """
 
 import asyncio
+from datetime import datetime, timezone
 import logging
 import math
 import random
@@ -26,7 +27,7 @@ class VirtualWristband:
         self.patient_token = patient_token
         self.device_uid = device_uid
         self.placement = placement
-        self.sequence_number = 1
+        self.sequence_number = int(time.time() * 10) % 1_000_000
         self.battery_pct = 95
         self.base_hr = random.randint(68, 78)
         self.base_spo2 = random.randint(97, 99)
@@ -56,17 +57,20 @@ class VirtualWristband:
         if random.random() < 0.05 and self.battery_pct > 15:
             self.battery_pct -= 1
 
+        iso_now = datetime.now(timezone.utc).isoformat()
         return {
-            "version": 1,
+            "schema_version": "1.0",
             "device_id": self.device_uid,
-            "bed_id": self.bed_id,
-            "sequence_number": self.sequence_number,
-            "timestamp": now,
-            "heart_rate": hr,
-            "spo2": spo2,
-            "battery_pct": self.battery_pct,
-            "g_force": g_force,
-            "placement": self.placement,
+            "sequence": self.sequence_number,
+            "timestamp": iso_now,
+            "ppg": float(hr),
+            "accel_x": 0.0,
+            "accel_y": 0.0,
+            "accel_z": float(g_force),
+            "skin_temp": 36.6,
+            "battery_pct": float(self.battery_pct),
+            "heart_rate": float(hr),
+            "spo2": float(spo2),
         }
 
 
@@ -80,13 +84,31 @@ class VirtualWardSimulator:
             self.bands.append(VirtualWristband(bed_id, pat_token, dev_uid))
 
     async def pair_all_beds(self, client: httpx.AsyncClient) -> int:
+        # Seed test beds and devices in DB if not exist
+        try:
+            from database import SessionLocal
+            import models
+            db = SessionLocal()
+            for band in self.bands:
+                if not db.query(models.Bed).filter(models.Bed.bed_no == band.bed_id).first():
+                    db.add(models.Bed(bed_no=band.bed_id, ward_id="WARD-ICU"))
+                if not db.query(models.Patient).filter(models.Patient.patient_token == band.patient_token).first():
+                    db.add(models.Patient(patient_token=band.patient_token))
+                if not db.query(models.Device).filter(models.Device.device_id == band.device_uid).first():
+                    db.add(models.Device(device_id=band.device_uid, is_active=True))
+            db.commit()
+            db.close()
+        except Exception as err:
+            logger.debug("Local seed note: %s", err)
+
         paired_count = 0
         for band in self.bands:
             payload = {
-                "bed_id": band.bed_id,
+                "bed_no": band.bed_id,
                 "patient_token": band.patient_token,
-                "device_uid": band.device_uid,
+                "device_id": band.device_uid,
                 "placement_position": band.placement,
+                "risk_level": "Low",
             }
             try:
                 resp = await client.post(
@@ -127,4 +149,4 @@ class VirtualWardSimulator:
 
 if __name__ == "__main__":
     sim = VirtualWardSimulator(30)
-    asyncio.run(sim.stream_telemetry_loop(duration_seconds=5))
+    asyncio.run(sim.stream_telemetry_loop(duration_seconds=3600))

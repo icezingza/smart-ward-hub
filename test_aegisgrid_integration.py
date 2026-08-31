@@ -172,6 +172,27 @@ def test_tamper_evident_audit_and_worm_checkpoint() -> None:
         except AuditLogIntegrityError:
             pass  # Expected fail-closed behavior
 
+    # Also test edge_controls.AuditSink SHA-256 hash chaining
+    with tempfile.TemporaryDirectory() as tmpdir:
+        sink_path = Path(tmpdir) / "audit_sink.jsonl"
+        from edge_controls import AuditSink
+        sink = AuditSink(sink_path)
+        sink.record("user.login", "success", actor={"role": "nurse", "subject": "nurse-01"})
+        sink.record("bed.pairing", "success", resource_type="bed", resource_id="BED-01")
+        assert sink.verify_integrity() is True
+
+        # Tamper sink file
+        with open(sink_path, "r", encoding="utf-8") as f:
+            sink_lines = f.readlines()
+        entry = json.loads(sink_lines[0])
+        entry["outcome"] = "tampered"
+        sink_lines[0] = json.dumps(entry) + "\n"
+        with open(sink_path, "w", encoding="utf-8") as f:
+            f.writelines(sink_lines)
+        
+        tampered_sink = AuditSink(sink_path)
+        assert tampered_sink.verify_integrity() is False
+
     print("  --> Tamper-Evident Audit & WORM Checkpoint: PASSED")
 
 
