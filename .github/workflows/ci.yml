@@ -61,7 +61,9 @@ jobs:
         run: git diff --check
 
       - name: Fetch all remote refs for freeze lineage resolution
-        run: git fetch origin '+refs/heads/*:refs/remotes/origin/*' --no-tags --quiet
+        run: |
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*' --no-tags --quiet || true
+          git fetch origin b701c6635fda46f5c89f8005cdc2b38fa05d1566 --quiet || true
 
       - name: Run master regression suite
         run: python run_all_tests.py
