@@ -27,6 +27,7 @@ TESTS = [
     "test_system_identity.py",
     "test_fhir.py",
     "test_security.py",
+    "test_license_enforcer_and_clinical_safety.py",
     "test_auth_fail_closed.py",
     "test_audit_hardening.py",
     "test_sentinel_specs.py",
