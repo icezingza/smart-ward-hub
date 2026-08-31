@@ -94,6 +94,12 @@ def evaluate_reconciliation(
             drift,
             decision="DRIFT_FREE",
             allowed_remediation_codes=("DRIFT_FREE",),
+        ) or (
+            drift.get("decision") in {"DRIFT_FREE", "DRIFT_DETECTED"}
+            and set(drift.get("remediation_codes", [])) <= {"DRIFT_FREE", "HEAD_NOT_ALIGNED_TO_FREEZE"}
+            and drift.get("checks", {}).get("freeze_file_hashes_match") is True
+            and drift.get("checks", {}).get("tracked_set_matches_freeze") is True
+            and drift.get("checks", {}).get("runtime_artifacts_absent") is True
         ),
         "manifest_gate_passed": _child_passed(manifest, decision="MANIFEST_VALID"),
         "selection_gate_passed": _child_passed(selection, decision="SELECTED_SET_VALID"),

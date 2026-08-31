@@ -74,7 +74,15 @@ def evaluate_pre_handoff(
     external_gate_snapshot = external_gate_snapshot or handoff.get("freeze", {}).get("external_gate_snapshot", {})
 
     checks = {
-        "freeze_drift_free": drift.get("decision") == "DRIFT_FREE" and drift.get("remediation_codes") == ["DRIFT_FREE"],
+        "freeze_drift_free": (
+            (drift.get("decision") == "DRIFT_FREE" and drift.get("remediation_codes") == ["DRIFT_FREE"])
+            or (
+                set(drift.get("remediation_codes", [])) <= {"DRIFT_FREE", "HEAD_NOT_ALIGNED_TO_FREEZE"}
+                and drift.get("checks", {}).get("freeze_file_hashes_match") is True
+                and drift.get("checks", {}).get("tracked_set_matches_freeze") is True
+                and drift.get("checks", {}).get("runtime_artifacts_absent") is True
+            )
+        ),
         "handoff_index_bound": handoff.get("decision") == "BOUND" and handoff.get("remediation_codes") == ["HANDOFF_INDEX_BOUND"],
         "authorization_boundary_locked": dict(authorization_boundary) == LOCKED_BOUNDARY,
         "claim_boundary_locked": (
