@@ -108,11 +108,40 @@ def test_kiosk_bootstrap_token_enforcement() -> None:
         object.__setattr__(settings, "local_bootstrap_token", original_token)
 
 
+def test_loopback_proxy_header_rejection() -> None:
+    from fastapi import Request
+    from main import require_local_kiosk
+
+    # Loopback IP with external X-Forwarded-For -> 403 rejected
+    mock_request_proxied = Request({
+        "type": "http",
+        "client": ("127.0.0.1", 12345),
+        "headers": [(b"x-forwarded-for", b"203.0.113.195")],
+    })
+    try:
+        require_local_kiosk(mock_request_proxied)
+        assert False, "Should have rejected external proxy header"
+    except Exception as exc:
+        assert getattr(exc, "status_code", None) == 403
+        assert exc.detail == "Kiosk bootstrap is local-only."
+
+    # Loopback IP with internal 127.0.0.1 X-Forwarded-For -> accepted
+    mock_request_internal = Request({
+        "type": "http",
+        "client": ("127.0.0.1", 12345),
+        "headers": [(b"x-forwarded-for", b"127.0.0.1")],
+    })
+    res = require_local_kiosk(mock_request_internal)
+    assert res["token_subject"] == "local-tablet-kiosk"
+    print("[Hardening Test] Loopback proxy header injection guard: PASSED")
+
+
 def run_all() -> None:
     test_body_size_limit()
     test_hashed_token_auth()
     test_patient_token_error_sanitization()
     test_kiosk_bootstrap_token_enforcement()
+    test_loopback_proxy_header_rejection()
     print("\nALL AUDIT HARDENING TESTS PASSED SUCCESSFULLY!")
 
 

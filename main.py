@@ -442,6 +442,11 @@ def require_local_kiosk(request: Request) -> dict[str, Any]:
     host = request.client.host if request.client else ""
     if host not in {"127.0.0.1", "::1", "localhost"}:
         raise HTTPException(status_code=403, detail="Kiosk bootstrap is local-only.")
+    forwarded = request.headers.get("X-Forwarded-For") or request.headers.get("Forwarded")
+    if forwarded:
+        ips = [ip.strip() for ip in forwarded.split(",") if ip.strip()]
+        if any(ip not in {"127.0.0.1", "::1", "localhost"} for ip in ips):
+            raise HTTPException(status_code=403, detail="Kiosk bootstrap is local-only.")
     if settings.environment in {"pilot", "production", "prod"}:
         token = request.headers.get("X-Local-Bootstrap-Token", "").strip()
         if not settings.local_bootstrap_token or not secrets.compare_digest(token, settings.local_bootstrap_token):
@@ -1700,7 +1705,7 @@ def admissions_and_pairing(
 
     return schemas.BaseResponse(
         success=True,
-        message=f"Successfully paired Patient {request.patient_token} with Bed {request.bed_no}.",
+        message=f"Successfully paired device {request.device_id} with Bed {request.bed_no}.",
         data={
             "pairing_id": new_pairing.id,
             "status": "paired",

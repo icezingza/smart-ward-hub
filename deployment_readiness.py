@@ -55,7 +55,7 @@ def validate_environment(
         hard_fail = True
 
     allowed_hosts = {item.strip() for item in env.get("SW_ALLOWED_HOSTS", "").split(",") if item.strip()}
-    if allowed_hosts and "*" not in allowed_hosts and "0.0.0.0" not in allowed_hosts:
+    if allowed_hosts and "*" not in allowed_hosts and "0.0.0.0" not in allowed_hosts:  # nosec B104
         _check(checks, "allowed_hosts", "PASS", "no wildcard or all-interface host entry")
     else:
         _check(checks, "allowed_hosts", "FAIL", "SW_ALLOWED_HOSTS must be explicit and non-wildcard")
