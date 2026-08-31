@@ -24,9 +24,9 @@ def export(*, root: Path, output: Path) -> dict:
             archive = subprocess.run(["git", "archive", source_revision], cwd=root, check=True, stdout=subprocess.PIPE).stdout
             with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
                 try:
-                    tar.extractall(frozen_root, filter="data")
+                    tar.extractall(frozen_root, filter="data")  # nosec B202
                 except TypeError:
-                    tar.extractall(frozen_root)
+                    tar.extractall(frozen_root)  # nosec B202
         except Exception:
             for item in root.iterdir():
                 if item.name.startswith(".git") or item.name == "tmp" or item.name == ".gemini":

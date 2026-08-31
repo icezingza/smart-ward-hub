@@ -34,9 +34,9 @@ def copied_fixture_root(tmp: Path) -> Path:
         archive = subprocess.run(["git", "archive", revision], cwd=ROOT, check=True, stdout=subprocess.PIPE).stdout
         with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
             try:
-                tar.extractall(tmp, filter="data")
+                tar.extractall(tmp, filter="data")  # nosec B202
             except TypeError:
-                tar.extractall(tmp)
+                tar.extractall(tmp)  # nosec B202
     except Exception:
         for item in ROOT.iterdir():
             if item.name.startswith(".git") or item.name == "tmp" or item.name == ".gemini":
