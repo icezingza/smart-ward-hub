@@ -168,7 +168,7 @@ python hospital_full_system_simulation.py --wards 5 --beds-per-ward 40 --ticks 8
 ## การรัน API ในโหมดพัฒนา
 
 ```bash
-uvicorn main:app --host 127.0.0.1 --port 8000
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 ก่อนใช้งานควรอ่าน `OPERATIONS_RUNBOOK.md`, `SECURITY_BASELINE.md`, `P0_STATUS_REPORT.md`, `P2_EDGE_IOT_ADAPTER_READINESS_REPORT.md`, `SERIAL_BENCH_VALIDATION_PLAN.md` และ `ACER_BENCH_READONLY_INVENTORY.md` เพื่อแยก software evidence ออกจาก physical, security และ clinical gates
