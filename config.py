@@ -93,6 +93,22 @@ class Settings:
     device_trust_clock_skew_seconds: int
 
 
+def _is_permission_enforcement_supported(path: Path) -> bool:
+    """Check if the filesystem of the path supports permission enforcement (e.g. not a Windows mount on WSL)."""
+    try:
+        test_file = path.parent / f".perm_test_{os.getpid()}"
+        test_file.write_text("test")
+        try:
+            test_file.chmod(0o400)
+            mode = test_file.stat().st_mode
+            return not bool(mode & 0o077)
+        finally:
+            if test_file.exists():
+                test_file.unlink()
+    except Exception:
+        return False
+
+
 def load_settings() -> Settings:
     project_dir = Path(__file__).resolve().parent
     environment = _get_setting("SW_ENVIRONMENT", "development").lower()
@@ -118,11 +134,12 @@ def load_settings() -> Settings:
             "SW_FORENSIC_SIGNING_REQUIRED requires SW_FORENSIC_SIGNING_PRIVATE_KEY_PATH"
         )
     if signing_key_path is not None and signing_key_path.exists() and os.name != "nt":
-        st = signing_key_path.stat()
-        if st.st_mode & 0o077:
-            raise RuntimeError(
-                f"Forensic signing key {signing_key_path} is group/other accessible; chmod 0400 required"
-            )
+        if _is_permission_enforcement_supported(signing_key_path):
+            st = signing_key_path.stat()
+            if st.st_mode & 0o077:
+                raise RuntimeError(
+                    f"Forensic signing key {signing_key_path} is group/other accessible; chmod 0400 required"
+                )
     device_trust_mode = _get_setting("SW_DEVICE_TRUST_MODE", "disabled").lower()
     if device_trust_mode not in {"disabled", "observe", "enforce"}:
         raise RuntimeError("SW_DEVICE_TRUST_MODE must be disabled, observe, or enforce")

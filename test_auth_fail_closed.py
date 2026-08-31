@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 
-os.environ.pop("SW_AUTH_TOKENS_JSON", None)
+os.environ["SW_AUTH_TOKENS_JSON"] = "{}"
+os.environ["SW_AUTH_TOKEN_HASHES_JSON"] = "{}"
 
 DB_PATH = Path(__file__).resolve().parent / "ward_hub.db"
 for suffix in ("", "-wal", "-shm"):

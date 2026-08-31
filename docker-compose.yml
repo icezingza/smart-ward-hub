@@ -13,6 +13,7 @@ services:
       - SW_SQLITE_SYNCHRONOUS=FULL
       - SW_AUTO_CREATE_DB=true
       - SW_ENABLE_DOCS=false
+      - SW_DEVICE_TRUST_MODE=enforce
       - SW_AUDIT_LOG_PATH=/app/data/audit_events.jsonl
       - SW_DATABASE_PATH=/app/data/ward_hub.db
       - SW_TELEMETRY_STATE_PATH=/app/data/edge_telemetry_state.json

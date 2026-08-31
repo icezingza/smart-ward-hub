@@ -1,3 +1,4 @@
+import os
 import hashlib
 import secrets
 from typing import Any
@@ -16,24 +17,32 @@ OIDC_VERIFIER = OIDCVerifier() if settings.auth_mode == "oidc" else None
 
 # AegisGrid Security Engine Integration
 AEGIS_TOKEN_MANAGER = None
-try:
-    import aegisgrid
-    from aegisgrid import TokenManager, AuthLevel
 
-    # Initialize TokenManager if Ed25519 JWT environment variables are present
-    if settings.auth_mode in {"oidc", "aegis", "static"} and (
-        os.getenv("NAMO_JWT_PUBLIC_KEY") or os.getenv("SW_JWT_PUBLIC_KEY")
-    ):
+_aegis_keys_configured = bool(
+    os.getenv("NAMO_JWT_PUBLIC_KEY") or os.getenv("SW_JWT_PUBLIC_KEY")
+)
+
+if settings.auth_mode == "aegis" or _aegis_keys_configured:
+    try:
+        import aegisgrid
+        from aegisgrid import TokenManager, AuthLevel
+
         pub_key = os.getenv("NAMO_JWT_PUBLIC_KEY") or os.getenv("SW_JWT_PUBLIC_KEY")
         priv_key = os.getenv("NAMO_JWT_PRIVATE_KEY") or os.getenv("SW_JWT_PRIVATE_KEY")
+
+        if not pub_key:
+            raise RuntimeError("Aegis authentication is configured but public key is missing.")
+
         AEGIS_TOKEN_MANAGER = TokenManager(
             public_key=pub_key,
             private_key=priv_key,
             issuer="smart-ward-hub",
             audience="smart-ward-pda",
         )
-except Exception:
-    AEGIS_TOKEN_MANAGER = None
+    except ImportError as exc:
+        raise RuntimeError("aegisgrid library is required but not installed.") from exc
+    except Exception as exc:
+        raise RuntimeError(f"Failed to initialize Aegis token manager: {exc}") from exc
 
 
 def _missing_credentials() -> HTTPException:
