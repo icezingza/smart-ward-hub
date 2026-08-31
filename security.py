@@ -14,6 +14,27 @@ TOKENS = settings.auth_tokens
 TOKEN_HASHES = settings.auth_token_hashes
 OIDC_VERIFIER = OIDCVerifier() if settings.auth_mode == "oidc" else None
 
+# AegisGrid Security Engine Integration
+AEGIS_TOKEN_MANAGER = None
+try:
+    import aegisgrid
+    from aegisgrid import TokenManager, AuthLevel
+
+    # Initialize TokenManager if Ed25519 JWT environment variables are present
+    if settings.auth_mode in {"oidc", "aegis", "static"} and (
+        os.getenv("NAMO_JWT_PUBLIC_KEY") or os.getenv("SW_JWT_PUBLIC_KEY")
+    ):
+        pub_key = os.getenv("NAMO_JWT_PUBLIC_KEY") or os.getenv("SW_JWT_PUBLIC_KEY")
+        priv_key = os.getenv("NAMO_JWT_PRIVATE_KEY") or os.getenv("SW_JWT_PRIVATE_KEY")
+        AEGIS_TOKEN_MANAGER = TokenManager(
+            public_key=pub_key,
+            private_key=priv_key,
+            issuer="smart-ward-hub",
+            audience="smart-ward-pda",
+        )
+except Exception:
+    AEGIS_TOKEN_MANAGER = None
+
 
 def _missing_credentials() -> HTTPException:
     return HTTPException(
@@ -24,29 +45,46 @@ def _missing_credentials() -> HTTPException:
 
 
 def _static_auth(credentials: HTTPAuthorizationCredentials | None) -> dict[str, Any]:
-    if not TOKENS and not TOKEN_HASHES:
+    if not TOKENS and not TOKEN_HASHES and AEGIS_TOKEN_MANAGER is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Authentication is not configured.",
         )
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise _missing_credentials()
+
+    raw_cred = credentials.credentials
+
+    # 1. AegisGrid Ed25519 Token Verification (if JWT formatted)
+    if AEGIS_TOKEN_MANAGER is not None and "." in raw_cred and raw_cred.count(".") == 2:
+        claims = AEGIS_TOKEN_MANAGER.verify_token(raw_cred)
+        if claims is not None:
+            auth_lvl = claims.get("auth_level", 1)
+            scopes = ["telemetry:read", "pairing:write"]
+            if auth_lvl >= 2:
+                scopes.append("admin")
+            return {
+                "token_subject": claims.get("user_id", "aegis-authenticated-client"),
+                "scopes": scopes,
+                "issuer": claims.get("iss", "aegisgrid"),
+                "auth_engine": "aegisgrid-eddsa",
+            }
     
-    # 1. Check plain tokens if configured
+    # 2. Check plain tokens if configured
     matched_token = next(
         (
             token
             for token in TOKENS
-            if secrets.compare_digest(token, credentials.credentials)
+            if secrets.compare_digest(token, raw_cred)
         ),
         None,
     )
     if matched_token is not None:
         return {"token_subject": "configured-service", "scopes": sorted(TOKENS[matched_token])}
 
-    # 2. Check hashed tokens
+    # 3. Check hashed tokens
     if TOKEN_HASHES:
-        token_digest = hashlib.sha256(credentials.credentials.encode("utf-8")).hexdigest().lower()
+        token_digest = hashlib.sha256(raw_cred.encode("utf-8")).hexdigest().lower()
         matched_hash = next(
             (
                 h
