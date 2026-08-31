@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -9,7 +10,7 @@ import secrets
 from typing import Any
 from uuid import uuid4
 
-from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -53,6 +54,35 @@ ANCHOR_STORE = FileAnchorStore(
 FORENSIC_SIGNER = load_optional_signer(settings.forensic_signing_private_key_path)
 HANDOVER_SYNC_LOCK = RLock()
 HIS_SYNC_GATE = HisSyncGate()
+
+
+class ConnectionManager:
+    """Manages real-time WebSocket connections for Bedside PDA companions."""
+    def __init__(self):
+        self.active_connections: list[WebSocket] = []
+        self._lock = RLock()
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        with self._lock:
+            self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        with self._lock:
+            if websocket in self.active_connections:
+                self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: dict[str, Any]):
+        with self._lock:
+            conns = list(self.active_connections)
+        for connection in conns:
+            try:
+                await connection.send_json(message)
+            except Exception:
+                self.disconnect(connection)
+
+
+WS_MANAGER = ConnectionManager()
 
 MAX_REQUEST_BODY_BYTES = 1_048_576  # 1 MiB
 
@@ -1673,8 +1703,11 @@ def admissions_and_pairing(
         message=f"Successfully paired Patient {request.patient_token} with Bed {request.bed_no}.",
         data={
             "pairing_id": new_pairing.id,
+            "status": "paired",
             "bed_no": request.bed_no,
+            "bed_id": request.bed_no,
             "device_id": request.device_id,
+            "device_uid": request.device_id,
             "paired_at": new_pairing.paired_at.isoformat(),
             "session_id": session_record.session_id,
             "admission_id": admission_preparation.admission_id if admission_preparation else None,
@@ -1682,6 +1715,36 @@ def admissions_and_pairing(
             "visual_feedback": "LED Flash Green x2",
         },
     )
+
+
+@app.websocket("/ws/v1/telemetry")
+@app.websocket("/ws/alerts")
+async def websocket_telemetry_stream(websocket: WebSocket):
+    """Real-time bidirectional WebSocket stream for Bedside PDA Companion.
+    Provides sub-second live telemetry updates and 1s heartbeat pings.
+    """
+    await WS_MANAGER.connect(websocket)
+    try:
+        await websocket.send_json({
+            "type": "connection_established",
+            "hub_status": "ONLINE",
+            "timestamp": utc_now().isoformat(),
+            "active_beds_count": len(ACTIVE_PAIRINGS_CACHE),
+        })
+        while True:
+            try:
+                # Wait for optional client messages or timeout after 1.5s to emit heartbeat
+                await asyncio.wait_for(websocket.receive_text(), timeout=1.5)
+            except asyncio.TimeoutError:
+                await websocket.send_json({
+                    "type": "heartbeat",
+                    "timestamp": utc_now().isoformat(),
+                    "hub_status": "ONLINE",
+                })
+    except WebSocketDisconnect:
+        WS_MANAGER.disconnect(websocket)
+    except Exception:
+        WS_MANAGER.disconnect(websocket)
 
 
 @app.post("/api/v1/unpair", response_model=schemas.BaseResponse)
@@ -1831,6 +1894,18 @@ def ingest_telemetry(
                 sample_received_at=sample["received_at"],
                 device_id=packet.device_id,
             )
+            background_tasks.add_task(
+                WS_MANAGER.broadcast,
+                {
+                    "type": "alert",
+                    "device_id": packet.device_id,
+                    "bed_no": binding.get("bed_no"),
+                    "alert_level": alert["alert_level"],
+                    "alert_type": alert["alert_type"],
+                    "description": alert["description"],
+                    "timestamp": sample["received_at"].isoformat(),
+                },
+            )
         else:
             _persist_alert_and_forensics(
                 alert_info=alert,
@@ -1838,6 +1913,23 @@ def ingest_telemetry(
                 sample_received_at=sample["received_at"],
                 device_id=packet.device_id,
             )
+
+    if background_tasks is not None:
+        background_tasks.add_task(
+            WS_MANAGER.broadcast,
+            {
+                "type": "telemetry",
+                "device_id": packet.device_id,
+                "bed_no": binding.get("bed_no"),
+                "sequence": packet.sequence,
+                "heart_rate": packet.heart_rate,
+                "spo2": packet.spo2,
+                "skin_temp": packet.skin_temp,
+                "battery_pct": packet.battery_pct,
+                "g_force": sample["g_force"],
+                "timestamp": sample["received_at"].isoformat(),
+            },
+        )
 
     AUDIT_SINK.record(
         "telemetry.ingest",

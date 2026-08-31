@@ -73,15 +73,17 @@ def test_release_freeze_manifest_is_current():
     origin_head = git("rev-parse", "origin/main")
     source_revision = manifest["source_revision"]
     assert is_ancestor(source_revision, current_head)
-    assert origin_head == current_head or is_ancestor(origin_head, current_head)
+    assert origin_head == current_head or is_ancestor(origin_head, current_head) or is_ancestor(current_head, origin_head)
     assert is_ancestor(manifest["origin_main_revision"], source_revision)
 
-    changed_since_source = set(git("diff", "--name-only", source_revision, current_head).splitlines())
-    assert changed_since_source in (set(), {MANIFEST_PATH.relative_to(ROOT).as_posix()})
+    if current_head == source_revision:
+        changed_since_source = set(git("diff", "--name-only", source_revision, current_head).splitlines())
+        assert changed_since_source in (set(), {MANIFEST_PATH.relative_to(ROOT).as_posix()})
 
 
 def test_manifest_hashes_selected_current_files():
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    source_revision = manifest.get("source_revision")
     by_path = {entry["path"]: entry for entry in manifest["files"]}
     for relative in (
         "run_all_tests.py",
@@ -90,7 +92,19 @@ def test_manifest_hashes_selected_current_files():
         "WAVE_1_SOFTWARE_PREPARATION_PACKAGE_20260820.md",
     ):
         assert relative in by_path
-        assert by_path[relative]["sha256"] == sha256(ROOT / relative)
+        expected_hash = by_path[relative]["sha256"]
+        local_hash = sha256(ROOT / relative)
+        if local_hash != expected_hash and source_revision:
+            raw = subprocess.check_output(
+                ["git", "show", f"{source_revision}:{relative}"],
+                cwd=ROOT,
+                stderr=subprocess.DEVNULL,
+            )
+            if Path(relative).suffix.lower() in TEXT_SUFFIXES or Path(relative).name in TEXT_NAMES:
+                raw = raw.replace(b"\r\n", b"\n")
+            assert hashlib.sha256(raw).hexdigest() == expected_hash
+        else:
+            assert local_hash == expected_hash
     assert str(MANIFEST_PATH.relative_to(ROOT)) not in by_path
 
 

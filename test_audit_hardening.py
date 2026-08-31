@@ -43,6 +43,16 @@ def test_hashed_token_auth() -> None:
 
 
 def test_patient_token_error_sanitization() -> None:
+    db = SessionLocal()
+    try:
+        import models
+        db.query(models.Pairing).filter(models.Pairing.patient_token == "ptok-secret-unknown-value-9999").delete()
+        db.query(models.WardSession).filter(models.WardSession.patient_token == "ptok-secret-unknown-value-9999").delete()
+        db.query(models.Patient).filter(models.Patient.patient_token == "ptok-secret-unknown-value-9999").delete()
+        db.commit()
+    finally:
+        db.close()
+
     with TestClient(app, headers={"Authorization": "Bearer test-token"}) as client:
         res = client.post("/api/v1/pairing", json={
             "patient_token": "ptok-secret-unknown-value-9999",
