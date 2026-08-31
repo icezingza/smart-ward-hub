@@ -123,4 +123,9 @@ def run() -> None:
 
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+    except Exception as exc:
+        import traceback
+        traceback.print_exc()
+        raise
