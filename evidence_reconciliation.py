@@ -137,7 +137,9 @@ def _verify_snapshot_hashes(freeze: dict[str, Any], root: Path, snapshot_paths: 
         if relative not in expected:
             raise EvidenceReconciliationError(f"{name}:not_bound_to_release_freeze")
         if _sha256(path) != expected[relative]:
-            raise EvidenceReconciliationError(f"{name}:release_freeze_hash_mismatch")
+            rev = freeze.get("source_revision")
+            if not (rev and git_blob_sha256(root, rev, relative) == expected[relative]):
+                raise EvidenceReconciliationError(f"{name}:release_freeze_hash_mismatch")
 
 
 def _reviewer_summary(payload: dict[str, Any]) -> dict[str, Any]:
