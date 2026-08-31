@@ -50,7 +50,7 @@ jobs:
       - name: Run Bandit SAST scan
         run: |
           python -m pip install bandit
-          python -m bandit -r . -x ./test_*.py -ll -ii
+          python -m bandit -r . -x './test_*.py' -ll -ii
 
       - name: Scan for secret leaks
         uses: gitleaks/gitleaks-action@v2
