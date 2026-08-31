@@ -45,12 +45,14 @@ class PairingRequest(BaseModel):
     @field_validator("patient_token")
     @classmethod
     def require_opaque_patient_token(cls, value: str) -> str:
+        cleaned = value.strip()
         if (
-            not re.fullmatch(r"[A-Za-z0-9._~-]{10,128}", value)
-            or re.match(r"^(HN|AN)([-_:]|$)", value, flags=re.IGNORECASE)
+            not re.fullmatch(r"[A-Za-z0-9._~-]{10,128}", cleaned)
+            or re.match(r"^(HN|AN|VN|CID|PASSPORT)([-_:\d]|$)", cleaned, flags=re.IGNORECASE)
+            or re.fullmatch(r"^\d{13}$", cleaned)
         ):
-            raise ValueError("patient_token must be an opaque token; raw HN/AN formats are not accepted")
-        return value
+            raise ValueError("patient_token must be an opaque token; raw HN/AN/CID formats are not accepted")
+        return cleaned
 
 
 class QRPairingRequest(BaseModel):
@@ -189,12 +191,14 @@ class AdmissionPreparationRequest(BaseModel):
     @field_validator("patient_token")
     @classmethod
     def require_opaque_admission_token(cls, value: str) -> str:
+        cleaned = value.strip()
         if (
-            not re.fullmatch(r"[A-Za-z0-9._~-]{16,128}", value)
-            or re.match(r"^(HN|AN)([-_:]|$)", value, flags=re.IGNORECASE)
+            not re.fullmatch(r"[A-Za-z0-9._~-]{16,128}", cleaned)
+            or re.match(r"^(HN|AN|VN|CID|PASSPORT)([-_:\d]|$)", cleaned, flags=re.IGNORECASE)
+            or re.fullmatch(r"^\d{13}$", cleaned)
         ):
-            raise ValueError("patient_token must be an opaque token; raw HN/AN formats are not accepted")
-        return value
+            raise ValueError("patient_token must be an opaque token; raw HN/AN/CID formats are not accepted")
+        return cleaned
 
 
 class HotSwapRequest(BaseModel):

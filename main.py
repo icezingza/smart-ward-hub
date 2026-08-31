@@ -77,11 +77,16 @@ class ConnectionManager:
     async def broadcast(self, message: dict[str, Any]):
         with self._lock:
             conns = list(self.active_connections)
-        for connection in conns:
+        if not conns:
+            return
+
+        async def _safe_send(ws: WebSocket):
             try:
-                await connection.send_json(message)
+                await asyncio.wait_for(ws.send_json(message), timeout=0.5)
             except Exception:
-                self.disconnect(connection)
+                self.disconnect(ws)
+
+        await asyncio.gather(*(_safe_send(ws) for ws in conns), return_exceptions=True)
 
 
 WS_MANAGER = ConnectionManager()

@@ -15,7 +15,7 @@ def evaluate_telemetry_triage(samples: list[dict[str, Any]], risk_level: str) ->
         # 1. Hard Impact: g_force > 2.5
         # 2. Slide Fall (Elderly bed slip): g_force >= 1.8 followed by immobility
         is_hard_impact = g_force > 2.5
-        is_slide_fall = g_force >= 1.8
+        is_slide_fall = g_force >= 1.75
 
         if not (is_hard_impact or is_slide_fall):
             continue
@@ -31,7 +31,7 @@ def evaluate_telemetry_triage(samples: list[dict[str, Any]], risk_level: str) ->
             if sd_g < 0.15 and abs(avg_g - 1.0) < 0.25:
                 return {"alert_level": "RED", "alert_type": "FALL"}
         elif is_slide_fall:
-            if sd_g < 0.10 and abs(avg_g - 1.0) < 0.18:
+            if sd_g < 0.15 and abs(avg_g - 1.0) < 0.22:
                 return {"alert_level": "RED", "alert_type": "FALL"}
 
     latest = recent[-1]
