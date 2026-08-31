@@ -91,7 +91,7 @@ def _assert_source_revision(name: str, value: Any) -> str:
     return value
 
 
-def _freeze_artifact_map(freeze: dict[str, Any], root: Path) -> dict[str, str]:
+def _freeze_artifact_map(freeze: dict[str, Any], root: Path, lineage_root: Path | None = None) -> dict[str, str]:
     if freeze.get("schema_version") != "smart-ward-hub-release-freeze-v1":
         raise EvidenceReconciliationError("freeze_schema_invalid")
     if freeze.get("freeze_status") != "PASS":
@@ -109,6 +109,7 @@ def _freeze_artifact_map(freeze: dict[str, Any], root: Path) -> dict[str, str]:
     files = freeze.get("files")
     if not isinstance(files, list) or not files:
         raise EvidenceReconciliationError("freeze_files_invalid")
+    git_root = lineage_root or root
     artifact_map: dict[str, str] = {}
     for item in files:
         if not isinstance(item, dict) or set(item) != {"classification", "path", "sha256", "size_bytes"}:
@@ -124,21 +125,22 @@ def _freeze_artifact_map(freeze: dict[str, Any], root: Path) -> dict[str, str]:
             raise EvidenceReconciliationError(f"freeze_artifact_missing:{relative}")
         if _sha256(artifact) != expected_hash:
             rev = freeze.get("source_revision")
-            if not (rev and git_blob_sha256(root, rev, relative) == expected_hash):
+            if not (rev and git_blob_sha256(git_root, rev, relative) == expected_hash):
                 raise EvidenceReconciliationError(f"freeze_artifact_hash_mismatch:{relative}")
         artifact_map[relative] = expected_hash
     return artifact_map
 
 
-def _verify_snapshot_hashes(freeze: dict[str, Any], root: Path, snapshot_paths: dict[str, Path]) -> None:
+def _verify_snapshot_hashes(freeze: dict[str, Any], root: Path, snapshot_paths: dict[str, Path], lineage_root: Path | None = None) -> None:
     expected = {item["path"]: item["sha256"] for item in freeze.get("files", []) if isinstance(item, dict) and "path" in item and "sha256" in item}
+    git_root = lineage_root or root
     for name, path in snapshot_paths.items():
         relative = path.relative_to(root).as_posix()
         if relative not in expected:
             raise EvidenceReconciliationError(f"{name}:not_bound_to_release_freeze")
         if _sha256(path) != expected[relative]:
             rev = freeze.get("source_revision")
-            if not (rev and git_blob_sha256(root, rev, relative) == expected[relative]):
+            if not (rev and git_blob_sha256(git_root, rev, relative) == expected[relative]):
                 raise EvidenceReconciliationError(f"{name}:release_freeze_hash_mismatch")
 
 
@@ -240,14 +242,14 @@ def reconcile_packages(
             raise EvidenceReconciliationError(f"required_artifact_missing:{path.name}")
 
     freeze = _load_json(freeze_path)
-    _freeze_artifact_map(freeze, root)
+    _freeze_artifact_map(freeze, root, lineage_root)
     snapshot_paths = {
         "wave4": wave4_path,
         "reviewer": reviewer_path,
         "wave_e": wave_e_path,
         "wave0": wave0_template_path,
     }
-    _verify_snapshot_hashes(freeze, root, snapshot_paths)
+    _verify_snapshot_hashes(freeze, root, snapshot_paths, lineage_root)
     wave4 = _load_json(wave4_path)
     reviewer = _load_json(reviewer_path)
     wave_e = _load_json(wave_e_path)

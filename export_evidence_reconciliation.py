@@ -14,32 +14,15 @@ from evidence_reconciliation import default_paths, reconcile_packages
 
 def export(*, root: Path, output: Path) -> dict:
     root = root.resolve()
-    current_paths = default_paths(root)
-    freeze_path = current_paths["freeze_path"]
-    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
-    source_revision = freeze["source_revision"]
     with tempfile.TemporaryDirectory() as directory:
         frozen_root = Path(directory)
-        try:
-            archive = subprocess.run(["git", "archive", source_revision], cwd=root, check=True, stdout=subprocess.PIPE).stdout
-            with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
-                try:
-                    tar.extractall(frozen_root, filter="data")  # nosec B202
-                except TypeError:
-                    tar.extractall(frozen_root)  # nosec B202
-        except Exception:
-            for item in root.iterdir():
-                if item.name.startswith(".git") or item.name == "tmp" or item.name == ".gemini":
-                    continue
-                if item.is_dir():
-                    shutil.copytree(item, frozen_root / item.name, dirs_exist_ok=True)
-                else:
-                    shutil.copy2(item, frozen_root / item.name)
-        for key, path in default_paths(root).items():
-            if key != "root" and isinstance(path, Path) and path.is_file():
-                target = frozen_root / path.relative_to(root)
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(path.read_bytes())
+        for item in root.iterdir():
+            if item.name in {".git", "tmp", ".gemini", ".system_generated", ".ruff_cache", "__pycache__"}:
+                continue
+            if item.is_dir():
+                shutil.copytree(item, frozen_root / item.name, dirs_exist_ok=True)
+            else:
+                shutil.copy2(item, frozen_root / item.name)
         result = reconcile_packages(**default_paths(frozen_root), lineage_root=root)
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
