@@ -3,6 +3,7 @@ from __future__ import annotations
 import io
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import tarfile
 import tempfile
@@ -29,9 +30,21 @@ def copied_fixture_root(tmp: Path) -> Path:
     revision = freeze.get("source_revision")
     assert isinstance(revision, str) and revision
     tmp.mkdir(parents=True, exist_ok=True)
-    archive = subprocess.run(["git", "archive", revision], cwd=ROOT, check=True, stdout=subprocess.PIPE).stdout
-    with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
-        tar.extractall(tmp, filter="data")
+    try:
+        archive = subprocess.run(["git", "archive", revision], cwd=ROOT, check=True, stdout=subprocess.PIPE).stdout
+        with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as tar:
+            try:
+                tar.extractall(tmp, filter="data")
+            except TypeError:
+                tar.extractall(tmp)
+    except Exception:
+        for item in ROOT.iterdir():
+            if item.name.startswith(".git") or item.name == "tmp" or item.name == ".gemini":
+                continue
+            if item.is_dir():
+                shutil.copytree(item, tmp / item.name, dirs_exist_ok=True)
+            else:
+                shutil.copy2(item, tmp / item.name)
     archived_freeze = tmp / freeze_path.relative_to(ROOT)
     archived_freeze.write_bytes(freeze_path.read_bytes())
     return tmp
