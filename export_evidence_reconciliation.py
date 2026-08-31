@@ -35,7 +35,11 @@ def export(*, root: Path, output: Path) -> dict:
                     shutil.copytree(item, frozen_root / item.name, dirs_exist_ok=True)
                 else:
                     shutil.copy2(item, frozen_root / item.name)
-        (frozen_root / freeze_path.relative_to(root)).write_bytes(freeze_path.read_bytes())
+        for key, path in default_paths(root).items():
+            if key != "root" and isinstance(path, Path) and path.is_file():
+                target = frozen_root / path.relative_to(root)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(path.read_bytes())
         result = reconcile_packages(**default_paths(frozen_root), lineage_root=root)
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)

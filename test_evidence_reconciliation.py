@@ -45,8 +45,11 @@ def copied_fixture_root(tmp: Path) -> Path:
                 shutil.copytree(item, tmp / item.name, dirs_exist_ok=True)
             else:
                 shutil.copy2(item, tmp / item.name)
-    archived_freeze = tmp / freeze_path.relative_to(ROOT)
-    archived_freeze.write_bytes(freeze_path.read_bytes())
+    for key, path in default_paths(ROOT).items():
+        if key != "root" and isinstance(path, Path) and path.is_file():
+            target = tmp / path.relative_to(ROOT)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(path.read_bytes())
     return tmp
 
 
